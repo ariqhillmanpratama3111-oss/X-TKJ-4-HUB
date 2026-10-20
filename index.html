@@ -50,6 +50,6 @@ function initAuth(){
  db.auth.getSession().then(({data})=>{updateAuthButton(data.session);if(!data.session){$('authModal').classList.add('open','welcome-mode')}});
  db.auth.onAuthStateChange((_event,session)=>updateAuthButton(session));
 }
-function setAppAccess(session){document.querySelectorAll('.app-shell').forEach(el=>el.classList.toggle('app-hidden',!session));$('bottomDock').classList.toggle('app-hidden',!session);$('authModal').classList.toggle('welcome-mode',!session);if(!session){$('authModal').classList.add('open');$('authTitle').textContent='Welcome to Inside TKJ 4';}else{$('authModal').classList.remove('open');$('authTitle').textContent='Welcome back.';}}
+function setAppAccess(session){if(session&&session.user&&session.user.user_metadata&&session.user.user_metadata.must_change_password===true){location.replace('ganti-password.html');return}document.querySelectorAll('.app-shell').forEach(el=>el.classList.toggle('app-hidden',!session));$('bottomDock').classList.toggle('app-hidden',!session);$('authModal').classList.toggle('welcome-mode',!session);if(!session){$('authModal').classList.add('open');$('authTitle').textContent='Welcome to Inside TKJ 4';}else{$('authModal').classList.remove('open');$('authTitle').textContent='Welcome back.';}}
 function updateAuthButton(session){setAppAccess(session);}
 </script></body></html>
