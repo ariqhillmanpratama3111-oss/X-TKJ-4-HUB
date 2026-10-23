@@ -139,19 +139,21 @@ star(70,330,48,-.3);star(1135,790,44,.3);star(70,1260,40,.2);star(1130,300,40,-.
 [[150,1640],[1050,1640],[135,215],[1065,215]].forEach(([x,y],i)=>{const im=stk[i];if(!im)return;const sz=i<2?330:230,r=sz/Math.max(im.width,im.height);cx.save();cx.shadowColor='#0006';cx.shadowBlur=16;cx.drawImage(im,x-im.width*r/2,y-im.height*r/2,im.width*r,im.height*r);cx.restore()});title(new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}),600,1788,38,10);drawObjs()}
 const upd=()=>{g('bslots').innerHTML=ph.map((p,i)=>'<span class="'+(p?'on':'')+'">'+(i+1)+'</span>').join('')};
 function stop(){busy=false;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;g('bcam').hidden=true;g('bcount').textContent=''}
-const MT=['video/mp4;codecs=avc1.42E01E','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+const MT=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4;codecs=avc1.42E01E','video/mp4'];
 const canRec=()=>typeof MediaRecorder!=='undefined'&&!!HTMLCanvasElement.prototype.captureStream&&MT.some(t=>MediaRecorder.isTypeSupported(t));
 function clearTL(){if(tlUrl)URL.revokeObjectURL(tlUrl);tlUrl='';tlBlob=null;frames=[];const v=g('btl');v.hidden=true;v.removeAttribute('src');g('btlst').textContent='';g('bdlv').hidden=true}
-function grab(){const v=g('bvid');if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=360;c.height=Math.round(360*v.videoHeight/v.videoWidth);const k=c.getContext('2d');k.translate(c.width,0);k.scale(-1,1);k.drawImage(v,0,0,c.width,c.height);frames.push(c)}
-async function buildTL(){g('btlst').textContent='Membuat video timelapse…';
-try{const mt=MT.find(t=>MediaRecorder.isTypeSupported(t)),f0=frames[0],tc=document.createElement('canvas');tc.width=f0.width;tc.height=f0.height;const k=tc.getContext('2d');k.drawImage(f0,0,0);
-const stm=tc.captureStream(24),rc=new MediaRecorder(stm,{mimeType:mt,videoBitsPerSecond:2000000}),ch=[];rc.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};const done=new Promise(r=>{rc.onstop=r});rc.start();
+function grab(){const v=g('bvid');if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=384;c.height=Math.max(16,Math.round(384*v.videoHeight/v.videoWidth/16)*16);const k=c.getContext('2d');k.translate(c.width,0);k.scale(-1,1);k.drawImage(v,0,0,c.width,c.height);frames.push(c)}
+async function recordTL(mt){const f0=frames[0],tc=document.createElement('canvas');tc.width=f0.width;tc.height=f0.height;const k=tc.getContext('2d');k.drawImage(f0,0,0);
+const stm=tc.captureStream(24),rc=new MediaRecorder(stm,{mimeType:mt,videoBitsPerSecond:1500000}),ch=[];rc.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+const done=new Promise((ok,no)=>{rc.onstop=ok;rc.onerror=e=>no(e.error||new Error('recorder error'))});rc.start(250);
 for(let i=0;i<frames.length;i++){k.drawImage(frames[i],0,0);await wait(1000/24)}
-await wait(250);rc.stop();await done;stm.getTracks().forEach(t=>t.stop());
-tlBlob=new Blob(ch,{type:mt.split(';')[0]});tlExt=mt.startsWith('video/mp4')?'mp4':'webm';tlUrl=URL.createObjectURL(tlBlob);
-const v=g('btl');v.src=tlUrl;v.hidden=false;v.play().catch(()=>{});g('bdlv').hidden=false;g('btlst').textContent='Timelapse siap ('+(frames.length/24).toFixed(1)+' detik). Ikut terunduh bersama foto.'}
-catch(e){console.error(e);g('btlst').textContent='Timelapse gagal dibuat di browser ini.'}
-frames=[]}
+k.drawImage(frames[frames.length-1],0,0);await wait(350);rc.stop();await done;stm.getTracks().forEach(t=>t.stop());
+return new Blob(ch,{type:mt.split(';')[0]})}
+async function buildTL(){g('btlst').textContent='Membuat video timelapse ('+frames.length+' frame)…';let err='';
+for(const mt of MT.filter(t=>MediaRecorder.isTypeSupported(t))){try{const b=await recordTL(mt);if(b.size>3000){tlBlob=b;tlExt=mt.startsWith('video/mp4')?'mp4':'webm';break}err='hasil kosong ('+mt+')'}catch(e){console.error(e);err=((e&&e.name)||'Error')+': '+((e&&e.message)||'')}}
+if(!tlBlob){g('btlst').textContent='Timelapse gagal dibuat. '+err;frames=[];return}
+tlUrl=URL.createObjectURL(tlBlob);const v=g('btl');v.src=tlUrl;v.hidden=false;v.play().catch(()=>{});g('bdlv').hidden=false;
+g('btlst').textContent='Timelapse siap ('+(frames.length/24).toFixed(1)+' detik, .'+tlExt+'). Ikut terunduh bersama foto.';try{v.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}frames=[]}
 const dl=(b,n)=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)};
 async function cam(){if(busy)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){alert('Kamera tidak didukung di browser ini. Pakai tombol "Pilih dari galeri".');return}
 try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:960}},audio:false})}catch(e){alert('Kamera tidak diizinkan. Izinkan akses kamera di browser, atau pakai galeri.');return}
@@ -159,7 +161,7 @@ busy=true;const v=g('bvid');v.srcObject=stream;g('bcam').hidden=false;try{await 
 clearTL();const rec=g('btlon').checked&&canRec(),fps=Math.max(1.5,Math.min(6,120/(N*TM)));if(g('btlon').checked&&!rec)g('btlst').textContent='Browser ini belum mendukung perekaman timelapse.';
 for(let i=0;i<N&&busy;i++){const iv=rec?setInterval(grab,1000/fps):0;for(let c=TM;c>0&&busy;c--){g('bcount').textContent=c;await wait(1000)}clearInterval(iv);if(!busy)break;
 const c2=document.createElement('canvas');c2.width=v.videoWidth||640;c2.height=v.videoHeight||480;const k=c2.getContext('2d');k.translate(c2.width,0);k.scale(-1,1);k.drawImage(v,0,0);ph[i]=c2;g('bcount').textContent='📸';upd();draw();await wait(600)}
-stop();draw();if(rec&&frames.length&&ph.slice(0,N).every(Boolean))await buildTL()}
+stop();draw();if(rec&&ph.slice(0,N).every(Boolean)){if(frames.length)await buildTL();else g('btlst').textContent='Tidak ada frame yang terekam dari kamera.'}}
 g('bfile').onchange=async e=>{for(const f of [...e.target.files]){const i=ph.findIndex(x=>!x);if(i<0)break;try{ph[i]=await createImageBitmap(f)}catch(_){}}e.target.value='';upd();draw()};
 g('bpick').onclick=()=>g('bfile').click();g('bcamBtn').onclick=cam;g('bcap').oninput=draw;g('breset').onclick=()=>{stop();ph=Array(N).fill(null);clearTL();upd();draw()};
 g('bdl').onclick=()=>snap(b=>{dl(b,'photobooth-inside-tkj4.png');if(tlBlob)setTimeout(()=>dl(tlBlob,'timelapse-inside-tkj4.'+tlExt),700)},'image/png');
