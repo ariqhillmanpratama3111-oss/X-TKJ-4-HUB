@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://teuqxfwqntkgemyukiju.supabase.co; connect-src 'self' https://teuqxfwqntkgemyukiju.supabase.co wss://teuqxfwqntkgemyukiju.supabase.co; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101b33"><title>Akun — Inside TKJ 4</title>
+<style>
+body{font:15px system-ui;background:#0b1220;color:#e7edf8;margin:0}
+header{background:#101b33;padding:18px 5vw;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+main{max-width:760px;margin:auto;padding:20px 16px 90px}
+.card{background:#121c2e;border:1px solid #28344a;border-radius:18px;padding:18px;margin:16px 0}
+h1,h2{margin:0 0 6px}p,.muted{color:#a0aec4;line-height:1.65;margin:4px 0}.small{font-size:13px}
+label{display:block;font-weight:750;margin:12px 0 5px}
+input,textarea,select{width:100%;box-sizing:border-box;border:1px solid #344563;border-radius:10px;padding:12px;font:inherit;background:#0b1220;color:#e7edf8}
+textarea{min-height:90px}
+button,.btn{border:0;border-radius:11px;padding:12px 15px;background:#4263eb;color:#fff;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+button.ghost{background:transparent;border:1px solid #344563;color:#e7edf8}
+button:disabled{opacity:.6}[hidden]{display:none!important}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.prof{display:flex;gap:16px;align-items:center}
+.avatar{width:84px;height:84px;flex:none;border-radius:50%;overflow:hidden;display:grid;place-items:center;font:800 36px system-ui;color:#fff;background:linear-gradient(135deg,#4263eb,#7c3aed)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.badge{display:inline-block;background:#243452;border-radius:999px;padding:4px 12px;font-weight:800;font-size:13px;margin-top:4px}
+.record{border-bottom:1px solid #28344a;padding:12px 0}.record:last-child{border:0}.thumb{width:100%;max-height:160px;object-fit:cover;border-radius:12px;margin-bottom:8px}
+.status{color:#9fe8c7;line-height:1.5;min-height:1em}.status.err{color:#ff9b9b}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><strong>INSIDE TKJ 4 · AKUN</strong><div class="row"><a class="btn" href="index.html">Lihat website</a><a class="btn" id="dashLink" href="dashboard.html" hidden>Dashboard pengurus</a></div></header>
+<main>
+<div class="card prof"><div class="avatar" id="av">?</div><div><h1 id="nm">Memuat…</h1><span class="badge" id="jb"></span><p class="muted small" id="un"></p></div></div>
+<div class="card"><h2>Profil</h2>
+<div class="row"><button id="avBtn" type="button" class="ghost">📷 Ganti foto profil</button><input id="avFile" type="file" accept="image/jpeg,image/png,image/webp" hidden></div>
+<label for="hobby">Hobi (opsional)</label><input id="hobby" maxlength="100" placeholder="Contoh: futsal, desain, ngoding">
+<div class="row" style="margin-top:12px"><button id="hobBtn" type="button">Simpan hobi</button></div>
+<p class="status" id="pStatus" role="status"></p></div>
+<div class="card" id="portofolio"><h2>Portofolio saya</h2><div id="list" class="muted">Memuat karya…</div></div>
+<div class="card"><h2>Terbitkan karya</h2>
+<form id="pf"><label for="ttl">Judul karya</label><input id="ttl" name="title" required maxlength="150">
+<div class="grid"><div><label for="cat">Kategori</label><select id="cat" name="category"><option>Programming</option><option>Jaringan</option><option>Desain grafis</option><option>Fotografi</option><option>Video editing</option><option>Robotika</option><option>Lainnya</option></select></div>
+<div><label for="lnk">Link karya (opsional)</label><input id="lnk" name="link_url" type="url" placeholder="https://..."></div>
+<div><label for="img">Gambar karya (opsional, maks. 8 MB)</label><input id="img" name="image_file" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div></div>
+<label for="dsc">Deskripsi</label><textarea id="dsc" name="description" required maxlength="2000"></textarea>
+<label><input type="checkbox" name="is_public" checked style="width:auto"> Tampilkan portofolio secara publik</label>
+<div class="row" style="margin-top:12px"><button id="save">Terbitkan karya</button></div></form>
+<p class="status" id="status" role="status"></p></div>
+<div class="card"><h2>Keamanan akun</h2><div class="row"><a class="btn" href="ganti-password.html">🔑 Ganti password</a><button id="logout" type="button" class="ghost">Keluar akun</button></div></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const db=supabase.createClient('https://teuqxfwqntkgemyukiju.supabase.co','sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ');
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ADMIN=['ketua','wakil','sekretaris','bendahara','keamanan_kebersihan'];
+const JAB={ketua:'Ketua Kelas',wakil:'Wakil Ketua Kelas',sekretaris:'Sekretaris',bendahara:'Bendahara',keamanan_kebersihan:'Keamanan & Kebersihan',member:'Anggota Kelas'};
+let user,profile;
+function say(id,m,ok){const e=$(id);e.textContent=m;e.className='status'+(ok||!m?'':' err')}
+function errMsg(x){console.error(x);const c=x&&x.code,m=String(x&&x.message||'');if(/^(Pilih file|Ukuran gambar)/.test(m))return m;if(c==='42501'||/row-level security|permission denied/i.test(m))return 'Kamu tidak punya izin untuk aksi ini.';if(/mime|not supported/i.test(m))return 'Format gambar tidak didukung (pakai JPG, PNG, atau WebP).';if(/exceed|too large|size/i.test(m))return 'Ukuran file terlalu besar.';if(c==='23514'||c==='22001')return 'Data tidak valid: cek panjang teks dan format link.';return 'Terjadi kesalahan. Coba lagi nanti.'}
+async function uploadImage(file,folder){if(!file||!file.name)return null;if(!/^image\/(jpeg|png|webp|gif)$/.test(file.type))throw new Error('Pilih file gambar JPG, PNG, WebP, atau GIF.');if(file.size>8*1024*1024)throw new Error('Ukuran gambar maksimal 8 MB.');const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'}[file.type];const path=`${folder}/${user.id}/${Date.now()}-${crypto.randomUUID()}.${ext}`;const up=await db.storage.from('inside-tkj4').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(up.error)throw up.error;return db.storage.from('inside-tkj4').getPublicUrl(path).data.publicUrl}
+function render(){const name=profile.display_name||profile.username||user.email||'?';$('nm').textContent=name;$('jb').textContent=JAB[profile.role]||'Anggota Kelas';$('un').textContent=profile.username?'@'+profile.username:'';$('hobby').value=profile.hobby||'';const av=$('av');av.textContent='';if(profile.avatar_url){const im=document.createElement('img');im.alt='Foto profil';im.src=profile.avatar_url;av.appendChild(im)}else av.textContent=name.trim().charAt(0).toUpperCase()||'?'}
+async function start(){const {data,error}=await db.auth.getSession();if(error||!data.session){location.replace('index.html');return}user=data.session.user;if(user.user_metadata&&user.user_metadata.must_change_password===true){location.replace('ganti-password.html');return}
+const p=await db.from('profiles').select('role,display_name,username,avatar_url,hobby').eq('id',user.id).single();if(p.error||!p.data){$('nm').textContent='Akun belum siap';$('jb').textContent='Hubungi pengurus';return}
+profile=p.data;render();if(ADMIN.includes(profile.role))$('dashLink').hidden=false;await load()}
+async function load(){const r=await db.from('portfolios').select('id,title,category,description,is_public,image_url').eq('created_by',user.id).order('created_at',{ascending:false});
+$('list').innerHTML=r.error?'Gagal memuat karya.':(r.data||[]).map(x=>`<div class="record">${x.image_url?`<img class="thumb" src="${esc(x.image_url)}" alt="">`:''}<b>${esc(x.title)}</b> · ${esc(x.category)} · ${x.is_public?'Publik':'Draft'}<p>${esc(x.description)}</p><button type="button" class="ghost" data-delete="${esc(x.id)}">Hapus</button></div>`).join('')||'Belum ada karya. Yuk terbitkan karya pertamamu!';
+document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Hapus karya ini?'))return;const d=await db.from('portfolios').delete().eq('id',b.dataset.delete).eq('created_by',user.id);if(d.error){say('status','Gagal menghapus: '+errMsg(d.error));return}await load()})}
+$('avBtn').onclick=()=>$('avFile').click();
+$('avFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;say('pStatus','Mengunggah foto…',true);try{const url=await uploadImage(f,'avatars');const r=await db.from('profiles').update({avatar_url:url}).eq('id',user.id);if(r.error)throw r.error;profile.avatar_url=url;render();say('pStatus','Foto profil diperbarui.',true)}catch(x){say('pStatus','Gagal: '+errMsg(x))}};
+$('hobBtn').onclick=async()=>{try{const v=$('hobby').value.trim()||null;const r=await db.from('profiles').update({hobby:v}).eq('id',user.id);if(r.error)throw r.error;profile.hobby=v;say('pStatus','Hobi tersimpan.',true)}catch(x){say('pStatus','Gagal: '+errMsg(x))}};
+$('pf').onsubmit=async e=>{e.preventDefault();const b=$('save');b.disabled=true;say('status','Menyimpan…',true);try{const f=new FormData(e.target);const row={title:f.get('title').trim(),student_name:(profile.display_name||profile.username||'Siswa'),category:f.get('category'),image_url:await uploadImage(f.get('image_file'),'portfolios'),link_url:f.get('link_url')||null,description:f.get('description').trim(),is_public:f.has('is_public'),created_by:user.id};const r=await db.from('portfolios').insert(row);if(r.error)throw r.error;e.target.reset();$('pf').elements.is_public.checked=true;say('status','Berhasil diterbitkan!',true);await load()}catch(x){say('status','Gagal menyimpan: '+errMsg(x))}finally{b.disabled=false}};
+$('logout').onclick=async()=>{await db.auth.signOut();location.href='index.html'};
+start();
+</script></body></html>
