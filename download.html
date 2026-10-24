@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://teuqxfwqntkgemyukiju.supabase.co; connect-src 'self' https://teuqxfwqntkgemyukiju.supabase.co; media-src 'self' https://teuqxfwqntkgemyukiju.supabase.co; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220"><title>Hasil Photobooth — Inside TKJ 4</title>
+<style>
+*{box-sizing:border-box}body{font:15px system-ui;background:#0b1220;color:#e7edf8;margin:0}
+header{background:#101b33;padding:16px 5vw;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+main{max-width:760px;margin:auto;padding:16px 14px 80px}[hidden]{display:none!important}
+.card{background:#121c2e;border:1px solid #28344a;border-radius:18px;padding:16px;margin:14px 0}
+h1,h2{margin:0 0 8px}h2{font-size:17px}p,.muted{color:#a0aec4;line-height:1.6;margin:6px 0}small{color:#a0aec4}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.item{background:#0b1220;border:1px solid #28344a;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.item img,.item video{width:100%;aspect-ratio:4/3;object-fit:cover;background:#000;display:block}
+.item.strip img{aspect-ratio:2/3;object-fit:contain}
+.meta{padding:8px 12px}.meta b{display:block;overflow-wrap:anywhere;font-size:14px}
+.btn{display:block;text-align:center;background:#4263eb;color:#fff;font-weight:800;text-decoration:none;padding:12px;margin:0 12px 12px;border-radius:11px}
+#left{font-weight:800;color:#9fe8c7}#left.low{color:#ffb86b}
+.big{text-align:center;padding:28px 12px}.big .ico{font-size:42px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><strong>INSIDE TKJ 4 · HASIL PHOTOBOOTH</strong><span id="left" hidden></span></header>
+<main>
+ <div class="card big" id="info">Memuat hasil…</div>
+ <div id="content" hidden>
+  <p class="muted">Hasil dihapus otomatis saat waktu habis. Simpan file yang kamu perlukan sebelum itu. Video bisa jauh lebih besar daripada foto. Tautan unduhan berlaku sekitar 10 menit dan diperbarui otomatis.</p>
+  <section class="card"><h2>Photo Strip Final</h2><div id="sStrip"></div></section>
+  <section class="card"><h2>Foto Individual</h2><div class="grid" id="sPhotos"></div></section>
+  <section class="card"><h2>Video Per Foto</h2><div class="grid" id="sClips"></div></section>
+  <section class="card"><h2>Video Timelapse</h2><div id="sTl"></div></section>
+ </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const db=supabase.createClient('https://teuqxfwqntkgemyukiju.supabase.co','sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ');
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const token=(location.hash.match(/(?:^#|&)t=([A-Za-z0-9_-]{30,100})/)||[])[1];
+let exp=0,skew=0,clock=null,lastState='';
+const mb=n=>n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
+function say(ico,title,text){$('info').innerHTML='<div class="ico">'+ico+'</div><h2>'+esc(title)+'</h2><p>'+esc(text)+'</p>';$('info').hidden=false;$('content').hidden=true}
+function card(f,video){const media=!f.preview_url?'':video?`<video src="${esc(f.preview_url)}" controls playsinline preload="metadata" controlsList="nodownload"></video>`:`<img src="${esc(f.preview_url)}" alt="${esc(f.filename)}" loading="lazy">`;
+return `<div class="item ${f.kind==='strip'?'strip':''}">${media}<div class="meta"><b>${esc(f.filename)}</b><small>${esc(f.mime)} · ${mb(f.size)}</small></div>${f.download_url?`<a class="btn" href="${esc(f.download_url)}" download="${esc(f.filename)}">⬇ Download</a>`:'<p class="meta">Tidak tersedia.</p>'}</div>`}
+function render(files){const by=k=>files.filter(f=>f.kind===k),none='<p class="muted">Tidak ada file untuk bagian ini.</p>';
+$('sStrip').innerHTML=by('strip').map(f=>card(f,false)).join('')||none;
+$('sPhotos').innerHTML=by('photo').map(f=>card(f,false)).join('')||none;
+$('sClips').innerHTML=by('clip').map(f=>card(f,true)).join('')||'<p class="muted">Tidak ada klip untuk sesi ini (klip hanya terekam dari kamera).</p>';
+$('sTl').innerHTML=by('timelapse').map(f=>card(f,true)).join('')||'<p class="muted">Tidak ada timelapse untuk sesi ini.</p>';
+$('info').hidden=true;$('content').hidden=false}
+function tick(){const ms=exp-(Date.now()+skew),L=$('left');if(!exp){L.hidden=true;return}L.hidden=false;
+if(ms<=0){clearInterval(clock);L.textContent='Waktu habis';say('⌛','Hasil sudah kedaluwarsa','Hasil photobooth dihapus otomatis setelah 3 jam sejak sesi dibuat.');return}
+const t=Math.floor(ms/1000),h=String(Math.floor(t/3600)).padStart(2,'0'),m=String(Math.floor(t%3600/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');
+L.textContent='Sisa waktu '+h+':'+m+':'+s;L.className=ms<600000?'low':''}
+async function load(){if(!token){say('🔗','Tautan tidak lengkap','Buka halaman ini lewat QR Code atau tombol "Buka Halaman Download" dari menu Photobooth.');return}
+let r;try{r=await db.functions.invoke('booth-get',{body:{token}})}catch(e){r={error:e}}
+if(r.error||!r.data){if(lastState!=='ready')say('⚠️','Gagal memuat','Periksa koneksi internet lalu muat ulang halaman.');return}
+const d=r.data;lastState=d.state;
+if(d.expires_at){exp=new Date(d.expires_at).getTime();skew=d.server_time?new Date(d.server_time).getTime()-Date.now():0;clearInterval(clock);tick();clock=setInterval(tick,1000)}
+switch(d.state){
+case 'ready':render(d.files||[]);break;
+case 'locked':say('🔒','Menunggu pembayaran','Hasil sudah tersimpan, tetapi baru bisa diunduh setelah pembayaran Rp'+Number(d.payment&&d.payment.amount_idr||0).toLocaleString('id-ID')+' dikonfirmasi admin. Halaman ini diperbarui otomatis.');break;
+case 'processing':say('⏳','Hasil sedang diproses','File masih diunggah. Halaman ini diperbarui otomatis.');break;
+case 'expired':say('⌛','Hasil sudah kedaluwarsa','Hasil photobooth dihapus otomatis setelah 3 jam sejak sesi dibuat.');break;
+case 'deleted':say('🗑️','Hasil sudah dihapus','Hasil sesi ini sudah dihapus.');break;
+case 'failed':say('⚠️','Sesi gagal','Sebagian file gagal diunggah. Ulangi sesi dari menu Photobooth.');break;
+default:say('❓','Sesi tidak ditemukan','Tautan salah atau sesi sudah tidak ada.')}}
+load();
+setInterval(()=>{if(!document.hidden&&['ready','locked','processing'].includes(lastState))load()},lastState==='ready'?480000:15000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&lastState==='ready')load()});
+</script></body></html>
