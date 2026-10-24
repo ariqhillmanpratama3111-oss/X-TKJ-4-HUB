@@ -10,9 +10,9 @@ body{font:15px system-ui;background:#0b1220;color:#e7edf8;margin:0}
 .top a,.top button{background:none;border:0;color:#e7edf8;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;padding:10px 12px;border-radius:10px}
 .top button{color:#a0aec4}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px 90px}
-.me{text-align:center;padding:8px 0 18px}
-.avwrap{position:relative;width:112px;height:112px;margin:0 auto 12px;border:0;padding:0;border-radius:50%;background:none;cursor:pointer;display:block}
-.avatar{width:100%;height:100%;border-radius:50%;overflow:hidden;display:grid;place-items:center;font:800 46px system-ui;color:#fff;background:linear-gradient(135deg,#4263eb,#7c3aed)}
+.me{text-align:center;padding:0 0 18px}.banner{height:150px;border-radius:18px;background:linear-gradient(135deg,#243452,#4263eb 55%,#7c3aed) center/cover no-repeat;position:relative;cursor:pointer}.bnbtn{position:absolute;right:10px;bottom:10px;background:#000a;color:#fff;border:0;border-radius:999px;padding:8px 12px;font:inherit;font-weight:700;font-size:12px;cursor:pointer}.bnx{right:auto;left:10px;padding:8px 11px}
+.avwrap{position:relative;width:112px;height:112px;margin:-58px auto 12px;border:0;padding:0;border-radius:50%;background:none;cursor:pointer;display:block}
+.avatar{width:100%;height:100%;border-radius:50%;overflow:hidden;border:5px solid #0b1220;display:grid;place-items:center;font:800 46px system-ui;color:#fff;background:linear-gradient(135deg,#4263eb,#7c3aed)}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .avwrap.busy .avatar{opacity:.45}
 .cam{position:absolute;right:0;bottom:2px;width:34px;height:34px;border-radius:50%;background:#4263eb;border:3px solid #0b1220;display:grid;place-items:center;font-size:15px}
@@ -47,6 +47,8 @@ textarea{min-height:90px}
 <div class="top"><a href="index.html">‹ Beranda</a><button id="logout" type="button">Keluar</button></div>
 <div class="wrap">
  <div class="me">
+  <div class="banner" id="bn"><button class="bnbtn" id="bnEdit" type="button" aria-label="Ubah banner">🖼 Ubah banner</button><button class="bnbtn bnx" id="bnDel" type="button" aria-label="Hapus banner" hidden>✕</button></div>
+  <input id="bnFile" type="file" accept="image/*" hidden>
   <button class="avwrap" id="avBtn" type="button" aria-label="Ganti foto profil"><div class="avatar" id="av">?</div><span class="cam">📷</span></button>
   <input id="avFile" type="file" accept="image/*" hidden>
   <h1 id="nm">…</h1>
@@ -85,11 +87,12 @@ async function uploadImage(file,folder){if(!file||!file.name)return null;if(!/^i
 async function uploadVideo(file,folder){if(!file||!file.name)return null;if(!/^video\/(mp4|webm)$/.test(file.type))throw new Error('Pilih video MP4 atau WebM.');if(file.size>50*1024*1024)throw new Error('Ukuran video maksimal 50 MB.');const ext=file.type==='video/webm'?'webm':'mp4';const path=`${folder}/${user.id}/${Date.now()}-${crypto.randomUUID()}.${ext}`;const up=await db.storage.from('inside-tkj4').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(up.error)throw up.error;return db.storage.from('inside-tkj4').getPublicUrl(path).data.publicUrl}
 const rmFile=async u=>{try{const p=(u||'').split('/inside-tkj4/')[1];if(p)await db.storage.from('inside-tkj4').remove([p])}catch(_){}};
 const name=()=>profile.display_name||profile.username||user.email||'Siswa';
-function render(){const n=name();$('nm').textContent=n;const av=$('av');av.textContent='';if(profile.avatar_url){const im=document.createElement('img');im.alt='Foto profil';im.src=profile.avatar_url;im.onerror=()=>{av.textContent=n.trim().charAt(0).toUpperCase()||'?'};av.appendChild(im)}else av.textContent=n.trim().charAt(0).toUpperCase()||'?'}
+function setBanner(){const u=profile.banner_url,b=$('bn');b.style.backgroundImage=u?'url("'+encodeURI(u).replace(/"/g,'%22')+'")':'';$('bnDel').hidden=!u}
+function render(){const n=name();$('nm').textContent=n;setBanner();const av=$('av');av.textContent='';if(profile.avatar_url){const im=document.createElement('img');im.alt='Foto profil';im.src=profile.avatar_url;im.onerror=()=>{av.textContent=n.trim().charAt(0).toUpperCase()||'?'};av.appendChild(im)}else av.textContent=n.trim().charAt(0).toUpperCase()||'?'}
 const open=id=>$(id).classList.add('open'),shut=()=>document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('open'));
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=shut);document.querySelectorAll('.sheet').forEach(s=>s.addEventListener('click',e=>{if(e.target===s)shut()}));
 async function start(){const {data,error}=await db.auth.getSession();if(error||!data.session){location.replace('index.html');return}user=data.session.user;if(user.user_metadata&&user.user_metadata.must_change_password===true){location.replace('ganti-password.html');return}
-const p=await db.from('profiles').select('role,display_name,username,avatar_url').eq('id',user.id).single();if(p.error||!p.data){$('nm').textContent='Akun belum siap';return}
+const p=await db.from('profiles').select('role,display_name,username,avatar_url,banner_url').eq('id',user.id).single();if(p.error||!p.data){$('nm').textContent='Akun belum siap';return}
 profile=p.data;render();if(ADMIN.includes(profile.role))$('dashLink').hidden=false;await load()}
 async function load(){const r=await db.from('portfolios').select('id,title,category,is_public,image_url,video_url').eq('created_by',user.id).order('created_at',{ascending:false});const L=$('list');
 if(r.error){L.innerHTML='<div class="empty">Gagal memuat karya.</div>';$('addBtn').hidden=true;return}
@@ -108,5 +111,9 @@ $('nameSave').onclick=async()=>{const v=$('nameIn').value.trim();if(!v){st('name
 // tambah portofolio
 $('pf').onsubmit=async e=>{e.preventDefault();const b=$('save');b.disabled=true;st('addSt','Menyimpan… (video bisa butuh beberapa saat)',true);try{const f=new FormData(e.target);const row={title:f.get('title').trim(),student_name:name(),category:f.get('category'),image_url:await uploadImage(f.get('image_file'),'portfolios'),video_url:await uploadVideo(f.get('video_file'),'portfolios'),link_url:f.get('link_url')||null,description:f.get('description').trim(),is_public:f.has('is_public'),created_by:user.id};const r=await db.from('portfolios').insert(row);if(r.error)throw r.error;e.target.reset();$('pf').elements.is_public.checked=true;st('addSt','');shut();toast('Karya diterbitkan!');await load()}catch(x){st('addSt','Gagal: '+errMsg(x))}finally{b.disabled=false}};
 $('logout').onclick=async()=>{if(!confirm('Keluar dari akun ini?'))return;await db.auth.signOut();location.href='index.html'};
+async function bannerJpeg(file){const bm=await createImageBitmap(file),W=1200,H=400,r=Math.max(W/bm.width,H/bm.height),sw=W/r,sh=H/r,c=document.createElement('canvas');c.width=W;c.height=H;c.getContext('2d').drawImage(bm,(bm.width-sw)/2,(bm.height-sh)/2,sw,sh,0,0,W,H);const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',.85));return new File([blob],'banner.jpg',{type:'image/jpeg'})}
+$('bnEdit').onclick=()=>$('bnFile').click();$('bn').onclick=e=>{if(e.target===$('bn'))$('bnFile').click()};
+$('bnFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(!/^image\//.test(f.type)){toast('Pilih file gambar.');return}$('bn').style.opacity='.55';try{const old=profile.banner_url,url=await uploadImage(await bannerJpeg(f),'pbanners');const r=await db.from('profiles').update({banner_url:url}).eq('id',user.id);if(r.error)throw r.error;profile.banner_url=url;render();rmFile(old);toast('Banner profil diperbarui.')}catch(x){toast('Gagal: '+errMsg(x))}finally{$('bn').style.opacity=''}};
+$('bnDel').onclick=async()=>{if(!confirm('Hapus banner profil?'))return;try{const old=profile.banner_url,r=await db.from('profiles').update({banner_url:null}).eq('id',user.id);if(r.error)throw r.error;profile.banner_url=null;render();rmFile(old);toast('Banner dihapus.')}catch(x){toast('Gagal: '+errMsg(x))}};
 start();
 </script></body></html>
