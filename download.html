@@ -28,6 +28,7 @@ h1,h2{margin:0 0 8px}h2{font-size:17px}p,.muted{color:#a0aec4;line-height:1.6;ma
   <section class="card"><h2>Foto Individual</h2><div class="grid" id="sPhotos"></div></section>
   <section class="card"><h2>Video Per Foto</h2><div class="grid" id="sClips"></div></section>
   <section class="card"><h2>Video Timelapse</h2><div id="sTl"></div></section>
+  <section class="card" id="sPrint" hidden><h2>🖨️ Cetak Foto</h2><div id="sPrintBody"></div></section>
  </div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -50,14 +51,26 @@ function tick(){const ms=exp-(Date.now()+skew),L=$('left');if(!exp){L.hidden=tru
 if(ms<=0){clearInterval(clock);L.textContent='Waktu habis';say('⌛','Hasil sudah kedaluwarsa','Hasil photobooth dihapus otomatis setelah 3 jam sejak sesi dibuat.');return}
 const t=Math.floor(ms/1000),h=String(Math.floor(t/3600)).padStart(2,'0'),m=String(Math.floor(t%3600/60)).padStart(2,'0'),s=String(t%60).padStart(2,'0');
 L.textContent='Sisa waktu '+h+':'+m+':'+s;L.className=ms<600000?'low':''}
+async function getCs(){try{const r=await db.from('class_settings').select('setting_value').eq('setting_key','cs_url').maybeSingle();return(r.data&&r.data.setting_value)||''}catch(e){return''}}
+const okUrl=u=>/^https?:\/\/[^\s]+$/i.test(u||''),waNum=u=>{const m=String(u||'').match(/wa\.me\/(\d{8,15})/);return m?'+'+m[1]:''};
+const waLink=(cs,msg)=>cs+(cs.includes('?')?'&':'?')+'text='+encodeURIComponent(msg);
+const PRINT_KELAS_IDR=10000;
+async function printView(d){if(d.kind!=='kelas'){$('sPrint').hidden=true;return}const cs=await getCs(),code=d.short_code||'-',num=waNum(cs);
+let h='<p class="muted">Mau hasilnya dicetak? Chat WhatsApp admin'+(num?' ('+esc(num)+')':'')+' untuk pesan cetak (anggota kelas Rp'+PRINT_KELAS_IDR.toLocaleString('id-ID')+') dan sebutkan kode sesi <b>'+esc(code)+'</b>. Admin memverifikasi pembayaran sebelum mencetak. Lakukan sebelum waktu sesi habis.</p>';
+if(okUrl(cs))h+='<div style="display:grid;gap:10px"><a class="btn" style="margin:0" target="_blank" rel="noopener noreferrer" href="'+esc(waLink(cs,'Halo admin, saya mau pesan Cetak Photobooth (Kelas). Kode sesi: '+code+'. Mohon info cara pembayarannya.'))+'">💬 Pesan Cetak lewat WhatsApp</a></div>';
+else h+='<p class="muted">Nomor WhatsApp admin belum diatur.</p>';
+$('sPrintBody').innerHTML=h;$('sPrint').hidden=false}
+async function lockedView(d){const cs=await getCs(),code=d.short_code||'-',num=waNum(cs),amt='Rp'+Number(d.payment&&d.payment.amount_idr||0).toLocaleString('id-ID');
+say('🔒','Menunggu pembayaran','Hasil sudah tersimpan. Chat WhatsApp admin'+(num?' ('+num+')':'')+' untuk info cara bayar ('+amt+'), lalu kirim bukti pembayaran beserta kode sesi '+code+'. Halaman ini terbuka otomatis setelah admin memverifikasi pembayaran.');
+if(okUrl(cs))$('info').insertAdjacentHTML('beforeend','<div style="display:grid;gap:10px;margin-top:12px"><a class="btn" style="margin:0" target="_blank" rel="noopener noreferrer" href="'+esc(waLink(cs,'Halo admin, saya mau bayar Photobooth ('+amt+'). Kode sesi: '+code+'. Mohon info cara pembayarannya.'))+'">💬 Chat WhatsApp Admin</a></div>')}
 async function load(){if(!token){say('🔗','Tautan tidak lengkap','Buka halaman ini lewat QR Code atau tombol "Buka Halaman Download" dari menu Photobooth.');return}
 let r;try{r=await db.functions.invoke('booth-get',{body:{token}})}catch(e){r={error:e}}
 if(r.error||!r.data){if(lastState!=='ready')say('⚠️','Gagal memuat','Periksa koneksi internet lalu muat ulang halaman.');return}
 const d=r.data;lastState=d.state;
 if(d.expires_at){exp=new Date(d.expires_at).getTime();skew=d.server_time?new Date(d.server_time).getTime()-Date.now():0;clearInterval(clock);tick();clock=setInterval(tick,1000)}
 switch(d.state){
-case 'ready':render(d.files||[]);break;
-case 'locked':say('🔒','Menunggu pembayaran','Hasil sudah tersimpan, tetapi baru bisa diunduh setelah pembayaran Rp'+Number(d.payment&&d.payment.amount_idr||0).toLocaleString('id-ID')+' dikonfirmasi admin. Halaman ini diperbarui otomatis.');break;
+case 'ready':render(d.files||[]);printView(d);break;
+case 'locked':lockedView(d);break;
 case 'processing':say('⏳','Hasil sedang diproses','File masih diunggah. Halaman ini diperbarui otomatis.');break;
 case 'expired':say('⌛','Hasil sudah kedaluwarsa','Hasil photobooth dihapus otomatis setelah 3 jam sejak sesi dibuat.');break;
 case 'deleted':say('🗑️','Hasil sudah dihapus','Hasil sesi ini sudah dihapus.');break;
