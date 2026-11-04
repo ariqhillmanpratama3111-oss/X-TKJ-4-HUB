@@ -56,7 +56,7 @@
   }
 
   /* ---------------- Mode boneka (sprite) ---------------- */
-  function loadImg(src) { return new Promise(function (res, rej) { var i = new Image(); i.onload = function () { res(i); }; i.onerror = rej; i.src = src; }); }
+  function loadImg(src) { return new Promise(function (res, rej) { var i = new Image(); i.onload = function () { res(i); }; i.onerror = function () { rej(new Error('Gambar tidak ditemukan: ' + src)); }; i.src = src; }); }
 
   function SpriteDriver(canvas, man, imgs) {
     var ctx = canvas.getContext('2d'), off = document.createElement('canvas'), octx = off.getContext('2d');
@@ -151,11 +151,14 @@
     opts = opts || {}; C.canvas = canvas; var base = opts.base || BASE;
     var modelUrl = opts.model || base + 'cissa.model3.json';
     try {
-      var head = await fetch(modelUrl, { method: 'HEAD' });
-      if (head.ok) { C.driver = await Live2DDriver(canvas, modelUrl); C.mode = 'live2d'; }
+      var mr = await fetch(modelUrl, { cache: 'no-cache' });
+      var mj = mr.ok ? await mr.json().catch(function () { return null; }) : null;
+      if (mj && mj.FileReferences) { C.driver = await Live2DDriver(canvas, modelUrl); C.mode = 'live2d'; }
     } catch (e) { console.warn('Model Live2D tidak dipakai:', e && e.message); C.driver = null; }
     if (!C.driver) {
-      var man = await (await fetch(base + 'manifest.json')).json(), imgs = {};
+      var mres = await fetch(base + 'manifest.json', { cache: 'no-cache' });
+      if (!mres.ok) throw new Error('File ' + base + 'manifest.json tidak ditemukan (kode ' + mres.status + '). Pastikan folder cissa ikut di-upload ke GitHub.');
+      var man = await mres.json().catch(function () { throw new Error('manifest.json bukan JSON valid (mungkin terbaca sebagai halaman HTML).'); }), imgs = {};
       await Promise.all(man.groups.flatMap(function (g) { return g.layers.map(function (l) { return loadImg(base + l.file).then(function (i) { imgs[l.name] = i; }); }); }));
       C.driver = new SpriteDriver(canvas, man, imgs); C.mode = 'sprite';
     }
