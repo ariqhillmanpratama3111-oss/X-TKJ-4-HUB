@@ -16,7 +16,10 @@
 
   var S = { t: 0, speaking: false, listening: false, thinking: false, pulse: 0,
     blinkPhase: -1, nextBlink: 2, gx: 0, gy: 0, tgx: 0, tgy: 0, nextGaze: 1,
-    hx: 0, hy: 0, hz: 0, sway: 0, swayV: 0, shape: 'C', open: 0, mouthT: 0, breath: 0 };
+    hx: 0, hy: 0, hz: 0, sway: 0, swayV: 0, shape: 'C', open: 0, mouthT: 0, breath: 0,
+    pat: 0, patE: 0, blush: 0, patting: false, patDir: 0, lastPat: -99, maxT: -99 };
+  var H = {};
+  function emit(n, v) { (H[n] || []).forEach(function (f) { try { f(v); } catch (e) { console.error(e); } }); }
   var rnd = Math.random, clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
 
   function update(dt) {
@@ -26,6 +29,14 @@
     if (S.blinkPhase < 0 && S.nextBlink <= 0) S.blinkPhase = 0;
     if (S.blinkPhase >= 0) { S.blinkPhase += dt / 0.22; if (S.blinkPhase >= 1) { S.blinkPhase = -1; S.nextBlink = 2 + rnd() * 3.5; } }
     S.blink = S.blinkPhase < 0 ? 0 : Math.sin(S.blinkPhase * Math.PI);
+    // elus kepala: malu, pipi merah, mata terpejam
+    S.patE = Math.max(0, S.patE - dt * 0.9);
+    S.pat += (clamp(S.patE, 0, 1) - S.pat) * Math.min(1, dt * 7);
+    S.blush = S.pat > 0.25 ? Math.min(1, S.blush + dt * 1.4) : Math.max(0, S.blush - dt * 0.3);
+    S.patDir *= Math.max(0, 1 - dt * 3);
+    if (S.pat > 0.4 && S.t - S.lastPat > 6) { S.lastPat = S.t; emit('pat', S.pat); }
+    if (S.blush >= 1 && S.patting && S.t - S.maxT > 12) { S.maxT = S.t; emit('patmax', 1); }
+    S.blink = Math.max(S.blink, clamp((S.pat - 0.35) * 2.2, 0, 1));
     // pandangan
     S.nextGaze -= dt;
     if (S.nextGaze <= 0) {
@@ -40,6 +51,7 @@
     if (S.listening && !S.speaking) { tz += 0.035; ty = 2; }
     if (S.thinking) { tz -= 0.03; tx += 4; }
     if (S.speaking) { tz += Math.sin(S.t * 2.3) * 0.02; ty = Math.abs(Math.sin(S.t * 3.1)) * 3; }
+    ty += S.pat * 14; tz += S.pat * 0.03 * Math.sin(S.t * 7) + S.patDir * S.pat * 0.04;
     S.hz += (tz - S.hz) * Math.min(1, dt * 5); S.hx += (tx - S.hx) * Math.min(1, dt * 5); S.hy += (ty - S.hy) * Math.min(1, dt * 5);
     // rambut: pegas
     var f = (S.hz - S.sway) * 60 - S.swayV * 6; S.swayV += f * dt; S.sway += S.swayV * dt;
@@ -52,7 +64,8 @@
         var r = rnd(); S.shape = r < 0.18 ? 'C' : r < 0.45 ? 'A' : r < 0.62 ? 'O' : r < 0.77 ? 'E' : r < 0.9 ? 'I' : 'U';
         S.open = S.shape === 'C' ? 0 : clamp(0.45 + rnd() * 0.55 + S.pulse * 0.3, 0, 1);
       }
-    } else { S.shape = 'C'; S.open = 0; S.mouthT = 0; }
+    } else if (S.pat > 0.6) { S.shape = 'U'; S.open = 0.3 + 0.08 * Math.sin(S.t * 9); S.mouthT = 0; }
+    else { S.shape = 'C'; S.open = 0; S.mouthT = 0; }
   }
 
   /* ---------------- Mode boneka (sprite) ---------------- */
@@ -95,11 +108,18 @@
           draw(ctx, l);
         });
         if (g.group === 'Kepala') {            // variasi mengikuti kepala
+          if (S.blush > 0.02) { draw(ctx, L.Pipi_Merah_Kanan, S.blush); draw(ctx, L.Pipi_Merah_Kiri, S.blush); }
           if (S.blink > 0.05) { draw(ctx, L.Mata_Kanan_Tutup, S.blink); draw(ctx, L.Mata_Kiri_Tutup, S.blink); }
           if (mouthOn) draw(ctx, L[SHAPE_LAYER[S.shape]], clamp(S.open * 1.4, 0, 1));
         }
         ctx.restore();
       });
+    };
+    this.headHit = function (px, py) {            // px,py dalam piksel kanvas
+      var w = canvas.width, h = canvas.height, sc = Math.min(w / VIEW.w, h / VIEW.h);
+      var wx = (px - ((w - VIEW.w * sc) / 2 - VIEW.x * sc)) / sc, wy = (py - ((h - VIEW.h * sc) / 2 - VIEW.y * sc)) / sc;
+      var dx = (wx - (470 + S.hx)) / 210, dy = (wy - (275 + S.hy + S.breath * 3)) / 200;
+      return dx * dx + dy * dy <= 1;
     };
     this.destroy = function () {};
   }
@@ -129,9 +149,11 @@
       setP('ParamEyeLOpen', 1 - S.blink); setP('ParamEyeROpen', 1 - S.blink);
       setP('ParamEyeBallX', S.gx); setP('ParamEyeBallY', -S.gy);
       setP('ParamMouthOpenY', sp[0] * S.open); setP('ParamMouthForm', sp[1]);
-      setP('ParamBreath', (S.breath + 1) / 2);
+      setP('ParamBreath', (S.breath + 1) / 2); setP('ParamCheek', S.blush);
     });
-    return { render: function () { app.renderer.resize(canvas.width, canvas.height); fit(); app.render(); }, destroy: function () { app.destroy(false); } };
+    return { render: function () { app.renderer.resize(canvas.width, canvas.height); fit(); app.render(); },
+      headHit: function (px, py) { var b = model.getBounds(); return px > b.x + b.width * 0.25 && px < b.x + b.width * 0.75 && py > b.y && py < b.y + b.height * 0.28; },
+      destroy: function () { app.destroy(false); } };
   }
 
   /* ---------------- Mount & API ---------------- */
@@ -176,9 +198,31 @@
       await Promise.all(man.groups.flatMap(function (g) { return g.layers.map(function (l) { return loadImg(base + l.file).then(function (i) { imgs[l.name] = i; }); }); }));
       C.driver = new SpriteDriver(canvas, man, imgs); C.mode = 'sprite';
     }
+    if (opts.pat !== false && !C._wired) { C._wired = true; wirePat(canvas); }
     if (!C.running) { C.running = true; requestAnimationFrame(loop); }
     return C.mode;
   };
+  function wirePat(canvas) {
+    if (!canvas || !canvas.addEventListener || !canvas.style) return;
+    var last = null;
+    function pos(e) { var r = canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) * canvas.width / r.width, y: (e.clientY - r.top) * canvas.height / r.height }; }
+    function over(e) { var p = pos(e); return !!(C.driver && C.driver.headHit && C.driver.headHit(p.x, p.y)); }
+    function end() { S.patting = false; canvas.style.cursor = ''; }
+    canvas.style.touchAction = 'none';
+    canvas.addEventListener('pointerdown', function (e) {
+      if (!over(e)) return;
+      S.patting = true; last = { x: e.clientX, y: e.clientY }; S.patE = Math.max(S.patE, 0.15); canvas.style.cursor = 'grabbing';
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {} e.preventDefault();
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      var o = over(e);
+      if (!S.patting) { canvas.style.cursor = o ? 'grab' : ''; return; }
+      var dx = e.clientX - last.x, dy = e.clientY - last.y; last = { x: e.clientX, y: e.clientY };
+      if (o) { S.patE = Math.min(1.4, S.patE + Math.hypot(dx, dy) * 0.01); S.swayV += dx * 0.012; S.patDir = clamp(dx * 0.05, -1, 1) * 0.5 + S.patDir * 0.5; }
+    });
+    canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end);
+  }
+  C.on = function (name, fn) { (H[name] = H[name] || []).push(fn); };
   C.setSpeaking = function (b) { S.speaking = !!b; if (b) { S.listening = false; S.thinking = false; } };
   C.setListening = function (b) { S.listening = !!b; };
   C.setThinking = function (b) { S.thinking = !!b; };

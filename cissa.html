@@ -43,9 +43,11 @@ button{cursor:pointer}
 .namecard{position:absolute;left:0;bottom:6px;width:230px;background:linear-gradient(160deg,#17316f,#0f2250);border:1px solid #2f58b8;border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.7;box-shadow:0 10px 26px #0006}
 .namecard b{display:inline-block;width:62px;color:var(--sky);font-weight:600}
 .namecard q{display:block;margin-top:8px;font-style:italic;color:#dbe8ff;quotes:"“" "”"}
-.bubble{position:absolute;right:2%;top:10%;max-width:min(300px,46%);background:#f4f8ffee;color:#12234f;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:14px;line-height:1.5;box-shadow:0 10px 26px #0006;animation:pop .25s ease}
+.bubble{pointer-events:none;position:absolute;right:2%;top:10%;max-width:min(300px,46%);background:#f4f8ffee;color:#12234f;border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:14px;line-height:1.5;box-shadow:0 10px 26px #0006;animation:pop .25s ease}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
 
+.hint{position:absolute;left:50%;top:6px;transform:translateX(-50%);background:#0d1c42cc;border:1px solid var(--line);color:var(--sky);padding:6px 14px;border-radius:999px;font-size:13px;pointer-events:none;transition:opacity .6s;white-space:nowrap}
+.hint.gone{opacity:0}
 .chat{min-height:0;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:24px;backdrop-filter:blur(10px);box-shadow:0 20px 50px #0007;overflow:hidden;position:relative}
 .chead{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #22407f}
 .chead .dot{width:10px;height:10px;border-radius:50%;background:#58e0a4;box-shadow:0 0 10px #58e0a4}
@@ -91,7 +93,7 @@ button{cursor:pointer}
 }
 /* ---- mode panel (dibawa keluar) ---- */
 body.panel{overflow:hidden}
-body.panel .banner,body.panel .top,body.panel .namecard,body.panel #msgs,body.panel .bg .stripe{display:none}
+body.panel .banner,body.panel .top,body.panel .namecard,body.panel #msgs,body.panel .bg .stripe,body.panel .hint{display:none}
 body.panel .layout{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;padding:6px;gap:6px;height:100%}
 body.panel .chat{border-radius:16px}
 body.panel .chead{padding:8px 12px}
@@ -113,6 +115,7 @@ body.panel .bubble{right:3%;top:3%;max-width:78%;max-height:42%;overflow:auto;fo
     <canvas id="cv" aria-label="Avatar Cissa"></canvas>
     <div class="namecard"><div><b>Name</b>: Cissa</div><div><b>Class</b>: X TKJ 4</div><div><b>Age</b>: 15</div><div><b>Height</b>: 170 cm</div><q>Jangan lupa berusaha, ya! :)</q></div>
     <div class="bubble" id="bubble" hidden></div>
+    <div class="hint" id="hint">✋ Coba elus kepala Cissa</div>
   </section>
 
   <section class="chat" aria-label="Ngobrol dengan Cissa">
@@ -270,6 +273,16 @@ body.panel .bubble{right:3%;top:3%;max-width:78%;max-height:42%;overflow:auto;fo
     var w = window.open('cissa.html?panel=1', 'cissa-panel', 'popup=yes,width=360,height=560,left=' + Math.max(0, screen.width - 400) + ',top=80');
     if (!w) setState('Pop-up diblokir browser. Izinkan pop-up untuk situs ini.', '');
   };
+
+  /* ---------- sentuhan: elus kepala ---------- */
+  var PAT1 = ['E-eh...', 'Hei, jangan diusap terus... aku malu.', 'Hmm... enak sih, tapi malu tau!'];
+  var PAT2 = ['Udah ya, udah! Mukaku merah banget nih!', 'Aduh... jangan lihatin aku terus...'];
+  function patSay(list) {
+    var t = list[Math.floor(Math.random() * list.length)]; say(t); $('hint').classList.add('gone');
+    if (!busy && ($('vauto').checked || voiceOn)) { stopListen(); CissaVoice.speak(t, function () { if (voiceOn) listen(); }); }
+  }
+  CissaLive.on('pat', function () { patSay(PAT1); });
+  CissaLive.on('patmax', function () { patSay(PAT2); });
 
   /* ---------- TTS server (opsional) ----------
      Ubah ke true SETELAH Edge Function "cissa-tts" di-deploy (lihat BACA_SUARA.md). */
