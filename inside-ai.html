@@ -168,7 +168,7 @@ async function callAI(messages){
   var why='';
   try{
     var r=await db.functions.invoke('dattio-ai',{body:{messages:messages,model:model}});
-    if(!r.error&&r.data&&typeof r.data.answer==='string'&&r.data.answer.trim())return r;
+    if(!r.error&&r.data&&typeof r.data.answer==='string'&&r.data.answer.trim()&&!(/^\s*\[req_\w+\]/.test(r.data.answer)&&/\(HTTP\s*\d{3}\)|Request rejected|Billing:/i.test(r.data.answer)))return r;
     why=(r.data&&r.data.error)||(r.error&&r.error.message)||'tidak ada jawaban';
   }catch(e){why=(e&&e.message)||'gagal'}
   console.warn('Dattio gagal, pakai AI cadangan:',why);
