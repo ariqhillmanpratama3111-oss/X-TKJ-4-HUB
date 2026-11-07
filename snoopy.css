@@ -167,3 +167,20 @@ html[data-palette=snoopy][data-page=inside-ai] .status{color:#17775a!important}
 html[data-palette=snoopy][data-page=inside-ai] .hint{color:var(--sn-muted)!important}
 html[data-palette=snoopy][data-page=inside-ai] .toast{background:var(--sn-purple)!important;color:#fff!important}
 html[data-palette=snoopy][data-page=dashboard] #themeBtn{display:none!important}
+
+/* ---------- layar sambutan / login & modal masuk (index) ---------- */
+html[data-palette=snoopy] .auth-modal.welcome-mode{background:radial-gradient(circle at 90% 6%,#ffd84a 0 52px,#ffb12e 53px 58px,transparent 59px),linear-gradient(#9fdcff 0,#d7f0ff 42%,#e8f7d6 80%,#9bd16d 100%)!important}
+html[data-palette=snoopy] .auth-modal:not(.welcome-mode){background:#4b46a880!important}
+html[data-palette=snoopy] .auth-modal .auth-panel,html[data-palette=snoopy] .auth-modal.welcome-mode .auth-panel{background:#fffbe0!important;color:var(--sn-ink)!important;border:4px solid var(--sn-red)!important;box-shadow:0 18px 50px #4b46a855!important}
+html[data-palette=snoopy] .welcome-mark{color:var(--sn-red)!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode #authTitle,html[data-palette=snoopy] .auth-panel h2,html[data-palette=snoopy] .auth-panel h3{color:var(--sn-purple)!important;-webkit-text-stroke:0!important;text-shadow:none!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode .muted,html[data-palette=snoopy] .auth-modal.welcome-mode .small,html[data-palette=snoopy] .auth-panel p,html[data-palette=snoopy] .auth-status{color:var(--sn-muted)!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode #authForm label,html[data-palette=snoopy] .auth-panel label{color:var(--sn-ink)!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode input,html[data-palette=snoopy] .auth-panel input{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode input:focus,html[data-palette=snoopy] .auth-panel input:focus{border-color:var(--sn-purple)!important;outline:0}
+html[data-palette=snoopy] .auth-primary{background:var(--sn-red)!important;color:#fff!important;border-radius:999px!important}
+html[data-palette=snoopy] .choice-ghost,html[data-palette=snoopy] #backChoice,html[data-palette=snoopy] .auth-actions button:not(.auth-primary){background:#fff!important;color:var(--sn-purple)!important;border:2px solid var(--sn-purple)!important;border-radius:999px!important}
+html[data-palette=snoopy] .choice-ghost:hover{background:var(--sn-cream)!important}
+html[data-palette=snoopy] .auth-modal.welcome-mode .auth-status{color:#c0262d!important}
+html[data-palette=snoopy] .auth-close{color:var(--sn-purple)!important}
+html[data-palette=snoopy] .auth-primary{border:0!important}
