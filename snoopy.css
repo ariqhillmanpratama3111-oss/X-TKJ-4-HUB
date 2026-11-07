@@ -1,0 +1,169 @@
+/* ===== Tema Snoopy — default seluruh halaman Inside TKJ 4 =====
+   Aktif bila <html data-palette="snoopy"> (diatur oleh snoopy.js).
+   Warna: ungu #4b46a8 · merah #e0383e · kuning #fff6c9 · langit #d7f0ff · rumput #9bd16d */
+html[data-palette=snoopy]{
+  --sn-purple:#4b46a8;--sn-red:#e0383e;--sn-cream:#fff6c9;--sn-sky:#d7f0ff;--sn-ink:#2a2a6e;--sn-muted:#5560a8;--sn-line:#a9d8f5;
+  color-scheme:light}
+html[data-palette=snoopy] body{
+  color:var(--sn-ink)!important;
+  background:radial-gradient(circle at 90% 3%,#ffd84a 0 52px,#ffb12e 53px 58px,transparent 59px),
+             linear-gradient(#9fdcff 0,#d7f0ff 42%,#e8f7d6 80%,#9bd16d 100%) fixed!important}
+
+/* ---------- intro index ---------- */
+
+html[data-palette=snoopy] #intro{background:linear-gradient(#9fdcff,#fff6c9 70%,#9bd16d)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy] .intro-t .b{color:var(--sn-red)!important}
+html[data-palette=snoopy] .intro-s{color:var(--sn-muted)!important}
+html[data-palette=snoopy] .intro-ring{border-color:var(--sn-purple)!important}
+
+/* ---------- dashboard & ganti-password & download ---------- */
+
+html[data-palette=snoopy][data-page=dashboard] body>header{background:var(--sn-cream)!important;color:var(--sn-purple)!important;border-bottom:4px solid var(--sn-red)}
+html[data-palette=snoopy][data-page=dashboard] body>header a{color:var(--sn-purple)!important;font-weight:800}
+html[data-palette=snoopy][data-page=dashboard] button,html[data-palette=snoopy][data-page=dashboard] .btn{background:var(--sn-purple);color:#fff}
+html[data-palette=snoopy][data-page=dashboard] .tabs button{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=dashboard] .tabs button.active{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=dashboard] #themeBtn{background:#fff!important;color:var(--sn-purple)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=dashboard] main h1{color:#fff;-webkit-text-stroke:5px var(--sn-purple);paint-order:stroke fill;text-shadow:0 3px 0 var(--sn-purple)}
+html[data-palette=snoopy][data-page=dashboard] .card,html[data-palette=snoopy][data-page=dashboard] .item{background:#fff!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=dashboard] .card,html[data-palette=snoopy][data-page=dashboard] .item{border:3px solid var(--sn-red)!important;border-radius:18px}
+html[data-palette=snoopy][data-page=dashboard] p,html[data-palette=snoopy][data-page=dashboard] .muted,html[data-palette=snoopy][data-page=dashboard] small{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=dashboard] input,html[data-palette=snoopy][data-page=dashboard] textarea,html[data-palette=snoopy][data-page=dashboard] select{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=dashboard] .record{border-color:var(--sn-line)!important}
+html[data-palette=snoopy][data-page=dashboard] a{color:var(--sn-purple)}
+html[data-palette=snoopy][data-page=dashboard] .status,html[data-palette=snoopy][data-page=dashboard] #status.ok,html[data-palette=snoopy][data-page=dashboard] #left{color:#17775a!important}
+html[data-palette=snoopy][data-page=dashboard] #left.low{color:#c4560b!important}
+/* download: header & kartu */
+html[data-palette=snoopy][data-page=dashboard] .big{background:#fff!important}
+html[data-palette=snoopy][data-page=dashboard] .item.strip img,html[data-palette=snoopy][data-page=dashboard] .item img{background:var(--sn-sky)!important}
+
+
+html[data-palette=snoopy][data-page=ganti-password] body>header{background:var(--sn-cream)!important;color:var(--sn-purple)!important;border-bottom:4px solid var(--sn-red)}
+html[data-palette=snoopy][data-page=ganti-password] body>header a{color:var(--sn-purple)!important;font-weight:800}
+html[data-palette=snoopy][data-page=ganti-password] button,html[data-palette=snoopy][data-page=ganti-password] .btn{background:var(--sn-purple);color:#fff}
+html[data-palette=snoopy][data-page=ganti-password] .tabs button{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=ganti-password] .tabs button.active{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=ganti-password] #themeBtn{background:#fff!important;color:var(--sn-purple)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=ganti-password] main h1{color:#fff;-webkit-text-stroke:5px var(--sn-purple);paint-order:stroke fill;text-shadow:0 3px 0 var(--sn-purple)}
+html[data-palette=snoopy][data-page=ganti-password] .card,html[data-palette=snoopy][data-page=ganti-password] .item{background:#fff!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=ganti-password] .card,html[data-palette=snoopy][data-page=ganti-password] .item{border:3px solid var(--sn-red)!important;border-radius:18px}
+html[data-palette=snoopy][data-page=ganti-password] p,html[data-palette=snoopy][data-page=ganti-password] .muted,html[data-palette=snoopy][data-page=ganti-password] small{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=ganti-password] input,html[data-palette=snoopy][data-page=ganti-password] textarea,html[data-palette=snoopy][data-page=ganti-password] select{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=ganti-password] .record{border-color:var(--sn-line)!important}
+html[data-palette=snoopy][data-page=ganti-password] a{color:var(--sn-purple)}
+html[data-palette=snoopy][data-page=ganti-password] .status,html[data-palette=snoopy][data-page=ganti-password] #status.ok,html[data-palette=snoopy][data-page=ganti-password] #left{color:#17775a!important}
+html[data-palette=snoopy][data-page=ganti-password] #left.low{color:#c4560b!important}
+/* download: header & kartu */
+html[data-palette=snoopy][data-page=ganti-password] .big{background:#fff!important}
+html[data-palette=snoopy][data-page=ganti-password] .item.strip img,html[data-palette=snoopy][data-page=ganti-password] .item img{background:var(--sn-sky)!important}
+
+
+html[data-palette=snoopy][data-page=ganti-password] body>main{border:3px solid var(--sn-red)!important;background:#fff!important}
+
+html[data-palette=snoopy][data-page=download] body>header{background:var(--sn-cream)!important;color:var(--sn-purple)!important;border-bottom:4px solid var(--sn-red)}
+html[data-palette=snoopy][data-page=download] body>header a{color:var(--sn-purple)!important;font-weight:800}
+html[data-palette=snoopy][data-page=download] button,html[data-palette=snoopy][data-page=download] .btn{background:var(--sn-purple);color:#fff}
+html[data-palette=snoopy][data-page=download] .tabs button{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=download] .tabs button.active{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=download] #themeBtn{background:#fff!important;color:var(--sn-purple)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=download] main h1{color:#fff;-webkit-text-stroke:5px var(--sn-purple);paint-order:stroke fill;text-shadow:0 3px 0 var(--sn-purple)}
+html[data-palette=snoopy][data-page=download] .card,html[data-palette=snoopy][data-page=download] .item{background:#fff!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=download] .card,html[data-palette=snoopy][data-page=download] .item{border:3px solid var(--sn-red)!important;border-radius:18px}
+html[data-palette=snoopy][data-page=download] p,html[data-palette=snoopy][data-page=download] .muted,html[data-palette=snoopy][data-page=download] small{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=download] input,html[data-palette=snoopy][data-page=download] textarea,html[data-palette=snoopy][data-page=download] select{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=download] .record{border-color:var(--sn-line)!important}
+html[data-palette=snoopy][data-page=download] a{color:var(--sn-purple)}
+html[data-palette=snoopy][data-page=download] .status,html[data-palette=snoopy][data-page=download] #status.ok,html[data-palette=snoopy][data-page=download] #left{color:#17775a!important}
+html[data-palette=snoopy][data-page=download] #left.low{color:#c4560b!important}
+/* download: header & kartu */
+html[data-palette=snoopy][data-page=download] .big{background:#fff!important}
+html[data-palette=snoopy][data-page=download] .item.strip img,html[data-palette=snoopy][data-page=download] .item img{background:var(--sn-sky)!important}
+
+/* ---------- akun ---------- */
+
+html[data-palette=snoopy][data-page=akun] body>div.top{background:#fff6c9ee!important;border-bottom:4px solid var(--sn-red)}
+html[data-palette=snoopy][data-page=akun] body>div.top a,html[data-palette=snoopy][data-page=akun] body>div.top button{color:var(--sn-purple)!important;background:none!important}
+html[data-palette=snoopy][data-page=akun] .banner{background:linear-gradient(135deg,#9fdcff,#fff1a8 55%,#ff9aa0) center/cover no-repeat}
+html[data-palette=snoopy][data-page=akun] .avatar{border-color:var(--sn-cream)!important;background:linear-gradient(135deg,var(--sn-purple),var(--sn-red))}
+html[data-palette=snoopy][data-page=akun] .cam{background:var(--sn-red)!important;border-color:var(--sn-cream)!important}
+html[data-palette=snoopy][data-page=akun] .pill{background:#fff!important;color:var(--sn-purple)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=akun] .plus{background:var(--sn-red)!important}
+html[data-palette=snoopy][data-page=akun] .pc{background:#fff!important;border:3px solid var(--sn-red)!important}
+html[data-palette=snoopy][data-page=akun] .pc .ph{background:linear-gradient(135deg,#d7f0ff,#fff6c9)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=akun] .pc small,html[data-palette=snoopy][data-page=akun] .empty,html[data-palette=snoopy][data-page=akun] .x{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=akun] .empty{border-color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=akun] .box{background:var(--sn-cream)!important;color:var(--sn-ink)!important;border-top:4px solid var(--sn-red)}
+html[data-palette=snoopy][data-page=akun] .st{color:#c0262d!important}html[data-palette=snoopy][data-page=akun] .st.ok{color:#17775a!important}
+html[data-palette=snoopy][data-page=akun] #toast{background:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=akun] .wrap h1,html[data-palette=snoopy][data-page=akun] .sec h2{color:var(--sn-purple)!important;-webkit-text-stroke:0!important;text-shadow:none!important}
+
+/* ---------- cissa ---------- */
+
+html[data-palette=snoopy][data-page=cissa] body{--navy:#4b46a8;--navy2:#d7f0ff;--blue:#4b46a8;--sky:#4b46a8;--ice:#2a2a6e;--muted:#5560a8;--line:#4b46a8;--card:#fffbe0ee}
+html[data-palette=snoopy][data-page=cissa] .bg{background:linear-gradient(#9fdcff 0,#d7f0ff 45%,#e8f7d6 80%,#9bd16d 100%)!important}
+html[data-palette=snoopy][data-page=cissa] .bg .grid{background-image:linear-gradient(#ffffff55 1px,transparent 1px),linear-gradient(90deg,#ffffff55 1px,transparent 1px)!important}
+html[data-palette=snoopy][data-page=cissa] .bg .stripe{background:linear-gradient(90deg,transparent,#e0383e33,transparent)!important}
+html[data-palette=snoopy][data-page=cissa] .px{opacity:.7}
+html[data-palette=snoopy][data-page=cissa] .sp{color:#fff!important;text-shadow:0 0 10px #ffb12e!important}
+html[data-palette=snoopy][data-page=cissa] body>.banner{background:linear-gradient(135deg,#fff6c9 0%,#ffe27a 70%)!important}
+html[data-palette=snoopy][data-page=cissa] body>.banner::after{background:linear-gradient(135deg,transparent 62%,#e0383e 62.4%,#e0383e 66%,transparent 66.4%)!important}
+html[data-palette=snoopy][data-page=cissa] .banner .in,html[data-palette=snoopy][data-page=cissa] .banner .tk{color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] .banner .tag{color:var(--sn-red)!important}
+html[data-palette=snoopy][data-page=cissa] nav.top a,html[data-palette=snoopy][data-page=cissa] nav.top button{background:#fff!important;border:2px solid var(--sn-purple)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] nav.top a:hover,html[data-palette=snoopy][data-page=cissa] nav.top button:hover{background:var(--sn-cream)!important}
+html[data-palette=snoopy][data-page=cissa] .namecard{background:#fffbe0!important;border:3px solid var(--sn-red)!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=cissa] .namecard b{color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] .namecard q{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=cissa] .bubble{border:2px solid var(--sn-purple)}
+html[data-palette=snoopy][data-page=cissa] .hint{background:#fff!important;border:2px solid var(--sn-purple)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] .chat{background:#fffbe0ee!important;border:3px solid var(--sn-red)!important;box-shadow:0 14px 34px #4b46a844!important}
+html[data-palette=snoopy][data-page=cissa] .chead{border-bottom:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=cissa] .ib,html[data-palette=snoopy][data-page=cissa] #mic{background:#fff!important;border:2px solid var(--sn-purple)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] .ib:hover{background:var(--sn-cream)!important}
+html[data-palette=snoopy][data-page=cissa] .m.u{background:linear-gradient(135deg,#4b46a8,#6f67d6)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=cissa] .m.a{background:#fff!important;border:2px solid var(--sn-line)!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=cissa] .m pre{background:#f1f0ff!important;border-color:var(--sn-line)!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=cissa] .composer{background:#fff6c9!important;border-top:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=cissa] #inp{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] #send{background:linear-gradient(135deg,#e0383e,#ff7a7f)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=cissa] .cfg{background:#fffbe0!important;border:3px solid var(--sn-red)!important}
+html[data-palette=snoopy][data-page=cissa] .cfg select{background:#fff!important;color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=cissa] .cfg .row button{background:#fff!important;border:2px solid var(--sn-purple)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=cissa] .cfg .row button.on{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=cissa] .cfg .hint{background:none!important;border:0!important;color:#b0560b!important}
+
+/* ---------- inside-ai ---------- */
+
+html[data-palette=snoopy][data-page=inside-ai] body{--bg:#d7f0ff;--panel:#fffbe0;--panel2:#fff;--ink:#2a2a6e;--muted:#5560a8;--line:#a9d8f5;--mint:#fff1a8;--violet:#4b46a8}
+html[data-palette=snoopy][data-page=inside-ai] .ai-intro{background:linear-gradient(#9fdcff,#fff6c9 70%,#9bd16d)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .ai-intro *{color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .layout .side,html[data-palette=snoopy][data-page=inside-ai] .chatpanel{background:#fffbe0f2!important;border:3px solid var(--sn-red)!important}
+html[data-palette=snoopy][data-page=inside-ai] header.top{background:#fff6c9ee!important;border-bottom:4px solid var(--sn-red)!important}
+html[data-palette=snoopy][data-page=inside-ai] .brand,html[data-palette=snoopy][data-page=inside-ai] .brand span{color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .ghost{background:#fff!important;border:2px solid var(--sn-purple)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .eyebrow{color:var(--sn-red)!important}
+html[data-palette=snoopy][data-page=inside-ai] .newchat{background:var(--sn-red)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=inside-ai] .side-label{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=inside-ai] .history button{color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=inside-ai] .history button:hover,html[data-palette=snoopy][data-page=inside-ai] .history button.active{background:#fff!important;border-color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .privacy{background:#fff!important;color:var(--sn-muted)!important;border-color:var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .chips button{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .chips button:hover{border-color:var(--sn-purple)!important;background:var(--sn-cream)!important}
+html[data-palette=snoopy][data-page=inside-ai] .orb{background:linear-gradient(135deg,#fff1a8,#ff9aa0)!important;color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .avatar{color:var(--sn-purple)}
+html[data-palette=snoopy][data-page=inside-ai] .msg.user .avatar{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=inside-ai] .msg .bubble{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .msg.user .bubble{background:var(--sn-purple)!important;color:#fff!important;border-color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .typing,html[data-palette=snoopy][data-page=inside-ai] .attachbtn,html[data-palette=snoopy][data-page=inside-ai] .file-pill,html[data-palette=snoopy][data-page=inside-ai] .preview-wrap{background:#fff!important;color:var(--sn-ink)!important;border:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .attachbtn.active{background:var(--sn-cream)!important;border-color:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .typing-dots i{background:var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .msgtools button{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=inside-ai] .composer{background:#fff6c9!important;border-top:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .composebox{background:#fff!important;border:2px solid var(--sn-purple)!important}
+html[data-palette=snoopy][data-page=inside-ai] .composebox textarea{color:var(--sn-ink)!important}
+html[data-palette=snoopy][data-page=inside-ai] .send{background:var(--sn-red)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=inside-ai] .chathead{border-bottom:2px solid var(--sn-line)!important}
+html[data-palette=snoopy][data-page=inside-ai] .status{color:#17775a!important}
+html[data-palette=snoopy][data-page=inside-ai] .hint{color:var(--sn-muted)!important}
+html[data-palette=snoopy][data-page=inside-ai] .toast{background:var(--sn-purple)!important;color:#fff!important}
+html[data-palette=snoopy][data-page=dashboard] #themeBtn{display:none!important}
