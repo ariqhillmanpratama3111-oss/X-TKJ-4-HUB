@@ -184,3 +184,89 @@ html[data-palette=snoopy] .choice-ghost:hover{background:var(--sn-cream)!importa
 html[data-palette=snoopy] .auth-modal.welcome-mode .auth-status{color:#c0262d!important}
 html[data-palette=snoopy] .auth-close{color:var(--sn-purple)!important}
 html[data-palette=snoopy] .auth-primary{border:0!important}
+
+/* =====================================================================
+   PERBAIKAN TAMPILAN HP (semua halaman) — aktif di layar kecil, apa pun temanya
+   ===================================================================== */
+html{-webkit-text-size-adjust:100%}
+img,video,canvas{max-width:100%}
+html,body{max-width:100%;overflow-x:hidden}
+html[data-palette=snoopy]{background:#e8f7d6}
+html[data-palette=snoopy] body{min-height:100vh}
+
+@media (max-width:760px){
+  /* latar bergerak ("fixed") sering patah/berat di HP -> ikut scroll saja */
+  html[data-palette=snoopy] body{background-attachment:scroll!important;background-size:100% 100%!important;background-repeat:no-repeat!important}
+  /* judul bertepi tebal jadi menyatu -> tipiskan di HP */
+  html[data-palette=snoopy][data-page=index] main h1,html[data-palette=snoopy][data-page=index] main h2,html[data-palette=snoopy][data-page=dashboard] main h1,html[data-palette=snoopy][data-page=dashboard] main h2{-webkit-text-stroke:3px var(--sn-purple)!important;text-shadow:0 2px 0 var(--sn-purple)!important;letter-spacing:.3px!important;line-height:1.2}
+  /* kolom isian 16px supaya iPhone tidak zoom sendiri saat mengetik */
+  input,select,textarea{font-size:16px!important}
+  /* tombol/target sentuh cukup besar */
+  button,.btn,.ghost,a.ghost{min-height:40px}
+  .toast{max-width:calc(100vw - 28px);text-align:center}
+}
+
+/* ---------- index ---------- */
+.mnav{display:none}
+@media (max-width:760px){
+  body .top{padding:10px 14px 8px!important;gap:8px!important;flex-wrap:wrap!important;flex-direction:row!important;align-items:center!important}
+  body .top .brand{white-space:nowrap}
+  .wrap{padding:16px 14px 110px!important}              /* ruang untuk dock bawah */
+  .foot{padding-bottom:110px!important}
+  .hero{border-radius:20px!important}
+  .hero h1{letter-spacing:-1.5px!important}
+  .head{flex-direction:column;align-items:flex-start!important}
+  .head .btn{align-self:flex-start}
+  .report{flex-direction:column;gap:10px!important}
+  .datebox{display:flex;gap:8px;align-items:center;width:max-content;min-width:0!important;padding:6px 10px!important}
+  .datebox small{display:inline!important}
+  .bottom-dock{left:10px!important;right:10px!important;bottom:max(10px,env(safe-area-inset-bottom))!important;gap:8px!important}
+  .dock-btn{min-height:48px!important;padding:10px 12px!important;border-radius:16px!important;font-size:13px}
+  /* menu bagian (Siswa/Portofolio/Kegiatan) — di HP menu atas disembunyikan, jadi dibuatkan baris geser */
+  .mnav{display:flex;flex:0 0 100%;order:5;gap:8px;overflow-x:auto;width:100%;padding:2px 0 4px;margin:0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mnav::-webkit-scrollbar{display:none}
+  .mnav a{flex:0 0 auto;padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;border:2px solid #4b46a8;background:#fff;color:#4b46a8;white-space:nowrap}
+  .mnav a:active{background:#fff6c9}
+}
+
+/* ---------- inside-ai ---------- */
+@media (max-width:760px){
+  html[data-page=inside-ai] header.top{height:auto!important;min-height:52px;padding:8px 10px!important;gap:6px;flex-wrap:nowrap}
+  html[data-page=inside-ai] .brand{font-size:13px!important;white-space:nowrap;min-width:0;gap:6px}
+  html[data-page=inside-ai] .brand span:last-child{display:none}
+  html[data-page=inside-ai] .top-actions{gap:6px!important;flex-wrap:nowrap;flex-shrink:0}
+  html[data-page=inside-ai] .top-actions .ghost{padding:6px 10px!important;font-size:12px!important;min-height:34px;white-space:nowrap}
+  html[data-page=inside-ai] .layout{padding:10px!important}
+  html[data-page=inside-ai] .chathead{flex-wrap:wrap;gap:8px}
+  html[data-page=inside-ai] .chathead>div:last-child{width:100%;justify-content:space-between!important}
+  html[data-page=inside-ai] #modelSel{flex:1;min-width:0;max-width:none!important;width:auto}
+  html[data-page=inside-ai] .chatpanel{min-height:calc(100dvh - 140px)}
+  html[data-page=inside-ai] .msg .bubble{max-width:calc(100vw - 86px)}
+  html[data-page=inside-ai] .composebox{max-width:100%}
+  html[data-page=inside-ai] pre{max-width:100%;overflow-x:auto}
+}
+
+/* ---------- cissa ---------- */
+@media (max-width:860px){
+  html[data-page=cissa] nav.top{left:8px!important;right:8px!important;top:8px!important;display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+  html[data-page=cissa] nav.top a,html[data-page=cissa] nav.top button{padding:6px 10px!important;font-size:12px!important;min-height:34px}
+  html[data-page=cissa] .hint{top:52px!important;font-size:12px!important;white-space:normal!important;text-align:center;max-width:86vw}
+  html[data-page=cissa] .bubble{top:84px!important;max-width:60%!important}
+  html[data-page=cissa] .layout{padding-top:96px!important}
+  html[data-page=cissa] .bg .stripe,html[data-page=cissa] .px{display:none}
+}
+@media (max-width:520px){ html[data-page=cissa] .banner{display:none} }
+
+/* ---------- ganti-password / download / dashboard / akun ---------- */
+html[data-page=ganti-password] main{box-sizing:border-box}
+@media (max-width:520px){
+  html[data-page=ganti-password] body{padding:12px}
+  html[data-page=ganti-password] main{padding:20px}
+  html[data-page=download] main{padding:12px 10px 100px}
+  html[data-page=download] header{padding:12px 14px}
+  html[data-page=dashboard] main,html[data-page=dashboard] .wrap{padding-left:12px;padding-right:12px}
+  html[data-page=dashboard] .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+  html[data-page=dashboard] .tabs button{flex:0 0 auto}
+  html[data-page=dashboard] table{display:block;overflow-x:auto}
+  html[data-page=akun] .wrap{padding-left:12px;padding-right:12px}
+}

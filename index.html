@@ -54,7 +54,40 @@ button.btn{font:inherit;font-weight:800;cursor:pointer;border:0}
 .bslots{display:flex;gap:6px;justify-content:center}.bslots span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:800;font-size:13px}.bslots span.on{background:#7cc652;color:#fff;border-color:#7cc652}
 .brow{display:flex;gap:8px;flex-wrap:wrap}.brow .btn{flex:1 1 auto;text-align:center}
 .booth-box input#bcap{width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;font:inherit}
-</style><link rel="stylesheet" href="snoopy.css"></head><body><script>document.body.dataset.palette=document.documentElement.dataset.palette</script><div id="intro" aria-hidden="true"><div class="intro-in"><div class="intro-ring"></div><div class="intro-t"><span>INSIDE</span> <span class="b">TKJ 4</span></div><div class="intro-s">A class, many stories</div><div class="intro-bar"><i></i></div></div></div><script>try{if(localStorage.getItem('sb-teuqxfwqntkgemyukiju-auth-token')||sessionStorage.getItem('tkj4-intro')){document.getElementById('intro').remove()}else{sessionStorage.setItem('tkj4-intro','1');setTimeout(function(){var e=document.getElementById('intro');if(e)e.remove()},3500)}}catch(e){}</script><header class="top app-shell"><a class="brand" href="#home">INSIDE <span>TKJ 4</span></a><nav class="topnav"><a class="nav-link" href="#siswa">Siswa</a><a class="nav-link" href="#portofolio">Portofolio</a><a class="nav-link" href="#kegiatan">Kegiatan</a><a class="nav-link" href="#sosmed">Sosmed</a><a class="nav-link" href="inside-ai.html">✦ Inside.AI</a><a class="nav-link" href="#bantuan">CS</a><button id="searchBtn" class="icon-btn" type="button" aria-label="Cari" title="Cari">🔍</button><button id="boothBtn" class="icon-btn" type="button" aria-label="Photobooth" title="Photobooth">📷</button><button id="themeBtn" class="icon-btn" type="button" aria-label="Pilih tema" title="Pilih tema" aria-haspopup="dialog">☀</button><button id="musicBtn" class="icon-btn" type="button" aria-label="Aktifkan musik" title="Musik" aria-pressed="false">♫</button><button id="soundBtn" class="icon-btn" type="button" aria-label="Efek suara aktif" title="Efek suara">♪</button></nav></header><main class="wrap app-shell" id="home"><section class="slider" aria-label="Sorotan kelas"><div class="slides" id="slides"><a class="slide" href="#siswa"><div><small>Welcome</small><b>Inside TKJ 4</b><span>A class, many stories. Geser untuk lihat sorotan terbaru.</span></div></a></div><div class="dots" id="dots"></div></section><section class="hero"><div><div class="eyebrow">A class, many stories</div><h1>Inside<br>TKJ 4.</h1><p>Tempat cerita kegiatan, identitas, dan karya setiap siswa. Satu kelas, banyak kemampuan, satu perjalanan sampai lulus.</p><div class="hero-actions"><a class="btn mint" href="#portofolio">Jelajahi karya ↗</a><a class="btn ghost" href="#kegiatan">Lihat kegiatan</a></div><p class="small">Musik suasana: Hindia — “Kita ke Sana”</p><a class="btn ghost" href="#musik">♫ Soundtrack kelas</a><a class="btn ghost" href="#" id="boothLink">📷 Photobooth</a></div><div class="orb" aria-hidden="true"><span>✳</span></div></section>
+
+/* ===== kartu bisa diklik + jendela detail ===== */
+.card[data-kind]{cursor:pointer;transition:transform .15s,box-shadow .15s}
+.card[data-kind]:hover{transform:translateY(-3px);box-shadow:0 10px 26px #4b46a833}
+.card[data-kind]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.card[data-kind] p.muted{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.more{display:block;margin-top:10px;font-size:12px;font-weight:800;color:var(--blue)}
+body.dm-lock{overflow:hidden}
+.dm{position:fixed;inset:0;z-index:60;background:#10183099;display:none;align-items:flex-end;justify-content:center}
+.dm.open{display:flex}
+.dm-panel{position:relative;width:min(780px,100%);max-height:92dvh;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0!important;padding:18px 18px 28px!important;animation:dmUp .22s ease-out}
+@keyframes dmUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:700px){.dm{align-items:center;padding:20px}.dm-panel{border-radius:22px!important;max-height:88vh;padding:24px 26px 30px!important}}
+.dm-close{position:sticky;top:0;float:right;z-index:2;width:42px;height:42px;border-radius:50%;border:2px solid var(--blue);background:#fff;color:var(--blue);font-size:20px;font-weight:900;line-height:1;display:grid;place-items:center;margin:-4px -4px 8px 8px}
+.dm-media{margin:4px 0 14px;clear:both}
+.dm-media img,.dm-media video{display:block;width:100%;max-height:62vh;object-fit:contain;border-radius:16px;background:#0000000d}
+.dm-media .project-icon{height:160px;font-size:56px;margin:0}
+.dm h2{margin:6px 0 6px;font-size:24px;line-height:1.25;letter-spacing:0}
+.dm-meta{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:12px}
+.dm-text{white-space:pre-wrap;word-break:break-word;line-height:1.8;font-size:15px;margin:10px 0}
+.dm-head{display:flex;gap:16px;align-items:center;margin:6px 0 12px;clear:both}
+.dm-head .photo{width:96px;height:96px;border-radius:24px;font-size:32px}
+.dm-head h2{margin:0 0 4px}
+.dm h4{margin:20px 0 10px;font-size:15px}
+.dm-list{display:grid;gap:10px}
+.dm-item{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;background:transparent;color:inherit;padding:10px;cursor:pointer}
+.dm-item:hover,.dm-item:focus-visible{border-color:var(--blue);outline:0}
+.dm-item .th{width:64px;height:64px;border-radius:12px;object-fit:cover;background:linear-gradient(130deg,#dce6ff,#d3f8e8);display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.dm-item b{display:block;font-size:14px;margin-bottom:3px}
+.dm-item small{color:var(--muted)}
+.dm-link{display:inline-flex;margin-top:6px}
+.dm-by{border:0;background:none;padding:0;color:var(--blue);font-weight:800;cursor:pointer;font:inherit}
+@media(max-width:520px){.dm-head{flex-direction:column;align-items:flex-start}.dm h2{font-size:21px}}
+</style><link rel="stylesheet" href="snoopy.css"></head><body><script>document.body.dataset.palette=document.documentElement.dataset.palette</script><div id="intro" aria-hidden="true"><div class="intro-in"><div class="intro-ring"></div><div class="intro-t"><span>INSIDE</span> <span class="b">TKJ 4</span></div><div class="intro-s">A class, many stories</div><div class="intro-bar"><i></i></div></div></div><script>try{if(localStorage.getItem('sb-teuqxfwqntkgemyukiju-auth-token')||sessionStorage.getItem('tkj4-intro')){document.getElementById('intro').remove()}else{sessionStorage.setItem('tkj4-intro','1');setTimeout(function(){var e=document.getElementById('intro');if(e)e.remove()},3500)}}catch(e){}</script><header class="top app-shell"><a class="brand" href="#home">INSIDE <span>TKJ 4</span></a><nav class="topnav"><a class="nav-link" href="#siswa">Siswa</a><a class="nav-link" href="#portofolio">Portofolio</a><a class="nav-link" href="#kegiatan">Kegiatan</a><a class="nav-link" href="#sosmed">Sosmed</a><a class="nav-link" href="inside-ai.html">✦ Inside.AI</a><a class="nav-link" href="#bantuan">CS</a><button id="searchBtn" class="icon-btn" type="button" aria-label="Cari" title="Cari">🔍</button><button id="boothBtn" class="icon-btn" type="button" aria-label="Photobooth" title="Photobooth">📷</button><button id="themeBtn" class="icon-btn" type="button" aria-label="Pilih tema" title="Pilih tema" aria-haspopup="dialog">☀</button><button id="musicBtn" class="icon-btn" type="button" aria-label="Aktifkan musik" title="Musik" aria-pressed="false">♫</button><button id="soundBtn" class="icon-btn" type="button" aria-label="Efek suara aktif" title="Efek suara">♪</button></nav><nav class="mnav" aria-label="Menu bagian"><a href="#siswa">Siswa</a><a href="#portofolio">Portofolio</a><a href="#kegiatan">Kegiatan</a><a href="#sosmed">Sosmed</a><a href="inside-ai.html">✦ Inside.AI</a><a href="#bantuan">CS</a></nav></header><main class="wrap app-shell" id="home"><section class="slider" aria-label="Sorotan kelas"><div class="slides" id="slides"><a class="slide" href="#siswa"><div><small>Welcome</small><b>Inside TKJ 4</b><span>A class, many stories. Geser untuk lihat sorotan terbaru.</span></div></a></div><div class="dots" id="dots"></div></section><section class="hero"><div><div class="eyebrow">A class, many stories</div><h1>Inside<br>TKJ 4.</h1><p>Tempat cerita kegiatan, identitas, dan karya setiap siswa. Satu kelas, banyak kemampuan, satu perjalanan sampai lulus.</p><div class="hero-actions"><a class="btn mint" href="#portofolio">Jelajahi karya ↗</a><a class="btn ghost" href="#kegiatan">Lihat kegiatan</a></div><p class="small">Musik suasana: Hindia — “Kita ke Sana”</p><a class="btn ghost" href="#musik">♫ Soundtrack kelas</a><a class="btn ghost" href="#" id="boothLink">📷 Photobooth</a></div><div class="orb" aria-hidden="true"><span>✳</span></div></section>
 <section class="section" id="siswa"><div class="head"><div><h2>Wajah di balik TKJ 4</h2><p>Kenali teman sekelas dan peran mereka.</p></div><span class="pill" id="memberCount">Memuat…</span></div><div class="grid" id="studentGrid"><div class="empty">Memuat profil siswa…</div></div><p class="small">Tanggal lahir lengkap tidak ditampilkan di halaman publik demi privasi. Foto dan data siswa sebaiknya dipublikasikan dengan izin masing-masing.</p></section>
 <section class="section" id="portofolio"><div class="head"><div><h2>Portofolio siswa</h2><p>Desain, coding, jaringan, fotografi, video, dan skill lainnya.</p></div><a class="btn" href="akun.html">Kelola karya ↗</a></div><div class="grid" id="portfolioGrid"><div class="empty">Memuat karya…</div></div></section>
 <section class="section" id="kegiatan"><div class="head"><div><h2>Catatan perjalanan</h2><p>Laporan kegiatan dan pengumuman kelas.</p></div><a class="btn secondary" href="dashboard.html">Kelola konten</a></div><div class="grid" id="activityGrid"><div class="empty">Memuat kegiatan…</div></div></section>
@@ -72,9 +105,9 @@ button.btn{font:inherit;font-weight:800;cursor:pointer;border:0}
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co', SUPABASE_KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';let db=null;const $=id=>document.getElementById(id);const themeKey='inside-tkj4-theme';function applyTheme(mode){document.body.classList.toggle('theme-dark',mode==='dark');$('themeBtn').textContent=mode==='dark'?'☾':'☀';$('themeBtn').title=mode==='dark'?'Ganti ke tema terang':'Ganti ke tema gelap';$('themeBtn').setAttribute('aria-label',$('themeBtn').title);$('themeBtn').setAttribute('aria-pressed',String(mode==='dark'));document.querySelector('meta[name=theme-color]')?.setAttribute('content',mode==='dark'?'#0b1220':'#101b33')}applyTheme(localStorage.getItem(themeKey)||'light');const safeUrl=u=>/^https?:\/\//i.test(String(u||''))?String(u):'#';const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function empty(msg){return `<div class="empty">${msg}</div>`}function initials(n){return String(n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}function toast(t){$('toastRoot').innerHTML=`<div class="toast">${esc(t)}</div>`;setTimeout(()=>$('toastRoot').innerHTML='',2600)}
 // Efek suara ringan hanya setelah interaksi; dapat dimatikan di tombol atas.
 let soundOn=true,audioCtx;function clickSound(){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=620;g.gain.setValueAtTime(.018,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.055);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.06)}catch(e){}}document.addEventListener('click',e=>{if(e.target.closest('a,button'))clickSound()});$('soundBtn').onclick=()=>{soundOn=!soundOn;$('soundBtn').textContent=soundOn?'♪':'♩';$('soundBtn').classList.toggle('active',soundOn);$('soundBtn').setAttribute('aria-label',soundOn?'Matikan efek suara':'Aktifkan efek suara');toast(soundOn?'Efek suara aktif':'Efek suara dimatikan')};
-const studentCard=s=>`<article class="card"><div class="person">${s.photo_url?`<img class="photo" src="${esc(safeUrl(s.photo_url))}" alt="Foto ${esc(s.name)}">`:`<div class="photo">${esc(initials(s.name))}</div>`}<div><h3>${esc(s.name)}</h3><div class="muted">${esc(s.class_role||'Siswa TKJ 4')} · No. ${esc(s.attendance_number??'—')}</div></div></div><p class="muted">${esc(s.bio||'Sedang mengembangkan kemampuan dan berkarya bersama kelas.')}</p><div class="tags">${String(s.skills||'').split(',').filter(Boolean).slice(0,4).map(x=>`<span class="tag">${esc(x.trim())}</span>`).join('')}</div></article>`;
-const portfolioCard=p=>`<article class="card">${p.video_url?`<video controls preload="metadata" playsinline poster="${p.image_url?esc(safeUrl(p.image_url)):''}" src="${esc(safeUrl(p.video_url))}" style="width:100%;max-height:240px;border-radius:12px;margin-bottom:12px;background:#000"></video>`:p.image_url?`<img src="${esc(safeUrl(p.image_url))}" alt="Ilustrasi karya ${esc(p.title)}" style="width:100%;height:145px;object-fit:cover;border-radius:12px;margin-bottom:12px">`:`<div class="project-icon">${esc(p.icon||'✦')}</div>`}<span class="pill">${esc(p.category||'Karya siswa')}</span><h3 style="margin-top:12px">${esc(p.title)}</h3><p class="muted">${esc(p.description)}</p><div class="small">Oleh ${esc(p.student_name||'Siswa TKJ 4')}</div>${p.link_url?`<p><a class="btn" target="_blank" rel="noopener" href="${esc(safeUrl(p.link_url))}">Lihat karya ↗</a></p>`:''}</article>`;
-const activityCard=a=>`<article class="card"><div class="report"><div class="datebox">✦<small>KEGIATAN</small></div><div><span class="pill">${esc(a.kind||'Laporan')}</span><h3 style="margin-top:9px">${esc(a.title)}</h3><p class="muted">${esc(a.event_date||'Tanggal belum diatur')} · ${esc(a.location||'')}</p><p class="muted">${esc(a.content)}</p>${a.photo_url?`<img src="${esc(safeUrl(a.photo_url))}" alt="Dokumentasi kegiatan" style="width:100%;border-radius:12px;max-height:220px;object-fit:cover">`:''}${a.video_url?`<video controls preload="metadata" playsinline src="${esc(safeUrl(a.video_url))}" style="width:100%;max-height:240px;border-radius:12px;margin-top:10px;background:#000"></video>`:''}</div></div></article>`;
+const studentCard=s=>`<article class="card" data-kind="s" data-id="${esc(s.id)}" tabindex="0" role="button" aria-label="Buka profil ${esc(s.name)}"><div class="person">${s.photo_url?`<img class="photo" src="${esc(safeUrl(s.photo_url))}" alt="Foto ${esc(s.name)}">`:`<div class="photo">${esc(initials(s.name))}</div>`}<div><h3>${esc(s.name)}</h3><div class="muted">${esc(s.class_role||'Siswa TKJ 4')} · No. ${esc(s.attendance_number??'—')}</div></div></div><p class="muted">${esc(s.bio||'Sedang mengembangkan kemampuan dan berkarya bersama kelas.')}</p><div class="tags">${String(s.skills||'').split(',').filter(Boolean).slice(0,4).map(x=>`<span class="tag">${esc(x.trim())}</span>`).join('')}</div><span class="more">Lihat profil &amp; portofolio →</span></article>`;
+const portfolioCard=p=>`<article class="card" data-kind="p" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="Buka karya ${esc(p.title)}">${p.video_url?`<video controls preload="metadata" playsinline poster="${p.image_url?esc(safeUrl(p.image_url)):''}" src="${esc(safeUrl(p.video_url))}" style="width:100%;max-height:240px;border-radius:12px;margin-bottom:12px;background:#000"></video>`:p.image_url?`<img src="${esc(safeUrl(p.image_url))}" alt="Ilustrasi karya ${esc(p.title)}" style="width:100%;height:145px;object-fit:cover;border-radius:12px;margin-bottom:12px">`:`<div class="project-icon">${esc(p.icon||'✦')}</div>`}<span class="pill">${esc(p.category||'Karya siswa')}</span><h3 style="margin-top:12px">${esc(p.title)}</h3><p class="muted">${esc(p.description)}</p><div class="small">Oleh ${esc(p.student_name||'Siswa TKJ 4')}</div><span class="more">Buka karya →</span>${p.link_url?`<p><a class="btn" target="_blank" rel="noopener" href="${esc(safeUrl(p.link_url))}">Lihat karya ↗</a></p>`:''}</article>`;
+const activityCard=a=>`<article class="card" data-kind="k" data-id="${esc(a.id)}" tabindex="0" role="button" aria-label="Buka kegiatan ${esc(a.title)}"><div class="report"><div class="datebox">✦<small>KEGIATAN</small></div><div><span class="pill">${esc(a.kind||'Laporan')}</span><h3 style="margin-top:9px">${esc(a.title)}</h3><p class="muted">${esc(a.event_date||'Tanggal belum diatur')} · ${esc(a.location||'')}</p><p class="muted">${esc(a.content)}</p>${a.photo_url?`<img src="${esc(safeUrl(a.photo_url))}" alt="Dokumentasi kegiatan" style="width:100%;border-radius:12px;max-height:220px;object-fit:cover">`:''}${a.video_url?`<video controls preload="metadata" playsinline src="${esc(safeUrl(a.video_url))}" style="width:100%;max-height:240px;border-radius:12px;margin-top:10px;background:#000"></video>`:''}<span class="more">Baca selengkapnya →</span></div></div></article>`;
 async function load(){if(!window.supabase){$('studentGrid').innerHTML=empty('Layanan data belum tersedia.');return}db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);initAuth();try{const [sr,pr,ar,cr,br]=await Promise.all([db.from('student_profiles').select('id,name,attendance_number,photo_url,class_role,bio,skills').eq('is_public',true).order('attendance_number'),db.from('portfolios').select('id,title,description,category,student_name,image_url,link_url,icon,video_url,created_at').eq('is_public',true).order('created_at',{ascending:false}).limit(60),db.from('activity_reports').select('id,title,content,event_date,location,photo_url,kind,video_url,created_at').eq('is_public',true).order('created_at',{ascending:false}).limit(30),db.from('class_settings').select('setting_key,setting_value'),db.from('student_birthdays_today').select('name')]);if(sr.error)throw sr.error;if(pr.error)throw pr.error;if(ar.error)throw ar.error;const students=sr.data||[];if(!br.error)celebrateBirthdays(br.data||[]);const projects=pr.data||[],acts=ar.data||[];window.__data={students,projects,acts};if(window.initExtras)window.initExtras(window.__data);$('memberCount').textContent=students.length+' siswa';$('studentGrid').innerHTML=students.map(studentCard).join('')||empty('Profil siswa akan muncul setelah pengurus menambahkan data.');$('portfolioGrid').innerHTML=projects.map(portfolioCard).join('')||empty('Belum ada portofolio. Jadilah siswa pertama yang berbagi karya!');$('activityGrid').innerHTML=acts.map(activityCard).join('')||empty('Laporan kegiatan akan tampil di sini.');const settings=Object.fromEntries((cr.data||[]).map(x=>[x.setting_key,x.setting_value]));if(settings.instagram_url)$('socialLinks').innerHTML=`<a target="_blank" rel="noopener" href="${esc(safeUrl(settings.instagram_url))}">Instagram ↗</a>`+(settings.tiktok_url?`<a target="_blank" rel="noopener" href="${esc(safeUrl(settings.tiktok_url))}">TikTok ↗</a>`:'')+(settings.youtube_url?`<a target="_blank" rel="noopener" href="${esc(safeUrl(settings.youtube_url))}">YouTube ↗</a>`:'')+(settings.spotify_url?`<a target="_blank" rel="noopener" href="${esc(safeUrl(settings.spotify_url))}">Spotify playlist ↗</a>`:'');$('csLink').href='https://wa.me/6285892960864?text=Min%2C%20saya%20mau%20lapor%20terkait%20website%20Inside%20TKJ%204.';$('csNote').textContent='WhatsApp CS: +62 858-9296-0864. Pesan laporan otomatis sudah disiapkan.';const csu=safeUrl(settings.cs_url);if(csu!=='#'){const wa=csu.match(/wa\.me\/(\d+)/);$('csLink').href=wa&&!csu.includes('?')?csu+'?text=Min%2C%20saya%20mau%20lapor%20terkait%20website%20Inside%20TKJ%204.':csu;$('csNote').textContent=wa?'WhatsApp CS: +'+wa[1]+'. Pesan laporan otomatis sudah disiapkan.':'Customer Service resmi kelas.'} }catch(e){console.error(e);$('studentGrid').innerHTML=empty('Data belum bisa dimuat. Coba muat ulang halaman.');$('portfolioGrid').innerHTML=empty('Portofolio akan aktif setelah database disiapkan.');$('activityGrid').innerHTML=empty('Laporan kegiatan akan aktif setelah database disiapkan.')}}
 const site=location.href.split('#')[0];$('siteUrl').textContent=site;$('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(site);
 // Pemutar audio lokal: file soundtrack.mp3 harus berada di folder yang sama dengan index.html.
@@ -125,10 +158,10 @@ try{if(typeof db!=='undefined'&&db){const r=await db.from('banners').select('tit
 slides.insertAdjacentHTML('beforeend',h);if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting&&e.intersectionRatio>=.6)v.play().catch(()=>{});else v.pause()}),{root:slides,threshold:[0,.6]});slides.querySelectorAll('.svid').forEach(v=>io.observe(v))}idx=0;slides.scrollLeft=0;dot();auto()};
 const sp=g('sp'),q=g('spq'),res=g('spr'),norm=s=>String(s||'').toLowerCase();
 function render(t){const d=window.__data||{students:[],projects:[],acts:[]};t=norm(t).trim();const hit=(o,k)=>!t||k.some(x=>norm(o[x]).includes(t));
-const sec=(h,arr,href,fn)=>arr.length?'<h4>'+h+'</h4>'+arr.map(o=>'<a href="'+href+'">'+fn(o)+'</a>').join(''):'';
-res.innerHTML=sec('Siswa',d.students.filter(o=>hit(o,['name','class_role','skills','bio'])).slice(0,8),'#siswa',o=>esc(o.name)+'<small>'+esc(o.class_role||'Siswa')+'</small>')
-+sec('Portofolio',d.projects.filter(o=>hit(o,['title','student_name','category','description'])).slice(0,8),'#portofolio',o=>esc(o.title)+'<small>'+esc([o.student_name,o.category].filter(Boolean).join(' · '))+'</small>')
-+sec('Kegiatan',d.acts.filter(o=>hit(o,['title','kind','location','content'])).slice(0,8),'#kegiatan',o=>esc(o.title)+'<small>'+esc([o.kind,o.event_date].filter(Boolean).join(' · '))+'</small>')
+const sec=(h,arr,href,fn)=>arr.length?'<h4>'+h+'</h4>'+arr.map(o=>'<a href="'+(typeof href==='function'?href(o):href)+'">'+fn(o)+'</a>').join(''):'';
+res.innerHTML=sec('Siswa',d.students.filter(o=>hit(o,['name','class_role','skills','bio'])).slice(0,8),o=>'#s-'+encodeURIComponent(o.id),o=>esc(o.name)+'<small>'+esc(o.class_role||'Siswa')+'</small>')
++sec('Portofolio',d.projects.filter(o=>hit(o,['title','student_name','category','description'])).slice(0,8),o=>'#p-'+encodeURIComponent(o.id),o=>esc(o.title)+'<small>'+esc([o.student_name,o.category].filter(Boolean).join(' · '))+'</small>')
++sec('Kegiatan',d.acts.filter(o=>hit(o,['title','kind','location','content'])).slice(0,8),o=>'#k-'+encodeURIComponent(o.id),o=>esc(o.title)+'<small>'+esc([o.kind,o.event_date].filter(Boolean).join(' · '))+'</small>')
 ||'<p class="small" style="padding:10px">Tidak ada hasil.</p>'}
 const close=()=>sp.classList.remove('open');
 g('searchBtn').onclick=()=>{sp.classList.add('open');q.value='';render('');setTimeout(()=>q.focus(),50)};
@@ -281,4 +314,85 @@ g('boothBtn').onclick=open;g('boothLink').onclick=open;g('bclose').onclick=close
 </script>
 <script>['sd1','sd2'].forEach((id,i)=>{const im=document.getElementById(id);if(!im)return;im.onload=()=>{im.hidden=false};im.src='tema/stiker'+(i+1)+'.png'})</script>
 <script>[['dashboard.html','dockDashboard'],['akun.html','dockAccount']].forEach(([h,id])=>document.querySelectorAll('a[href="'+h+'"]').forEach(a=>a.addEventListener('click',e=>{const d=document.getElementById(id);if(d&&d.onclick){e.preventDefault();d.click()}})))</script>
+<div class="dm" id="detailModal" role="dialog" aria-modal="true" aria-label="Detail" hidden><div class="dm-panel card" id="dmPanel"><button type="button" class="dm-close" id="dmClose" aria-label="Tutup">✕</button><div id="dmBody"></div></div></div>
+<script>
+(function(){
+  var dm=document.getElementById('detailModal'),panel=document.getElementById('dmPanel'),body=document.getElementById('dmBody'),lastFocus=null;
+  var SEC={s:'siswa',p:'portofolio',k:'kegiatan'};
+  var norm=function(t){return String(t||'').trim().toLowerCase()};
+  var D=function(){return window.__data||{students:[],projects:[],acts:[]}};
+  var find=function(a,id){return a.filter(function(x){return String(x.id)===String(id)})[0]};
+  function mediaBlock(img,vid,icon,alt){
+    if(vid)return '<div class="dm-media"><video controls playsinline preload="metadata"'+(img?' poster="'+esc(safeUrl(img))+'"':'')+' src="'+esc(safeUrl(vid))+'"></video></div>';
+    if(img)return '<div class="dm-media"><a href="'+esc(safeUrl(img))+'" target="_blank" rel="noopener" title="Buka foto ukuran penuh"><img src="'+esc(safeUrl(img))+'" alt="'+esc(alt)+'"></a></div>';
+    return icon?'<div class="dm-media"><div class="project-icon">'+esc(icon)+'</div></div>':'';
+  }
+  function viewS(s){
+    var d=D(),mine=d.projects.filter(function(p){return norm(p.student_name)===norm(s.name)});
+    var skills=String(s.skills||'').split(',').map(function(x){return x.trim()}).filter(Boolean);
+    return '<div class="dm-head">'+(s.photo_url?'<img class="photo" src="'+esc(safeUrl(s.photo_url))+'" alt="Foto '+esc(s.name)+'">':'<div class="photo">'+esc(initials(s.name))+'</div>')
+      +'<div><h2>'+esc(s.name)+'</h2><div class="dm-meta">'+esc(s.class_role||'Siswa TKJ 4')+' · No. absen '+esc(s.attendance_number==null?'—':s.attendance_number)+'</div></div></div>'
+      +'<div class="dm-text">'+esc(s.bio||'Sedang mengembangkan kemampuan dan berkarya bersama kelas.')+'</div>'
+      +(skills.length?'<div class="tags">'+skills.map(function(x){return '<span class="tag">'+esc(x)+'</span>'}).join('')+'</div>':'')
+      +'<h4>Portofolio '+esc(s.name)+' ('+mine.length+')</h4>'
+      +(mine.length?'<div class="dm-list">'+mine.map(function(p){
+          return '<button type="button" class="dm-item" data-go="p" data-id="'+esc(p.id)+'">'+(p.image_url?'<img class="th" src="'+esc(safeUrl(p.image_url))+'" alt="">':'<span class="th">'+esc(p.icon||'✦')+'</span>')
+            +'<span><b>'+esc(p.title)+'</b><small>'+esc(p.category||'Karya siswa')+'</small></span></button>'}).join('')+'</div>'
+        :'<p class="muted">Belum ada portofolio yang dipublikasikan.</p>');
+  }
+  function viewP(p){
+    var d=D(),owner=d.students.filter(function(s){return norm(s.name)===norm(p.student_name)})[0];
+    var by=owner?'<button type="button" class="dm-by" data-go="s" data-id="'+esc(owner.id)+'">'+esc(p.student_name)+'</button>':esc(p.student_name||'Siswa TKJ 4');
+    return mediaBlock(p.image_url,p.video_url,p.icon||'✦','Karya '+p.title)
+      +'<span class="pill">'+esc(p.category||'Karya siswa')+'</span><h2>'+esc(p.title)+'</h2>'
+      +'<div class="dm-meta">Oleh '+by+(p.created_at?' · '+esc(String(p.created_at).slice(0,10)):'')+'</div>'
+      +'<div class="dm-text">'+esc(p.description||'Belum ada keterangan.')+'</div>'
+      +(p.link_url?'<a class="btn dm-link" target="_blank" rel="noopener" href="'+esc(safeUrl(p.link_url))+'">Lihat karya ↗</a>':'');
+  }
+  function viewK(a){
+    return mediaBlock(a.photo_url,a.video_url,'✦','Dokumentasi '+a.title)
+      +'<span class="pill">'+esc(a.kind||'Laporan')+'</span><h2>'+esc(a.title)+'</h2>'
+      +'<div class="dm-meta">'+esc([a.event_date,a.location].filter(Boolean).join(' · ')||'Tanggal belum diatur')+'</div>'
+      +'<div class="dm-text">'+esc(a.content||'')+'</div>';
+  }
+  function show(kind,id){
+    var d=D(),o=kind==='s'?find(d.students,id):kind==='p'?find(d.projects,id):find(d.acts,id);
+    if(!o)return false;
+    body.innerHTML=kind==='s'?viewS(o):kind==='p'?viewP(o):viewK(o);
+    if(!dm.classList.contains('open')){lastFocus=document.activeElement;dm.hidden=false;dm.classList.add('open');document.body.classList.add('dm-lock')}
+    panel.scrollTop=0;document.getElementById('dmClose').focus({preventScroll:true});
+    return true;
+  }
+  function hide(){
+    if(!dm.classList.contains('open'))return;
+    dm.classList.remove('open');dm.hidden=true;document.body.classList.remove('dm-lock');body.innerHTML='';
+    var v=dm.querySelector('video');if(v)v.pause();
+    if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true})}catch(e){}
+  }
+  function sync(){
+    var m=/^#([spk])-(.+)$/.exec(location.hash||'');
+    if(m){if(!show(m[1],decodeURIComponent(m[2])))hide()}else hide();
+  }
+  function closeNow(){
+    var m=/^#([spk])-/.exec(location.hash||'');
+    if(m)history.replaceState(null,'',location.pathname+location.search+'#'+SEC[m[1]]);
+    hide();
+  }
+  document.getElementById('dmClose').addEventListener('click',closeNow);
+  dm.addEventListener('click',function(e){if(e.target===dm)closeNow()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dm.classList.contains('open'))closeNow()});
+  body.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)location.hash='#'+b.dataset.go+'-'+encodeURIComponent(b.dataset.id)});
+  function openCard(c){location.hash='#'+c.dataset.kind+'-'+encodeURIComponent(c.dataset.id)}
+  ['studentGrid','portfolioGrid','activityGrid'].forEach(function(id){
+    var g=document.getElementById(id);if(!g)return;
+    g.addEventListener('click',function(e){
+      if(e.target.closest('a,button,video,input'))return;
+      var c=e.target.closest('.card[data-kind]');if(c)openCard(c)});
+    g.addEventListener('keydown',function(e){
+      if((e.key==='Enter'||e.key===' ')&&e.target.matches('.card[data-kind]')){e.preventDefault();openCard(e.target)}});
+  });
+  window.addEventListener('hashchange',sync);
+  var tries=0,t=setInterval(function(){tries++;if(window.__data){clearInterval(t);sync()}else if(tries>75)clearInterval(t)},200);
+})();
+</script>
 </body></html>

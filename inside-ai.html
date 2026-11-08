@@ -41,8 +41,27 @@ body{background:radial-gradient(ellipse at 48% -12%,#253763 0,transparent 45%),r
 #cissaCanvas{display:block;width:100%;aspect-ratio:860/1120}
 @media(max-width:700px){#cissaCard{width:132px;bottom:170px;right:10px}}
 </style>
+<style>
+#gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:linear-gradient(#9fdcffee,#fff6c9ee 70%,#9bd16dee);overflow:auto}
+#gate[hidden]{display:none}
+.gate-card{width:min(420px,100%);background:#fffbe0;color:#2a2a6e;border:4px solid #e0383e;border-radius:24px;padding:26px 22px;box-shadow:0 20px 60px #4b46a844;text-align:center}
+.gate-card h2{margin:0 0 10px;font-size:22px;line-height:1.25;color:#4b46a8}
+.gate-card p{margin:8px 0;line-height:1.7;font-size:14px;color:#5560a8}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:14px 0 6px;min-height:48px;border:0;border-radius:999px;background:#e0383e;color:#fff;font:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.gbtn.alt{background:#4b46a8}
+.gbtn:disabled{opacity:.6;cursor:default}
+.gg{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#fff;color:#4285f4;font-weight:900;font-size:14px}
+#gCodeRow{display:grid;gap:8px;margin-top:10px}
+#gCode{width:100%;box-sizing:border-box;padding:13px;border:2px solid #4b46a8;border-radius:14px;font:inherit;font-size:20px;letter-spacing:6px;text-align:center;background:#fff;color:#2a2a6e}
+.glink{display:block;margin:10px auto 0;background:none;border:0;color:#4b46a8;font:inherit;font-weight:700;font-size:13px;text-decoration:underline;cursor:pointer}
+.gnote{font-size:12px!important}
+.gmsg{min-height:18px;font-size:13px!important;color:#c0262d!important}
+.gmsg.ok{color:#17775a!important}
+body.gate-open{overflow:hidden}
+</style>
 <link rel="stylesheet" href="snoopy.css"></head>
-<body>
+<body><div id="gate" hidden><div class="gate-card" role="dialog" aria-modal="true" aria-labelledby="gateTitle"><div id="gateBody"></div></div></div>
+
 <div class="ai-intro" id="aiIntro" aria-hidden="true">
   <div class="intro-glow"></div>
   <div class="intro-content"><div class="intro-logo"><img src="inside-tkj4-profile.jpg" alt="Inside TKJ 4"></div><div class="intro-wordmark">INSIDE <span>AI</span></div><div class="intro-caption">Ruang belajar digital · TKJ 4</div><div class="intro-loader"><i></i></div></div>
@@ -78,7 +97,7 @@ body{background:radial-gradient(ellipse at 48% -12%,#253763 0,transparent 45%),r
         <button class="menu-option image-option" id="imageGenBtn" type="button" aria-pressed="false"><span class="option-icon">✦</span><span><b>Buat gambar AI</b><small>Ubah deskripsi jadi gambar</small></span></button>
       </div>
     </div>
-    <textarea id="prompt" rows="1" maxlength="4000" placeholder="Tulis pesan ke Inside.AI… (Enter untuk kirim)"></textarea>
+    <textarea id="prompt" rows="1" maxlength="4000" placeholder="Tulis pesan…"></textarea>
     <button class="icon-btn voice-btn" id="voiceBtn" type="button" aria-label="Input suara" aria-pressed="false" title="Bicara"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"></path></svg></button>
     <button class="send" id="sendBtn" type="button" aria-label="Kirim pesan" title="Kirim pesan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
   </div>
@@ -118,7 +137,7 @@ body{background:radial-gradient(ellipse at 48% -12%,#253763 0,transparent 45%),r
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const SUPABASE_KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);const welcomeHTML=$('welcome').innerHTML;let currentUser=null, chats=[], activeId=null, busy=false, pendingImage=null, pendingFile=null, recognition=null, generateMode=false, voiceConversation=false, voiceRestart=false;
+const $=id=>document.getElementById(id);const welcomeHTML=$('welcome').innerHTML;let GUEST=false, currentUser=null, chats=[], activeId=null, busy=false, pendingImage=null, pendingFile=null, recognition=null, generateMode=false, voiceConversation=false, voiceRestart=false;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
 function storageKey(){return 'inside-ai-chats-'+(currentUser?.id||'guest')}
@@ -128,9 +147,66 @@ function newChat(){if(busy)return;activeId=crypto.randomUUID?crypto.randomUUID()
 function renderHistory(){const root=$('history');root.innerHTML='';chats.forEach(c=>{const b=document.createElement('button');b.textContent=c.title||'Chat baru';b.className=c.id===activeId?'active':'';b.title=c.title||'Chat baru';b.onclick=()=>{activeId=c.id;renderHistory();renderChat()};root.appendChild(b)})}
 function renderChat(){const chat=chats.find(c=>c.id===activeId);const root=$('chatbody');root.innerHTML='';if(!chat||!chat.messages.length){const w=document.createElement('div');w.className='welcome';w.innerHTML=welcomeHTML;root.appendChild(w);w.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>{$('prompt').value=b.dataset.prompt;send()});return}
 chat.messages.forEach((m,i)=>{const row=document.createElement('div');row.className='msg '+(m.role==='user'?'user':'assistant');const av=document.createElement('div');av.className='avatar';av.innerHTML=m.role==='user'?'K<small>AKU</small>':'<img src="inside-tkj4-profile.jpg" alt="Inside TKJ 4" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">';const wrap=document.createElement('div');wrap.style.minWidth='0';const bubble=document.createElement('div');bubble.className='bubble';if(m.image){const im=document.createElement('img');im.className='msg-image';im.src=m.image;im.alt='Gambar yang dikirim';bubble.appendChild(im)}if(m.content) {const tx=document.createElement('div');tx.textContent=m.content;bubble.appendChild(tx)}wrap.appendChild(bubble);if(m.role==='assistant'){const tools=document.createElement('div');tools.className='msgtools';const cp=document.createElement('button');cp.textContent='Salin jawaban';cp.onclick=async()=>{try{await navigator.clipboard.writeText(m.content);toast('Jawaban disalin')}catch(e){toast('Gagal menyalin di browser ini')}};tools.appendChild(cp);const speak=document.createElement('button');speak.textContent='Bacakan';speak.onclick=()=>{if(!('speechSynthesis' in window)){toast('Pembaca suara tidak didukung browser ini');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance((m.content||'').slice(0,5000));u.lang='id-ID';speechSynthesis.speak(u)};tools.appendChild(speak);if(m.image){const dl=document.createElement('a');dl.textContent='Simpan gambar';dl.href=m.image;dl.download='inside-ai-image.png';dl.target='_blank';dl.rel='noopener';dl.className='save-image';tools.appendChild(dl)}wrap.appendChild(tools)}row.append(av,wrap);root.appendChild(row)});root.scrollTop=root.scrollHeight}
-async function checkSession(){const {data:{session}}=await db.auth.getSession();if(!session){location.replace('index.html');return}currentUser=session.user;const {data:profile,error}=await db.from('profiles').select('id,role').eq('id',currentUser.id).maybeSingle();if(error||!profile){$('status').textContent='Akun belum terverifikasi untuk Inside AI';$('prompt').disabled=true;$('sendBtn').disabled=true;toast('Akun ini belum terdaftar sebagai anggota.');return}$('status').textContent='Login sebagai '+(currentUser.email||'anggota terverifikasi');load()}
-async function send(){if(busy||!currentUser)return;let typedText=$('prompt').value.trim();if(generateMode){if(!typedText){toast('Tulis deskripsi foto yang mau dibuat dulu.');return}if(pendingImage||pendingFile){toast('Mode generate foto hanya memakai deskripsi teks. Hapus lampiran dulu.');return}await generateImage(typedText);return}if(pendingFile?.audio){try{busy=true;$('sendBtn').disabled=true;$('status').textContent='Sedang mengubah audio menjadi teks…';const transcript=await transcribeAudio(pendingFile.audio);typedText=[typedText,`[Transkrip ${pendingFile.name}]\n${transcript}`].filter(Boolean).join('\n\n');$('prompt').value=typedText;pendingFile=null;renderFilePreview();busy=false;$('sendBtn').disabled=false;$('status').textContent='Audio berhasil ditranskripsikan';}catch(e){busy=false;$('sendBtn').disabled=false;toast(e.message||'Transkripsi audio gagal');$('status').textContent='Transkripsi gagal';return}}const text=[typedText,pendingFile?`[Isi file ${pendingFile.name}]\\n${pendingFile.text}`:''].filter(Boolean).join('\\n\\n');if(!text&&!pendingImage)return;let chat=chats.find(c=>c.id===activeId);if(!chat){newChat();chat=chats.find(c=>c.id===activeId)}const sentImage=pendingImage;const sentFile=pendingFile;chat.messages.push({role:'user',content:text||'Tolong periksa gambar ini.',image:sentImage?.data||null});if(chat.messages.length===1){const titleSource=typedText||(sentImage?'Foto soal':sentFile?`File: ${sentFile.name}`:'Chat baru');chat.title=titleSource.slice(0,42)+(titleSource.length>42?'…':'')}chat.updated=Date.now();$('prompt').value='';$('prompt').style.height='auto';pendingImage=null;pendingFile=null;renderImagePreview();renderFilePreview();busy=true;$('sendBtn').disabled=true;$('status').textContent='Inside AI sedang berpikir…';renderChat();const typing=document.createElement('div');typing.className='typing';typing.innerHTML='<span class="avatar"><img src="inside-tkj4-profile.jpg" alt="Inside TKJ 4" style="width:100%;height:100%;object-fit:cover;border-radius:inherit"></span><span>Sedang berpikir <span class="typing-dots"><i></i><i></i><i></i></span></span>';$('chatbody').appendChild(typing);$('chatbody').scrollTop=$('chatbody').scrollHeight;
-try{const {data:{session}}=await db.auth.getSession();if(!session)throw new Error('Sesi login berakhir. Silakan login kembali.');const messages=chat.messages.slice(-12).map(m=>({role:m.role,content:m.role==='user'&&m.image?[{type:'text',text:m.content||'Tolong analisis gambar ini.'},{type:'image_url',image_url:{url:m.image}}]:m.content}));const {data,error}=await callAI(messages);if(error)throw error;const answer=data?.answer;if(typeof answer!=='string'||!answer.trim())throw new Error(data?.error||'AI belum memberikan jawaban.');chat.messages.push({role:'assistant',content:answer.trim()});chat.updated=Date.now();save();renderHistory();renderChat();$('status').textContent='Jawaban siap';if(voiceConversation)speakText(answer.trim());}
+async function checkSession(){
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){showGate('login');return}
+  currentUser=session.user;
+  const {data:profile,error}=await db.from('profiles').select('id,role').eq('id',currentUser.id).maybeSingle();
+  if(!error&&profile){hideGate();GUEST=false;$('status').textContent='Login sebagai '+(currentUser.email||'anggota terverifikasi');load();return}
+  currentUser=null;guestCheck(session)
+}
+function jwtAmr(t){try{return (JSON.parse(atob(String(t).split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).amr||[]).map(function(a){return a.method||a})}catch(e){return[]}}
+function guestCheck(session){
+  var u=session.user,prov=(u.app_metadata&&u.app_metadata.providers)||[];
+  if(prov.indexOf('google')<0){showGate('needgoogle',u.email);return}
+  if(jwtAmr(session.access_token).indexOf('otp')<0){showGate('otp',u.email);return}
+  enterGuest(u)
+}
+function enterGuest(u){
+  hideGate();GUEST=true;currentUser={id:(u&&u.id)||'guest',email:u&&u.email,guest:true};
+  var ms=$('modelSel');if(ms)ms.style.display='none';
+  $('status').textContent='Tamu'+(u&&u.email?' · '+u.email:'')+' · AI bawaan, jatah harian terbatas';
+  load()
+}
+function ge(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
+function hideGate(){var g=$('gate');if(g)g.hidden=true;document.body.classList.remove('gate-open');var lb=$('logoutBtn');if(lb)lb.style.display=''}
+function gmsg(t,ok){var m=$('gMsg');if(m){m.textContent=t||'';m.className='gmsg'+(ok?' ok':'')}}
+function showGate(state,email){
+  var g=$('gate'),b=$('gateBody');g.hidden=false;document.body.classList.add('gate-open');
+  var lb=$('logoutBtn');if(lb)lb.style.display=state==='login'?'none':'';
+  var google='<button class="gbtn" id="gGoogle" type="button"><span class="gg">G</span>Masuk dengan Google</button>';
+  if(state==='login'||state==='needgoogle'){
+    b.innerHTML='<h2 id="gateTitle">'+(state==='login'?'Masuk untuk memakai Inside AI':'Gunakan akun Google')+'</h2>'
+      +'<p>'+(state==='login'?'Tamu bisa memakai Inside AI dengan akun Google. Demi keamanan, kami juga mengirim kode verifikasi 6 digit ke emailmu.':'Akun ini belum bisa dipakai. Masuk dengan akun Google kamu ya.')+'</p>'
+      +google+'<p class="gmsg" id="gMsg" role="status"></p>'
+      +(state==='needgoogle'?'<button class="glink" id="gOut" type="button">Keluar</button>':'<a class="glink" href="index.html">Anggota kelas? Masuk lewat halaman utama</a><a class="glink" href="index.html">← Kembali ke website</a>')
+      +'<p class="gnote">Mau model AI yang lebih pintar? Segera hadir (berbayar).</p>';
+    $('gGoogle').onclick=async function(){var bt=this;bt.disabled=true;gmsg('Membuka Google…',true);var r=await db.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});if(r&&r.error){gmsg('Gagal membuka Google. Coba lagi nanti.');bt.disabled=false}};
+  }else{
+    b.innerHTML='<h2 id="gateTitle">Verifikasi email</h2><p>Kami kirim kode 6 digit ke <b>'+ge(email)+'</b>. Masukkan kode itu untuk melanjutkan.</p>'
+      +'<button class="gbtn alt" id="gSend" type="button">Kirim kode ke email</button>'
+      +'<div id="gCodeRow" hidden><input id="gCode" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Kode verifikasi" aria-label="Kode verifikasi"><button class="gbtn" id="gVerify" type="button">Verifikasi</button></div>'
+      +'<p class="gmsg" id="gMsg" role="status"></p><button class="glink" id="gOut" type="button">Bukan kamu? Keluar</button>';
+    var cd=0,tm=null,sb=$('gSend');
+    function tick(){if(cd<=0){clearInterval(tm);sb.disabled=false;sb.textContent='Kirim ulang kode';return}sb.textContent='Kirim ulang ('+cd+' dtk)';cd--}
+    sb.onclick=async function(){
+      sb.disabled=true;gmsg('Mengirim kode…',true);
+      var r=await db.auth.signInWithOtp({email:email,options:{shouldCreateUser:false}});
+      if(r&&r.error){sb.disabled=false;gmsg(r.error.status===429?'Terlalu sering meminta kode. Tunggu sebentar lalu coba lagi.':'Gagal mengirim kode. Coba lagi nanti.');return}
+      $('gCodeRow').hidden=false;$('gCode').focus();gmsg('Kode terkirim. Cek inbox atau folder spam emailmu.',true);cd=60;clearInterval(tm);tick();tm=setInterval(tick,1000)
+    };
+    $('gVerify').onclick=async function(){
+      var code=$('gCode').value.replace(/\D/g,'');if(code.length<6){gmsg('Masukkan kode 6 digit dari emailmu.');return}
+      var vb=this;vb.disabled=true;gmsg('Memeriksa kode…',true);
+      var r=await db.auth.verifyOtp({email:email,token:code,type:'email'});vb.disabled=false;
+      if(r&&r.error){gmsg('Kode salah atau sudah kedaluwarsa.');return}
+      gmsg('');await checkSession()
+    };
+  }
+  var out=$('gOut');if(out)out.onclick=async function(){await db.auth.signOut();showGate('login')}
+}
+async function send(){if(busy||!currentUser)return;if(GUEST&&(generateMode||pendingImage||pendingFile?.audio)){toast('Gambar, generate foto, dan audio khusus anggota kelas. Masuk dulu ya.');return}let typedText=$('prompt').value.trim();if(generateMode){if(!typedText){toast('Tulis deskripsi foto yang mau dibuat dulu.');return}if(pendingImage||pendingFile){toast('Mode generate foto hanya memakai deskripsi teks. Hapus lampiran dulu.');return}await generateImage(typedText);return}if(pendingFile?.audio){try{busy=true;$('sendBtn').disabled=true;$('status').textContent='Sedang mengubah audio menjadi teks…';const transcript=await transcribeAudio(pendingFile.audio);typedText=[typedText,`[Transkrip ${pendingFile.name}]\n${transcript}`].filter(Boolean).join('\n\n');$('prompt').value=typedText;pendingFile=null;renderFilePreview();busy=false;$('sendBtn').disabled=false;$('status').textContent='Audio berhasil ditranskripsikan';}catch(e){busy=false;$('sendBtn').disabled=false;toast(e.message||'Transkripsi audio gagal');$('status').textContent='Transkripsi gagal';return}}const text=[typedText,pendingFile?`[Isi file ${pendingFile.name}]\\n${pendingFile.text}`:''].filter(Boolean).join('\\n\\n');if(!text&&!pendingImage)return;let chat=chats.find(c=>c.id===activeId);if(!chat){newChat();chat=chats.find(c=>c.id===activeId)}const sentImage=pendingImage;const sentFile=pendingFile;chat.messages.push({role:'user',content:text||'Tolong periksa gambar ini.',image:sentImage?.data||null});if(chat.messages.length===1){const titleSource=typedText||(sentImage?'Foto soal':sentFile?`File: ${sentFile.name}`:'Chat baru');chat.title=titleSource.slice(0,42)+(titleSource.length>42?'…':'')}chat.updated=Date.now();$('prompt').value='';$('prompt').style.height='auto';pendingImage=null;pendingFile=null;renderImagePreview();renderFilePreview();busy=true;$('sendBtn').disabled=true;$('status').textContent='Inside AI sedang berpikir…';renderChat();const typing=document.createElement('div');typing.className='typing';typing.innerHTML='<span class="avatar"><img src="inside-tkj4-profile.jpg" alt="Inside TKJ 4" style="width:100%;height:100%;object-fit:cover;border-radius:inherit"></span><span>Sedang berpikir <span class="typing-dots"><i></i><i></i><i></i></span></span>';$('chatbody').appendChild(typing);$('chatbody').scrollTop=$('chatbody').scrollHeight;
+try{const {data:{session}}=await db.auth.getSession();if(!session&&!GUEST)throw new Error('Sesi login berakhir. Silakan login kembali.');const messages=chat.messages.slice(-12).map(m=>({role:m.role,content:m.role==='user'&&m.image?[{type:'text',text:m.content||'Tolong analisis gambar ini.'},{type:'image_url',image_url:{url:m.image}}]:m.content}));const {data,error}=await callAI(messages);if(error)throw error;const answer=data?.answer;if(typeof answer!=='string'||!answer.trim())throw new Error(data?.error||'AI belum memberikan jawaban.');chat.messages.push({role:'assistant',content:answer.trim()});chat.updated=Date.now();save();renderHistory();renderChat();$('status').textContent='Jawaban siap';if(voiceConversation)speakText(answer.trim());}
 catch(e){console.error(e);let message=(e?.message||'Permintaan gagal.');try{if(e?.context&&typeof e.context.json==='function'){const detail=await e.context.clone().json();if(typeof detail?.error==='string'&&detail.error.trim())message=detail.error.trim()}}catch(_){}if(message.includes('Failed to fetch'))message='Tidak bisa terhubung ke backend. Pastikan Edge Function inside-ai sudah di-deploy dan URL Supabase benar.';chat.messages.push({role:'assistant',content:'Maaf, permintaan belum berhasil: '+message+'\n\nPeriksa Supabase → Edge Functions → inside-ai → Logs. Jangan bagikan API key atau token.'});save();renderHistory();renderChat();$('status').textContent='Perlu pemeriksaan backend'}
 finally{busy=false;$('sendBtn').disabled=false;$('prompt').focus()}}
 
@@ -160,6 +236,12 @@ function renderImagePreview(){const root=$('imagePreview');root.innerHTML='';if(
 var PRIMARY_MODEL = ''; /* isi id model Dattio utama, mis. 'gpt-4o-mini'. Kosong = model pertama dari daftar */
 var __dattioModels = [];
 async function callAI(messages){
+  if(GUEST){
+    if(messages.some(function(m){return Array.isArray(m.content)}))return{data:{error:'Tamu belum bisa kirim gambar. Masuk dengan akun kelas dulu.'},error:null};
+    var gr=await db.functions.invoke('inside-ai-guest',{body:{messages:messages}});
+    if(gr.error){try{var j=await gr.error.context.clone().json();if(j&&j.error)return{data:{error:j.error},error:null}}catch(e){}}
+    return gr;
+  }
   var sel=(document.getElementById('modelSel')||{}).value||'';
   var hasImage=messages.some(function(m){return Array.isArray(m.content)});
   var model=sel&&sel!=='__fallback'?sel:(PRIMARY_MODEL&&__dattioModels.indexOf(PRIMARY_MODEL)>-1?PRIMARY_MODEL:__dattioModels[0]);
@@ -182,7 +264,7 @@ async function callAI(messages){
   async function load(){
     if(loaded)return;
     try{
-      var s=(await db.auth.getSession()).data.session;if(!s)return;
+      var s=(await db.auth.getSession()).data.session;if(!s||GUEST)return;
       var r=await db.functions.invoke('dattio-ai',{body:{action:'models'}});
       var ms=r&&r.data&&r.data.models;if(!Array.isArray(ms)||!ms.length)return;
       loaded=true;__dattioModels=ms;
