@@ -408,7 +408,7 @@ renderProducts();makeBuild();
   scene.add(new THREE.HemisphereLight(0xb8e8ff,0x172033,2));
   const key=new THREE.DirectionalLight(0xffffff,2.4);key.position.set(5,9,7);key.castShadow=true;scene.add(key);
   const rim=new THREE.PointLight(0x35cfff,2.2,18);rim.position.set(-5,3,-3);scene.add(rim);
-  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(.65,1.55,.55);controls.minDistance=5;controls.maxDistance=15;controls.maxPolarAngle=Math.PI*.88;
+  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(.45,1.75,.55);controls.minDistance=5;controls.maxDistance=15;controls.maxPolarAngle=Math.PI*.88;
   const mat=(color,metal=0,rough=.45,transparent=false,opacity=1)=>new THREE.MeshStandardMaterial({color,metalness:metal,roughness:rough,transparent,opacity,side:THREE.DoubleSide});
   const dark=mat(0x101722,.72,.28),edge=mat(0x8795a8,.78,.25),glass=mat(0x4a9fc7,.18,.12,true,.12),board=mat(0x075b3d,.18,.38),cyan=mat(0x22d3ee,.5,.22),gold=mat(0xd6a84e,.8,.22),black=mat(0x05070c,.35,.3),rgbBlue=mat(0x168bff,.35,.22),rgbPurple=mat(0x9b5cff,.35,.22),rgbRed=mat(0xf04462,.35,.22),white=mat(0xdce7f2,.18,.3),rubber=mat(0x171b23,.05,.75),screenOn=mat(0x102b45,.2,.18),screenOff=mat(0x020408,.05,.3);
   const box=(w,h,d,m,x,y,z,parent=scene)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;};
@@ -418,38 +418,41 @@ renderProducts();makeBuild();
   box(8.8,.18,4.8,deskTop,.65,-.08,1.35,group);
   for(const x of [-3.25,4.35])for(const z of [-.45,3.1])box(.12,1.75,.12,deskLeg,x,-1.02,z,group);
   const monitor=new THREE.Group();group.add(monitor);
-  box(2.7,.16,.18,dark,3.35,2.95,-1.55,monitor);
-  box(.16,1.62,.18,dark,3.35,2.16,-1.55,monitor);
-  box(3.15,2.05,.18,black,3.35,3.95,-1.55,monitor);
-  const monitorScreen=box(2.94,1.83,.035,screenOn,3.35,3.97,-1.445,monitor);
-  box(.75,.08,.58,edge,3.35,1.06,-1.45,monitor);
-  box(1.25,.1,.8,dark,3.35,.94,-1.35,monitor);
+  box(2.7,.16,.18,dark,2.65,2.95,-1.55,monitor);
+  box(.16,1.62,.18,dark,2.65,2.16,-1.55,monitor);
+  box(3.15,2.05,.18,black,2.65,3.95,-1.55,monitor);
+  const monitorScreen=box(2.94,1.83,.035,screenOn,2.65,3.97,-1.445,monitor);
+  box(.75,.08,.58,edge,2.65,1.06,-1.45,monitor);
+  box(1.25,.1,.8,dark,2.65,.94,-1.35,monitor);
   // Screen frame accents and startup indicators
-  box(2.65,.025,.012,cyan,3.35,4.88,-1.425,monitor);
-  const screenLed=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),rgbBlue);screenLed.position.set(4.78,3.02,-1.42);monitor.add(screenLed);
+  box(2.65,.025,.012,cyan,2.65,4.88,-1.425,monitor);
+  const screenLed=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),rgbBlue);screenLed.position.set(4.08,3.02,-1.42);monitor.add(screenLed);
   const keyboard=new THREE.Group();group.add(keyboard);
-  box(2.25,.12,.78,black,-.25,.12,2.35,keyboard);
-  for(let r=0;r<4;r++)for(let c=0;c<13;c++)box(.12,.035,.11,(r+c)%4===0?rgbBlue:edge,-1.2+c*.16,.205,2.08+r*.16,keyboard);
+  box(2.25,.12,.78,black,1.55,.12,2.35,keyboard);
+  for(let r=0;r<4;r++)for(let c=0;c<13;c++)box(.12,.035,.11,(r+c)%4===0?rgbBlue:edge,.6+c*.16,.205,2.08+r*.16,keyboard);
   const mouse=new THREE.Group();group.add(mouse);
-  const mouseBody=new THREE.Mesh(new THREE.SphereGeometry(.24,20,14),rubber);mouseBody.scale.set(.78,.45,1.2);mouseBody.position.set(1.25,.22,2.45);mouse.add(mouseBody);
-  box(.018,.012,.19,cyan,1.25,.325,2.42,mouse);
-  let monitorPowered=true;
+  const mouseBody=new THREE.Mesh(new THREE.SphereGeometry(.24,20,14),rubber);mouseBody.scale.set(.78,.45,1.2);mouseBody.position.set(3.15,.22,2.45);mouse.add(mouseBody);
+  box(.018,.012,.19,cyan,3.15,.325,2.42,mouse);
+  let monitorPowered=true,screenMode=0;const screenCanvas=document.createElement('canvas');screenCanvas.width=900;screenCanvas.height=560;const sx=screenCanvas.getContext('2d');const screenTexture=new THREE.CanvasTexture(screenCanvas);monitorScreen.material=new THREE.MeshStandardMaterial({map:screenTexture,emissive:0x172b45,emissiveIntensity:.45,roughness:.35});
+  function drawMonitor(){sx.clearRect(0,0,900,560);if(!monitorPowered){sx.fillStyle='#020408';sx.fillRect(0,0,900,560);screenTexture.needsUpdate=true;return;}if(screenMode===0){sx.fillStyle='#06101d';sx.fillRect(0,0,900,560);sx.fillStyle='#8deaff';sx.font='bold 34px monospace';sx.fillText('INSIDE UEFI  /  SYSTEM CHECK',45,75);sx.fillStyle='#d9e8f7';sx.font='24px monospace';['CPU  DETECTED','MEMORY  16 GB','STORAGE  NVME READY','BOOT DEVICE  WINDOWS BOOT MANAGER'].forEach((t,i)=>sx.fillText(t,55,155+i*62));sx.fillStyle='#6de6ff';sx.fillText('PRESS F2  SETUP     F12  BOOT MENU',55,490);}else if(screenMode===1){sx.fillStyle='#061d35';sx.fillRect(0,0,900,560);sx.fillStyle='#eaf6ff';sx.font='bold 44px Arial';sx.fillText('INSIDE OS SETUP',60,95);sx.font='25px Arial';sx.fillText('Preparing installation environment...',60,155);sx.fillStyle='#233c56';sx.fillRect(60,210,780,18);sx.fillStyle='#42d7ff';sx.fillRect(60,210,585,18);sx.fillText('75%  ·  Virtual installation',60,275);sx.fillText('This is an educational simulation',60,355);}else{const g=sx.createLinearGradient(0,0,900,560);g.addColorStop(0,'#14527b');g.addColorStop(1,'#15224a');sx.fillStyle=g;sx.fillRect(0,0,900,560);sx.fillStyle='#ffffff';sx.font='bold 48px Arial';sx.fillText('Welcome back.',60,110);sx.font='25px Arial';sx.fillText('INSIDE TECHLAB WORKSTATION',62,155);['This PC','Browser','Files','Settings'].forEach((t,i)=>{sx.fillStyle='#1e4566';sx.fillRect(65+i*185,235,145,125);sx.fillStyle='#e8f8ff';sx.font='21px Arial';sx.fillText(t,80+i*185,390)});sx.fillStyle='#071321';sx.fillRect(0,510,900,50);sx.fillStyle='#d9f3ff';sx.font='18px Arial';sx.fillText('Start   Search   Wi-Fi   21:36',30,542);}screenTexture.needsUpdate=true;}
+  drawMonitor();
   // Chassis: open-front frame with a removable glass side door on the camera-facing side.
-  box(3.7,.16,2.8,dark,0,.08,0,group);box(3.7,.16,2.8,dark,0,4.65,0,group);
-  box(.14,4.55,2.8,edge,-1.78,2.35,0,group);box(.14,4.55,2.8,edge,1.78,2.35,0,group);
-  box(3.55,4.45,.12,dark,0,2.35,-1.34,group);
+  const chassis=new THREE.Group();chassis.position.x=-1.55;group.add(chassis);
+  box(3.7,.16,2.8,dark,0,.08,0,chassis);box(3.7,.16,2.8,dark,0,4.65,0,chassis);
+  box(.14,4.55,2.8,edge,-1.78,2.35,0,chassis);box(.14,4.55,2.8,edge,1.78,2.35,0,chassis);
+  box(3.55,4.45,.12,dark,0,2.35,-1.34,chassis);
   // Front fascia with mesh vents and fan rings
-  box(.12,4.35,2.65,dark,-1.83,2.35,0,group);
-  const fanMat=mat(0x1c3448,.4);for(let y of [1.35,2.45,3.55]){const f=new THREE.Mesh(new THREE.TorusGeometry(.38,.045,10,40),cyan);f.position.set(-1.755,y,.15);f.rotation.y=Math.PI/2;group.add(f);const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.12,24),fanMat);hub.rotation.z=Math.PI/2;hub.position.set(-1.74,y,.15);group.add(hub);}
+  box(.12,4.35,2.65,dark,-1.83,2.35,0,chassis);
+  const fanMat=mat(0x1c3448,.4);for(let y of [1.35,2.45,3.55]){const f=new THREE.Mesh(new THREE.TorusGeometry(.38,.045,10,40),cyan);f.position.set(-1.755,y,.15);f.rotation.y=Math.PI/2;chassis.add(f);const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.12,24),fanMat);hub.rotation.z=Math.PI/2;hub.position.set(-1.74,y,.15);chassis.add(hub);}
   // Motherboard tray and board
-  box(2.55,3.45,.12,edge,.15,2.48,-1.18,group);box(2.35,3.2,.07,board,.15,2.48,-1.08,group);
+  box(2.55,3.45,.12,edge,.15,2.48,-1.18,chassis);box(2.35,3.2,.07,board,.15,2.48,-1.08,chassis);
   // decorative traces
-  for(let i=0;i<7;i++)box(.018,2.5,.012,mat(0x2c8c77),-0.85+i*.32,2.5,-1.025,group);
+  for(let i=0;i<7;i++)box(.018,2.5,.012,mat(0x2c8c77),-0.85+i*.32,2.5,-1.025,chassis);
   // PSU bay and shroud
-  box(3.45,.48,2.55,dark,0,.42,0,group);
+  box(3.45,.48,2.55,dark,0,.42,0,chassis);
   // back expansion slots
-  for(let i=0;i<5;i++)box(.08,.12,.65,edge,1.66,.95+i*.18,-.15,group);
-  const doorPivot=new THREE.Group();doorPivot.position.set(-1.88,.1,1.42);group.add(doorPivot);
+  for(let i=0;i<5;i++)box(.08,.12,.65,edge,1.66,.95+i*.18,-.15,chassis);
+  const doorPivot=new THREE.Group();doorPivot.position.set(-1.88,.1,1.42);chassis.add(doorPivot);
   const door=box(3.7,4.45,.055,glass,1.85,2.22,0,doorPivot);
   const doorFrame= new THREE.EdgesGeometry(new THREE.BoxGeometry(3.74,4.5,.07));const outline=new THREE.LineSegments(doorFrame,new THREE.LineBasicMaterial({color:0x62dfff}));outline.position.set(1.85,2.22,0);doorPivot.add(outline);
   let opened=false,exploded=false;
@@ -457,7 +460,7 @@ renderProducts();makeBuild();
   const targets={},slotLabels={};
   const slotDescriptions={Motherboard:'Papan utama · bagian belakang casing',CPU:'Prosesor · di atas motherboard',RAM:'Memori · slot panjang di samping CPU',GPU:'Kartu grafis · slot ekspansi bawah',SSD:'Penyimpanan M.2 · area motherboard',PSU:'Power supply · ruang bawah casing'};
   function makeLabel(title,subtitle){const c=document.createElement('canvas');c.width=512;c.height=128;const x=c.getContext('2d');x.fillStyle='rgba(3,15,28,.92)';x.strokeStyle='#35e7ff';x.lineWidth=5;x.beginPath();x.roundRect(5,5,502,118,18);x.fill();x.stroke();x.fillStyle='#70edff';x.font='bold 34px Arial';x.fillText(title,22,52);x.fillStyle='#e4f5ff';x.font='24px Arial';x.fillText(subtitle,22,91);const tex=new THREE.CanvasTexture(c);const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));sprite.scale.set(2.35,.59,1);sprite.renderOrder=5;return sprite;}
-  Object.entries(slotPositions).forEach(([k,p])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(k==='GPU'?2.15:1.05,k==='GPU'?.52:.72,.2),new THREE.MeshBasicMaterial({color:0x35e7ff,transparent:true,opacity:.22,wireframe:true,depthTest:false}));m.position.copy(p);m.userData.slot=k;m.visible=false;group.add(m);targets[k]=m;const label=makeLabel(k,slotDescriptions[k]);label.position.set(p.x+(k==='GPU'?0:0),p.y+(k==='GPU'?.58:.62),p.z-.12);label.visible=false;group.add(label);slotLabels[k]=label;});
+  Object.entries(slotPositions).forEach(([k,p])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(k==='GPU'?2.15:1.05,k==='GPU'?.52:.72,.2),new THREE.MeshBasicMaterial({color:0x35e7ff,transparent:true,opacity:.22,wireframe:true,depthTest:false}));m.position.copy(p);m.userData.slot=k;m.visible=false;chassis.add(m);targets[k]=m;const label=makeLabel(k,slotDescriptions[k]);label.position.set(p.x+(k==='GPU'?0:0),p.y+(k==='GPU'?.58:.62),p.z-.12);label.visible=false;chassis.add(label);slotLabels[k]=label;});
   const installed={};const partObjects=[];let selected=null,selectedProductName='Model katalog',practice=true,step=0;
   const inventory=document.getElementById('pc3dInventory');const slotButtons=document.getElementById('pc3dSlots');
   const slotMap={Motherboard:'Motherboard',CPU:'CPU',GPU:'GPU',RAM:'RAM',SSD:'SSD',PSU:'PSU'};
@@ -486,9 +489,9 @@ renderProducts();makeBuild();
   function renderSteps(){renderSlotButtons();const order=['Motherboard','CPU','RAM','SSD','GPU','PSU'];const done=order.filter(x=>installed[x]).length;document.getElementById('pc3dProgress').style.width=(done/order.length*100)+'%';document.getElementById('pc3dSteps').innerHTML=order.map((x,i)=>`<div class="pc3d-step ${installed[x]?'done':(practice&&i===step?'active':'')}">${installed[x]?'✓':String(i+1).padStart(2,'0')} · ${x} ${installed[x]?'— terpasang':''}</div>`).join('');}
   function nextHint(){const order=['Motherboard','CPU','RAM','SSD','GPU','PSU'];const next=order.find(x=>!installed[x]);if(!next){msg.textContent='Rakitan virtual selesai! Coba lepas komponen, ubah urutan latihan, atau buat konfigurasi lain.';return;}step=order.indexOf(next);practice=true;renderSteps();msg.textContent='Langkah '+(step+1)+': '+next+'. Seret kartu '+next+' dari katalog ke area slot bercahaya yang sesuai. Kamu dapat memutar casing untuk melihat sudut pemasangan.';}
   document.getElementById('pc3dOpen').onclick=()=>{opened=!opened;doorPivot.rotation.y=opened?-.95:0;document.getElementById('pc3dCaseState').textContent='SIDE PANEL: '+(opened?'OPEN':'CLOSED');document.getElementById('pc3dOpen').textContent=opened?'TUTUP CASING':'BUKA CASING';Object.values(targets).forEach(t=>t.visible=opened&&!installed[t.userData.slot]);Object.entries(slotLabels).forEach(([k,l])=>l.visible=opened&&!installed[k]);msg.textContent=opened?'Panel samping terbuka. Slot pemasangan kini terlihat.':'Panel samping ditutup. Buka kembali untuk memasang komponen.';};
-  document.getElementById('pc3dMonitor').onclick=()=>{monitorPowered=!monitorPowered;monitorScreen.material=monitorPowered?screenOn:screenOff;document.getElementById('pc3dMonitor').textContent='MONITOR: '+(monitorPowered?'ON':'OFF');msg.textContent=monitorPowered?'Monitor menyala. Layar siap menampilkan simulasi desktop.':'Monitor dimatikan.';};
+  document.getElementById('pc3dMonitor').onclick=()=>{if(!monitorPowered){monitorPowered=true;screenMode=0;drawMonitor();msg.textContent='Monitor menyala. Menampilkan pemeriksaan UEFI.';}else{screenMode=(screenMode+1)%3;drawMonitor();msg.textContent=['UEFI / BIOS','OS INSTALLER','DESKTOP'][screenMode]+' ditampilkan pada monitor virtual.';}document.getElementById('pc3dMonitor').textContent='LAYAR: '+['UEFI','INSTALLER','DESKTOP'][screenMode];};
   document.getElementById('pc3dExplode').onclick=()=>{exploded=!exploded;Object.entries(installed).forEach(([slot,obj])=>{obj.position.y=slotPositions[slot].y+(exploded?({Motherboard:0,CPU:.45,RAM:.5,SSD:.45,GPU:-.45,PSU:-.35}[slot]||0):0);});document.getElementById('pc3dExplode').textContent=exploded?'NORMAL VIEW':'EXPLODED VIEW';};
-  document.getElementById('pc3dResetCamera').onclick=()=>{camera.position.set(8.6,6.2,10.8);controls.target.set(.65,1.55,.55);controls.update();};
+  document.getElementById('pc3dResetCamera').onclick=()=>{camera.position.set(8.6,6.2,10.8);controls.target.set(.45,1.75,.55);controls.update();};
   document.getElementById('pc3dMode').onclick=()=>{practice=!practice;msg.textContent=practice?'Mode latihan aktif. Gunakan PETUNJUK LANGKAH untuk mengikuti urutan pemasangan.':'Mode bebas aktif. Pasang komponen dengan urutan pilihanmu.';renderSteps();};
   document.getElementById('pc3dNext').onclick=nextHint;
   document.getElementById('pc3dClear').onclick=()=>{Object.keys(installed).forEach(removePart);step=0;msg.textContent='Semua komponen dilepas. Casing siap dirakit ulang.';};
