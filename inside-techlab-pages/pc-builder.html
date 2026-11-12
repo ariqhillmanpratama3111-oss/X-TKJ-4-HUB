@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080b16">
+<link rel="icon" type="image/png" sizes="256x256" href="../inside-tkj4-favicon.png">
+<link rel="apple-touch-icon" href="../inside-tkj4-favicon.png">
+
 <title>Inside TechLab — Build. Learn. Diagnose.</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
@@ -51,6 +54,13 @@ body[data-page="troubleshooting"] .hero,body[data-page="troubleshooting"] .stats
 body[data-page="software"] .hero,body[data-page="software"] .stats,body[data-page="software"] .modules,body[data-page="software"] #hardware,body[data-page="software"] .feature-wrap,body[data-page="software"] #storeLocator,body[data-page="software"] .notice{display:none!important}
 body[data-page="software"] #softwareAcademy{display:block!important}
 @media(max-width:600px){.software-grid{grid-template-columns:1fr}.global-ai{right:12px;bottom:12px}.page-nav{padding:10px 12px}}
+
+
+.assembly3d-wrap{margin-top:24px;padding:20px;border:1px solid #35e7ff35;border-radius:16px;background:linear-gradient(145deg,#0e1929,#0a101d)}
+.assembly3d-heading{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:15px}.assembly3d-heading h3{font:700 18px Orbitron;margin:7px 0}.assembly3d-heading p,.assembly3d-controls p{font-size:11px;color:var(--muted);line-height:1.65;margin:6px 0}
+.assembly3d-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr);gap:14px}.assembly3d-view{position:relative;min-height:420px;border:1px solid #35e7ff30;border-radius:13px;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#1b3550,#0a1220 68%)}#pc3dCanvas{position:absolute;inset:0;min-height:420px;touch-action:none}#pc3dCanvas canvas{display:block;width:100%;height:100%}.assembly3d-hint{position:absolute;top:12px;left:13px;z-index:2;font:700 9px Orbitron;letter-spacing:1px;color:#9fb7d2;pointer-events:none}.assembly3d-status{position:absolute;bottom:11px;left:13px;z-index:2;font-size:10px;color:#9fb7d2;pointer-events:none}
+.assembly3d-controls{padding:15px;border:1px solid var(--line);border-radius:12px;background:#0a1220}.assembly3d-controls h4{font:700 11px Orbitron;color:var(--cyan);margin:0}.assembly3d-parts{display:grid;gap:7px;margin:14px 0}.part-toggle{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;padding:10px;border:1px solid var(--line);border-radius:8px;background:#111c2e;color:#dce9fa;font-size:10px;cursor:pointer}.part-toggle span{font:700 8px Orbitron;color:#8b9ab5}.part-toggle.active{border-color:#35e7ff66;background:#10293a}.part-toggle.active span{color:#7cefc1}.part-toggle:disabled{opacity:.45;cursor:not-allowed}.assembly3d-tip{min-height:75px;padding:11px;border-radius:9px;background:#121d30;color:#aebed3;font-size:10px;line-height:1.65}.assembly3d-reset{width:100%;margin-top:10px;padding:10px;border:1px solid #a879ff55;border-radius:8px;background:#a879ff12;color:#d5c0ff;font-size:9px;font-weight:800;cursor:pointer}.assembly3d-disclaimer{font-size:9px;color:#8b9ab5;line-height:1.6;margin:12px 0 0}
+@media(max-width:760px){.assembly3d-layout{grid-template-columns:1fr}.assembly3d-view,#pc3dCanvas{min-height:340px}.assembly3d-heading{flex-direction:column}.assembly3d-wrap{padding:13px}}
 
 </style>
 </head>
@@ -119,6 +129,25 @@ body[data-page="software"] #softwareAcademy{display:block!important}
         <p class="build-note">Builder memakai katalog demo terbatas. Hasil memeriksa socket, tipe RAM, dan estimasi kelas watt PSU; BIOS, konektor, dimensi, harga, dan stok tetap wajib diverifikasi sebelum membeli.</p>
       </div>
       <div class="build-result" id="buildResult" aria-live="polite"><h4>YOUR BUILD SUMMARY</h4><p class="feature-empty">Tekan “Buat Rekomendasi” untuk menyusun contoh PC sesuai budget.</p></div>
+    </div>
+    <div class="assembly3d-wrap">
+      <div class="assembly3d-heading"><div><div class="section-tag">INTERACTIVE HARDWARE WORKBENCH / 3D</div><h3>3D PC Assembly Simulator</h3><p>Pasang dan lepaskan komponen pada casing virtual. Seret untuk memutar tampilan, gunakan scroll untuk zoom.</p></div><span class="phase-tag">BETA 3D</span></div>
+      <div class="assembly3d-layout">
+        <div class="assembly3d-view"><div class="assembly3d-hint">DRAG TO ROTATE · SCROLL TO ZOOM</div><div id="pc3dCanvas" role="img" aria-label="Model 3D casing komputer dengan komponen yang dapat dipasang"></div><div class="assembly3d-status" id="pc3dStatus">Menyiapkan model 3D...</div></div>
+        <aside class="assembly3d-controls"><h4>COMPONENT INSTALLER</h4><p>Pilih komponen, lalu tekan pasang atau lepaskan.</p>
+          <div class="assembly3d-parts" id="pc3dParts">
+            <button class="part-toggle active" data-part="motherboard">Motherboard <span>TERPASANG</span></button>
+            <button class="part-toggle active" data-part="cpu">CPU <span>TERPASANG</span></button>
+            <button class="part-toggle active" data-part="ram">RAM <span>TERPASANG</span></button>
+            <button class="part-toggle active" data-part="gpu">GPU <span>TERPASANG</span></button>
+            <button class="part-toggle active" data-part="ssd">SSD <span>TERPASANG</span></button>
+            <button class="part-toggle active" data-part="psu">PSU <span>TERPASANG</span></button>
+          </div>
+          <div class="assembly3d-tip" id="pc3dTip">Motherboard menjadi dasar pemasangan komponen. Pilih bagian untuk melihat fungsi dan catatan pemasangannya.</div>
+          <button class="assembly3d-reset" id="pc3dReset">RESET SEMUA KOMPONEN ↻</button>
+        </aside>
+      </div>
+      <p class="assembly3d-disclaimer">Simulasi edukasi 3D, bukan panduan servis langsung. Untuk perangkat nyata, matikan dan lepaskan sumber listrik sebelum memasang komponen. Jangan membuka unit PSU.</p>
     </div>
   </section>
 
@@ -370,5 +399,44 @@ renderProducts();makeBuild();
 <script>
 (()=>{const q=document.getElementById('softwareQuestion'),answers=document.getElementById('softwareAnswers'),feedback=document.getElementById('softwareFeedback'),next=document.getElementById('softwareNext');if(!q)return;const quiz=[['Apa fungsi utama driver?',['Mengatur tampilan desktop saja','Menjembatani sistem operasi dengan perangkat keras','Mengganti fungsi prosesor'],1,'Driver membantu OS berkomunikasi dengan perangkat keras.'],['File system yang umum digunakan Windows modern adalah...',['NTFS','ext4','HFS+'],0,'NTFS adalah file system yang umum digunakan Windows.'],['Apa fungsi DNS?',['Mengatur kecepatan RAM','Menerjemahkan nama domain menjadi alamat IP','Menyimpan file sementara'],1,'DNS membantu menemukan alamat IP dari nama domain.'],['Firmware yang lebih modern dibanding BIOS legacy adalah...',['UEFI','HTML','DHCP'],0,'UEFI adalah antarmuka firmware modern pada banyak komputer.'],['Apa praktik keamanan software yang baik?',['Memasang file dari sumber acak','Menonaktifkan semua update','Memperbarui aplikasi dari sumber resmi'],2,'Update resmi membantu memperbaiki bug dan celah keamanan.']];let index=0,score=0,done=false;function render(){done=false;const item=quiz[index];q.textContent=(index+1)+'. '+item[0];answers.innerHTML='';item[1].forEach((a,i)=>{const b=document.createElement('button');b.textContent=a;b.onclick=()=>{if(done)return;done=true;const ok=i===item[2];if(ok)score++;feedback.textContent=(ok?'Benar! ':'Belum tepat. ')+item[3]+' Skor: '+score+'/'+quiz.length;Array.from(answers.children).forEach((x,j)=>{x.disabled=true;if(j===item[2])x.style.borderColor='#4bd7a0';});next.style.display='inline-block';next.textContent=index===quiz.length-1?'SELESAI ↗':'PERTANYAAN BERIKUTNYA ↗';};answers.appendChild(b);});feedback.textContent='Pilih jawaban yang paling tepat.';next.style.display='none';}next.addEventListener('click',()=>{if(index<quiz.length-1){index++;render();}else{q.textContent='Kuis selesai! Skor kamu '+score+'/'+quiz.length+'.';answers.innerHTML='';feedback.textContent='Ulangi materi jika masih ada konsep yang belum dipahami.';next.textContent='ULANGI KUIS';next.onclick=()=>{index=0;score=0;next.onclick=null;render();};}});render();})();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(()=>{
+ const host=document.getElementById('pc3dCanvas');if(!host)return;
+ const status=document.getElementById('pc3dStatus'),tip=document.getElementById('pc3dTip');
+ if(!window.THREE){status.textContent='Library 3D belum termuat. Periksa koneksi internet.';return;}
+ const T=window.THREE,scene=new T.Scene();scene.background=new T.Color(0x0b1422);
+ const camera=new T.PerspectiveCamera(38,1,.1,100);camera.position.set(5.3,3.5,6.8);camera.lookAt(0,1.45,0);
+ const renderer=new T.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(renderer.domElement);
+ scene.add(new T.HemisphereLight(0x9bdcff,0x182033,2));const key=new T.DirectionalLight(0xffffff,2.3);key.position.set(4,7,5);key.castShadow=true;scene.add(key);const rim=new T.PointLight(0x35e7ff,20,12);rim.position.set(-3,3,2);scene.add(rim);
+ const floor=new T.Mesh(new T.PlaneGeometry(30,30),new T.MeshStandardMaterial({color:0x0b1422,roughness:.9}));floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;scene.add(floor);
+ const group=new T.Group();scene.add(group);
+ const mat=(color,metal=0.25,rough=.55,transparent=false,opacity=1)=>new T.MeshStandardMaterial({color,metalness:metal,roughness:rough,transparent,opacity});
+ const dark=mat(0x172338,.65,.35),edge=mat(0x52718f,.7,.3),board=mat(0x174b48,.25,.65),cyan=mat(0x35e7ff,.45,.25),gold=mat(0xc9a44d,.65,.28),black=mat(0x090e18,.25,.65);
+ const box=(w,h,d,m,x,y,z,parent=group)=>{const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;};
+ // Tower case: open-side frame lets learners see the installed parts.
+ box(2.65,.12,1.65,dark,0,0,0);box(2.65,.12,1.65,dark,0,3.35,0);box(.12,3.35,1.65,edge,-1.265,1.67,0);box(.12,3.35,1.65,edge,1.265,1.67,0);box(2.65,3.35,.12,dark,0,1.67,-.765);box(2.65,3.35,.1,dark,0,1.67,.78);
+ // Subtle front fan rings.
+ const fans=[];for(let i=0;i<3;i++){const f=new T.Mesh(new T.TorusGeometry(.34,.045,10,36),cyan);f.position.set(0,.62+i*.92,.86);group.add(f);fans.push(f);const hub=new T.Mesh(new T.CylinderGeometry(.09,.09,.06,24),dark);hub.rotation.x=Math.PI/2;hub.position.set(0,.62+i*.92,.86);group.add(hub);}
+ const parts={};
+ parts.motherboard=new T.Group();box(1.8,2.55,.09,board,0,1.68,-.58,parts.motherboard);for(let i=0;i<10;i++)box(.12,.12,.025,gold,-.78+(i%5)*.32,.55+Math.floor(i/5)*.45,-.51,parts.motherboard);group.add(parts.motherboard);
+ parts.cpu=new T.Group();box(.52,.52,.18,edge,-.25,2.42,-.43,parts.cpu);box(.36,.36,.04,gold,-.25,2.42,-.315,parts.cpu);group.add(parts.cpu);
+ parts.ram=new T.Group();for(let i=0;i<2;i++){box(.13,1.05,.12, i?cyan:edge,.35+i*.24,2.05,-.43,parts.ram);for(let j=0;j<5;j++)box(.09,.08,.13,gold,.35+i*.24,1.62+j*.17,-.43,parts.ram);}group.add(parts.ram);
+ parts.gpu=new T.Group();box(1.65,.34,.52,dark,.12,1.12,.02,parts.gpu);box(1.22,.08,.54,cyan,.12,1.32,.02,parts.gpu);for(let i=0;i<2;i++){const fan=new T.Mesh(new T.TorusGeometry(.16,.025,8,24),edge);fan.position.set(-.25+i*.72,1.12,.3);parts.gpu.add(fan);}group.add(parts.gpu);
+ parts.ssd=new T.Group();box(.72,.12,.28,black,.63,2.88,-.38,parts.ssd);box(.22,.035,.18,gold,.63,2.96,-.38,parts.ssd);group.add(parts.ssd);
+ parts.psu=new T.Group();box(1.05,.56,1.18,dark,0,.38,-.02,parts.psu);const psuf=new T.Mesh(new T.TorusGeometry(.23,.035,8,28),edge);psuf.rotation.x=Math.PI/2;psuf.position.set(0,.68,.58);parts.psu.add(psuf);group.add(parts.psu);
+ const info={motherboard:'Motherboard menjadi papan utama dan tempat CPU, RAM, serta kartu ekspansi terhubung.',cpu:'CPU dipasang pada socket motherboard yang sesuai. Periksa orientasi dan dukungan BIOS sebelum pemasangan nyata.',ram:'RAM dipasang pada slot DIMM. Perhatikan generasi DDR dan susunan slot yang direkomendasikan motherboard.',gpu:'GPU masuk ke slot PCIe x16. Pastikan panjang kartu, ruang casing, dan kebutuhan konektor daya sesuai.',ssd:'SSD M.2 dipasang pada slot M.2 yang mendukung jenis drive tersebut. Posisi dan panjang drive perlu dicocokkan.',psu:'PSU memasok daya ke sistem. Gunakan kabel bawaan yang cocok dan jangan pernah membuka casing PSU.'};
+ const installed={motherboard:true,cpu:true,ram:true,gpu:true,ssd:true,psu:true};
+ const buttons=[...document.querySelectorAll('.part-toggle')];
+ function refresh(){buttons.forEach(b=>{const k=b.dataset.part;b.classList.toggle('active',installed[k]);b.querySelector('span').textContent=installed[k]?'TERPASANG':'DILEPAS';b.disabled=k!=='motherboard'&&!installed.motherboard;});Object.keys(parts).forEach(k=>parts[k].visible=installed[k]);status.textContent=Object.values(installed).filter(Boolean).length+' / 6 komponen terpasang';}
+ buttons.forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.part;if(k==='motherboard'&&installed[k]&&Object.keys(installed).some(x=>x!=='motherboard'&&installed[x])){tip.textContent='Motherboard adalah fondasi simulasi. Lepaskan komponen lain terlebih dahulu sebelum melepas motherboard.';return;}if(k==='motherboard'&&!installed[k]&&Object.keys(installed).some(x=>x!=='motherboard'&&installed[x])){tip.textContent='Pasang kembali motherboard setelah semua komponen lain dilepas.';return;}installed[k]=!installed[k];tip.textContent=info[k];refresh();}));
+ document.getElementById('pc3dReset').addEventListener('click',()=>{Object.keys(installed).forEach(k=>installed[k]=true);tip.textContent='Semua komponen dikembalikan ke posisi awal.';refresh();});
+ let dragging=false,lastX=0,lastY=0,rotY=.48,rotX=0,zoom=1.0;renderer.domElement.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;renderer.domElement.setPointerCapture(e.pointerId);});renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;rotY+=(e.clientX-lastX)*.009;rotX=Math.max(-.45,Math.min(.45,rotX+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;});renderer.domElement.addEventListener('pointerup',()=>dragging=false);renderer.domElement.addEventListener('pointercancel',()=>dragging=false);renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.72,Math.min(1.5,zoom+e.deltaY*.001));},{passive:false});
+ function resize(){const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}new ResizeObserver(resize).observe(host);resize();
+ function animate(){requestAnimationFrame(animate);group.rotation.y=rotY;group.rotation.x=rotX;camera.position.set(5.3*zoom,3.5*zoom,6.8*zoom);camera.lookAt(0,1.65,0);renderer.render(scene,camera);}refresh();tip.textContent=info.motherboard+' Seret model untuk memutar tampilan.';animate();
+})();
+</script>
+
 </body>
 </html>
