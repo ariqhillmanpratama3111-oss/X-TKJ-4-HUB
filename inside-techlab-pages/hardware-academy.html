@@ -68,6 +68,32 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 .hw-clean .lab3d-controls{justify-content:center;margin:14px 0}.hw-parts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:12px}.hw-parts .lab3d-hotspot{position:static;text-align:left;border-radius:9px;padding:11px 9px;background:#162638;border:1px solid #39536a;display:flex;flex-direction:column;gap:6px;min-height:58px}.hw-parts .lab3d-hotspot b{color:#55e5ef;font:800 10px Orbitron}.hw-parts .lab3d-hotspot:hover,.hw-parts .lab3d-hotspot:focus{background:#1d3a50;border-color:#52ddea;outline:none}.hw-clean .lab3d-info{background:#101e2c;border:1px solid #30485b;min-height:68px}.hw-clean .lab3d-info b{color:#53e3ef}
 @media(max-width:700px){.hw-parts{grid-template-columns:repeat(2,minmax(0,1fr))}.hw-clean .lab3d-stage{height:330px}.hw-clean .lab3d-object{transform:scale(.88) rotateX(-10deg) rotateY(-22deg)}}
 
+
+/* INSIDE TECHLAB 2.0 */
+.level-panel{margin:18px 0;padding:16px;border:1px solid #35e7ff35;border-radius:13px;background:#0b1423}
+.level-track{height:8px;background:#202b3d;border-radius:20px;overflow:hidden;margin:10px 0}.level-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#35e7ff,#a879ff)}
+.level-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:11px;color:#b7c7da}
+.lab-workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:14px;margin-top:16px}
+.lab-screen{min-height:300px;border:1px solid #39546c;border-radius:12px;background:radial-gradient(ellipse at 50% 0,#1a3a54,#08111d 70%);padding:18px;color:#e8f6ff;display:flex;flex-direction:column;justify-content:center}
+.lab-screen h3{font:700 18px Orbitron;margin:0 0 12px;color:#83eaff}.lab-screen p,.lab-screen li{font-size:12px;line-height:1.7;color:#c2d3e5}
+.lab-controls{padding:16px;border:1px solid var(--line);border-radius:12px;background:#0b1423}
+.lab-controls button,.lab-choice{display:block;width:100%;text-align:left;margin:8px 0;padding:11px;border:1px solid #334a60;border-radius:9px;background:#142338;color:#eaf4ff;cursor:pointer;font-size:11px}
+.lab-controls button.active,.lab-controls button:hover,.lab-choice:hover{border-color:#35e7ff;color:#72edff}
+.lab-feedback{padding:12px;border-radius:9px;background:#12283a;color:#cfe8f4;font-size:11px;line-height:1.7;margin-top:10px}
+.hw-model-selector{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.hw-model-selector button{background:#152538;color:#dcefff;border:1px solid #3c5267;border-radius:8px;padding:9px 12px;cursor:pointer}.hw-model-selector button.active{border-color:#35e7ff;color:#65eaff}
+.network-stage{min-height:340px;position:relative;overflow:hidden;border:1px solid #314a61;border-radius:12px;background:linear-gradient(145deg,#0c1728,#111d2b);padding:20px}
+.net-node{position:absolute;min-width:90px;padding:12px 8px;text-align:center;border:1px solid #4d7793;border-radius:10px;background:#142c40;color:#d9f6ff;font-size:11px;box-shadow:0 5px 18px #0006;cursor:pointer}.net-node small{display:block;color:#83b5d0;font-size:9px;margin-top:5px}.net-node.selected{border-color:#46f0dc;box-shadow:0 0 20px #35e7ff55}
+.net-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.net-cable{stroke:#35e7ff;stroke-width:3;stroke-dasharray:7 5;opacity:.85}
+@media(max-width:760px){.lab-workspace{grid-template-columns:1fr}.network-stage{min-height:390px}.net-node{min-width:78px;padding:9px 5px;font-size:10px}}
+
+</style>
+
+<style>
+#hwModelShape{transition:transform .15s,background .2s}#hwModelShape.ram{width:42px!important;height:155px!important;border-radius:5px!important;background:linear-gradient(90deg,#c8d1d5,#394a57)!important}
+#hwModelShape.cpu{width:115px!important;height:115px!important;background:linear-gradient(145deg,#d4d9df,#26313c)!important;border:8px solid #8b969f!important}
+#hwModelShape.gpu{width:210px!important;height:80px!important;background:linear-gradient(145deg,#394c5d,#101820)!important;border:6px solid #8999a4!important}
+#hwModelShape.ssd{width:200px!important;height:48px!important;background:linear-gradient(90deg,#245e7d,#111d29)!important;border-radius:5px!important}
+#hwModelShape.psu{width:150px!important;height:120px!important;background:linear-gradient(145deg,#4b5963,#111820)!important;border-radius:10px!important}
 </style>
 </head>
 <body data-page="hardware">
@@ -85,7 +111,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
     </div>
     <div class="hero-card"><div class="chip">TECHLAB / OVERVIEW</div><div class="core-graphic">⌘</div><div><strong>YOUR DIGITAL WORKBENCH</strong><br><small>Learn every component. Understand every connection.</small></div></div>
   </section>
-  <nav class="page-nav"><a class="active" href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a></nav>
+  <nav class="page-nav"><a href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a><a href="network-academy.html">NETWORK</a></nav><section class="level-panel" id="techlabLevelPanel"><div class="level-meta"><b>TECHLAB SKILL LEVEL</b><span id="tlXpText">XP: 0 · BEGINNER</span></div><div class="level-track"><span id="tlXpBar"></span></div><div class="level-meta"><span id="tlLevelText">Level 1 · Beginner</span><span id="tlNextText">100 XP menuju Basic</span></div></section>
   <section class="stats">
     <div class="stat"><b>06</b><span>HARDWARE CATEGORIES</span></div><div class="stat"><b>03</b><span>COMPONENT TIERS</span></div><div class="stat"><b>∞</b><span>KNOWLEDGE TO EXPLORE</span></div>
   </section>
@@ -106,7 +132,22 @@ body[data-page="software"] #softwareAcademy{display:block!important}
   <div class="hw-parts"><button class="lab3d-hotspot" onclick="hardwarePart('CPU / SOCKET','Socket prosesor adalah tempat CPU dipasang. Bentuk socket harus cocok dengan generasi prosesor dan motherboard.')"><b>01</b> CPU / SOCKET</button><button class="lab3d-hotspot" onclick="hardwarePart('RAM / DIMM','Slot DIMM menampung modul RAM. Periksa generasi DDR dan panduan slot dual-channel pada motherboard.')"><b>02</b> RAM / DIMM</button><button class="lab3d-hotspot" onclick="hardwarePart('PCIe / GPU','Slot PCI Express x16 biasanya digunakan kartu grafis desktop. Pastikan panjang kartu dan ruang casing mencukupi.')"><b>03</b> PCIe / GPU</button><button class="lab3d-hotspot" onclick="hardwarePart('M.2 SSD','Slot M.2 dapat mendukung SSD NVMe atau SATA, tergantung spesifikasi motherboard.')"><b>04</b> M.2 SSD</button><button class="lab3d-hotspot" onclick="hardwarePart('CHIPSET','Chipset membantu menyediakan fitur I/O dan konektivitas pada motherboard.')"><b>05</b> CHIPSET</button></div>
   <div class="lab3d-info" id="hardwareInfo">Pilih salah satu komponen di bawah untuk melihat fungsi dan hal yang perlu diperiksa.</div><div class="lab3d-instruction">Drag area motherboard untuk memutar tampilan. Model ini merupakan visual edukasi skematis, bukan replika CAD.</div>
 </section>
-  <section id="hardware">
+  
+<section class="feature-wrap" id="componentExplorer3D">
+ <div class="section-head"><div><div class="section-tag">ISOLATED COMPONENT VIEW / 3D</div><h2>Component Explorer</h2><p>Pilih komponen untuk melihat model edukasi, bagian penting, fungsi, dan cara mengenal konektornya.</p></div><span class="phase-tag">ROTATE · INSPECT · LEARN</span></div>
+ <div class="feature-panel">
+  <div class="hw-model-selector"><button data-hwmodel="cpu" class="active">CPU</button><button data-hwmodel="ram">RAM</button><button data-hwmodel="gpu">GPU</button><button data-hwmodel="ssd">NVMe SSD</button><button data-hwmodel="psu">PSU</button><button data-hwmodel="board">Motherboard</button></div>
+  <div class="lab-workspace"><div class="lab-screen" style="align-items:center;text-align:center;min-height:330px">
+   <div id="hwIsolatedModel" style="width:240px;height:170px;display:grid;place-items:center;position:relative;perspective:700px;touch-action:pan-y">
+    <div id="hwModelShape" style="width:180px;height:115px;border:8px solid #8da1ad;border-radius:12px;background:linear-gradient(145deg,#1a7659,#123b35);box-shadow:15px 18px 0 #071019,0 18px 38px #0009;transform:rotateX(18deg) rotateY(-25deg);display:grid;place-items:center;color:#e9ffff;font:800 15px monospace">MOTHERBOARD</div>
+   </div><p id="hwModelCaption">Model visual edukasi · drag untuk memutar</p>
+   <div class="hw-model-selector"><button id="hwTurnLeft">↶ Rotate</button><button id="hwTurnRight">Rotate ↷</button><button id="hwModelReset">Reset view</button></div>
+  </div>
+  <div class="lab-controls"><b id="hwModelTitle">MOTHERBOARD</b><p id="hwModelDesc" style="color:#b8c8d9;font-size:11px;line-height:1.7">Papan utama yang menghubungkan komponen komputer.</p><div id="hwModelParts"></div><div class="lab-feedback" id="hwPartInfo">Pilih bagian komponen untuk membaca fungsi dan hal yang perlu diperhatikan.</div></div></div>
+  <div class="software-quiz" style="margin-top:15px"><h3>HARDWARE CHECKPOINT</h3><p id="hwQuizQuestion">Memuat pertanyaan...</p><div id="hwQuizAnswers"></div><p class="build-note" id="hwQuizFeedback">Jawab untuk menguji pemahamanmu.</p><button class="feature-btn" id="hwQuizNext" style="display:none">PERTANYAAN BERIKUTNYA ↗</button></div>
+ </div>
+</section>
+<section id="hardware">
     <div class="section-head"><div><div class="section-tag">HARDWARE DATABASE / 001</div><h2>Explore Components</h2><p>Pilih kategori hardware untuk mempelajari fungsi dan spesifikasinya.</p></div><input class="search" id="searchInput" placeholder="Cari komponen..." aria-label="Cari komponen"></div>
     <div class="filters" id="filters">
       <button class="filter active" data-filter="all">ALL COMPONENTS</button>
@@ -363,6 +404,7 @@ const troubleData=[
   {label:'Membuka adaptor Wi-Fi dan mengutak-atik rangkaian saat laptop menyala.',ok:false,why:'Tidak aman dan tidak diperlukan. Jangan membongkar perangkat saat menyala; pemeriksaan internal harus dilakukan teknisi kompeten.'}
  ]}
 ];
+troubleData.forEach(c=>{c.options.sort(()=>Math.random()-.5)});
 let troubleCurrent=0,troubleDone=new Set(),troubleScore=0,troubleAnswered={};
 function renderTrouble(){
  const c=troubleData[troubleCurrent],main=document.getElementById('troubleMain');
@@ -398,6 +440,21 @@ renderProducts();makeBuild();
 </script>
 <script>
 (()=>{let ry=-25,scale=1,drag=false,x=0;const obj=document.getElementById('hardwareObject'),stage=document.getElementById('hardwareStage');if(!obj||!stage)return;function draw(){obj.style.transform=`scale(${scale}) rotateX(-13deg) rotateY(${ry}deg)`}window.hardwareRotate=n=>{ry+=n;draw()};window.hardwareZoom=n=>{scale=Math.max(.65,Math.min(1.35,scale*n));draw()};window.rotateHardwareReset=()=>{ry=-25;scale=1;draw()};window.hardwarePart=(name,desc)=>{document.getElementById('hardwareInfo').innerHTML='<b>'+name+'</b><br>'+desc};stage.addEventListener('pointerdown',e=>{drag=true;x=e.clientX;stage.setPointerCapture(e.pointerId)});stage.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-x)*.55;x=e.clientX;draw()});stage.addEventListener('pointerup',()=>drag=false);stage.addEventListener('pointercancel',()=>drag=false)})();
+</script>
+<script>(()=>{const e=document.getElementById('tlXpText');if(!e)return;let xp=0;const tiers=[['BEGINNER','Level 1 · Beginner'],['BASIC','Level 2 · Basic'],['INTERMEDIATE','Level 3 · Intermediate'],['ADVANCED','Level 4 · Advanced'],['EXPERT','Level 5 · Expert']];function paint(){let t=Math.min(4,Math.floor(xp/100));e.textContent='XP: '+xp+' · '+tiers[t][0];document.getElementById('tlLevelText').textContent=tiers[t][1];document.getElementById('tlXpBar').style.width=(xp%100)+'%';document.getElementById('tlNextText').textContent=t===4?'Level maksimum tercapai':(100-xp%100)+' XP menuju '+tiers[t+1][0].toLowerCase()}window.techlabAwardLocalXP=n=>{xp+=Math.max(0,Number(n)||0);paint()};paint()})();</script>
+
+<script>
+(()=>{const shape=document.getElementById('hwModelShape');if(!shape)return;const data={
+cpu:['CPU / PROCESSOR','Unit pemroses instruksi. Perhatikan penanda orientasi dan kecocokan socket.',['Heat spreader|Menyebarkan panas dari chip menuju pendingin.','Contact pads / pins|Antarmuka listrik ke socket; jangan disentuh atau dipaksa.','Notch / triangle|Penanda orientasi saat pemasangan.']],
+ram:['RAM / DIMM','Memori sementara yang menyimpan data aktif agar dapat diakses CPU.',['Memory chips|Menyimpan bit data sementara.','Edge connector|Kontak yang masuk ke slot DIMM.','Notch|Takik penentu orientasi dan generasi modul.']],
+gpu:['GRAPHICS CARD','Kartu ekspansi untuk pemrosesan grafis dan komputasi paralel.',['Fans & heatsink|Membantu membuang panas GPU.','PCIe edge|Terhubung ke slot PCI Express.','Display outputs|Mengirim sinyal gambar ke monitor.']],
+ssd:['M.2 NVMe SSD','Penyimpanan solid-state yang menggunakan protokol NVMe melalui PCIe pada model yang sesuai.',['Controller|Mengatur operasi baca/tulis.','NAND flash|Menyimpan data tanpa daya.','M.2 connector|Terhubung ke slot M.2 yang kompatibel.']],
+psu:['POWER SUPPLY','Mengubah daya AC menjadi beberapa jalur DC untuk komponen PC.',['AC inlet|Tempat kabel daya masuk.','DC output cables|Menyalurkan daya ke motherboard dan perangkat.','Fan|Membantu pendinginan PSU.']],
+board:['MOTHERBOARD','Papan utama yang menyediakan socket, slot, konektor, dan jalur komunikasi.',['CPU socket|Tempat prosesor yang kompatibel dipasang.','DIMM slots|Tempat modul RAM dipasang.','PCIe slot|Tempat kartu ekspansi seperti GPU.','SATA / M.2|Konektor untuk perangkat penyimpanan.']]};
+let ry=-25,rx=18,drag=false,last=0;function show(k){const d=data[k];shape.className=k;shape.textContent=d[0].split(' ')[0];document.getElementById('hwModelTitle').textContent=d[0];document.getElementById('hwModelDesc').textContent=d[1];document.getElementById('hwModelParts').innerHTML=d[2].map((x,i)=>'<button class="lab-choice" data-hwpart="'+i+'">'+x.split('|')[0]+'</button>').join('');document.getElementById('hwPartInfo').textContent='Pilih bagian komponen untuk melihat penjelasannya.';document.querySelectorAll('[data-hwmodel]').forEach(b=>b.classList.toggle('active',b.dataset.hwmodel===k));document.querySelectorAll('[data-hwpart]').forEach(b=>b.onclick=()=>document.getElementById('hwPartInfo').innerHTML='<b>'+d[2][+b.dataset.hwpart].split('|')[0]+'</b><br>'+d[2][+b.dataset.hwpart].split('|')[1]);draw();}
+function draw(){shape.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`}document.querySelectorAll('[data-hwmodel]').forEach(b=>b.onclick=()=>show(b.dataset.hwmodel));document.getElementById('hwTurnLeft').onclick=()=>{ry-=18;draw()};document.getElementById('hwTurnRight').onclick=()=>{ry+=18;draw()};document.getElementById('hwModelReset').onclick=()=>{ry=-25;rx=18;draw()};const stage=document.getElementById('hwIsolatedModel');stage.addEventListener('pointerdown',e=>{drag=true;last=e.clientX;stage.setPointerCapture(e.pointerId)});stage.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-last)*.7;last=e.clientX;draw()});stage.addEventListener('pointerup',()=>drag=false);stage.addEventListener('pointercancel',()=>drag=false);show('cpu');
+const qs=[['Komponen apa yang menyimpan data sementara saat program berjalan?',['SSD','RAM','PSU'],1],['Konektor kartu grafis desktop umumnya dipasang pada...',['PCIe x16','SATA power','DIMM'],0],['Bagian CPU yang membantu menyebarkan panas adalah...',['Heat spreader','NAND flash','RJ45'],0],['Protokol yang umum dipakai SSD M.2 berbasis PCIe adalah...',['NVMe','DHCP','HDMI'],0],['Fungsi utama PSU adalah...',['Memproses grafis','Mengubah AC menjadi DC','Menyimpan file'],1]];let qi=0,score=0,answered=false;function quiz(){answered=false;const q=qs[qi],order=q[1].map((v,i)=>({v,ok:i===q[2]})).sort(()=>Math.random()-.5);document.getElementById('hwQuizQuestion').textContent=q[0];const a=document.getElementById('hwQuizAnswers');a.innerHTML='';order.forEach(o=>{const b=document.createElement('button');b.className='lab-choice';b.textContent=o.v;b.onclick=()=>{if(answered)return;answered=true;if(o.ok){score++;if(window.techlabAwardLocalXP)window.techlabAwardLocalXP(10)}document.getElementById('hwQuizFeedback').textContent=(o.ok?'Benar! +10 XP. ':'Belum tepat. ')+(score)+' jawaban benar sejauh ini.';Array.from(a.children).forEach(x=>x.disabled=true);document.getElementById('hwQuizNext').style.display='block'};a.appendChild(b)});document.getElementById('hwQuizNext').style.display='none'}document.getElementById('hwQuizNext').onclick=()=>{qi=(qi+1)%qs.length;quiz()};quiz();
+})();
 </script>
 </body>
 </html>

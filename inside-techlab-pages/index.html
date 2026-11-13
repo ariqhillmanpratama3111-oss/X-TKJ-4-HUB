@@ -63,6 +63,24 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 .main-site-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:1px solid #35e7ff88;background:#10243a;color:#e8fbff;border-radius:10px;padding:10px 13px;font-size:10px;font-weight:900;letter-spacing:.45px;transition:.2s;white-space:nowrap;min-height:38px;flex-shrink:0}.main-site-btn .close-symbol{font-size:17px;line-height:1;color:#ff8f9d}.main-site-btn .close-label{display:inline!important}
 .main-site-btn:hover{border-color:var(--cyan);background:#153044;box-shadow:0 0 18px #35e7ff25;transform:translateY(-1px)}
 @media(max-width:600px){.topbar{gap:8px}.top-actions{gap:6px}.main-site-btn{padding:8px 9px;min-height:34px;font-size:9px}.main-site-btn .close-label{display:inline!important}.main-site-btn .close-symbol{font-size:15px}.account-state{display:none}}
+
+/* INSIDE TECHLAB 2.0 */
+.level-panel{margin:18px 0;padding:16px;border:1px solid #35e7ff35;border-radius:13px;background:#0b1423}
+.level-track{height:8px;background:#202b3d;border-radius:20px;overflow:hidden;margin:10px 0}.level-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#35e7ff,#a879ff)}
+.level-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:11px;color:#b7c7da}
+.lab-workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:14px;margin-top:16px}
+.lab-screen{min-height:300px;border:1px solid #39546c;border-radius:12px;background:radial-gradient(ellipse at 50% 0,#1a3a54,#08111d 70%);padding:18px;color:#e8f6ff;display:flex;flex-direction:column;justify-content:center}
+.lab-screen h3{font:700 18px Orbitron;margin:0 0 12px;color:#83eaff}.lab-screen p,.lab-screen li{font-size:12px;line-height:1.7;color:#c2d3e5}
+.lab-controls{padding:16px;border:1px solid var(--line);border-radius:12px;background:#0b1423}
+.lab-controls button,.lab-choice{display:block;width:100%;text-align:left;margin:8px 0;padding:11px;border:1px solid #334a60;border-radius:9px;background:#142338;color:#eaf4ff;cursor:pointer;font-size:11px}
+.lab-controls button.active,.lab-controls button:hover,.lab-choice:hover{border-color:#35e7ff;color:#72edff}
+.lab-feedback{padding:12px;border-radius:9px;background:#12283a;color:#cfe8f4;font-size:11px;line-height:1.7;margin-top:10px}
+.hw-model-selector{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.hw-model-selector button{background:#152538;color:#dcefff;border:1px solid #3c5267;border-radius:8px;padding:9px 12px;cursor:pointer}.hw-model-selector button.active{border-color:#35e7ff;color:#65eaff}
+.network-stage{min-height:340px;position:relative;overflow:hidden;border:1px solid #314a61;border-radius:12px;background:linear-gradient(145deg,#0c1728,#111d2b);padding:20px}
+.net-node{position:absolute;min-width:90px;padding:12px 8px;text-align:center;border:1px solid #4d7793;border-radius:10px;background:#142c40;color:#d9f6ff;font-size:11px;box-shadow:0 5px 18px #0006;cursor:pointer}.net-node small{display:block;color:#83b5d0;font-size:9px;margin-top:5px}.net-node.selected{border-color:#46f0dc;box-shadow:0 0 20px #35e7ff55}
+.net-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.net-cable{stroke:#35e7ff;stroke-width:3;stroke-dasharray:7 5;opacity:.85}
+@media(max-width:760px){.lab-workspace{grid-template-columns:1fr}.network-stage{min-height:390px}.net-node{min-width:78px;padding:9px 5px;font-size:10px}}
+
 </style>
 </head>
 <body data-page="home">
@@ -80,7 +98,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
     </div>
     <div class="hero-card"><div class="chip">TECHLAB / OVERVIEW</div><div class="core-graphic">⌘</div><div><strong>YOUR DIGITAL WORKBENCH</strong><br><small>Learn every component. Understand every connection.</small></div></div>
   </section>
-  <nav class="page-nav"><a class="active" href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a></nav>
+  <nav class="page-nav"><a class="active" href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a><a href="network-academy.html">NETWORK</a></nav><section class="level-panel" id="techlabLevelPanel"><div class="level-meta"><b>TECHLAB SKILL LEVEL</b><span id="tlXpText">XP: 0 · BEGINNER</span></div><div class="level-track"><span id="tlXpBar"></span></div><div class="level-meta"><span id="tlLevelText">Level 1 · Beginner</span><span id="tlNextText">100 XP menuju Basic</span></div></section>
   <section class="stats">
     <div class="stat"><b>06</b><span>HARDWARE CATEGORIES</span></div><div class="stat"><b>03</b><span>COMPONENT TIERS</span></div><div class="stat"><b>∞</b><span>KNOWLEDGE TO EXPLORE</span></div>
   </section>
@@ -90,6 +108,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
     <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit komputer virtual dan pelajari kecocokan antar-komponen.</p></a>
     <a class="module" href="troubleshooting-lab.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🛠️</div><h3>Troubleshooting</h3><p>Latihan diagnosis masalah PC dengan skenario interaktif.</p></a>
     <a class="module" href="software-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💾</div><h3>Software Academy</h3><p>Pelajari sistem operasi, BIOS, driver, file system, dan jaringan.</p></a>
+    <a class="module" href="network-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🌐</div><h3>Network Academy</h3><p>Bangun topologi LAN, sambungkan perangkat, dan konfigurasi jaringan virtual.</p></a>
   </section>
   <section class="leaderboard" id="leaderboard">
     <div class="section-head" style="margin:0"><div><div class="section-tag">TECHLAB / TOP LEARNERS</div><h2>Leaderboard</h2><p>Peringkat pengguna berdasarkan total XP dari modul yang diselesaikan.</p></div><span class="phase-tag">TOP 10</span></div>
@@ -364,6 +383,7 @@ const troubleData=[
   {label:'Membuka adaptor Wi-Fi dan mengutak-atik rangkaian saat laptop menyala.',ok:false,why:'Tidak aman dan tidak diperlukan. Jangan membongkar perangkat saat menyala; pemeriksaan internal harus dilakukan teknisi kompeten.'}
  ]}
 ];
+troubleData.forEach(c=>{c.options.sort(()=>Math.random()-.5)});
 let troubleCurrent=0,troubleDone=new Set(),troubleScore=0,troubleAnswered={};
 function renderTrouble(){
  const c=troubleData[troubleCurrent],main=document.getElementById('troubleMain');
@@ -396,6 +416,13 @@ renderProducts();makeBuild();
 </script>
 <script>
 (()=>{const q=document.getElementById('softwareQuestion'),answers=document.getElementById('softwareAnswers'),feedback=document.getElementById('softwareFeedback'),next=document.getElementById('softwareNext');if(!q)return;const quiz=[['Apa fungsi utama driver?',['Mengatur tampilan desktop saja','Menjembatani sistem operasi dengan perangkat keras','Mengganti fungsi prosesor'],1,'Driver membantu OS berkomunikasi dengan perangkat keras.'],['File system yang umum digunakan Windows modern adalah...',['NTFS','ext4','HFS+'],0,'NTFS adalah file system yang umum digunakan Windows.'],['Apa fungsi DNS?',['Mengatur kecepatan RAM','Menerjemahkan nama domain menjadi alamat IP','Menyimpan file sementara'],1,'DNS membantu menemukan alamat IP dari nama domain.'],['Firmware yang lebih modern dibanding BIOS legacy adalah...',['UEFI','HTML','DHCP'],0,'UEFI adalah antarmuka firmware modern pada banyak komputer.'],['Apa praktik keamanan software yang baik?',['Memasang file dari sumber acak','Menonaktifkan semua update','Memperbarui aplikasi dari sumber resmi'],2,'Update resmi membantu memperbaiki bug dan celah keamanan.']];let index=0,score=0,done=false;function render(){done=false;const item=quiz[index];q.textContent=(index+1)+'. '+item[0];answers.innerHTML='';item[1].forEach((a,i)=>{const b=document.createElement('button');b.textContent=a;b.onclick=()=>{if(done)return;done=true;const ok=i===item[2];if(ok)score++;feedback.textContent=(ok?'Benar! ':'Belum tepat. ')+item[3]+' Skor: '+score+'/'+quiz.length;Array.from(answers.children).forEach((x,j)=>{x.disabled=true;if(j===item[2])x.style.borderColor='#4bd7a0';});next.style.display='inline-block';next.textContent=index===quiz.length-1?'SELESAI ↗':'PERTANYAAN BERIKUTNYA ↗';};answers.appendChild(b);});feedback.textContent='Pilih jawaban yang paling tepat.';next.style.display='none';}next.addEventListener('click',()=>{if(index<quiz.length-1){index++;render();}else{q.textContent='Kuis selesai! Skor kamu '+score+'/'+quiz.length+'.';answers.innerHTML='';feedback.textContent='Ulangi materi jika masih ada konsep yang belum dipahami.';next.textContent='ULANGI KUIS';next.onclick=()=>{index=0;score=0;next.onclick=null;render();};}});render();})();
+</script>
+<script>
+(()=>{const el=document.getElementById('tlXpText');if(!el)return;let xp=0,moduleXp=0;const tiers=[['BEGINNER','Level 1 · Beginner'],['BASIC','Level 2 · Basic'],['INTERMEDIATE','Level 3 · Intermediate'],['ADVANCED','Level 4 · Advanced'],['EXPERT','Level 5 · Expert']];function paint(){const t=Math.min(4,Math.floor(xp/100));el.textContent='XP: '+xp+' · '+tiers[t][0];document.getElementById('tlLevelText').textContent=tiers[t][1];document.getElementById('tlXpBar').style.width=(xp%100)+'%';document.getElementById('tlNextText').textContent=t===4?'Level maksimum tercapai':(100-xp%100)+' XP menuju '+tiers[t+1][0].toLowerCase();}
+async function sync(){try{if(typeof techSupabase==='undefined'||!techSupabase)return;const {data:{session}}=await techSupabase.auth.getSession();if(!session)return;const {data,error}=await techSupabase.from('techlab_progress').select('xp').eq('user_id',session.user.id).eq('completed',true);if(error)throw error;xp=(data||[]).reduce((sum,row)=>sum+(Number(row.xp)||0),0);paint();}catch(e){console.warn('XP level sync:',e.message)}}
+window.techlabAwardLocalXP=async n=>{const amount=Math.max(0,Number(n)||0);if(!amount)return;xp+=amount;moduleXp+=amount;paint();try{if(typeof techSupabase==='undefined'||!techSupabase)return;const {data:{session}}=await techSupabase.auth.getSession();if(!session)return;const key='academy_'+(document.body.dataset.page||'home')+'_quiz';const {data:old}=await techSupabase.from('techlab_progress').select('xp').eq('user_id',session.user.id).eq('module_key',key).maybeSingle();await techSupabase.from('techlab_progress').upsert({user_id:session.user.id,module_key:key,completed:true,xp:(Number(old?.xp)||0)+amount,updated_at:new Date().toISOString()},{onConflict:'user_id,module_key'}); }catch(e){console.warn('XP save:',e.message)}};
+paint();sync();
+})();
 </script>
 </body>
 </html>
