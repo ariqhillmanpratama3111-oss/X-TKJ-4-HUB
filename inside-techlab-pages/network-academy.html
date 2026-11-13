@@ -78,6 +78,28 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 
 body[data-page="network"] .hero,body[data-page="network"] .stats,body[data-page="network"] .modules,body[data-page="network"] #hardware,body[data-page="network"] .feature-wrap:not(#networkAcademy),body[data-page="network"] #productCatalog,body[data-page="network"] #smartBuilder,body[data-page="network"] #storeLocator,body[data-page="network"] #troubleshootingLab,body[data-page="network"] #techlabAgent,body[data-page="network"] #softwareAcademy,body[data-page="network"] .notice{display:none!important}
 body[data-page="network"] #networkAcademy{display:block!important}
+
+/* TECHLAB REFINED EXPERIENCE — shared visual system */
+:root{--tl-bg:#070c14;--tl-panel:#101a27;--tl-line:#293b4e;--tl-cyan:#5de7f5;--tl-muted:#9eb1c4}
+html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 50% -15%,#152b40 0,#080e18 42%,#060a11 100%);color:#eaf3fb}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:#080e17eF;border-bottom:1px solid #294056;box-shadow:0 8px 28px #0004}
+.brand-mark{box-shadow:0 0 24px #42dff333}.page-nav{position:sticky;top:68px;z-index:40;background:#0a111ceF;backdrop-filter:blur(12px);border:1px solid #24384c;border-radius:13px;margin:16px auto;max-width:1320px;padding:10px 14px}
+main{width:min(1320px,calc(100% - 36px));margin:0 auto}.page-intro{position:relative;overflow:hidden;margin:28px 0 22px;padding:clamp(22px,4vw,42px);border:1px solid #31516a;border-radius:22px;background:linear-gradient(115deg,#101d2b 0%,#0c1623 56%,#10283a 100%);box-shadow:0 24px 70px #0005}
+.page-intro:before{content:"";position:absolute;width:360px;height:360px;right:-100px;top:-190px;border-radius:50%;border:1px solid #4de8f322;box-shadow:0 0 0 34px #4de8f30a,0 0 0 75px #4de8f307}
+.page-intro:after{content:"";position:absolute;right:9%;bottom:-2px;width:180px;height:2px;background:linear-gradient(90deg,transparent,#53e9f4,transparent);box-shadow:0 0 20px #53e9f4}
+.page-intro .eyebrow{font:800 10px Orbitron, sans-serif;letter-spacing:2px;color:#66e8f2;text-transform:uppercase}.page-intro h1{position:relative;z-index:1;font:800 clamp(26px,4.2vw,48px) Orbitron,sans-serif;letter-spacing:-1.4px;line-height:1.15;margin:13px 0 10px;color:#f2f8ff}.page-intro p{position:relative;z-index:1;max-width:760px;color:#b6c7d8;font-size:14px;line-height:1.8;margin:0}.page-intro-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.page-intro-meta span{border:1px solid #38546a;background:#0b1724;border-radius:9px;padding:9px 12px;color:#c7d8e7;font-size:10px;letter-spacing:.5px}
+.section-head{align-items:flex-end;margin:26px 0 17px}.section-head h2{font-size:clamp(21px,3vw,29px);letter-spacing:-.5px}.section-head p{max-width:720px;line-height:1.7}.feature-panel,.lab3d,.pc3d-box,.pc3d-stage,.os-sim{border-radius:17px!important;box-shadow:0 18px 45px #0003}
+.software-card,.component,.module-card,.stat-card{border:1px solid #2a4055!important;background:linear-gradient(145deg,#111e2d,#0b1420)!important;border-radius:14px!important;transition:transform .2s,border-color .2s,box-shadow .2s}.software-card:hover,.component:hover,.module-card:hover{transform:translateY(-3px);border-color:#48cbd9!important;box-shadow:0 12px 28px #0004}
+button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,transform .18s,border-color .18s}button:hover{filter:brightness(1.12)}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #66e8f2;outline-offset:3px}
+.lab3d,.hw-clean{background:linear-gradient(145deg,#101b28,#0a111b)!important;border-color:#34495d!important}.lab3d-stage{background:radial-gradient(ellipse at 50% 58%,#344b59 0,#1b2a37 48%,#0a111a 100%)!important;border:1px solid #40596b}.lab3d-info,.lab-feedback{background:#0d1a28!important;border:1px solid #2d455b;color:#d5e4f0}.lab3d-hotspot{border-color:#70a6bd!important;background:#122436!important}.lab3d-hotspot:hover,.lab3d-hotspot.active{border-color:#60e6ee!important;color:#7ef2f5!important}
+.pc3d-layout{grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr)!important;align-items:start}.pc3d-stage{min-height:550px!important;background:radial-gradient(ellipse at 50% 42%,#203b54,#0a111c 72%)!important;border:1px solid #3d6078!important}#pc3dCanvas{height:550px!important}.pc3d-box{background:linear-gradient(145deg,#101d2b,#0b131f)!important;border-color:#30485d!important}.pc3d-tools{max-width:70%}.pc3d-tip{background:#071321eF!important}
+.os-sim{background:linear-gradient(145deg,#101d2c,#0a1420)!important;border-color:#38556b!important}.os-scene{background:radial-gradient(ellipse,#284a61,#091321 72%)!important}.os-monitor{box-shadow:0 24px 48px #000b,0 0 32px #3bd6f322!important}
+.network-stage{background:radial-gradient(ellipse at center,#18364a,#0b1421 75%)!important;border-color:#38566c!important}.net-node{border-color:#4b748b!important;background:linear-gradient(145deg,#1a3549,#102133)!important}.net-cable{stroke:#6de9f2!important;stroke-width:4!important;filter:drop-shadow(0 0 5px #2ad8e8)}
+.lab-workspace{align-items:stretch}.lab-screen{background:radial-gradient(ellipse at 50% 0,#1c405b,#08121f 74%)!important;border-color:#3a5b72!important}.lab-controls{background:linear-gradient(145deg,#111f2e,#0b1420)!important;border-color:#30475b!important}
+.footer{border-top:1px solid #22374a;color:#8097ab;margin-top:55px;padding:24px}
+@media(max-width:900px){main{width:min(100% - 24px,1320px)}.pc3d-layout{grid-template-columns:1fr!important}.pc3d-stage{min-height:440px!important}#pc3dCanvas{height:440px!important}.page-nav{top:62px;overflow-x:auto;white-space:nowrap}}
+@media(max-width:620px){main{width:calc(100% - 20px)}.page-intro{margin:18px 0 16px;padding:22px 18px;border-radius:16px}.page-intro h1{font-size:27px}.page-intro p{font-size:12px}.page-intro-meta span{font-size:9px;padding:8px}.section-head{align-items:flex-start}.pc3d-stage{min-height:370px!important}#pc3dCanvas{height:370px!important}.pc3d-tools{left:10px;right:10px;top:52px;max-width:none;justify-content:flex-start}.pc3d-tools button{font-size:9px;padding:8px}.pc3d-tip{font-size:9px}.lab3d{padding:13px!important}.lab3d-stage{height:300px!important}.network-stage{min-height:380px!important}}
+
 </style>
 </head>
 <body data-page="network">
@@ -86,12 +108,13 @@ body[data-page="network"] #networkAcademy{display:block!important}
   <div class="top-actions"><span class="status">● SYSTEM ONLINE</span><span class="account-state" id="accountState">GUEST MODE</span><button class="login-btn" id="loginBtn">LOGIN / SIGN UP ↗</button></div>
 </header>
 <main>
+  <section class="page-intro"><div class="eyebrow">INSIDE TECHLAB / LEARNING DIVISION</div><h1>NETWORK ACADEMY</h1><p>Bangun jaringan virtual, kenali router, switch, access point dan client. Latih konfigurasi IPv4, gateway, serta simulasi ping dalam misi bertahap.</p><div class="page-intro-meta"><span>05 / NETWORK SIMULATOR</span><span>5 level belajar</span><span>Topology · IP config · ping simulation</span></div></section>
   <section class="hero">
     <div class="hero-copy">
       <div class="eyebrow">✦ TKJ DIGITAL LABORATORY</div>
       <h1>MASTER THE<br><span>HARDWARE.</span></h1>
       <p>Kenali komponen, pahami cara kerjanya, bangun PC impianmu, dan pecahkan masalah komputer lewat pengalaman belajar interaktif.</p>
-      <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior:'smooth'})">EXPLORE COMPONENTS ↘</button><button class="secondary-btn" onclick="openInfo('PC Building Simulator','Modul simulasi perakitan 3D sedang disiapkan untuk fase berikutnya. Di modul ini kamu nantinya dapat memilih komponen, mempelajari kompatibilitas, dan merakit PC virtual.')">PC BUILDER <span style="color:var(--purple)">COMING SOON</span></button></div>
+      <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior:'smooth'})">EXPLORE COMPONENTS ↘</button><button class="secondary-btn" onclick="location.href='pc-builder.html'">OPEN PC BUILDER ↗</button></div>
     </div>
     <div class="hero-card"><div class="chip">TECHLAB / OVERVIEW</div><div class="core-graphic">⌘</div><div><strong>YOUR DIGITAL WORKBENCH</strong><br><small>Learn every component. Understand every connection.</small></div></div>
   </section>
@@ -102,7 +125,7 @@ body[data-page="network"] #networkAcademy{display:block!important}
   <div class="section-head"><div><div class="section-tag">SELECT YOUR MODULE</div><h2>Learning Modules</h2><p>Pilih jalur belajar yang ingin kamu jelajahi.</p></div></div>
   <section class="modules">
     <a class="module" href="hardware-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🧩</div><h3>Hardware Academy</h3><p>Kenali fungsi, jenis, spesifikasi, dan karakteristik komponen PC.</p></a>
-    <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit">,'Simulasi perakitan PC 3D sedang dalam tahap perencanaan. Nantinya komponen dapat diputar, dipilih, dan dipasang pada tempat yang sesuai.')"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit komputer virtual dan pelajari kecocokan antar-komponen.</p></article>
+    <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit desktop virtual, pasang komponen, dan uji tampilan boot.</p></a>
     <a class="module" href="troubleshooting-lab.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🛠️</div><h3>Troubleshooting</h3><p>Latihan diagnosis masalah PC dengan skenario interaktif.</p></a>
     <a class="module" href="software-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💾</div><h3>Software Academy</h3><p>Pelajari sistem operasi, BIOS, driver, file system, dan jaringan.</p></a>
   </section>

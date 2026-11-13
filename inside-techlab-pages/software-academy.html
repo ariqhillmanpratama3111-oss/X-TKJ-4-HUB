@@ -75,6 +75,30 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 .net-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.net-cable{stroke:#35e7ff;stroke-width:3;stroke-dasharray:7 5;opacity:.85}
 @media(max-width:760px){.lab-workspace{grid-template-columns:1fr}.network-stage{min-height:390px}.net-node{min-width:78px;padding:9px 5px;font-size:10px}}
 
+
+/* TECHLAB REFINED EXPERIENCE — shared visual system */
+:root{--tl-bg:#070c14;--tl-panel:#101a27;--tl-line:#293b4e;--tl-cyan:#5de7f5;--tl-muted:#9eb1c4}
+html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 50% -15%,#152b40 0,#080e18 42%,#060a11 100%);color:#eaf3fb}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:#080e17eF;border-bottom:1px solid #294056;box-shadow:0 8px 28px #0004}
+.brand-mark{box-shadow:0 0 24px #42dff333}.page-nav{position:sticky;top:68px;z-index:40;background:#0a111ceF;backdrop-filter:blur(12px);border:1px solid #24384c;border-radius:13px;margin:16px auto;max-width:1320px;padding:10px 14px}
+main{width:min(1320px,calc(100% - 36px));margin:0 auto}.page-intro{position:relative;overflow:hidden;margin:28px 0 22px;padding:clamp(22px,4vw,42px);border:1px solid #31516a;border-radius:22px;background:linear-gradient(115deg,#101d2b 0%,#0c1623 56%,#10283a 100%);box-shadow:0 24px 70px #0005}
+.page-intro:before{content:"";position:absolute;width:360px;height:360px;right:-100px;top:-190px;border-radius:50%;border:1px solid #4de8f322;box-shadow:0 0 0 34px #4de8f30a,0 0 0 75px #4de8f307}
+.page-intro:after{content:"";position:absolute;right:9%;bottom:-2px;width:180px;height:2px;background:linear-gradient(90deg,transparent,#53e9f4,transparent);box-shadow:0 0 20px #53e9f4}
+.page-intro .eyebrow{font:800 10px Orbitron, sans-serif;letter-spacing:2px;color:#66e8f2;text-transform:uppercase}.page-intro h1{position:relative;z-index:1;font:800 clamp(26px,4.2vw,48px) Orbitron,sans-serif;letter-spacing:-1.4px;line-height:1.15;margin:13px 0 10px;color:#f2f8ff}.page-intro p{position:relative;z-index:1;max-width:760px;color:#b6c7d8;font-size:14px;line-height:1.8;margin:0}.page-intro-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.page-intro-meta span{border:1px solid #38546a;background:#0b1724;border-radius:9px;padding:9px 12px;color:#c7d8e7;font-size:10px;letter-spacing:.5px}
+.section-head{align-items:flex-end;margin:26px 0 17px}.section-head h2{font-size:clamp(21px,3vw,29px);letter-spacing:-.5px}.section-head p{max-width:720px;line-height:1.7}.feature-panel,.lab3d,.pc3d-box,.pc3d-stage,.os-sim{border-radius:17px!important;box-shadow:0 18px 45px #0003}
+.software-card,.component,.module-card,.stat-card{border:1px solid #2a4055!important;background:linear-gradient(145deg,#111e2d,#0b1420)!important;border-radius:14px!important;transition:transform .2s,border-color .2s,box-shadow .2s}.software-card:hover,.component:hover,.module-card:hover{transform:translateY(-3px);border-color:#48cbd9!important;box-shadow:0 12px 28px #0004}
+button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,transform .18s,border-color .18s}button:hover{filter:brightness(1.12)}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #66e8f2;outline-offset:3px}
+.lab3d,.hw-clean{background:linear-gradient(145deg,#101b28,#0a111b)!important;border-color:#34495d!important}.lab3d-stage{background:radial-gradient(ellipse at 50% 58%,#344b59 0,#1b2a37 48%,#0a111a 100%)!important;border:1px solid #40596b}.lab3d-info,.lab-feedback{background:#0d1a28!important;border:1px solid #2d455b;color:#d5e4f0}.lab3d-hotspot{border-color:#70a6bd!important;background:#122436!important}.lab3d-hotspot:hover,.lab3d-hotspot.active{border-color:#60e6ee!important;color:#7ef2f5!important}
+.pc3d-layout{grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr)!important;align-items:start}.pc3d-stage{min-height:550px!important;background:radial-gradient(ellipse at 50% 42%,#203b54,#0a111c 72%)!important;border:1px solid #3d6078!important}#pc3dCanvas{height:550px!important}.pc3d-box{background:linear-gradient(145deg,#101d2b,#0b131f)!important;border-color:#30485d!important}.pc3d-tools{max-width:70%}.pc3d-tip{background:#071321eF!important}
+.os-sim{background:linear-gradient(145deg,#101d2c,#0a1420)!important;border-color:#38556b!important}.os-scene{background:radial-gradient(ellipse,#284a61,#091321 72%)!important}.os-monitor{box-shadow:0 24px 48px #000b,0 0 32px #3bd6f322!important}
+.network-stage{background:radial-gradient(ellipse at center,#18364a,#0b1421 75%)!important;border-color:#38566c!important}.net-node{border-color:#4b748b!important;background:linear-gradient(145deg,#1a3549,#102133)!important}.net-cable{stroke:#6de9f2!important;stroke-width:4!important;filter:drop-shadow(0 0 5px #2ad8e8)}
+.lab-workspace{align-items:stretch}.lab-screen{background:radial-gradient(ellipse at 50% 0,#1c405b,#08121f 74%)!important;border-color:#3a5b72!important}.lab-controls{background:linear-gradient(145deg,#111f2e,#0b1420)!important;border-color:#30475b!important}
+.footer{border-top:1px solid #22374a;color:#8097ab;margin-top:55px;padding:24px}
+@media(max-width:900px){main{width:min(100% - 24px,1320px)}.pc3d-layout{grid-template-columns:1fr!important}.pc3d-stage{min-height:440px!important}#pc3dCanvas{height:440px!important}.page-nav{top:62px;overflow-x:auto;white-space:nowrap}}
+@media(max-width:620px){main{width:calc(100% - 20px)}.page-intro{margin:18px 0 16px;padding:22px 18px;border-radius:16px}.page-intro h1{font-size:27px}.page-intro p{font-size:12px}.page-intro-meta span{font-size:9px;padding:8px}.section-head{align-items:flex-start}.pc3d-stage{min-height:370px!important}#pc3dCanvas{height:370px!important}.pc3d-tools{left:10px;right:10px;top:52px;max-width:none;justify-content:flex-start}.pc3d-tools button{font-size:9px;padding:8px}.pc3d-tip{font-size:9px}.lab3d{padding:13px!important}.lab3d-stage{height:300px!important}.network-stage{min-height:380px!important}}
+
+
+.os-sim-status{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0;color:#dff7ff;font-size:11px}.os-sim-status small{display:block;color:#91a9bc;margin-top:5px;font-size:10px}.os-sim-status span{padding:7px 10px;border:1px solid #3b6c83;border-radius:8px;color:#75e9f1;font:700 9px monospace}.os-sim-progress{height:7px;background:#1b2d3e;border-radius:20px;overflow:hidden;margin:10px 0 15px}.os-sim-progress span{display:block;height:100%;width:20%;background:linear-gradient(90deg,#35cde4,#9c8bff);transition:width .25s}
 </style>
 </head>
 <body data-page="software">
@@ -83,12 +107,13 @@ body[data-page="software"] #softwareAcademy{display:block!important}
   <div class="top-actions"><span class="status">● SYSTEM ONLINE</span><span class="account-state" id="accountState">GUEST MODE</span><button class="login-btn" id="loginBtn">LOGIN / SIGN UP ↗</button></div>
 </header>
 <main>
+  <section class="page-intro"><div class="eyebrow">INSIDE TECHLAB / LEARNING DIVISION</div><h1>SOFTWARE ACADEMY</h1><p>Belajar alur kerja software komputer: firmware, instalasi sistem operasi, partisi virtual, driver, file system, keamanan, dan pemeliharaan.</p><div class="page-intro-meta"><span>03 / OS & SOFTWARE</span><span>5 tahap instalasi</span><span>Virtual setup · materi · kuis acak</span></div></section>
   <section class="hero">
     <div class="hero-copy">
       <div class="eyebrow">✦ TKJ DIGITAL LABORATORY</div>
       <h1>MASTER THE<br><span>HARDWARE.</span></h1>
       <p>Kenali komponen, pahami cara kerjanya, bangun PC impianmu, dan pecahkan masalah komputer lewat pengalaman belajar interaktif.</p>
-      <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior:'smooth'})">EXPLORE COMPONENTS ↘</button><button class="secondary-btn" onclick="openInfo('PC Building Simulator','Modul simulasi perakitan 3D sedang disiapkan untuk fase berikutnya. Di modul ini kamu nantinya dapat memilih komponen, mempelajari kompatibilitas, dan merakit PC virtual.')">PC BUILDER <span style="color:var(--purple)">COMING SOON</span></button></div>
+      <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior:'smooth'})">EXPLORE COMPONENTS ↘</button><button class="secondary-btn" onclick="location.href='pc-builder.html'">OPEN PC BUILDER ↗</button></div>
     </div>
     <div class="hero-card"><div class="chip">TECHLAB / OVERVIEW</div><div class="core-graphic">⌘</div><div><strong>YOUR DIGITAL WORKBENCH</strong><br><small>Learn every component. Understand every connection.</small></div></div>
   </section>
@@ -99,7 +124,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
   <div class="section-head"><div><div class="section-tag">SELECT YOUR MODULE</div><h2>Learning Modules</h2><p>Pilih jalur belajar yang ingin kamu jelajahi.</p></div></div>
   <section class="modules">
     <a class="module" href="hardware-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🧩</div><h3>Hardware Academy</h3><p>Kenali fungsi, jenis, spesifikasi, dan karakteristik komponen PC.</p></a>
-    <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit">,'Simulasi perakitan PC 3D sedang dalam tahap perencanaan. Nantinya komponen dapat diputar, dipilih, dan dipasang pada tempat yang sesuai.')"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit komputer virtual dan pelajari kecocokan antar-komponen.</p></article>
+    <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit desktop virtual, pasang komponen, dan uji tampilan boot.</p></a>
     <a class="module" href="troubleshooting-lab.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🛠️</div><h3>Troubleshooting</h3><p>Latihan diagnosis masalah PC dengan skenario interaktif.</p></a>
     <a class="module" href="software-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💾</div><h3>Software Academy</h3><p>Pelajari sistem operasi, BIOS, driver, file system, dan jaringan.</p></a>
   </section>
@@ -219,6 +244,8 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 
 <div class="feature-panel" id="osInstallLab">
  <div class="section-head"><div><div class="section-tag">INTERACTIVE SOFTWARE SIMULATOR</div><h2>OS Installation Workbench</h2><p>Simulasi alur instalasi sistem operasi dari boot sampai desktop. Tidak mengubah perangkat asli.</p></div><span class="phase-tag">VIRTUAL MACHINE</span></div>
+ <div class="os-sim-status"><div><b>VIRTUAL MACHINE · UEFI MODE</b><small>Disk virtual 100 GB · Data perangkat asli tidak disentuh</small></div><span id="osLabStage">STAGE 01 / 05</span></div>
+ <div class="os-sim-progress"><span id="osLabProgress"></span></div>
  <div class="lab-workspace"><div class="lab-screen" id="osLabScreen"><h3>INSIDE SETUP</h3><p>Virtual PC siap melakukan boot dari media instalasi.</p><p>Firmware: UEFI · Disk: 100 GB virtual</p></div>
  <div class="lab-controls"><b>INSTALLATION TASKS</b>
  <button data-osstep="0" class="active">01 · Boot menu & UEFI</button><button data-osstep="1">02 · Pilih bahasa dan keyboard</button><button data-osstep="2">03 · Pilih disk virtual</button><button data-osstep="3">04 · Install system files</button><button data-osstep="4">05 · First boot / desktop</button>
@@ -454,14 +481,12 @@ paint();sync();
 
 <script>
 (()=>{const screen=document.getElementById('osLabScreen');if(!screen)return;const steps=[
-['UEFI BOOT MENU','Boot priority: USB installer → NVMe SSD. UEFI melakukan inisialisasi perangkat sebelum menjalankan bootloader.','Media instalasi virtual dipilih sebagai perangkat boot.'],
-['REGIONAL SETTINGS','Language: Indonesian · Time: GMT+7 · Keyboard: US. Pengaturan ini menentukan bahasa antarmuka dan layout keyboard.','Pengaturan bahasa berhasil diterapkan pada simulasi.'],
-['DISK SELECTION','Disk 0 · Virtual NVMe · 100 GB. Partisi sistem akan dibuat pada disk virtual. Ini hanya simulasi; tidak ada disk asli yang disentuh.','Disk virtual terdeteksi. Pilihan partisi disimulasikan.'],
-['INSTALLING SYSTEM','Copying files 100% · Installing features 100% · Applying updates 100%.','File sistem virtual selesai dipasang.'],
-['WELCOME TO DESKTOP','INSIDE OS · Start · Files · Browser · Settings. Sistem operasi siap digunakan dalam lingkungan simulasi.','Instalasi virtual selesai. Kamu berhasil menyelesaikan alur dasar OS.']];
-let current=0,osAwarded=false;function show(n){current=n;if(n===4&&!osAwarded){osAwarded=true;if(window.techlabAwardLocalXP)window.techlabAwardLocalXP(20);}const a=steps[n];screen.innerHTML='<h3>'+a[0]+'</h3><p>'+a[1]+'</p>'+(n===3?'<div style="height:9px;background:#25384b;border-radius:8px;overflow:hidden"><div style="width:100%;height:100%;background:#35e7ff"></div></div>':'')+(n===4?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><span class="progress-chip">▣ Files</span><span class="progress-chip">◎ Browser</span><span class="progress-chip">⚙ Settings</span></div>':'');document.getElementById('osLabFeedback').textContent=a[2];document.querySelectorAll('[data-osstep]').forEach(b=>b.classList.toggle('active',+b.dataset.osstep===n));}
-document.querySelectorAll('[data-osstep]').forEach(b=>b.addEventListener('click',()=>show(+b.dataset.osstep)));show(0);
-})();
+['01 · UEFI BOOT MANAGER','Virtual PC dinyalakan. Firmware UEFI melakukan pemeriksaan awal perangkat (POST), lalu mencari bootable installer pada daftar boot.','Konsep: firmware berjalan sebelum sistem operasi. Boot order menentukan perangkat yang dicoba lebih dahulu.'],
+['02 · REGION & KEYBOARD','Installer meminta bahasa, format waktu, dan layout keyboard. Untuk latihan ini gunakan Bahasa Indonesia dan keyboard US.','Konsep: pilihan region mengatur format lokal; layout keyboard menentukan pemetaan tombol.'],
+['03 · TARGET DISK','Pilih Disk 0 · Virtual SSD · 100 GB. Partisi latihan ditampilkan sebagai ruang virtual yang belum dialokasikan.','Konsep: partisi membagi media penyimpanan menjadi area logis. Pada komputer nyata, perubahan partisi dapat menghapus data.'],
+['04 · INSTALLING SYSTEM','Installer menyalin file sistem, menyiapkan fitur, dan memasang boot files. Proses virtual selesai untuk keperluan pembelajaran.','Konsep: file sistem operasi disalin ke storage; jangan mematikan perangkat saat instalasi sungguhan berlangsung.'],
+['05 · FIRST BOOT / DESKTOP','Sistem virtual melakukan restart dan menampilkan desktop. Perangkat siap masuk ke tahap konfigurasi akun, update, driver, dan aplikasi.','Konsep: setelah instalasi, periksa driver dan update dari sumber resmi. Buat backup sebelum mengubah konfigurasi penting.']
+];let current=0,awarded=false;function show(n){current=Math.max(0,Math.min(4,n));const a=steps[current];screen.innerHTML='<div style="font:700 10px monospace;color:#75e8f2;letter-spacing:1.5px;margin-bottom:12px">INSIDE VIRTUAL MACHINE</div><h3>'+a[0]+'</h3><p>'+a[1]+'</p><div style="margin-top:18px;padding:12px;border:1px solid #34536a;border-radius:9px;background:#0b1a29"><b style="color:#76eaf3;font-size:10px">WHAT YOU ARE LEARNING</b><p style="margin:7px 0 0">'+a[2]+'</p></div>'+(current===3?'<div style="height:8px;background:#25384b;border-radius:8px;overflow:hidden;margin-top:16px"><div style="width:100%;height:100%;background:linear-gradient(90deg,#35cde4,#9c8bff)"></div></div><small style="color:#91cbd7">Virtual installation complete · 100%</small>':'')+(current===4?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><span class="progress-chip">▣ Files</span><span class="progress-chip">◎ Browser</span><span class="progress-chip">⚙ Settings</span><span class="progress-chip">◉ Update</span></div>':'');const pct=((current+1)/5)*100;const bar=document.getElementById('osLabProgress');if(bar)bar.style.width=pct+'%';const stage=document.getElementById('osLabStage');if(stage)stage.textContent='STAGE 0'+(current+1)+' / 05';document.querySelectorAll('[data-osstep]').forEach(b=>b.classList.toggle('active',+b.dataset.osstep===current));if(current===4&&!awarded){awarded=true;if(window.techlabAwardLocalXP)window.techlabAwardLocalXP(20);}}document.querySelectorAll('[data-osstep]').forEach(b=>b.addEventListener('click',()=>show(+b.dataset.osstep)));show(0);})();
 </script>
 </body>
 </html>
