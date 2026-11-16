@@ -103,12 +103,19 @@ button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,
 @media(max-width:900px){main{width:min(100% - 24px,1320px)}.pc3d-layout{grid-template-columns:1fr!important}.pc3d-stage{min-height:440px!important}#pc3dCanvas{height:440px!important}.page-nav{top:62px;overflow-x:auto;white-space:nowrap}}
 @media(max-width:620px){main{width:calc(100% - 20px)}.page-intro{margin:18px 0 16px;padding:22px 18px;border-radius:16px}.page-intro h1{font-size:27px}.page-intro p{font-size:12px}.page-intro-meta span{font-size:9px;padding:8px}.section-head{align-items:flex-start}.pc3d-stage{min-height:370px!important}#pc3dCanvas{height:370px!important}.pc3d-tools{left:10px;right:10px;top:52px;max-width:none;justify-content:flex-start}.pc3d-tools button{font-size:9px;padding:8px}.pc3d-tip{font-size:9px}.lab3d{padding:13px!important}.lab3d-stage{height:300px!important}.network-stage{min-height:380px!important}}
 
+/* COMMUNITY VISIBILITY FIX: the home-page rule above used to hide this entire section */
+body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visibility:visible!important}
+.community-shortcuts{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0 24px}
+.community-shortcuts a{display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;border:1px solid #35e7ff55;border-radius:9px;background:#102238;color:#8df4ff;text-decoration:none;font-size:10px;font-weight:800;letter-spacing:.4px}
+.community-shortcuts a:hover{border-color:var(--cyan);background:#153047}
+#techCommunity{scroll-margin-top:105px}#feedbackPanel,#communityOwn{scroll-margin-top:105px}
+.community-modules{margin:18px 0 34px}.community-modules .module{min-height:175px}
 </style>
 </head>
 <body data-page="home">
 <header class="topbar">
   <div class="brand"><div class="brand-mark">⌁</div><div>INSIDE <span style="color:var(--cyan)">TECHLAB</span><small>BUILD · LEARN · DIAGNOSE</small></div></div>
-  <div class="top-actions"><a class="main-site-btn" href="https://insidetkj4.my.id/home.html" aria-label="Kembali ke website utama Inside TKJ 4" title="Kembali ke website utama Inside TKJ 4"><span class="close-symbol">✕</span><span class="close-label">KEMBALI KE INSIDE TKJ 4</span></a><span class="status">● SYSTEM ONLINE</span><span class="account-state" id="accountState">GUEST MODE</span><button class="login-btn" id="loginBtn">LOGIN / SIGN UP ↗</button></div>
+  <div class="top-actions"><a class="main-site-btn" href="https://insidetkj4.my.id/home.html" aria-label="Kembali ke website utama Inside TKJ 4" title="Kembali ke website utama Inside TKJ 4"><span class="close-symbol">✕</span><span class="close-label">KEMBALI KE INSIDE TKJ 4</span></a><span class="status">● SYSTEM ONLINE</span><span class="account-state" id="accountState">GUEST MODE</span><button class="login-btn" id="loginBtn">LOGIN / SIGN UP ↗</button><a class="login-btn" id="accountBtn" href="account.html" style="display:none;text-decoration:none">DASHBOARD AKUN ↗</a></div>
 </header>
 <main>
   <section class="hero">
@@ -116,11 +123,12 @@ button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,
       <div class="eyebrow">✦ TKJ DIGITAL LABORATORY</div>
       <h1>BUILD. LEARN.<br><span>LEVEL UP.</span></h1>
       <p>Ruang belajar interaktif untuk hardware, perakitan PC, software, jaringan, dan diagnosis komputer. Mulai dari dasar, selesaikan misi, kumpulkan XP, dan naik level.</p>
-      <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('leaderboard').scrollIntoView({behavior:'smooth'})">EXPLORE LEADERBOARD ↘</button><button class="secondary-btn" onclick="location.href='pc-builder.html'">OPEN PC BUILDER ↗</button></div>
+      <div class="hero-buttons"><button class="primary-btn" onclick="location.href='leaderboard.html'">EXPLORE LEADERBOARD ↘</button><button class="secondary-btn" onclick="location.href='pc-builder.html'">OPEN PC BUILDER ↗</button></div>
     </div>
     <div class="hero-card"><div class="chip">TECHLAB / OVERVIEW</div><div class="core-graphic">⌘</div><div><strong>YOUR DIGITAL WORKBENCH</strong><br><small>Learn every component. Understand every connection.</small></div></div>
   </section>
-  <nav class="page-nav"><a class="active" href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a><a href="network-academy.html">NETWORK</a></nav><section class="level-panel" id="techlabLevelPanel"><div class="level-meta"><b>TECHLAB SKILL LEVEL</b><span id="tlXpText">XP: 0 · BEGINNER</span></div><div class="level-track"><span id="tlXpBar"></span></div><div class="level-meta"><span id="tlLevelText">Level 1 · Beginner</span><span id="tlNextText">100 XP menuju Basic</span></div></section>
+  <nav class="page-nav"><a class="active" href="index.html">OVERVIEW</a><a href="hardware-academy.html">HARDWARE</a><a href="pc-builder.html">PC BUILDER</a><a href="troubleshooting-lab.html">TROUBLESHOOTING</a><a href="software-academy.html">SOFTWARE</a><a href="network-academy.html">NETWORK</a></nav>
+  <div class="community-shortcuts" aria-label="Akses cepat komunitas"><a href="#communityOwn">DASHBOARD AKUN ↓</a><a href="#leaderboard">LEADERBOARD ↓</a><a href="#communitySearch">CARI TEMAN ↓</a><a href="#feedbackPanel">KIRIM FEEDBACK ↓</a></div><section class="level-panel" id="techlabLevelPanel"><div class="level-meta"><b>TECHLAB SKILL LEVEL</b><span id="tlXpText">XP: 0 · BEGINNER</span></div><div class="level-track"><span id="tlXpBar"></span></div><div class="level-meta"><span id="tlLevelText">Level 1 · Beginner</span><span id="tlNextText">100 XP menuju Basic</span></div></section>
   <section class="stats">
     <div class="stat"><b>06</b><span>HARDWARE CATEGORIES</span></div><div class="stat"><b>03</b><span>COMPONENT TIERS</span></div><div class="stat"><b>∞</b><span>KNOWLEDGE TO EXPLORE</span></div>
   </section>
@@ -132,22 +140,13 @@ button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,
     <a class="module" href="software-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💾</div><h3>Software Academy</h3><p>Pelajari sistem operasi, BIOS, driver, file system, dan jaringan.</p></a>
     <a class="module" href="network-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🌐</div><h3>Network Academy</h3><p>Bangun topologi LAN, sambungkan perangkat, dan konfigurasi jaringan virtual.</p></a>
   </section>
-  <section class="leaderboard" id="leaderboard">
-    <div class="section-head" style="margin:0"><div><div class="section-tag">TECHLAB / TOP LEARNERS</div><h2>Leaderboard</h2><p>Peringkat pengguna berdasarkan total XP dari modul yang diselesaikan.</p></div><span class="phase-tag">TOP 10</span></div>
-    <div class="leaderboard-list" id="leaderboardList"><div class="leader-empty">Memuat leaderboard...</div></div>
-    <div class="leader-note">XP dihitung dari progres modul yang berhasil disimpan ke akun. Peringkat diperbarui saat halaman dibuka.</div>
+  <section class="section-head"><div><div class="section-tag">TECHLAB / COMMUNITY</div><h2>Community Center</h2><p>Setiap fitur komunitas punya halaman tersendiri, seperti learning module.</p></div></section>
+  <section class="modules community-modules">
+    <a class="module" href="account.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">👤</div><h3>Dashboard Akun</h3><p>Lihat profil, XP, level, dan ubah nama tampilan.</p></a>
+    <a class="module" href="leaderboard.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🏆</div><h3>Leaderboard</h3><p>Lihat peringkat dan buka profil setiap pengguna.</p></a>
+    <a class="module" href="friends.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">👥</div><h3>Temukan Teman</h3><p>Cari pengguna berdasarkan nama dan kirim permintaan teman.</p></a>
+    <a class="module" href="feedback.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💬</div><h3>Feedback</h3><p>Kirim saran dan rating untuk pengembangan TechLab.</p></a>
   </section>
-
-<section class="feature-wrap" id="techCommunity">
- <div class="section-head"><div><div class="section-tag">TECHLAB / COMMUNITY</div><h2>Community & Profile</h2><p>Kelola profil, lihat progres belajar, temukan pengguna, dan bangun koneksi belajar.</p></div></div>
- <div class="feature-panel">
-  <div id="communityOwn" class="build-result"><b>Profil TechLab</b><p id="communityStatus">Login untuk membuka profil dan komunitas.</p><div id="ownProfileInfo"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><input id="displayNameInput" class="search" placeholder="Nama tampilan baru"><button class="feature-btn" id="saveDisplayName">SIMPAN NAMA</button></div></div>
-  <div style="margin-top:18px"><h3 style="font-size:14px">Cari pengguna</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="communitySearch" class="search" placeholder="Cari nama pengguna"><button class="feature-btn" id="communitySearchBtn">CARI</button></div><div id="communityResults" style="display:grid;gap:9px;margin-top:12px"></div></div>
- </div>
- <div class="feature-panel" id="feedbackPanel"><h3 class="feature-title">TechLab Feedback</h3><p class="feature-desc">Bagikan saran dan penilaian untuk pengembangan TechLab.</p><label>Nama pengirim</label><input id="feedbackName" class="search" style="display:block;max-width:none;margin:7px 0 12px" value="Someone" maxlength="60"><label>Rating</label><select id="feedbackRating" class="locator-select" style="display:block;margin:7px 0 12px;max-width:180px"><option value="5">★★★★★ — 5</option><option value="4">★★★★ — 4</option><option value="3">★★★ — 3</option><option value="2">★★ — 2</option><option value="1">★ — 1</option></select><textarea id="feedbackMessage" class="search" style="display:block;max-width:none;width:100%;min-height:95px" placeholder="Tulis saran atau masukan..." maxlength="2000"></textarea><button class="feature-btn" id="sendFeedback">KIRIM FEEDBACK</button><p id="feedbackStatus" class="account-note"></p></div>
- <div class="feature-panel" id="feedbackInbox" style="display:none"><h3 class="feature-title">Feedback Inbox</h3><p class="feature-desc">Hanya akun yang terdaftar sebagai manager dapat membaca masukan.</p><div id="feedbackInboxList">Memuat...</div></div>
- <div class="feature-panel" id="publicProfile" style="display:none"></div>
-</section>
 
   <section id="hardware">
     <div class="section-head"><div><div class="section-tag">HARDWARE DATABASE / 001</div><h2>Explore Components</h2><p>Pilih kategori hardware untuk mempelajari fungsi dan spesifikasinya.</p></div><input class="search" id="searchInput" placeholder="Cari komponen..." aria-label="Cari komponen"></div>
@@ -271,7 +270,7 @@ async function refreshTechSession(){
  try{const {data,error}=await techSupabase.auth.getSession();if(error)throw error;techUser=data.session?.user||null;updateAccountUI();if(techUser)await loadTechProgress();}
  catch(e){document.getElementById('accountState').textContent='AUTH ERROR';console.warn('TechLab auth:',e.message);}
 }
-function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'SIGNED IN'):'GUEST MODE';document.getElementById('loginBtn').textContent=techUser?'LOGOUT ↗':'LOGIN / SIGN UP ↗';}
+function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'SIGNED IN'):'GUEST MODE';document.getElementById('loginBtn').textContent=techUser?'LOGOUT ↗':'LOGIN / SIGN UP ↗';const a=document.getElementById('accountBtn');if(a)a.style.display=techUser?'inline-flex':'none';}
 function openAuth(){document.getElementById('authBackdrop').classList.add('show');document.getElementById('authMessage').textContent=techSupabase?'Masuk menggunakan email dan password akun Supabase.':'Library Supabase belum termuat. Periksa koneksi internet.';}
 document.getElementById('loginBtn').addEventListener('click',async()=>{if(techUser){if(confirm('Keluar dari sesi TechLab?')){await techSupabase.auth.signOut();techUser=null;updateAccountUI();}}else openAuth();});
 document.getElementById('authClose').addEventListener('click',()=>document.getElementById('authBackdrop').classList.remove('show'));
@@ -299,7 +298,7 @@ async function loadTechLeaderboard(){
  const {data,error}=await techSupabase.rpc('techlab_leaderboard');
  if(error){console.warn('Leaderboard:',error.message);list.innerHTML='<div class="leader-empty">Leaderboard belum aktif. Jalankan file SQL <b>techlab-leaderboard.sql</b> di Supabase SQL Editor, lalu muat ulang halaman.</div>';return;}
  if(!data||!data.length){list.innerHTML='<div class="leader-empty">Belum ada XP tercatat. Selesaikan modul dan simpan progres untuk masuk leaderboard!</div>';return;}
- list.innerHTML=data.slice(0,10).map((row,i)=>`<div class="leader-row"><div class="leader-rank">#${i+1}</div><div class="leader-name">${String(row.display_name||'TechLab User').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</div><div class="leader-xp">${Number(row.total_xp)||0} XP</div></div>`).join('');
+ list.innerHTML=data.slice(0,10).map((row,i)=>`<button type="button" class="leader-row" style="width:100%;text-align:left;color:inherit;cursor:pointer" data-profile="${String(row.user_id||'')}" onclick="window.techlabOpenProfile&&window.techlabOpenProfile(this.dataset.profile)"><span class="leader-rank">#${i+1}</span><span class="leader-name">${String(row.display_name||'TechLab User').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span><span class="leader-xp">${Number(row.total_xp)||0} XP</span></button>`).join('');
 }
 
 refreshTechSession();
@@ -459,34 +458,6 @@ paint();sync();
 })();
 </script>
 
-<script>
-(()=>{
- const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- if(!window.supabase||!window.supabase.createClient)return;
- const sb=window.supabase.createClient('https://teuqxfwqntkgemyukiju.supabase.co','sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ');
- let user=null, profile=null;
- async function boot(){const {data}=await sb.auth.getSession();user=data.session?.user||null;if(user)await initProfile();await loadLeaderboard();}
- async function initProfile(){
-  $('communityStatus').textContent='Memuat profil...';
-  let {data,error}=await sb.from('techlab_profiles').select('id,display_name').eq('id',user.id).maybeSingle();
-  if(error){$('communityStatus').textContent='Profil belum siap: '+error.message;return;}
-  if(!data){const nm=user.user_metadata?.full_name||user.user_metadata?.name||'Someone';const ins=await sb.from('techlab_profiles').insert({id:user.id,display_name:nm}).select('id,display_name').single();data=ins.data;error=ins.error;}
-  if(error){$('communityStatus').textContent='Gagal membuat profil: '+error.message;return;}profile=data;
-  $('displayNameInput').value=profile.display_name||'Someone';$('communityStatus').textContent='Login sebagai '+(profile.display_name||'Someone');await renderOwn();await loadInbox();
- }
- async function renderOwn(){const {data,error}=await sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',user.id).eq('completed',true);if(error){$('ownProfileInfo').textContent='Progres belum dapat dibaca: '+error.message;return;}const rows=data||[],xp=rows.reduce((a,r)=>a+(Number(r.xp)||0),0);$('ownProfileInfo').innerHTML=`<div class="build-row"><span>Total XP</span><b>${xp} XP</b></div><div class="build-row"><span>Misi selesai</span><b>${rows.length}</b></div><div class="build-row"><span>Level</span><b>${Math.floor(xp/100)+1}</b></div><div class="build-note">${rows.length?rows.map(r=>esc(r.module_key)).join(' · '):'Belum ada misi yang tersimpan.'}</div>`;}
- $('saveDisplayName').addEventListener('click',async()=>{if(!user){$('communityStatus').textContent='Login terlebih dahulu.';return;}const name=$('displayNameInput').value.trim();if(name.length<2||name.length>32){$('communityStatus').textContent='Nama harus 2–32 karakter.';return;}const {data,error}=await sb.from('techlab_profiles').upsert({id:user.id,display_name:name,updated_at:new Date().toISOString()},{onConflict:'id'}).select().single();if(error){$('communityStatus').textContent='Gagal menyimpan nama: '+error.message;return;}profile=data;$('communityStatus').textContent='Nama profil berhasil diperbarui.';await loadLeaderboard();});
- $('communitySearchBtn').addEventListener('click',async()=>{if(!user){$('communityResults').textContent='Login terlebih dahulu.';return;}const q=$('communitySearch').value.trim();if(q.length<2){$('communityResults').textContent='Masukkan minimal 2 karakter.';return;}const {data,error}=await sb.from('techlab_profiles').select('id,display_name').ilike('display_name','%'+q+'%').limit(12);if(error){$('communityResults').textContent='Pencarian gagal: '+error.message;return;}const rows=(data||[]).filter(x=>x.id!==user.id);$('communityResults').innerHTML=rows.length?rows.map(x=>`<button class="trouble-option" data-profile="${esc(x.id)}">${esc(x.display_name||'Someone')} · LIHAT PROFIL ↗</button>`).join(''):'Pengguna tidak ditemukan.';});
- $('communityResults').addEventListener('click',e=>{const b=e.target.closest('[data-profile]');if(b)openProfile(b.dataset.profile);});
- async function openProfile(id){const box=$('publicProfile');box.style.display='block';box.innerHTML='<h3 class="feature-title">Profil pengguna</h3><p>Memuat...</p>';const [{data:p,error:pe},{data:rows,error:re}]=await Promise.all([sb.from('techlab_profiles').select('id,display_name').eq('id',id).maybeSingle(),sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',id).eq('completed',true)]);if(pe||re||!p){box.innerHTML='<p>Profil tidak dapat dimuat. '+esc(pe?.message||re?.message||'Tidak ditemukan')+'</p>';return;}const xp=(rows||[]).reduce((a,r)=>a+(Number(r.xp)||0),0);box.innerHTML=`<h3 class="feature-title">${esc(p.display_name||'Someone')}</h3><div class="build-row"><span>Total XP</span><b>${xp} XP</b></div><div class="build-row"><span>Misi selesai</span><b>${(rows||[]).length}</b></div><div class="build-row"><span>Level</span><b>${Math.floor(xp/100)+1}</b></div><p class="build-note">Misi: ${(rows||[]).map(r=>esc(r.module_key)).join(' · ')||'Belum ada misi selesai.'}</p><button class="secondary-btn" id="sendFriendRequest">KIRIM PERMINTAAN TEMAN</button><p id="friendStatus" class="account-note"></p>`;$('sendFriendRequest').onclick=async()=>{const {error}=await sb.from('techlab_friendships').insert({requester_id:user.id,addressee_id:id,status:'pending'});$('friendStatus').textContent=error?(error.code==='23505'?'Permintaan sudah pernah dikirim.':error.message):'Permintaan pertemanan terkirim.';};box.scrollIntoView({behavior:'smooth',block:'center'});}
- $('sendFeedback').addEventListener('click',async()=>{if(!user){$('feedbackStatus').textContent='Login terlebih dahulu untuk mengirim feedback.';return;}const message=$('feedbackMessage').value.trim();if(message.length<5){$('feedbackStatus').textContent='Masukan minimal 5 karakter.';return;}const {error}=await sb.from('techlab_feedback').insert({user_id:user.id,sender_name:$('feedbackName').value.trim()||'Someone',rating:Number($('feedbackRating').value),message});$('feedbackStatus').textContent=error?'Gagal mengirim: '+error.message:'Feedback berhasil dikirim. Terima kasih!';if(!error)$('feedbackMessage').value='';});
- async function loadInbox(){const {data:manager}=await sb.from('techlab_feedback_managers').select('user_id').eq('user_id',user.id).maybeSingle();if(!manager)return;$('feedbackInbox').style.display='block';const {data,error}=await sb.from('techlab_feedback').select('sender_name,rating,message,created_at').order('created_at',{ascending:false}).limit(50);$('feedbackInboxList').innerHTML=error?'Gagal memuat inbox: '+esc(error.message):(data||[]).map(f=>`<div class="build-row" style="display:block"><b>${esc(f.sender_name)} · ${'★'.repeat(f.rating)}</b><p>${esc(f.message)}</p><small>${new Date(f.created_at).toLocaleString('id-ID')}</small></div>`).join('')||'Belum ada feedback.';}
- async function loadLeaderboard(){const list=$('leaderboardList');if(!list)return;const {data,error}=await sb.rpc('techlab_leaderboard');if(error||!data)return;list.innerHTML=data.slice(0,10).map((r,i)=>`<button class="leader-row" style="width:100%;text-align:left;color:inherit;cursor:pointer" data-profile="${esc(r.user_id)}"><span class="leader-rank">#${i+1}</span><span class="leader-name">${esc(r.display_name||'TechLab User')}</span><span class="leader-xp">${Number(r.total_xp)||0} XP</span></button>`).join('');}
- $('leaderboardList').addEventListener('click',e=>{const b=e.target.closest('[data-profile]');if(b)openProfile(b.dataset.profile);});
- sb.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;if(user)setTimeout(()=>{initProfile();loadLeaderboard();},0);else{loadLeaderboard();$('communityStatus').textContent='Login untuk membuka profil dan komunitas.';$('ownProfileInfo').innerHTML='';$('feedbackInbox').style.display='none';}});
- boot();
-})();
-</script>
 
 </body>
 </html>
