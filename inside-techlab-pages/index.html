@@ -242,7 +242,7 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
 <footer class="footer">INSIDE TECHLAB · A LEARNING SPACE BY INSIDE TKJ 4</footer>
 <div class="modal-backdrop" id="authBackdrop"><div class="modal"><div class="modal-top"><span class="section-tag">INSIDE TECHLAB / ACCOUNT</span><button class="close" id="authClose">CLOSE ✕</button></div><h2>Masuk ke TechLab</h2><p>Gunakan akun Inside TKJ 4 yang terhubung ke Supabase. Jika akunmu memakai metode login khusus di website utama, login di website utama dulu lalu buka TechLab kembali.</p><label for="authEmail">Email</label><input class="search" style="display:block;max-width:none;margin:7px 0 12px" id="authEmail" type="email" autocomplete="email" placeholder="email@example.com"><label for="authPassword">Password</label><input class="search" style="display:block;max-width:none;margin:7px 0 12px" id="authPassword" type="password" autocomplete="current-password" placeholder="Password akun"><div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px"><button class="feature-btn" id="signInBtn">MASUK</button><button class="secondary-btn" id="signUpBtn">BUAT AKUN</button></div><p id="authMessage" class="account-note" aria-live="polite">Progres hanya tersimpan jika Supabase Auth mengenali sesi akunmu.</p></div></div>
 <div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-top"><span class="section-tag">TECHLAB / COMPONENT FILE</span><button class="close" onclick="closeModal()">CLOSE ✕</button></div><div id="modalContent"></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'"></script>
 <script>
 const details={
 cpu:{name:"Processor (CPU)",intro:"CPU adalah unit pemrosesan utama yang mengeksekusi instruksi dari program dan sistem operasi.",spec:"Core: unit pemrosesan di dalam CPU. Thread: alur instruksi yang dapat ditangani. Clock speed: frekuensi kerja, biasanya dinyatakan dalam GHz. Cache: memori cepat di dalam/dekat CPU.",install:"Periksa socket motherboard dan kompatibilitas BIOS. Sejajarkan penanda segitiga pada CPU dengan socket, letakkan tanpa dipaksa, lalu kunci mekanisme pengaman. Pasang pendingin sesuai petunjuk produsennya.",care:"Jaga pendingin dan ventilasi bersih. Pantau suhu dengan aplikasi tepercaya. Jangan menyentuh pin/kontak dan jangan memaksa CPU masuk ke socket."},
@@ -262,8 +262,9 @@ document.getElementById('searchInput').addEventListener('input',filterCards);
 // Supabase public client: publishable key is intended for browser use; RLS is mandatory.
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
-const techSupabase=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+const techSupabase=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-teuqxfwqntkgemyukiju-auth-token'}}):null;
 let techUser=null;
+if(techSupabase){techSupabase.auth.onAuthStateChange((_event,session)=>{techUser=session?.user||null;updateAccountUI();if(techUser)loadTechProgress();});}
 async function refreshTechSession(){
  if(!techSupabase){document.getElementById('accountState').textContent='OFFLINE';return;}
  try{const {data,error}=await techSupabase.auth.getSession();if(error)throw error;techUser=data.session?.user||null;updateAccountUI();if(techUser)await loadTechProgress();}
