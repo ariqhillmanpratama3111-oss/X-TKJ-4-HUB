@@ -137,6 +137,18 @@ button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,
     <div class="leaderboard-list" id="leaderboardList"><div class="leader-empty">Memuat leaderboard...</div></div>
     <div class="leader-note">XP dihitung dari progres modul yang berhasil disimpan ke akun. Peringkat diperbarui saat halaman dibuka.</div>
   </section>
+
+<section class="feature-wrap" id="techCommunity">
+ <div class="section-head"><div><div class="section-tag">TECHLAB / COMMUNITY</div><h2>Community & Profile</h2><p>Kelola profil, lihat progres belajar, temukan pengguna, dan bangun koneksi belajar.</p></div></div>
+ <div class="feature-panel">
+  <div id="communityOwn" class="build-result"><b>Profil TechLab</b><p id="communityStatus">Login untuk membuka profil dan komunitas.</p><div id="ownProfileInfo"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><input id="displayNameInput" class="search" placeholder="Nama tampilan baru"><button class="feature-btn" id="saveDisplayName">SIMPAN NAMA</button></div></div>
+  <div style="margin-top:18px"><h3 style="font-size:14px">Cari pengguna</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="communitySearch" class="search" placeholder="Cari nama pengguna"><button class="feature-btn" id="communitySearchBtn">CARI</button></div><div id="communityResults" style="display:grid;gap:9px;margin-top:12px"></div></div>
+ </div>
+ <div class="feature-panel" id="feedbackPanel"><h3 class="feature-title">TechLab Feedback</h3><p class="feature-desc">Bagikan saran dan penilaian untuk pengembangan TechLab.</p><label>Nama pengirim</label><input id="feedbackName" class="search" style="display:block;max-width:none;margin:7px 0 12px" value="Someone" maxlength="60"><label>Rating</label><select id="feedbackRating" class="locator-select" style="display:block;margin:7px 0 12px;max-width:180px"><option value="5">★★★★★ — 5</option><option value="4">★★★★ — 4</option><option value="3">★★★ — 3</option><option value="2">★★ — 2</option><option value="1">★ — 1</option></select><textarea id="feedbackMessage" class="search" style="display:block;max-width:none;width:100%;min-height:95px" placeholder="Tulis saran atau masukan..." maxlength="2000"></textarea><button class="feature-btn" id="sendFeedback">KIRIM FEEDBACK</button><p id="feedbackStatus" class="account-note"></p></div>
+ <div class="feature-panel" id="feedbackInbox" style="display:none"><h3 class="feature-title">Feedback Inbox</h3><p class="feature-desc">Hanya akun yang terdaftar sebagai manager dapat membaca masukan.</p><div id="feedbackInboxList">Memuat...</div></div>
+ <div class="feature-panel" id="publicProfile" style="display:none"></div>
+</section>
+
   <section id="hardware">
     <div class="section-head"><div><div class="section-tag">HARDWARE DATABASE / 001</div><h2>Explore Components</h2><p>Pilih kategori hardware untuk mempelajari fungsi dan spesifikasinya.</p></div><input class="search" id="searchInput" placeholder="Cari komponen..." aria-label="Cari komponen"></div>
     <div class="filters" id="filters">
@@ -446,5 +458,35 @@ window.techlabAwardLocalXP=async n=>{const amount=Math.max(0,Number(n)||0);if(!a
 paint();sync();
 })();
 </script>
+
+<script>
+(()=>{
+ const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ if(!window.supabase||!window.supabase.createClient)return;
+ const sb=window.supabase.createClient('https://teuqxfwqntkgemyukiju.supabase.co','sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ');
+ let user=null, profile=null;
+ async function boot(){const {data}=await sb.auth.getSession();user=data.session?.user||null;if(user)await initProfile();await loadLeaderboard();}
+ async function initProfile(){
+  $('communityStatus').textContent='Memuat profil...';
+  let {data,error}=await sb.from('techlab_profiles').select('id,display_name').eq('id',user.id).maybeSingle();
+  if(error){$('communityStatus').textContent='Profil belum siap: '+error.message;return;}
+  if(!data){const nm=user.user_metadata?.full_name||user.user_metadata?.name||'Someone';const ins=await sb.from('techlab_profiles').insert({id:user.id,display_name:nm}).select('id,display_name').single();data=ins.data;error=ins.error;}
+  if(error){$('communityStatus').textContent='Gagal membuat profil: '+error.message;return;}profile=data;
+  $('displayNameInput').value=profile.display_name||'Someone';$('communityStatus').textContent='Login sebagai '+(profile.display_name||'Someone');await renderOwn();await loadInbox();
+ }
+ async function renderOwn(){const {data,error}=await sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',user.id).eq('completed',true);if(error){$('ownProfileInfo').textContent='Progres belum dapat dibaca: '+error.message;return;}const rows=data||[],xp=rows.reduce((a,r)=>a+(Number(r.xp)||0),0);$('ownProfileInfo').innerHTML=`<div class="build-row"><span>Total XP</span><b>${xp} XP</b></div><div class="build-row"><span>Misi selesai</span><b>${rows.length}</b></div><div class="build-row"><span>Level</span><b>${Math.floor(xp/100)+1}</b></div><div class="build-note">${rows.length?rows.map(r=>esc(r.module_key)).join(' · '):'Belum ada misi yang tersimpan.'}</div>`;}
+ $('saveDisplayName').addEventListener('click',async()=>{if(!user){$('communityStatus').textContent='Login terlebih dahulu.';return;}const name=$('displayNameInput').value.trim();if(name.length<2||name.length>32){$('communityStatus').textContent='Nama harus 2–32 karakter.';return;}const {data,error}=await sb.from('techlab_profiles').upsert({id:user.id,display_name:name,updated_at:new Date().toISOString()},{onConflict:'id'}).select().single();if(error){$('communityStatus').textContent='Gagal menyimpan nama: '+error.message;return;}profile=data;$('communityStatus').textContent='Nama profil berhasil diperbarui.';await loadLeaderboard();});
+ $('communitySearchBtn').addEventListener('click',async()=>{if(!user){$('communityResults').textContent='Login terlebih dahulu.';return;}const q=$('communitySearch').value.trim();if(q.length<2){$('communityResults').textContent='Masukkan minimal 2 karakter.';return;}const {data,error}=await sb.from('techlab_profiles').select('id,display_name').ilike('display_name','%'+q+'%').limit(12);if(error){$('communityResults').textContent='Pencarian gagal: '+error.message;return;}const rows=(data||[]).filter(x=>x.id!==user.id);$('communityResults').innerHTML=rows.length?rows.map(x=>`<button class="trouble-option" data-profile="${esc(x.id)}">${esc(x.display_name||'Someone')} · LIHAT PROFIL ↗</button>`).join(''):'Pengguna tidak ditemukan.';});
+ $('communityResults').addEventListener('click',e=>{const b=e.target.closest('[data-profile]');if(b)openProfile(b.dataset.profile);});
+ async function openProfile(id){const box=$('publicProfile');box.style.display='block';box.innerHTML='<h3 class="feature-title">Profil pengguna</h3><p>Memuat...</p>';const [{data:p,error:pe},{data:rows,error:re}]=await Promise.all([sb.from('techlab_profiles').select('id,display_name').eq('id',id).maybeSingle(),sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',id).eq('completed',true)]);if(pe||re||!p){box.innerHTML='<p>Profil tidak dapat dimuat. '+esc(pe?.message||re?.message||'Tidak ditemukan')+'</p>';return;}const xp=(rows||[]).reduce((a,r)=>a+(Number(r.xp)||0),0);box.innerHTML=`<h3 class="feature-title">${esc(p.display_name||'Someone')}</h3><div class="build-row"><span>Total XP</span><b>${xp} XP</b></div><div class="build-row"><span>Misi selesai</span><b>${(rows||[]).length}</b></div><div class="build-row"><span>Level</span><b>${Math.floor(xp/100)+1}</b></div><p class="build-note">Misi: ${(rows||[]).map(r=>esc(r.module_key)).join(' · ')||'Belum ada misi selesai.'}</p><button class="secondary-btn" id="sendFriendRequest">KIRIM PERMINTAAN TEMAN</button><p id="friendStatus" class="account-note"></p>`;$('sendFriendRequest').onclick=async()=>{const {error}=await sb.from('techlab_friendships').insert({requester_id:user.id,addressee_id:id,status:'pending'});$('friendStatus').textContent=error?(error.code==='23505'?'Permintaan sudah pernah dikirim.':error.message):'Permintaan pertemanan terkirim.';};box.scrollIntoView({behavior:'smooth',block:'center'});}
+ $('sendFeedback').addEventListener('click',async()=>{if(!user){$('feedbackStatus').textContent='Login terlebih dahulu untuk mengirim feedback.';return;}const message=$('feedbackMessage').value.trim();if(message.length<5){$('feedbackStatus').textContent='Masukan minimal 5 karakter.';return;}const {error}=await sb.from('techlab_feedback').insert({user_id:user.id,sender_name:$('feedbackName').value.trim()||'Someone',rating:Number($('feedbackRating').value),message});$('feedbackStatus').textContent=error?'Gagal mengirim: '+error.message:'Feedback berhasil dikirim. Terima kasih!';if(!error)$('feedbackMessage').value='';});
+ async function loadInbox(){const {data:manager}=await sb.from('techlab_feedback_managers').select('user_id').eq('user_id',user.id).maybeSingle();if(!manager)return;$('feedbackInbox').style.display='block';const {data,error}=await sb.from('techlab_feedback').select('sender_name,rating,message,created_at').order('created_at',{ascending:false}).limit(50);$('feedbackInboxList').innerHTML=error?'Gagal memuat inbox: '+esc(error.message):(data||[]).map(f=>`<div class="build-row" style="display:block"><b>${esc(f.sender_name)} · ${'★'.repeat(f.rating)}</b><p>${esc(f.message)}</p><small>${new Date(f.created_at).toLocaleString('id-ID')}</small></div>`).join('')||'Belum ada feedback.';}
+ async function loadLeaderboard(){const list=$('leaderboardList');if(!list)return;const {data,error}=await sb.rpc('techlab_leaderboard');if(error||!data)return;list.innerHTML=data.slice(0,10).map((r,i)=>`<button class="leader-row" style="width:100%;text-align:left;color:inherit;cursor:pointer" data-profile="${esc(r.user_id)}"><span class="leader-rank">#${i+1}</span><span class="leader-name">${esc(r.display_name||'TechLab User')}</span><span class="leader-xp">${Number(r.total_xp)||0} XP</span></button>`).join('');}
+ $('leaderboardList').addEventListener('click',e=>{const b=e.target.closest('[data-profile]');if(b)openProfile(b.dataset.profile);});
+ sb.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;if(user)setTimeout(()=>{initProfile();loadLeaderboard();},0);else{loadLeaderboard();$('communityStatus').textContent='Login untuk membuka profil dan komunitas.';$('ownProfileInfo').innerHTML='';$('feedbackInbox').style.display='none';}});
+ boot();
+})();
+</script>
+
 </body>
 </html>
