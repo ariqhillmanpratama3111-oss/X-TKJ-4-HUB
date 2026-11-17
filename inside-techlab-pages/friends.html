@@ -1,18 +1,80 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Temukan Teman · Inside TechLab</title><style>*{box-sizing:border-box}body{margin:0;background:#070d18;color:#eaf4ff;font-family:Inter,Arial,sans-serif}a{color:inherit}.top{height:auto;min-height:72px;padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #26364b;background:#0a1322;position:sticky;top:0;z-index:10}.brand{font-weight:900;letter-spacing:1px}.brand span{color:#35e7ff}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn{border:1px solid #35e7ff66;border-radius:9px;background:#102238;color:#8df4ff;padding:10px 13px;font-weight:800;cursor:pointer;text-decoration:none;font-size:11px}.btn.primary{background:linear-gradient(100deg,#35e7ff,#83f4ff);color:#061018;border:0}.muted{color:#91a4bd}.wrap{width:min(980px,92%);margin:34px auto 70px}.kicker{font:700 10px Arial;letter-spacing:2px;color:#35e7ff}.hero h1{font-size:clamp(27px,5vw,42px);margin:10px 0}.panel{margin-top:22px;padding:22px;border:1px solid #26364b;border-radius:15px;background:linear-gradient(145deg,#101d30,#0b1120)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.input,textarea,select{width:100%;max-width:100%;padding:12px;border:1px solid #34445b;border-radius:9px;background:#081321;color:#eaf4ff;margin:7px 0 14px;font:inherit}.input.small{max-width:360px}.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}.stat{padding:16px;background:#0a1525;border:1px solid #26364b;border-radius:10px}.stat b{display:block;font-size:22px;color:#35e7ff}.stat small{color:#91a4bd}.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid #26364b;border-radius:10px;background:#0a1525;margin:9px 0;width:100%;text-align:left;color:inherit}.item.click{cursor:pointer}.item.click:hover{border-color:#35e7ff}.notice{font-size:12px;color:#91a4bd;line-height:1.6}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:16px;z-index:30}.modal.show{display:grid}.modalbox{width:min(430px,100%);padding:22px;border:1px solid #35e7ff66;border-radius:15px;background:#0d192a}.status{font-size:11px;color:#7cefc1}.profile{margin-top:18px;padding:18px;border:1px solid #35e7ff55;border-radius:12px;background:#0b1828}@media(max-width:560px){.top{align-items:flex-start;flex-direction:column}.wrap{margin-top:24px}.panel{padding:16px}}</style></head><body>
 <header class="top"><a class="brand" href="index.html" style="text-decoration:none">INSIDE <span>TECHLAB</span></a><div class="actions"><span class="status" id="sessionState">GUEST MODE</span><a class="btn" href="index.html">← OVERVIEW</a></div></header>
 <main class="wrap"><div class="hero"><div class="kicker">TECHLAB / COMMUNITY</div><h1>Temukan Teman</h1><p class="muted">Cari pengguna TechLab dan lihat profil publik mereka.</p></div><section class="panel"><h2>Temukan Pengguna</h2><p class="notice">Cari nama tampilan pengguna TechLab, lalu buka profil untuk mengirim permintaan teman.</p><div class="row"><input class="input small" id="query" placeholder="Cari nama teman..."><button class="btn primary" id="search">CARI</button></div><div id="results" class="notice">Masuk untuk mulai mencari pengguna.</div><div id="publicProfile" class="profile hidden"></div></section></main>
-<div class="modal" id="authModal"><div class="modalbox"><div class="row" style="justify-content:space-between"><b>Masuk ke TechLab</b><button class="btn" id="closeAuth">TUTUP ✕</button></div><p class="notice">Gunakan akun Inside TKJ 4 yang terhubung ke Supabase.</p><label>Email</label><input class="input" id="email" type="email" placeholder="email@example.com"><label>Password</label><input class="input" id="password" type="password" placeholder="Password"><div class="row"><button class="btn primary" id="signIn">MASUK</button></div><p class="notice" id="authMsg">Jika belum punya akun, daftar melalui sistem utama Inside TKJ 4.</p></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'"></script><script>
-const URL='https://teuqxfwqntkgemyukiju.supabase.co',KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
-let sb=null,user=null;const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function showAuthMessage(message){const el=$('authMsg');if(el)el.textContent=message;}
-function ui(){if($('sessionState'))$('sessionState').textContent=user?(user.email||'SIGNED IN'):'GUEST MODE';if($('loginBtn'))$('loginBtn').textContent=user?'LOGOUT':'LOGIN / SIGN UP';if($('accountBtn'))$('accountBtn').classList.toggle('hidden',!user);}
-// Bind click handlers before initializing Supabase, so the button never becomes inert.
-// Login and logout are managed from the TechLab overview top bar.
-$('closeAuth').onclick=()=>$('authModal').classList.remove('show');
-$('signIn').onclick=async()=>{if(!sb){showAuthMessage('Supabase belum siap. Muat ulang halaman dan periksa koneksi internet.');return;}const email=$('email').value.trim(),password=$('password').value;if(!email||!password){showAuthMessage('Isi email dan password terlebih dahulu.');return;}const button=$('signIn');button.disabled=true;button.textContent='MEMPROSES...';try{const {error}=await sb.auth.signInWithPassword({email,password});if(error){showAuthMessage('Login gagal: '+error.message);return;}showAuthMessage('Login berhasil. Memuat halaman...');$('authModal').classList.remove('show');location.reload();}catch(e){showAuthMessage('Login gagal: '+(e.message||'Kesalahan koneksi.'));}finally{button.disabled=false;button.textContent='MASUK';}};
-try{if(window.supabase?.createClient){sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-teuqxfwqntkgemyukiju-auth-token'}});}else{showAuthMessage('Library Supabase tidak berhasil dimuat dari CDN. Coba muat ulang halaman.');if($('sessionState'))$('sessionState').textContent='LIBRARY ERROR';}}catch(e){showAuthMessage('Gagal menginisialisasi Supabase: '+e.message);if($('sessionState'))$('sessionState').textContent='INIT ERROR';console.error('TechLab Community Supabase init:',e.message);}
-async function session(){if(!sb){ui();return;}try{const {data,error}=await sb.auth.getSession();if(error)throw error;user=data.session?.user||null;ui();if(!user&&$('sessionState'))$('sessionState').textContent='BELUM LOGIN';}catch(e){showAuthMessage('Gagal membaca sesi login: '+e.message);if($('sessionState'))$('sessionState').textContent='AUTH ERROR';console.error('TechLab Community auth session:',e.message);}}
-if(sb)sb.auth.onAuthStateChange((_e,s)=>{user=s?.user||null;ui();});session();
-async function openProfile(id){if(!sb){$('results').textContent='Supabase tidak siap.';return;}const box=$('publicProfile');box.classList.remove('hidden');box.textContent='Memuat profil...';const [pr,pg]=await Promise.all([sb.from('techlab_profiles').select('id,display_name').eq('id',id).maybeSingle(),sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',id).eq('completed',true)]);if(pr.error||pg.error||!pr.data){box.textContent='Profil gagal dimuat: '+(pr.error?.message||pg.error?.message||'Tidak ditemukan');return;}const rows=pg.data||[],xp=rows.reduce((a,r)=>a+(Number(r.xp)||0),0);box.innerHTML='<h2>'+esc(pr.data.display_name||'Someone')+'</h2><p>'+xp+' XP · '+rows.length+' misi selesai</p>'+(user&&user.id!==id?'<button class="btn primary" id="send">KIRIM PERMINTAAN TEMAN</button><p id="msg" class="notice"></p>':'');if($('send'))$('send').onclick=async()=>{const {error}=await sb.from('techlab_friendships').insert({requester_id:user.id,addressee_id:id,status:'pending'});$('msg').textContent=error?'Gagal: '+error.message:'Permintaan pertemanan terkirim.';};}async function searchUsers(){if(!sb){$('results').textContent='Supabase tidak siap. Muat ulang halaman dan periksa koneksi.';return;}if(!user){$('results').textContent='Login terlebih dahulu untuk mencari teman.';return;}const q=$('query').value.trim();if(q.length<2){$('results').textContent='Masukkan minimal 2 karakter.';return;}$('results').textContent='Mencari...';const {data,error}=await sb.from('techlab_profiles').select('id,display_name').ilike('display_name','%'+q+'%').limit(20);if(error){$('results').textContent='Pencarian gagal: '+error.message;return;}const rows=(data||[]).filter(x=>x.id!==user.id);$('results').innerHTML=rows.length?rows.map(x=>'<button class="item click" data-id="'+esc(x.id)+'"><b>'+esc(x.display_name||'Someone')+'</b><span>Buka profil ↗</span></button>').join(''):'Pengguna tidak ditemukan.';}$('search').onclick=searchUsers;$('query').onkeydown=e=>{if(e.key==='Enter')searchUsers();};$('results').onclick=e=>{const b=e.target.closest('[data-id]');if(b)openProfile(b.dataset.id);};if(sb)sb.auth.onAuthStateChange(()=>{if(user)$('results').textContent='Ketik nama pengguna untuk mencari.';});
+<script>
+const URL='https://teuqxfwqntkgemyukiju.supabase.co';
+const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
+const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
+let sb=null,user=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function updateSessionUI(){
+  const el=$('sessionState');
+  if(el) el.textContent=user?(user.email||'SIGNED IN'):'BELUM LOGIN';
+}
+async function loadSupabaseLibrary(){
+  if(window.supabase?.createClient) return true;
+  const sources=[
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js',
+    'https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'
+  ];
+  for(const src of sources){
+    try{
+      await new Promise((resolve,reject)=>{
+        const script=document.createElement('script');
+        script.src=src;
+        script.async=true;
+        script.onload=()=>resolve();
+        script.onerror=()=>reject(new Error('Gagal memuat '+src));
+        document.head.appendChild(script);
+      });
+      if(window.supabase?.createClient) return true;
+    }catch(error){
+      console.warn('[Inside TechLab] '+error.message);
+    }
+  }
+  return false;
+}
+async function initCommunitySupabase(){
+  const state=$('sessionState');
+  if(state) state.textContent='MENGHUBUNGKAN...';
+  const loaded=await loadSupabaseLibrary();
+  if(!loaded){
+    if(state) state.textContent='LIBRARY ERROR';
+    const status=$('pageStatus')||$('dashStatus')||$('feedbackStatus')||$('results')||$('leaders');
+    if(status) status.textContent='Library Supabase gagal dimuat dari kedua CDN. Periksa koneksi internet lalu muat ulang.';
+    return false;
+  }
+  try{
+    sb=window.supabase.createClient(URL,KEY,{
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true,
+        storageKey:STORAGE_KEY
+      }
+    });
+    const {data,error}=await sb.auth.getSession();
+    if(error) throw error;
+    user=data.session?.user||null;
+    updateSessionUI();
+    sb.auth.onAuthStateChange((_event,session)=>{
+      user=session?.user||null;
+      updateSessionUI();
+      if(typeof window.onCommunityAuthChange==='function'){
+        Promise.resolve(window.onCommunityAuthChange()).catch(err=>console.error(err));
+      }
+    });
+    return true;
+  }catch(error){
+    if(state) state.textContent='AUTH ERROR';
+    const status=$('pageStatus')||$('dashStatus')||$('feedbackStatus')||$('results')||$('leaders');
+    if(status) status.textContent='Gagal menginisialisasi atau membaca sesi Supabase: '+error.message;
+    console.error('[Inside TechLab] Supabase init:',error);
+    return false;
+  }
+}
+
+async function openProfile(id){if(!sb){$('results').textContent='Supabase tidak siap.';return;}const box=$('publicProfile');box.classList.remove('hidden');box.textContent='Memuat profil...';const [pr,pg]=await Promise.all([sb.from('techlab_profiles').select('id,display_name').eq('id',id).maybeSingle(),sb.from('techlab_progress').select('module_key,xp,completed').eq('user_id',id).eq('completed',true)]);if(pr.error||pg.error||!pr.data){box.textContent='Profil gagal dimuat: '+(pr.error?.message||pg.error?.message||'Tidak ditemukan');return;}const rows=pg.data||[],xp=rows.reduce((a,r)=>a+(Number(r.xp)||0),0);box.innerHTML='<h2>'+esc(pr.data.display_name||'Someone')+'</h2><p>'+xp+' XP · '+rows.length+' misi selesai</p>'+(user&&user.id!==id?'<button class="btn primary" id="send">KIRIM PERMINTAAN TEMAN</button><p id="msg" class="notice"></p>':'');if($('send'))$('send').onclick=async()=>{const {error}=await sb.from('techlab_friendships').insert({requester_id:user.id,addressee_id:id,status:'pending'});$('msg').textContent=error?'Gagal: '+error.message:'Permintaan pertemanan terkirim.';};}async function searchUsers(){if(!sb){$('results').textContent='Supabase tidak siap. Muat ulang halaman dan periksa koneksi.';return;}if(!user){$('results').textContent='Login terlebih dahulu untuk mencari teman.';return;}const q=$('query').value.trim();if(q.length<2){$('results').textContent='Masukkan minimal 2 karakter.';return;}$('results').textContent='Mencari...';const {data,error}=await sb.from('techlab_profiles').select('id,display_name').ilike('display_name','%'+q+'%').limit(20);if(error){$('results').textContent='Pencarian gagal: '+error.message;return;}const rows=(data||[]).filter(x=>x.id!==user.id);$('results').innerHTML=rows.length?rows.map(x=>'<button class="item click" data-id="'+esc(x.id)+'"><b>'+esc(x.display_name||'Someone')+'</b><span>Buka profil ↗</span></button>').join(''):'Pengguna tidak ditemukan.';}$('search').onclick=searchUsers;$('query').onkeydown=e=>{if(e.key==='Enter')searchUsers();};$('results').onclick=e=>{const b=e.target.closest('[data-id]');if(b)openProfile(b.dataset.id);};
+(async()=>{if(await initCommunitySupabase()){$('results').textContent=user?'Ketik nama pengguna untuk mencari.':'Login dari TechLab Overview untuk mencari teman.';}})();
 </script></body></html>
