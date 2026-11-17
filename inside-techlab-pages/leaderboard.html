@@ -2,7 +2,7 @@
 <header class="top"><a class="brand" href="index.html" style="text-decoration:none">INSIDE <span>TECHLAB</span></a><div class="actions"><span class="status" id="sessionState">GUEST MODE</span><a class="btn" href="index.html">← OVERVIEW</a></div></header>
 <main class="wrap"><div class="hero"><div class="kicker">TECHLAB / COMMUNITY</div><h1>Leaderboard</h1><p class="muted">Peringkat pengguna berdasarkan XP dari misi TechLab yang berhasil diselesaikan.</p></div><section class="panel"><div class="row" style="justify-content:space-between"><div><h2>Top Learners</h2><p class="notice">Klik nama pengguna untuk membuka profilnya.</p></div><button class="btn" id="refresh">MUAT ULANG ↻</button></div><div id="leaders" class="notice">Memuat leaderboard...</div><div id="publicProfile" class="profile hidden"></div></section></main>
 <script>
-const URL='https://teuqxfwqntkgemyukiju.supabase.co';
+const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
 const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
 let sb=null,user=null;
@@ -46,7 +46,7 @@ async function initCommunitySupabase(){
     return false;
   }
   try{
-    sb=window.supabase.createClient(URL,KEY,{
+    sb=window.supabase.createClient(SUPABASE_URL,KEY,{
       auth:{
         persistSession:true,
         autoRefreshToken:true,

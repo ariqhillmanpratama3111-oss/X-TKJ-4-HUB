@@ -2,7 +2,7 @@
 <header class="top"><a class="brand" href="index.html" style="text-decoration:none">INSIDE <span>TECHLAB</span></a><div class="actions"><span class="status" id="sessionState">GUEST MODE</span><a class="btn" href="index.html">← OVERVIEW</a></div></header>
 <main class="wrap"><div class="hero"><div class="kicker">TECHLAB / COMMUNITY</div><h1>Temukan Teman</h1><p class="muted">Cari pengguna TechLab dan lihat profil publik mereka.</p></div><section class="panel"><h2>Temukan Pengguna</h2><p class="notice">Cari nama tampilan pengguna TechLab, lalu buka profil untuk mengirim permintaan teman.</p><div class="row"><input class="input small" id="query" placeholder="Cari nama teman..."><button class="btn primary" id="search">CARI</button></div><div id="results" class="notice">Masuk untuk mulai mencari pengguna.</div><div id="publicProfile" class="profile hidden"></div></section></main>
 <script>
-const URL='https://teuqxfwqntkgemyukiju.supabase.co';
+const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
 const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
 let sb=null,user=null;
@@ -46,7 +46,7 @@ async function initCommunitySupabase(){
     return false;
   }
   try{
-    sb=window.supabase.createClient(URL,KEY,{
+    sb=window.supabase.createClient(SUPABASE_URL,KEY,{
       auth:{
         persistSession:true,
         autoRefreshToken:true,

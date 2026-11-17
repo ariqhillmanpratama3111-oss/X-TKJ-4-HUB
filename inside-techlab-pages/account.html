@@ -2,7 +2,7 @@
 <header class="top"><a class="brand" href="index.html" style="text-decoration:none">INSIDE <span>TECHLAB</span></a><div class="actions"><span class="status" id="sessionState">GUEST MODE</span><a class="btn" href="index.html">← OVERVIEW</a></div></header>
 <main class="wrap"><div class="hero"><div class="kicker">TECHLAB / COMMUNITY</div><h1>Dashboard Akun</h1><p class="muted">Pusat profil, progres belajar, XP, dan level akun TechLab.</p></div><section class="panel"><div class="kicker">MY TECHLAB PROFILE</div><h2 id="hello">Memuat akun...</h2><p class="notice" id="dashStatus">Memuat data profil dan progres.</p><div class="statgrid"><div class="stat"><b id="xp">—</b><small>TOTAL XP</small></div><div class="stat"><b id="missions">—</b><small>MISI SELESAI</small></div><div class="stat"><b id="level">—</b><small>LEVEL</small></div></div><label>Nama tampilan</label><div class="row"><input class="input small" id="displayName" maxlength="32" placeholder="Nama yang tampil di komunitas"><button class="btn primary" id="saveName">SIMPAN NAMA</button></div><p class="notice" id="saveStatus"></p></section></main>
 <script>
-const URL='https://teuqxfwqntkgemyukiju.supabase.co';
+const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
 const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
 let sb=null,user=null;
@@ -46,7 +46,7 @@ async function initCommunitySupabase(){
     return false;
   }
   try{
-    sb=window.supabase.createClient(URL,KEY,{
+    sb=window.supabase.createClient(SUPABASE_URL,KEY,{
       auth:{
         persistSession:true,
         autoRefreshToken:true,

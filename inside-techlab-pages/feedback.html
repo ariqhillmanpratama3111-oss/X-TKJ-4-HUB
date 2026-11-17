@@ -2,7 +2,7 @@
 <header class="top"><a class="brand" href="index.html" style="text-decoration:none">INSIDE <span>TECHLAB</span></a><div class="actions"><span class="status" id="sessionState">GUEST MODE</span><a class="btn" href="index.html">← OVERVIEW</a></div></header>
 <main class="wrap"><div class="hero"><div class="kicker">TECHLAB / COMMUNITY</div><h1>Feedback TechLab</h1><p class="muted">Bantu kami mengembangkan TechLab dengan saran dan penilaianmu.</p></div><section class="panel"><h2>Kirim Masukan</h2><p class="notice">Nama bersifat opsional. Jika dikosongkan, sistem menggunakan nama “Someone”. Beri rating dan tulis saranmu.</p><label>Nama pengirim (opsional)</label><input class="input" id="sender" maxlength="60" value="Someone"><label>Rating</label><select class="input" id="rating"><option value="5">★★★★★ — 5</option><option value="4">★★★★ — 4</option><option value="3">★★★ — 3</option><option value="2">★★ — 2</option><option value="1">★ — 1</option></select><label>Saran / masukan</label><textarea id="message" rows="6" maxlength="2000" placeholder="Tulis saran atau masukan untuk TechLab..."></textarea><button class="btn primary" id="send">KIRIM FEEDBACK</button><p class="notice" id="feedbackStatus">Login diperlukan untuk mengirim masukan.</p></section><section class="panel hidden" id="inbox"><h2>Feedback Inbox · Manager</h2><p class="notice">Bagian ini hanya terlihat oleh akun manager yang terdaftar.</p><div id="inboxList">Memuat...</div></section></main>
 <script>
-const URL='https://teuqxfwqntkgemyukiju.supabase.co';
+const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
 const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
 let sb=null,user=null;
@@ -46,7 +46,7 @@ async function initCommunitySupabase(){
     return false;
   }
   try{
-    sb=window.supabase.createClient(URL,KEY,{
+    sb=window.supabase.createClient(SUPABASE_URL,KEY,{
       auth:{
         persistSession:true,
         autoRefreshToken:true,
