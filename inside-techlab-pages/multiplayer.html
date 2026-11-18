@@ -344,8 +344,10 @@ function renderMeta(){
   const me=state.room&&state.room.players.find(p=>p.id===state.user?.id);
   $('readyBtn').textContent=me&&me.ready?'UNREADY':'READY';$('readyBtn').classList.toggle('ready-on',!!(me&&me.ready));
   const enough=count>=3,allReady=enough&&state.room&&state.room.players.every(p=>p.ready&&p.roleCode);
-  $('startBtn').disabled=!state.user||!state.room||state.room.status!=='waiting'||state.room.hostId!==state.user.id||!allReady;
-  $('startBtn').textContent=state.room&&state.room.status==='playing'?'MATCH IN PROGRESS':'START MISSION ↗';
+  const canPlayToko=!!state.room&&state.room.mode==='toko';
+  const canOpenMission=!!state.room&&state.room.status==='playing'&&canPlayToko;
+  $('startBtn').disabled=!state.user||!state.room||(!canOpenMission&&(state.room.status!=='waiting'||state.room.hostId!==state.user.id||!allReady||!canPlayToko));
+  $('startBtn').textContent=canOpenMission?'OPEN MISSION ↗':(state.room&&state.room.mode==='indoham'?'PT INDOHAM SOON':'START MISSION ↗');
 }
 function renderRoles(){
   if(!state.room||!state.user)return;
@@ -440,9 +442,15 @@ async function leaveRoom(){
   setTimeout(async()=>{state.room=null;await refreshAll();toast('Kamu sudah keluar dari squad.')},450);
 }
 async function startMatch(){
-  if(!state.room)return;const result=await state.sb.rpc('techlab_mp_start_room',{p_room_id:state.room.id});
+  if(!state.room)return;
+  if(state.room.mode!=='toko'){toast('Game PT Indoham belum tersedia. Untuk saat ini pilih PT Toko Gamer.');return}
+  if(state.room.status==='playing'){
+    location.href='pt-toko-gamer.html?room='+encodeURIComponent(state.room.id);
+    return;
+  }
+  const result=await state.sb.rpc('techlab_mp_start_room',{p_room_id:state.room.id});
   if(result.error){toast('Squad belum siap: '+safeError(result.error));return}
-  await refreshAll();$('launchHeading').textContent=MODE_LABEL[state.room.mode]+' — Squad deployed!';$('launchDescription').textContent='Room sekarang berstatus PLAYING. Estimasi durasi sekitar 20 menit, tetapi tidak ada countdown atau batas waktu. Match berakhir saat objektif selesai.';openModal('launchModal');
+  location.href='pt-toko-gamer.html?room='+encodeURIComponent(state.room.id);
 }
 async function loadLeaderboard(){
   const result=await state.sb.rpc('techlab_leaderboard');
