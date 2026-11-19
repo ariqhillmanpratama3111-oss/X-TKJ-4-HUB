@@ -4,7 +4,7 @@
 <script>
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
-const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
+const STORAGE_KEY='inside-techlab-auth-v1';
 let sb=null,user=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -57,6 +57,10 @@ async function initCommunitySupabase(){
     const {data,error}=await sb.auth.getSession();
     if(error) throw error;
     user=data.session?.user||null;
+    if(!user){location.replace('index.html?auth=login&reason=restricted');return false;}
+    const gate=await sb.rpc('techlab_public_is_member');
+    if(gate.error)throw gate.error;
+    if(gate.data!==true){await sb.auth.signOut();location.replace('index.html?auth=register&reason=restricted');return false;}
     updateSessionUI();
     sb.auth.onAuthStateChange((_event,session)=>{
       user=session?.user||null;

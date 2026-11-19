@@ -77,6 +77,14 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
 .invite-actions{display:flex;gap:5px;flex-shrink:0}.mini-btn{border:1px solid var(--line);border-radius:7px;padding:7px 8px;background:#132b3e;font-size:8px;font-weight:900}.mini-btn.accept{background:#64efb422;border-color:#64efb266;color:#91ffd0}.mini-btn.decline{background:#ff718b16;border-color:#ff718b55;color:#ffafbd}
 .mini-btn:disabled{opacity:.4;cursor:not-allowed}
 .role-pick{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:12px;border:1px solid var(--line);border-radius:10px;background:#081625;color:var(--text);margin:7px 0}.role-pick.selected{border-color:var(--cyan);background:#123047}.role-pick:disabled{opacity:.38}
+
+.join-room-card .join-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:center}
+.join-room-card input{min-width:0}
+.join-room-card button{padding:11px 12px}
+.join-room-message{min-height:28px;margin:9px 0 0;font-size:9px;line-height:1.5;color:#8da9c0}
+.join-room-message.error{color:#ffadba}.join-room-message.success{color:#82f3be}
+@media(max-width:900px){.join-room-card{grid-column:1/-1}}
+@media(max-width:520px){.join-room-card .join-row{grid-template-columns:1fr}.join-room-card button{width:100%}}
 </style>
 </head>
 <body>
@@ -101,6 +109,15 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
         <div class="empty-prompt" id="emptyPrompt"><div class="empty-icon">⌬</div><h3 id="emptyTitle">Hangar masih kosong</h3><p id="emptyText">Pilih simulasi perusahaan, buat squad, lalu undang temanmu. Karakter akan muncul dari platform hologram.</p><button class="cta" id="createRoomBtn">＋ CREATE SQUAD</button></div>
       </section>
       <aside class="side-column">
+        <section class="side-card join-room-card">
+          <div class="card-head"><h3>JOIN ROOM</h3><span class="mini-label">ROOM ID</span></div>
+          <p class="mode-intro">PUNYA KODE DARI HOST?</p>
+          <form id="joinRoomForm" class="join-row">
+            <input class="form-control" id="joinRoomCodeInput" maxlength="12" autocomplete="off" placeholder="Masukkan Room ID" aria-label="Room ID">
+            <button class="cta" id="joinRoomSubmit" type="submit">JOIN ↗</button>
+          </form>
+          <p class="join-room-message" id="joinRoomMessage" role="status" aria-live="polite">Masukkan kode yang dibagikan host. Akun TechLab wajib login.</p>
+        </section>
         <section class="side-card">
           <div class="card-head"><h3>INVITATIONS</h3><span class="mini-label" id="inviteCount">0 NEW</span></div>
           <div id="inviteInbox"><p class="note">Memeriksa undangan...</p></div>
@@ -164,7 +181,7 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
 'use strict';
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const SUPABASE_KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
-const STORAGE_KEY='sb-teuqxfwqntkgemyukiju-auth-token';
+const STORAGE_KEY='inside-techlab-auth-v1';
 const ROLE_DATA={
   toko:[{code:'technician',label:'Teknisi'},{code:'sales',label:'Sales'},{code:'administration',label:'Administrasi'},{code:'quality_control',label:'Quality Control'},{code:'manager',label:'Manager'}],
   indoham:[{code:'field_technician',label:'Teknisi Lapangan'},{code:'sales_marketing',label:'Sales / Marketing'},{code:'administration',label:'Administrasi'},{code:'customer_support',label:'Customer Support'},{code:'supervisor',label:'Supervisor'}]
@@ -387,7 +404,7 @@ async function loadCurrentRoom(){
 }
 async function refreshAll(){
   try{await Promise.all([loadInvitations(),loadCurrentRoom()]);$('setupNotice').hidden=true}
-  catch(e){console.error('[Inside TechLab Multiplayer]',e);if(/techlab_mp_|schema cache|does not exist|could not find|relation/i.test(safeError(e))){$('setupNotice').hidden=false;$('setupNotice').innerHTML='Database Multiplayer belum siap. Jalankan <b>multiplayer-setup.sql</b> di Supabase SQL Editor, lalu muat ulang halaman.'}else toast('Gagal menyinkronkan lobby: '+safeError(e))}
+  catch(e){console.error('[Inside TechLab Multiplayer]',e);if(/techlab_mp_|techlab_public_|schema cache|does not exist|could not find|relation/i.test(safeError(e))){$('setupNotice').hidden=false;$('setupNotice').innerHTML='Database Multiplayer atau akun publik belum siap. Jalankan <b>techlab-public-auth-roomid.sql</b> setelah setup awal multiplayer, lalu muat ulang halaman.'}else toast('Gagal menyinkronkan lobby: '+safeError(e))}
 }
 async function loadFriends(){
   $('friendList').innerHTML='<p class="note">Memuat teman...</p>';
@@ -426,6 +443,38 @@ async function toggleReady(){
   const result=await state.sb.rpc('techlab_mp_set_member',{p_room_id:state.room.id,p_role_code:me.roleCode,p_ready:!me.ready});
   if(result.error){toast('Status Ready gagal diperbarui: '+safeError(result.error));return}
   await refreshAll();toast(me.ready?'Ready dibatalkan.':'Kamu sekarang Ready.');playTone(me.ready?330:680);
+}
+async function joinRoomByCode(event){
+  if(event)event.preventDefault();
+  const input=$('joinRoomCodeInput'),message=$('joinRoomMessage'),button=$('joinRoomSubmit');
+  const code=(input.value||'').trim().toUpperCase();
+  message.className='join-room-message';
+  if(!code){message.textContent='Masukkan Room ID terlebih dahulu.';message.classList.add('error');return;}
+  if(!state.sb||!state.user){message.textContent='Login ke akun TechLab terlebih dahulu.';message.classList.add('error');toast('Login TechLab diperlukan.');return;}
+  button.disabled=true;button.textContent='CHECKING...';message.textContent='Memeriksa Room ID...';
+  try{
+    const result=await state.sb.rpc('techlab_mp_join_room',{p_room_code:code});
+    if(result.error){
+      const raw=safeError(result.error),upper=raw.toUpperCase();
+      let friendly='Tidak bisa masuk room: '+raw;
+      if(upper.includes('ROOM_NOT_FOUND'))friendly='ROOM NOT FOUND — ID room tidak ditemukan. Periksa kembali kode dari host.';
+      else if(upper.includes('ROOM_CLOSED'))friendly='ROOM CLOSED — Host sudah menutup room ini.';
+      else if(upper.includes('ROOM_FULL'))friendly='ROOM FULL — Slot pemain di room ini sudah penuh.';
+      else if(upper.includes('ROOM_IN_PROGRESS'))friendly='MATCH ALREADY STARTED — Room sudah memulai pertandingan.';
+      else if(upper.includes('ALREADY_IN_ACTIVE_ROOM'))friendly='Kamu masih berada di room lain. Keluar dulu dari room tersebut.';
+      else if(upper.includes('LOGIN_REQUIRED'))friendly='Login TechLab diperlukan untuk bergabung.';
+      else if(upper.includes('TECHLAB_ACCOUNT_REQUIRED'))friendly='Buat akun publik TechLab terlebih dahulu.';
+      else if(upper.includes('ROOM_ROLES_FULL'))friendly='Semua role di room ini sudah terisi.';
+      message.textContent=friendly;message.classList.add('error');toast(friendly);return;
+    }
+    await refreshAll();
+    if(state.room&&state.room.id===result.data){
+      input.value='';message.textContent='BERHASIL JOIN — Kamu sudah masuk ke lobby '+state.room.name+'.';message.classList.add('success');toast('Berhasil masuk room '+state.room.code+'.');playTone(650);
+    }else{
+      message.textContent='Room terhubung, tetapi lobby belum tersinkron. Tekan muat ulang halaman.';message.classList.add('error');
+    }
+  }catch(e){message.textContent='Gagal memeriksa Room ID: '+safeError(e);message.classList.add('error');}
+  finally{button.disabled=false;button.textContent='JOIN ↗';}
 }
 async function createRoom(event){
   event.preventDefault();if(!state.user){toast('Login melalui TechLab Overview terlebih dahulu.');return}
@@ -476,8 +525,11 @@ function subscribeRealtime(){
     .subscribe(status=>{if(status==='CHANNEL_ERROR')console.warn('Realtime multiplayer channel error')});
 }
 async function handleAuthChange(){
-  if(!state.user){$('authState').textContent='LOGIN REQUIRED';$('emptyTitle').textContent='Login untuk masuk Multiplayer';$('emptyText').textContent='Login melalui TechLab Overview menggunakan akunmu. Undangan akan muncul di panel ini setelah kamu masuk.';state.room=null;state.invites=[];renderStage();renderInviteInbox();renderMeta();return}
-  $('authState').textContent='● SIGNED IN';
+  if(!state.user){$('authState').textContent='LOGIN REQUIRED';$('emptyTitle').textContent='Login untuk masuk Multiplayer';$('emptyText').textContent='Buat akun atau login dari Inside TechLab Overview. Akun Inside TKJ tidak otomatis memberi akses ke TechLab.';state.room=null;state.invites=[];renderStage();renderInviteInbox();renderMeta();return}
+  const access=await state.sb.rpc('techlab_public_is_member');
+  if(access.error)throw access.error;
+  if(access.data!==true){state.user=null;state.room=null;state.invites=[];$('authState').textContent='TECHLAB ACCOUNT REQUIRED';$('emptyTitle').textContent='Akun TechLab diperlukan';$('emptyText').textContent='Daftar atau login melalui halaman Overview TechLab terlebih dahulu.';renderStage();renderInviteInbox();renderMeta();return;}
+  $('authState').textContent='● TECHLAB MEMBER';
   const profile=await state.sb.from('techlab_profiles').select('id,display_name').eq('id',state.user.id).maybeSingle();
   if(profile.error)throw profile.error;state.profile=profile.data;
   if(!state.profile){const name=state.user.user_metadata?.full_name||state.user.user_metadata?.name||'Someone';const created=await state.sb.from('techlab_profiles').upsert({id:state.user.id,display_name:name,updated_at:new Date().toISOString()},{onConflict:'id'}).select('id,display_name').single();if(created.error)throw created.error;state.profile=created.data}
@@ -493,6 +545,8 @@ async function init(){
 }
 $('createRoomBtn').addEventListener('click',()=>openModal('createModal'));
 $('createForm').addEventListener('submit',createRoom);
+$('joinRoomForm').addEventListener('submit',joinRoomByCode);
+$('joinRoomCodeInput').addEventListener('input',()=>{$('joinRoomMessage').className='join-room-message';});
 $('modeToko').addEventListener('click',()=>selectMode('toko'));
 $('modeIndoham').addEventListener('click',()=>selectMode('indoham'));
 $('inviteBtn').addEventListener('click',openInvite);

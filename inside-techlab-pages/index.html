@@ -110,6 +110,11 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
 .community-shortcuts a:hover{border-color:var(--cyan);background:#153047}
 #techCommunity{scroll-margin-top:105px}#feedbackPanel,#communityOwn{scroll-margin-top:105px}
 .community-modules{margin:18px 0 34px}.community-modules .module{min-height:175px}
+
+.auth-mode-active{border-color:var(--cyan)!important;color:var(--cyan)!important;background:#35e7ff12!important}
+#authBackdrop .modal{width:min(520px,100%)}
+#authBackdrop .search{min-height:42px}
+#authBackdrop .feature-btn,#authBackdrop .secondary-btn{min-height:42px}
 </style>
 </head>
 <body data-page="home">
@@ -123,7 +128,7 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
       <div class="eyebrow">✦ TKJ DIGITAL LABORATORY</div>
       <h1>BUILD. LEARN.<br><span>LEVEL UP.</span></h1>
       <p>Ruang belajar interaktif untuk hardware, perakitan PC, software, jaringan, dan diagnosis komputer. Mulai dari dasar, selesaikan misi, kumpulkan XP, dan naik level.</p>
-      <div class="hero-buttons"><button class="primary-btn" onclick="location.href='leaderboard.html'">EXPLORE LEADERBOARD ↘</button><button class="secondary-btn" onclick="location.href='pc-builder.html'">OPEN PC BUILDER ↗</button></div>
+      <div class="hero-buttons"><button class="primary-btn" onclick="window.techlabRequireAuth('leaderboard.html')">EXPLORE LEADERBOARD ↘</button><button class="secondary-btn" onclick="window.techlabRequireAuth('pc-builder.html')">OPEN PC BUILDER ↗</button></div>
     </div>
 <a class="hero-card multiplayer-hero-card" href="multiplayer.html" aria-label="Buka Multiplayer Mode" style="text-decoration:none;color:inherit;cursor:pointer"><div class="chip">TECHLAB / MULTIPLAYER MODE</div><div class="core-graphic">⚡</div><div><strong>MULTIPLAYER MODE ↗</strong><br><small>Invite your friends. Build a squad. Complete missions together.</small><div style="margin-top:13px;color:var(--cyan);font:800 9px Orbitron;letter-spacing:1px">ENTER SQUAD LOBBY →</div></div></a>
   </section>
@@ -240,7 +245,26 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
 <div id="globalTechAI" class="global-ai"><button id="globalAiToggle" class="global-ai-toggle" aria-label="Buka TechLab AI">✦ <span>ASK TECHLAB AI</span></button><section id="globalAiPanel" class="global-ai-panel" aria-label="TechLab AI Assistant"><header><div><b>✦ TECHLAB AI</b><small id="globalAiContext">GLOBAL ASSISTANT</small></div><button id="globalAiClose" aria-label="Tutup">×</button></header><div id="globalAiMessages" class="global-ai-messages"><div class="global-ai-bubble">Halo! Aku bisa bantu menjelaskan materi, memilih komponen, menyusun PC, atau menganalisis masalah komputer. Apa yang ingin kamu tanyakan?</div></div><form id="globalAiForm"><textarea id="globalAiInput" rows="2" placeholder="Tulis pertanyaanmu..." required></textarea><button id="globalAiSend" type="submit">KIRIM ↗</button></form><small class="global-ai-note">Menggunakan TechLab AI melalui akun Inside TKJ 4.</small></section></div>
 
 <footer class="footer">INSIDE TECHLAB · A LEARNING SPACE BY INSIDE TKJ 4</footer>
-<div class="modal-backdrop" id="authBackdrop"><div class="modal"><div class="modal-top"><span class="section-tag">INSIDE TECHLAB / ACCOUNT</span><button class="close" id="authClose">CLOSE ✕</button></div><h2>Masuk ke TechLab</h2><p>Gunakan akun Inside TKJ 4 yang terhubung ke Supabase. Jika akunmu memakai metode login khusus di website utama, login di website utama dulu lalu buka TechLab kembali.</p><label for="authEmail">Email</label><input class="search" style="display:block;max-width:none;margin:7px 0 12px" id="authEmail" type="email" autocomplete="email" placeholder="email@example.com"><label for="authPassword">Password</label><input class="search" style="display:block;max-width:none;margin:7px 0 12px" id="authPassword" type="password" autocomplete="current-password" placeholder="Password akun"><div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px"><button class="feature-btn" id="signInBtn">MASUK</button><button class="secondary-btn" id="signUpBtn">BUAT AKUN</button></div><p id="authMessage" class="account-note" aria-live="polite">Progres hanya tersimpan jika Supabase Auth mengenali sesi akunmu.</p></div></div>
+<div class="modal-backdrop" id="authBackdrop" role="dialog" aria-modal="true" aria-labelledby="authHeading">
+  <div class="modal">
+    <div class="modal-top"><span class="section-tag">INSIDE TECHLAB / PUBLIC ACCOUNT</span><button class="close" id="authClose" type="button">CLOSE ✕</button></div>
+    <h2 id="authHeading">Buat Akun TechLab</h2>
+    <p>Daftar khusus Inside TechLab. Akun dan sesi TechLab dipisahkan dari sesi website utama Inside TKJ.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+      <button class="secondary-btn" type="button" id="authRegisterMode">BUAT AKUN</button>
+      <button class="secondary-btn" type="button" id="authLoginMode">LOGIN</button>
+    </div>
+    <div id="authDisplayNameWrap"><label for="authDisplayName">Nama tampilan TechLab</label><input class="search" id="authDisplayName" type="text" maxlength="32" autocomplete="nickname" placeholder="Nama yang ditampilkan" style="display:block;max-width:none;margin:7px 0 12px"></div>
+    <label for="authEmail">Email</label><input class="search" id="authEmail" type="email" autocomplete="email" placeholder="email@example.com" style="display:block;max-width:none;margin:7px 0 12px">
+    <button class="feature-btn" id="sendOtpBtn" type="button">KIRIM KODE VERIFIKASI</button>
+    <label for="authOtp" style="display:block;margin-top:14px">Kode verifikasi email (6 digit)</label>
+    <input class="search" id="authOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Masukkan kode dari email" style="display:block;max-width:none;margin:7px 0 12px">
+    <button class="secondary-btn" id="verifyOtpBtn" type="button" style="width:100%">VERIFIKASI & LANJUTKAN</button>
+    <div style="display:flex;align-items:center;gap:10px;margin:15px 0;color:var(--muted);font-size:10px"><span style="height:1px;background:var(--line);flex:1"></span>ATAU<span style="height:1px;background:var(--line);flex:1"></span></div>
+    <button class="secondary-btn" id="googleAuthBtn" type="button" style="width:100%">CONTINUE WITH GOOGLE ↗</button>
+    <p id="authMessage" class="account-note" aria-live="polite">Pilih Buat Akun atau Login, lalu verifikasi email. Google memakai proses persetujuan akun Google.</p>
+  </div>
+</div>
 <div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-top"><span class="section-tag">TECHLAB / COMPONENT FILE</span><button class="close" onclick="closeModal()">CLOSE ✕</button></div><div id="modalContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'"></script>
 <script>
@@ -262,20 +286,89 @@ document.getElementById('searchInput').addEventListener('input',filterCards);
 // Supabase public client: publishable key is intended for browser use; RLS is mandatory.
 const SUPABASE_URL='https://teuqxfwqntkgemyukiju.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_0XsVO6d21dYZaDtWHoGyGQ_spE3LXbQ';
-const techSupabase=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-teuqxfwqntkgemyukiju-auth-token'}}):null;
-let techUser=null;
-if(techSupabase){techSupabase.auth.onAuthStateChange((_event,session)=>{techUser=session?.user||null;updateAccountUI();if(techUser)loadTechProgress();});}
-async function refreshTechSession(){
- if(!techSupabase){document.getElementById('accountState').textContent='OFFLINE';return;}
- try{const {data,error}=await techSupabase.auth.getSession();if(error)throw error;techUser=data.session?.user||null;updateAccountUI();if(techUser)await loadTechProgress();}
- catch(e){document.getElementById('accountState').textContent='AUTH ERROR';console.warn('TechLab auth:',e.message);}
+const TECHLAB_STORAGE_KEY='inside-techlab-auth-v1';
+const techSupabase=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:TECHLAB_STORAGE_KEY}}):null;
+let techUser=null,techlabAccess=false,authMode='register',otpSent=false;
+function setAuthMessage(text){const el=document.getElementById('authMessage');if(el)el.textContent=text;}
+function setAuthMode(mode){authMode=mode==='login'?'login':'register';otpSent=false;document.getElementById('authOtp').value='';document.getElementById('authHeading').textContent=authMode==='register'?'Buat Akun TechLab':'Login ke TechLab';document.getElementById('authDisplayNameWrap').style.display=authMode==='register'?'block':'none';document.getElementById('authRegisterMode').classList.toggle('auth-mode-active',authMode==='register');document.getElementById('authLoginMode').classList.toggle('auth-mode-active',authMode==='login');document.getElementById('sendOtpBtn').textContent=authMode==='register'?'KIRIM KODE & DAFTAR':'KIRIM KODE LOGIN';setAuthMessage(authMode==='register'?'Buat akun publik TechLab menggunakan email yang dapat kamu verifikasi.':'Masukkan email akun TechLab yang sudah terdaftar.');}
+function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'TECHLAB MEMBER'):'GUEST PREVIEW';document.getElementById('loginBtn').textContent=techUser?'LOGOUT TECHLAB ↗':'LOGIN / SIGN UP ↗';const a=document.getElementById('accountBtn');if(a)a.style.display=techUser?'inline-flex':'none';}
+function openAuth(mode='register'){document.getElementById('authBackdrop').classList.add('show');setAuthMode(mode);}
+async function completeTechAuth(session,intent='login'){
+ if(!techSupabase||!session?.user)throw new Error('Sesi autentikasi tidak ditemukan.');
+ const user=session.user;
+ if(intent==='register'){
+   const displayName=(document.getElementById('authDisplayName')?.value||sessionStorage.getItem('insideTechLabPendingDisplayName')||user.user_metadata?.display_name||user.user_metadata?.full_name||user.user_metadata?.name||'').trim();
+   const {error:registerError}=await techSupabase.rpc('techlab_public_register',{p_display_name:displayName||null});
+   if(registerError)throw registerError;
+ }
+ const {data:member,error:memberError}=await techSupabase.rpc('techlab_public_is_member');
+ if(memberError)throw memberError;
+ if(member!==true){
+   await techSupabase.auth.signOut();techUser=null;techlabAccess=false;updateAccountUI();
+   throw new Error('Akun ini belum terdaftar sebagai akun publik TechLab. Pilih BUAT AKUN untuk mendaftar.');
+ }
+ techUser=user;techlabAccess=true;sessionStorage.removeItem('insideTechLabPendingDisplayName');updateAccountUI();document.getElementById('authBackdrop').classList.remove('show');
+ await loadTechProgress();await loadTechLeaderboard();
 }
-function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'SIGNED IN'):'GUEST MODE';document.getElementById('loginBtn').textContent=techUser?'LOGOUT ↗':'LOGIN / SIGN UP ↗';const a=document.getElementById('accountBtn');if(a)a.style.display=techUser?'inline-flex':'none';}
-function openAuth(){document.getElementById('authBackdrop').classList.add('show');document.getElementById('authMessage').textContent=techSupabase?'Masuk menggunakan email dan password akun Supabase.':'Library Supabase belum termuat. Periksa koneksi internet.';}
-document.getElementById('loginBtn').addEventListener('click',async()=>{if(techUser){if(confirm('Keluar dari sesi TechLab?')){await techSupabase.auth.signOut();techUser=null;updateAccountUI();}}else openAuth();});
+async function initializeTechAuth(){
+ if(!techSupabase){document.getElementById('accountState').textContent='OFFLINE';return;}
+ try{
+   const {data,error}=await techSupabase.auth.getSession();if(error)throw error;
+   const session=data.session;
+   const oauthIntent=sessionStorage.getItem('insideTechLabOAuthMode');
+   if(session){
+     try{await completeTechAuth(session,oauthIntent||'login');}
+     catch(e){console.warn('TechLab account check:',e.message);if(oauthIntent)openAuth(oauthIntent);setAuthMessage(e.message);}
+   }else{techUser=null;techlabAccess=false;updateAccountUI();}
+   sessionStorage.removeItem('insideTechLabOAuthMode');
+   techSupabase.auth.onAuthStateChange((event,nextSession)=>{
+     if(event==='SIGNED_OUT'){techUser=null;techlabAccess=false;updateAccountUI();}
+     else if(nextSession?.user&&techlabAccess){techUser=nextSession.user;updateAccountUI();}
+   });
+   const params=new URLSearchParams(location.search);
+   if(params.get('auth')==='register')openAuth('register');
+   else if(params.get('auth')==='login')openAuth('login');
+   if(params.get('reason')==='restricted')setAuthMessage('Halaman tersebut khusus anggota TechLab. Login atau buat akun TechLab untuk melanjutkan.');
+ }catch(e){document.getElementById('accountState').textContent='AUTH ERROR';console.error('TechLab auth:',e);setAuthMessage('Gagal memeriksa sesi TechLab: '+e.message);}
+}
+document.getElementById('loginBtn').addEventListener('click',async()=>{if(techUser){if(confirm('Keluar dari akun Inside TechLab? Sesi Inside TKJ tidak diubah.')){await techSupabase.auth.signOut();techUser=null;techlabAccess=false;updateAccountUI();}}else openAuth('register');});
 document.getElementById('authClose').addEventListener('click',()=>document.getElementById('authBackdrop').classList.remove('show'));
-document.getElementById('signInBtn').addEventListener('click',async()=>{const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value;const msg=document.getElementById('authMessage');if(!email||!password){msg.textContent='Isi email dan password terlebih dahulu.';return;}if(!techSupabase){msg.textContent='Supabase belum siap.';return;}msg.textContent='Memproses login...';const {data,error}=await techSupabase.auth.signInWithPassword({email,password});if(error){msg.textContent='Login gagal: '+error.message;return;}techUser=data.user;updateAccountUI();document.getElementById('authBackdrop').classList.remove('show');await loadTechProgress();});
-document.getElementById('signUpBtn').addEventListener('click',()=>{document.getElementById('authMessage').textContent='Buat akun lewat sistem pendaftaran utama Inside TKJ 4 agar profil anggota ikut terdaftar. Setelah itu, login di sini menggunakan email dan password akun tersebut.';});
+document.getElementById('authRegisterMode').addEventListener('click',()=>setAuthMode('register'));
+document.getElementById('authLoginMode').addEventListener('click',()=>setAuthMode('login'));
+document.getElementById('sendOtpBtn').addEventListener('click',async()=>{
+ const email=document.getElementById('authEmail').value.trim(),name=document.getElementById('authDisplayName').value.trim(),msg=document.getElementById('authMessage');
+ if(!email){setAuthMessage('Masukkan email terlebih dahulu.');return;}
+ if(authMode==='register'&&(name.length<2||name.length>32)){setAuthMessage('Nama tampilan harus 2–32 karakter.');return;}
+ if(!techSupabase){setAuthMessage('Supabase belum siap.');return;}
+ const btn=document.getElementById('sendOtpBtn');btn.disabled=true;btn.textContent='MENGIRIM KODE...';
+ try{
+   const options={shouldCreateUser:authMode==='register'};
+   if(authMode==='register')options.data={display_name:name,app_origin:'inside_techlab'};
+   const {error}=await techSupabase.auth.signInWithOtp({email,options});
+   if(error)throw error;otpSent=true;setAuthMessage('Kode verifikasi sudah diminta. Periksa inbox dan folder spam, lalu masukkan kode email ke kolom di bawah.');document.getElementById('authOtp').focus();
+ }catch(e){setAuthMessage('Gagal mengirim kode: '+e.message);}
+ finally{btn.disabled=false;btn.textContent=authMode==='register'?'KIRIM KODE & DAFTAR':'KIRIM KODE LOGIN';}
+});
+document.getElementById('verifyOtpBtn').addEventListener('click',async()=>{
+ const email=document.getElementById('authEmail').value.trim(),token=document.getElementById('authOtp').value.trim();
+ if(!email||!token){setAuthMessage('Masukkan email dan kode verifikasi.');return;}
+ if(!otpSent){setAuthMessage('Kirim kode terlebih dahulu.');return;}
+ const btn=document.getElementById('verifyOtpBtn');btn.disabled=true;btn.textContent='MEMVERIFIKASI...';
+ try{const {data,error}=await techSupabase.auth.verifyOtp({email,token,type:'email'});if(error)throw error;await completeTechAuth(data.session,authMode);setAuthMessage('Akun TechLab siap digunakan.');}
+ catch(e){setAuthMessage('Verifikasi gagal: '+e.message);}
+ finally{btn.disabled=false;btn.textContent='VERIFIKASI & LANJUTKAN';}
+});
+document.getElementById('googleAuthBtn').addEventListener('click',async()=>{
+ if(!techSupabase){setAuthMessage('Supabase belum siap.');return;}
+ sessionStorage.setItem('insideTechLabOAuthMode',authMode);
+ sessionStorage.setItem('insideTechLabPendingDisplayName',document.getElementById('authDisplayName').value.trim());
+ const btn=document.getElementById('googleAuthBtn');btn.disabled=true;btn.textContent='MENGHUBUNGKAN KE GOOGLE...';
+ const {error}=await techSupabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+ if(error){sessionStorage.removeItem('insideTechLabOAuthMode');sessionStorage.removeItem('insideTechLabPendingDisplayName');setAuthMessage('Google login gagal: '+error.message);btn.disabled=false;btn.textContent='CONTINUE WITH GOOGLE ↗';}
+});
+window.techlabRequireAuth=function(target){if(!techUser||!techlabAccess){openAuth('login');setAuthMessage('Login TechLab diperlukan untuk membuka fitur ini.');return false;}if(target)location.href=target;return true;};
+document.addEventListener('click',event=>{const a=event.target.closest('a[href]');if(!a)return;const href=a.getAttribute('href')||'';if(!href||href.startsWith('#')||/^(https?:|mailto:|tel:|javascript:)/i.test(href))return;const url=new URL(href,location.href);if(url.pathname===location.pathname)return;if(!techUser||!techlabAccess){event.preventDefault();openAuth('login');setAuthMessage('Login TechLab diperlukan untuk membuka modul, komunitas, dan multiplayer.');}});
+
 async function saveTechProgress(moduleKey,xp=10){if(!techUser||!techSupabase){openInfo('Login diperlukan','Login terlebih dahulu untuk menyimpan progres belajar.');return;}const {error}=await techSupabase.from('techlab_progress').upsert({user_id:techUser.id,module_key:moduleKey,completed:true,xp,updated_at:new Date().toISOString()},{onConflict:'user_id,module_key'});if(error){openInfo('Belum tersimpan','Progres gagal disimpan: '+error.message+'. Pastikan SQL TechLab sudah dijalankan di Supabase.');return;}openInfo('Progres tersimpan','Modul '+moduleKey+' berhasil ditandai selesai pada akunmu.');await loadTechProgress();}
 async function loadTechProgress(){if(!techUser||!techSupabase)return;const {data,error}=await techSupabase.from('techlab_progress').select('module_key,completed').eq('user_id',techUser.id);if(error){console.warn('Progress belum tersedia:',error.message);return;}document.querySelectorAll('[data-progress-key]').forEach(el=>{const done=(data||[]).some(x=>x.module_key===el.dataset.progressKey&&x.completed);el.textContent=done?'✓ SELESAI':'TANDAI SELESAI';});}
 document.querySelectorAll('[data-ai-prompt]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('techlabPrompt').value=btn.dataset.aiPrompt;}));
@@ -294,6 +387,7 @@ document.getElementById('askTechlabBtn').addEventListener('click',async()=>{
 async function loadTechLeaderboard(){
  const list=document.getElementById('leaderboardList');
  if(!list||!techSupabase){if(list)list.innerHTML='<div class="leader-empty">Leaderboard tidak dapat dimuat. Periksa koneksi Supabase.</div>';return;}
+ if(!techUser||!techlabAccess){list.innerHTML='<div class="leader-empty">Login TechLab untuk melihat leaderboard.</div>';return;}
  list.innerHTML='<div class="leader-empty">Mengambil peringkat pengguna...</div>';
  const {data,error}=await techSupabase.rpc('techlab_leaderboard');
  if(error){console.warn('Leaderboard:',error.message);list.innerHTML='<div class="leader-empty">Leaderboard belum aktif. Jalankan file SQL <b>techlab-leaderboard.sql</b> di Supabase SQL Editor, lalu muat ulang halaman.</div>';return;}
@@ -301,8 +395,7 @@ async function loadTechLeaderboard(){
  list.innerHTML=data.slice(0,10).map((row,i)=>`<button type="button" class="leader-row" style="width:100%;text-align:left;color:inherit;cursor:pointer" data-profile="${String(row.user_id||'')}" onclick="window.techlabOpenProfile&&window.techlabOpenProfile(this.dataset.profile)"><span class="leader-rank">#${i+1}</span><span class="leader-name">${String(row.display_name||'TechLab User').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span><span class="leader-xp">${Number(row.total_xp)||0} XP</span></button>`).join('');
 }
 
-refreshTechSession();
-loadTechLeaderboard();
+initializeTechAuth();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
 // Product-level catalog: demo data only; prices are editable estimates.
