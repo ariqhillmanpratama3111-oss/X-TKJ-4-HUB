@@ -21,6 +21,32 @@ main{max-width:1540px;margin:auto;padding:19px clamp(12px,2.6vw,36px) 50px}.miss
 @media(max-width:1160px){.layout{grid-template-columns:240px minmax(0,1fr)}.right-panel{grid-column:1/-1}.right-panel .station-body{display:grid;grid-template-columns:1fr 1fr;gap:14px}.right-panel .roster{margin-top:0;border-top:0;border-left:1px solid #29445b;padding:0 0 0 14px}}
 @media(max-width:760px){.hud{grid-template-columns:repeat(3,1fr)}.mission-banner{align-items:flex-start;flex-direction:column}.mission-right{justify-content:flex-start}.hud{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}.left-panel{order:2}.workspace{order:1;min-height:unset}.right-panel{order:3;grid-column:auto}.right-panel .station-body{display:block}.right-panel .roster{border-left:0;border-top:1px solid #29445b;padding:12px 0 0;margin-top:14px}.orders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.order-card{margin:0}.selected-hint{grid-column:1/-1}.workspace{padding:12px}}
 @media(max-width:480px){.topbar{height:58px;padding:0 10px}.brand-name{font-size:9px}.brand-sub{font-size:7px}.live-pill{display:none}.back{font-size:7px;padding:8px}.mission-banner{padding:13px}.mission-banner h1{font-size:18px}.mission-banner p{font-size:8px}.meta{font-size:7px;padding:7px}.hud{gap:6px}.metric{padding:9px}.metric-label{font-size:6px}.metric-value{font-size:13px}.metric-foot{font-size:6px}.orders{grid-template-columns:1fr 1fr}.order-card{padding:9px}.order-card strong{font-size:8px}.flowline{gap:3px}.flowstep{padding:8px 2px}.flowstep b{font-size:6px}.flowstep small{font-size:5px}.plan-grid{gap:5px}.plan{padding:8px}.plan h4{font-size:7px}.plan-price{font-size:9px}.task-grid{grid-template-columns:1fr}.worktop h2{font-size:11px}.worktop p{font-size:8px}.customer-card{padding:11px}.customer-card h3{font-size:11px}.customer-card p{font-size:8px}.task-info b{font-size:8px}}
+
+/* MOBILE IMMERSIVE MODE: fullscreen is requested from the user's tap. */
+.mobile-immersive-gate[hidden],.mobile-immersive-exit[hidden],.mobile-rotate-hint[hidden]{display:none!important}
+.mobile-immersive-gate{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:18px;background:rgba(2,8,16,.96);backdrop-filter:blur(14px)}
+.mobile-immersive-card{width:min(440px,100%);padding:25px 22px;text-align:center;border:1px solid rgba(85,229,255,.45);border-radius:20px;background:linear-gradient(145deg,#10263b,#081421);box-shadow:0 25px 90px #000b}
+.mobile-immersive-eyebrow{font-size:9px;font-weight:900;letter-spacing:2px;color:#65eaff}
+.mobile-immersive-icon{width:58px;height:58px;display:grid;place-items:center;margin:16px auto;border:1px solid #55e5ff77;border-radius:17px;background:#55e5ff14;color:#7cecff;font-size:30px}
+.mobile-immersive-card h2{font:800 18px Orbitron,Inter,Arial,sans-serif;letter-spacing:1px;margin:0 0 10px;color:#f1f8ff}
+.mobile-immersive-card p{font-size:12px;line-height:1.7;color:#a5bbcf;margin:0 auto 17px;max-width:340px}
+.mobile-immersive-card button{width:100%;padding:14px 16px;border:1px solid #55e5ff;border-radius:11px;background:linear-gradient(110deg,#167fa9,#2867bf);color:white;font-weight:950;font-size:11px;letter-spacing:.8px}
+.mobile-immersive-card button:disabled{opacity:.6}
+.mobile-immersive-card small{display:block;margin-top:12px;color:#7795ad;font-size:9px;line-height:1.6}
+.mobile-immersive-exit{position:fixed;z-index:100001;top:8px;right:8px;padding:8px 10px;border:1px solid #55e5ff66;border-radius:8px;background:#061522dd;color:#bcefff;font-size:9px;font-weight:900}
+.mobile-rotate-hint{position:fixed;z-index:99998;left:50%;bottom:10px;transform:translateX(-50%);max-width:calc(100vw - 20px);padding:8px 11px;border:1px solid #55e5ff66;border-radius:8px;background:#061522ed;color:#bcefff;font-size:9px;font-weight:900;letter-spacing:.7px;text-align:center}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:560px){
+  .mobile-immersive-exit{top:5px;right:5px;padding:6px 8px;font-size:8px}
+}
+
+/* Compact co-op workstation layout in phone landscape */
+@media(pointer:coarse) and (orientation:landscape) and (max-height:560px){
+  .topbar{height:43px;padding:0 9px}.brand-icon{width:29px;height:29px}.brand-name{font-size:9px}.brand-sub{display:none}.topright{gap:5px}.live-pill{display:none}.room-pill,.back{font-size:7px;padding:6px 7px}
+  main{padding:7px 8px 16px}.mission-banner{padding:8px 10px;margin-bottom:7px;border-radius:10px;gap:7px;align-items:center}.mission-kicker{font-size:6px;letter-spacing:1px}.mission-banner h1{font-size:13px;margin:3px 0}.mission-banner p{display:none}.mission-right{gap:4px}.meta{font-size:6px;padding:5px 6px}
+  .hud{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin-bottom:7px}.metric{padding:6px 7px;border-radius:8px}.metric-label{font-size:5px;letter-spacing:.5px}.metric-value{font-size:clamp(9px,1.35vw,13px);margin-top:4px}.metric-foot{font-size:5px;margin-top:3px}
+  .layout{grid-template-columns:minmax(135px,20vw) minmax(0,1fr) minmax(150px,22vw);gap:6px;align-items:start}.panel{border-radius:9px}.panel-head{padding:7px 8px}.panel-head h2{font-size:7px}.count{font-size:6px;padding:3px 4px}.orders{padding:5px}.order-card{padding:6px;margin-bottom:5px;border-radius:7px}.order-id,.order-state{font-size:5px}.order-card strong{font-size:7px;margin-top:4px}.order-card p{font-size:6px}.order-progress{margin-top:5px}.selected-hint{font-size:6px;padding:5px 6px}
+  .workspace{padding:7px;min-height:0}.worktop{margin-bottom:6px;gap:5px}.worktop h2{font-size:9px}.worktop p{font-size:6px}.customer-chip{font-size:6px;padding:5px}.customer-card{padding:7px;margin-bottom:6px;border-radius:8px}.customer-caption{font-size:6px}.customer-card h3{font-size:8px;margin:4px 0}.customer-card p{font-size:6px;line-height:1.45}.customer-brief{gap:3px;margin-top:5px}.brief-tag{font-size:5px;padding:3px 4px}.flowline{gap:3px;margin:6px 0}.flowstep{padding:5px 2px;border-radius:5px}.flowstep b{font-size:5px}.flowstep small{font-size:4px;margin-top:2px}.section-title{margin:7px 0 5px}.section-title h3{font-size:6px}.section-title span{font-size:5px}.plan-grid,.task-grid{gap:4px}.plan{padding:5px;border-radius:6px}.plan h4{font-size:6px}.plan-price{font-size:8px}.plan small{font-size:5px}.plan button{font-size:5px;padding:5px 3px;margin-top:5px}.task{padding:5px;gap:4px}.task-info b{font-size:6px}.task-info small{font-size:5px}.task button{font-size:5px;padding:5px}.feed{margin-top:7px;padding-top:6px}.feed h3{font-size:6px}.feed-item{font-size:5px;padding:4px 5px}.right-panel .station-body{padding:6px}.my-role{padding:6px;margin-bottom:6px}.role-icon{width:24px;height:24px;font-size:11px}.role-name{font-size:7px}.role-desc{font-size:5px}.station-message,.notice{font-size:6px;padding:6px;margin-bottom:6px}.station-actions{gap:4px}.action-btn{padding:6px}.action-btn b{font-size:6px}.action-btn small{font-size:5px}.right-panel .roster{padding-top:6px;margin-top:6px}.member{padding:5px}.member strong{font-size:6px}.member small,.member-status{font-size:5px}
+}
 </style>
 </head>
 <body>
@@ -115,5 +141,109 @@ function attachControls(){document.addEventListener('click',async e=>{const orde
 function showError(err){console.error('[PT Toko Gamer]',err);$('loadingScreen').classList.add('hide');$('gameMain').classList.add('hidden');$('errorBox').classList.remove('hidden');$('errorMessage').textContent=err?.message||String(err)}
 attachControls();boot().catch(showError);
 </script>
+
+<div class="mobile-immersive-gate" id="mobileImmersiveGate" role="dialog" aria-modal="true" aria-labelledby="mobileImmersiveTitle" hidden>
+  <div class="mobile-immersive-card">
+    <div class="mobile-immersive-eyebrow">INSIDE TECHLAB / MOBILE MODE</div>
+    <div class="mobile-immersive-icon">↔</div>
+    <h2 id="mobileImmersiveTitle">MASUK MODE LANDSCAPE</h2>
+    <p>Aktifkan layar penuh dan putar perangkat ke posisi horizontal untuk pengalaman multiplayer yang lebih nyaman.</p>
+    <button type="button" id="mobileImmersiveStart">AKTIFKAN MODE GAME ↗</button>
+    <small id="mobileImmersiveMessage">Browser akan meminta izin layar penuh. Beberapa browser perlu diputar manual.</small>
+  </div>
+</div>
+<button class="mobile-immersive-exit" id="mobileImmersiveExit" type="button" hidden>EXIT FULLSCREEN ✕</button>
+<div class="mobile-rotate-hint" id="mobileRotateHint" hidden>PUTAR HP KE POSISI LANDSCAPE</div>
+<script>
+(function(){
+  'use strict';
+  const ua = navigator.userAgent || '';
+  const phoneLike = /Android|iPhone|iPod|Mobile/i.test(ua) ||
+    (navigator.maxTouchPoints > 1 && Math.min(screen.width || innerWidth, screen.height || innerHeight) <= 600);
+  if (!phoneLike) return;
+
+  const gate = document.getElementById('mobileImmersiveGate');
+  const start = document.getElementById('mobileImmersiveStart');
+  const message = document.getElementById('mobileImmersiveMessage');
+  const exit = document.getElementById('mobileImmersiveExit');
+  const rotateHint = document.getElementById('mobileRotateHint');
+  if (!gate || !start || !exit || !rotateHint) return;
+
+  document.body.classList.add('mobile-immersive-supported');
+  gate.hidden = false;
+
+  function updateImmersiveUi(){
+    const isFullscreen = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    exit.hidden = !isFullscreen;
+    const landscape = (screen.orientation && String(screen.orientation.type).startsWith('landscape')) ||
+      (window.innerWidth > window.innerHeight);
+    rotateHint.hidden = landscape;
+  }
+
+  async function enterImmersive(){
+    start.disabled = true;
+    start.textContent = 'MENGAKTIFKAN...';
+    message.textContent = 'Meminta izin layar penuh dan orientasi landscape...';
+
+    let fullscreenOk = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    let fullscreenError = '';
+    try {
+      if (!fullscreenOk) {
+        const root = document.documentElement;
+        const request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (request) {
+          await request.call(root, {navigationUI:'hide'});
+          fullscreenOk = true;
+        } else {
+          fullscreenError = 'Browser ini belum menyediakan API fullscreen untuk halaman.';
+        }
+      }
+    } catch (error) {
+      fullscreenError = error && error.message ? error.message : 'Izin fullscreen tidak diberikan.';
+    }
+
+    let orientationOk = false;
+    let orientationError = '';
+    try {
+      if (screen.orientation && typeof screen.orientation.lock === 'function') {
+        await screen.orientation.lock('landscape');
+        orientationOk = true;
+      } else {
+        orientationError = 'Browser tidak mendukung penguncian orientasi otomatis.';
+      }
+    } catch (error) {
+      orientationError = error && error.message ? error.message : 'Orientasi perlu diubah manual.';
+    }
+
+    gate.hidden = true;
+    updateImmersiveUi();
+    if (!fullscreenOk || !orientationOk) {
+      const notes = [];
+      if (!fullscreenOk) notes.push(fullscreenError || 'Fullscreen tidak aktif.');
+      if (!orientationOk) notes.push(orientationError || 'Putar perangkat secara manual.');
+      rotateHint.textContent = window.innerWidth > window.innerHeight
+        ? 'MODE LANDSCAPE AKTIF · ' + notes.join(' ')
+        : 'PUTAR HP KE LANDSCAPE · ' + notes.join(' ');
+      rotateHint.hidden = false;
+    }
+  }
+
+  start.addEventListener('click', enterImmersive);
+  exit.addEventListener('click', async function(){
+    try {
+      if (document.exitFullscreen) await document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } catch (_) {}
+    try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (_) {}
+    updateImmersiveUi();
+  });
+  document.addEventListener('fullscreenchange', updateImmersiveUi);
+  document.addEventListener('webkitfullscreenchange', updateImmersiveUi);
+  window.addEventListener('resize', updateImmersiveUi);
+  window.addEventListener('orientationchange', updateImmersiveUi);
+  updateImmersiveUi();
+})();
+</script>
+
 </body>
 </html>
