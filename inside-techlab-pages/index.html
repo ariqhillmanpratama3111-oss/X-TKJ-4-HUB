@@ -115,6 +115,9 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
 #authBackdrop .modal{width:min(520px,100%)}
 #authBackdrop .search{min-height:42px}
 #authBackdrop .feature-btn,#authBackdrop .secondary-btn{min-height:42px}
+
+/* FIX: auth dialog must sit above sticky module navigation and floating widgets */
+#authBackdrop{z-index:10000!important}
 </style>
 </head>
 <body data-page="home">
@@ -145,7 +148,7 @@ body[data-page="home"] .feature-wrap#techCommunity{display:block!important;visib
     <a class="module" href="software-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">💾</div><h3>Software Academy</h3><p>Pelajari sistem operasi, BIOS, driver, file system, dan jaringan.</p></a>
     <a class="module" href="network-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🌐</div><h3>Network Academy</h3><p>Bangun topologi LAN, sambungkan perangkat, dan konfigurasi jaringan virtual.</p></a>
   </section>
-  <section class="section-head"><div><div class="section-tag">TECHLAB / COMMUNITY</div><h2>Community Center</h2><p>Setiap fitur komunitas punya halaman tersendiri, seperti learning module.</p></div></section>
+  <section class="section-head"><div><div class="section-tag">TECHLAB / COMMUNITY</div><h2>Community Center</h2><p>Terhubung dengan pengguna lain, pantau pencapaian, dan bantu kembangkan TechLab lewat masukanmu.</p></div></section>
   <section class="modules community-modules">
     <a class="module" href="leaderboard.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🏆</div><h3>Leaderboard</h3><p>Lihat peringkat dan buka profil setiap pengguna.</p></a>
     <a class="module" href="friends.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">👥</div><h3>Temukan Teman</h3><p>Cari pengguna berdasarkan nama dan kirim permintaan teman.</p></a>
