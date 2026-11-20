@@ -113,6 +113,15 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
   .side-column{display:flex!important;flex-direction:column;gap:5px;max-height:calc(100dvh - 175px);overflow:auto}.side-card{padding:7px;border-radius:10px}.card-head{margin-bottom:5px}.card-head h3{font-size:7px}.mini-label{font-size:6px;padding:3px 4px}.side-card:nth-child(3),.side-card:nth-child(5){display:none}.side-card .mode-intro{font-size:6px;margin-bottom:5px}.join-room-card .form-control{padding:7px;font-size:8px}.join-room-card .cta{padding:7px 8px;font-size:7px}.join-room-message,.note{font-size:7px;margin-top:5px}.mode-choice{padding:6px;margin-top:4px;gap:5px}.mode-symbol{font-size:12px}.mode-copy strong{font-size:7px}.mode-copy small{font-size:6px}
   .bottom-bar{grid-template-columns:minmax(0,1fr) auto;gap:6px;margin-top:7px;padding:7px;border-radius:10px}.room-emblem{width:27px;height:27px;font-size:13px}.room-text strong{font-size:7px}.room-text small{font-size:6px}.room-code{padding:4px 5px;margin-left:3px;font-size:6px}.room-code b{font-size:7px}.bar-actions{gap:3px;flex-wrap:wrap;justify-content:flex-end}.secondary-btn{padding:6px 6px;font-size:6px;border-radius:7px}.start-btn{padding:8px 9px;font-size:7px;border-radius:7px}.prototype-note{display:none}
 }
+
+/* Solo AI squad */
+.ai-check-row{display:flex;align-items:flex-start;gap:11px;margin:15px 0 5px;padding:12px;border:1px solid rgba(88,220,246,.32);border-radius:11px;background:rgba(35,132,158,.12);cursor:pointer}
+.ai-check-row input{width:17px;height:17px;accent-color:#58e6fa;flex:0 0 auto;margin-top:1px}
+.ai-check-row b{display:block;color:#c9f8ff;font-size:9px;letter-spacing:.8px}
+.ai-check-row small{display:block;color:#8eabc0;font-size:8px;line-height:1.55;margin-top:5px}
+#aiToggleBtn.ai-on{border-color:#5de9b4;color:#9dffd1;background:rgba(31,138,99,.18)}
+.ai-role-note{display:block;color:#7cf0b9;font-size:8px;line-height:1.4;margin-top:3px}
+
 </style>
 </head>
 <body>
@@ -134,7 +143,7 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
         <div class="arena-heading"><div class="kicker">YOUR TEAM · YOUR OPERATION</div><h2 id="arenaTitle">SQUAD DEPLOYMENT</h2><p id="arenaSub">Login dan buat squad untuk memanggil karakter ke hangar.</p></div>
         <div class="stage-floor"></div>
         <div class="squad-stage" id="squadStage" aria-live="polite"></div>
-        <div class="empty-prompt" id="emptyPrompt"><div class="empty-icon">⌬</div><h3 id="emptyTitle">Hangar masih kosong</h3><p id="emptyText">Pilih simulasi perusahaan, buat squad, lalu undang temanmu. Karakter akan muncul dari platform hologram.</p><button class="cta" id="createRoomBtn">＋ CREATE SQUAD</button></div>
+        <div class="empty-prompt" id="emptyPrompt"><div class="empty-icon">⌬</div><h3 id="emptyTitle">Hangar masih kosong</h3><p id="emptyText">Pilih PT Toko Gamer, buat squad, pilih role, lalu isi slot kosong dengan AI atau undang teman.</p><button class="cta" id="createRoomBtn">＋ CREATE SQUAD</button></div>
       </section>
       <aside class="side-column">
         <section class="side-card join-room-card">
@@ -165,7 +174,7 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
         <section class="side-card">
           <div class="card-head"><h3>MISSION BRIEFING</h3><span class="mini-label">CO-OP</span></div>
           <div class="briefing-list" id="briefingList">
-            <div class="briefing-item"><span class="briefing-icon">◎</span><span><b>Bangun tim</b><br>3–5 pemain dengan role berbeda.</span></div>
+            <div class="briefing-item"><span class="briefing-icon">◎</span><span><b>Bangun tim</b><br>1–5 pemain, slot kosong bisa diisi AI.</span></div>
             <div class="briefing-item"><span class="briefing-icon">⌁</span><span><b>Kerja sama</b><br>Koordinasikan tugas antar-role.</span></div>
             <div class="briefing-item"><span class="briefing-icon">✓</span><span><b>Selesaikan objektif</b><br>Tidak ada countdown yang memaksa match berakhir.</span></div>
           </div>
@@ -178,7 +187,7 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
         <div class="room-text"><strong id="roomNameText">NO ACTIVE SQUAD</strong><small id="roomStatusText">Buat squad untuk mulai mengundang teman.</small></div>
         <div class="room-code" id="roomCodeWrap" hidden><span>ROOM</span><b id="roomCodeText">------</b><button class="code-copy" id="copyCodeBtn" title="Salin kode room" aria-label="Salin kode room">▣</button></div>
       </div>
-      <div class="bar-actions"><button class="secondary-btn" id="rolesBtn" disabled>ROLE SETTINGS</button><button class="secondary-btn" id="inviteBtn" disabled>＋ INVITE</button><button class="secondary-btn" id="readyBtn" disabled>READY</button><button class="secondary-btn" id="leaveBtn" disabled>LEAVE</button></div>
+      <div class="bar-actions"><button class="secondary-btn" id="aiToggleBtn" disabled>AI SQUAD: OFF</button><button class="secondary-btn" id="rolesBtn" disabled>ROLE SETTINGS</button><button class="secondary-btn" id="inviteBtn" disabled>＋ INVITE</button><button class="secondary-btn" id="readyBtn" disabled>READY</button><button class="secondary-btn" id="leaveBtn" disabled>LEAVE</button></div>
       <button class="start-btn" id="startBtn" disabled>START MISSION ↗</button>
     </section>
     <div class="prototype-note">INSIDE TECHLAB MULTIPLAYER · SUPABASE AUTH · ROOM INVITATIONS · REALTIME SQUAD SYNC</div>
@@ -190,7 +199,8 @@ main{padding:25px clamp(14px,3vw,42px) 30px}.intro{display:flex;justify-content:
     <div class="modal-head"><h3 id="createTitle">CREATE YOUR SQUAD</h3><button class="close-btn" type="button" data-close="createModal" aria-label="Tutup">×</button></div>
     <label class="form-label" for="roomNameInput">NAMA ROOM</label><input class="form-control" id="roomNameInput" maxlength="30" placeholder="Contoh: TKJ Squad" value="TKJ Squad Operations">
     <label class="form-label" for="maxPlayersInput">JUMLAH SLOT SQUAD</label><select class="form-control" id="maxPlayersInput"><option value="3">3 pemain</option><option value="4">4 pemain</option><option value="5" selected>5 pemain</option></select>
-    <p class="modal-note">Role akan dibagi berbeda untuk setiap anggota. Teman hanya menjadi anggota setelah menekan Terima pada undangan yang muncul di akun multiplayer mereka.</p>
+    <label class="ai-check-row"><input type="checkbox" id="aiFillCheckbox" checked><span><b>ISI SLOT KOSONG DENGAN AI</b><small>AI akan mengambil role yang belum dipilih, jadi lu bisa mulai sendiri untuk tes game.</small></span></label>
+    <p class="modal-note">Untuk Solo Test, disarankan 5 slot agar AI bisa mengisi semua role yang kosong. Jika hanya 3 slot, pilih Sales, Teknisi, atau Administrasi agar tiga role utama tetap lengkap. Pemain manusia harus memilih role dan Ready. Undangan teman tetap harus diterima sebelum masuk squad.</p>
     <button class="cta" type="submit" style="width:100%;margin-top:16px">CREATE SQUAD</button>
   </form>
 </div>
@@ -355,10 +365,23 @@ function playerUnitHTML(p,index,animate){
   return '<div class="player-unit '+(animate?'spawn':'')+'" data-player-id="'+esc(p.id)+'" style="--accent:'+color+';--rank-color:'+rank.color+';--role-color:'+look.accent+'">'+
     '<div class="rank-float"><span class="rank-badge">'+rank.label+'</span><div class="role-chip">'+esc(p.role)+'</div><div class="player-tag">'+(p.host?'<span class="host-crown">★</span>':'')+esc(p.name)+'</div><div class="player-level">LEVEL '+p.level+' · '+Number(p.xp||0).toLocaleString('id-ID')+' XP</div></div>'+ 
     '<div class="holo-beam"></div><div class="character-wrap">'+characterSVG(color,index,p.id,p.roleCode)+'</div><div class="holo-pad"><i class="pad-core"></i></div>'+ 
-    '<span class="player-status" title="'+(p.ready?'Ready':'Belum Ready')+'" style="background:'+(p.ready?'var(--green)':'var(--gold)')+';box-shadow:0 0 9px '+(p.ready?'var(--green)':'var(--gold)')+'"></span><div class="role-label">'+(p.host?'HOST':'SQUAD MEMBER')+'</div></div>';
+    '<span class="player-status" title="'+(p.ready?'Ready':'Belum Ready')+'" style="background:'+(p.ready?'var(--green)':'var(--gold)')+';box-shadow:0 0 9px '+(p.ready?'var(--green)':'var(--gold)')+'"></span><div class="role-label">'+(p.host?'HOST':p.isAI?'AI AGENT':'SQUAD MEMBER')+'</div></div>';
 }
+function aiPreviewPlayers(){
+  if(!state.room||state.room.mode!=='toko'||!state.room.aiFill)return [];
+  const used=state.room.players.map(p=>p.roleCode).filter(Boolean);
+  const roomSlots=Math.max(0,state.room.max-state.room.players.length);
+  const roles=state.room.status==='playing'&&Array.isArray(state.room.aiRoles)?state.room.aiRoles:ROLE_DATA.toko.map(x=>x.code).filter(code=>!used.includes(code)).slice(0,roomSlots);
+  return roles.slice(0,roomSlots).map((code,i)=>({id:'ai-'+code,name:'AI '+roleLabel('toko',code),xp:0,level:1,color:'#8fe7f5',role:roleLabel('toko',code),roleCode:code,ready:true,host:false,isAI:true}));
+}
+function displayedPlayers(){return state.room?[...state.room.players,...aiPreviewPlayers()]:[]}
 function emptyUnitHTML(index){return `<div class="empty-unit"><div class="empty-rank">SLOT 0${index+1}</div><div class="empty-silhouette"></div><div class="holo-pad"><i class="pad-core"></i></div><button class="empty-invite" type="button" data-invite-empty>＋ INVITE</button><div class="empty-label">WAITING PLAYER</div></div>`}
-function renderStage(animateIds=[]){const stage=$('squadStage');stage.innerHTML='';$('emptyPrompt').hidden=!!state.room;$('createRoomBtn').disabled=!state.user||!!state.room;if(!state.room)return;state.room.players.forEach((p,index)=>stage.insertAdjacentHTML('beforeend',playerUnitHTML(p,index,animateIds.includes(p.id))));for(let i=state.room.players.length;i<state.room.max;i++)stage.insertAdjacentHTML('beforeend',emptyUnitHTML(i));setTimeout(()=>stage.querySelectorAll('.player-unit.spawn').forEach(el=>el.classList.remove('spawn')),1100)}
+function renderStage(animateIds=[]){
+  const stage=$('squadStage');stage.innerHTML='';$('emptyPrompt').hidden=!!state.room;$('createRoomBtn').disabled=!state.user||!!state.room;if(!state.room)return;
+  const visible=displayedPlayers();visible.forEach((p,index)=>stage.insertAdjacentHTML('beforeend',playerUnitHTML(p,index,animateIds.includes(p.id))));
+  for(let i=visible.length;i<state.room.max;i++)stage.insertAdjacentHTML('beforeend',emptyUnitHTML(i));
+  setTimeout(()=>stage.querySelectorAll('.player-unit.spawn').forEach(el=>el.classList.remove('spawn')),1100);
+}
 
 function renderLeaderboard(rows){
   if(!rows||!rows.length){$('leaderboardList').innerHTML='<p class="note">Belum ada data leaderboard.</p>';return}
@@ -370,34 +393,38 @@ function renderInviteInbox(){
   $('inviteInbox').innerHTML=state.invites.map(inv=>'<div class="invite-entry"><div><strong>'+esc(inv.room_name)+'</strong><small>'+esc(inv.inviter_name)+' · '+esc(MODE_LABEL[inv.mode]||'Multiplayer')+'</small></div><div class="invite-actions"><button class="mini-btn accept" data-accept-invite="'+inv.id+'">TERIMA</button><button class="mini-btn decline" data-decline-invite="'+inv.id+'">TOLAK</button></div></div>').join('');
 }
 function renderMeta(){
-  const count=state.room?state.room.players.length:0,max=state.room?state.room.max:5;
+  const humans=state.room?state.room.players.length:0,bots=state.room?aiPreviewPlayers().length:0,count=humans+bots,max=state.room?state.room.max:5;
   $('partyMeta').textContent=count+' / '+max;
   $('modeMeta').textContent=MODE_LABEL[displayMode()];
   $('roomNameText').textContent=state.room?state.room.name.toUpperCase():'NO ACTIVE SQUAD';
-  $('roomStatusText').textContent=state.room?(state.room.status==='playing'?'MATCH BERJALAN · TANPA BATAS WAKTU':count+' anggota · '+state.room.players.filter(p=>p.ready).length+'/'+count+' Ready'):'Buat squad untuk mulai mengundang teman.';
+  $('roomStatusText').textContent=state.room?(state.room.status==='playing'?'MATCH BERJALAN · '+humans+' PEMAIN + '+bots+' AI':humans+' pemain · '+bots+' AI · '+state.room.players.filter(p=>p.ready).length+'/'+humans+' Ready'):'Buat squad untuk mulai mengundang teman.';
   $('roomCodeWrap').hidden=!state.room;$('roomCodeText').textContent=state.room?state.room.code:'------';
   $('arenaTitle').textContent=state.room?MODE_LABEL[state.room.mode].toUpperCase():'SQUAD DEPLOYMENT';
-  $('arenaSub').textContent=state.room?(state.room.status==='playing'?'MISSION IN PROGRESS · ESTIMASI ±20 MENIT':'SQUAD ASSEMBLY · MENUNGGU TIM'):'Buat room untuk memanggil squad ke hangar.';
-  $('systemTag').textContent=state.room?(state.room.status==='playing'?'● MATCH IN PROGRESS':'● SQUAD ASSEMBLY'):'● HANGAR STANDBY';
+  $('arenaSub').textContent=state.room?(state.room.status==='playing'?'MISSION IN PROGRESS · ESTIMASI ±20 MENIT':(state.room.aiFill?'AI SQUAD AKTIF · BOT MENGISI SLOT KOSONG':'SQUAD ASSEMBLY · MENUNGGU TIM')):'Buat room, pilih role, lalu mulai dengan squad manusia atau AI.';
+  $('systemTag').textContent=state.room?(state.room.status==='playing'?'● MATCH IN PROGRESS':state.room.aiFill?'● AI SQUAD READY':'● SQUAD ASSEMBLY'):'● HANGAR STANDBY';
   $('modeToko').classList.toggle('active',!state.room&&state.mode==='toko');$('modeIndoham').classList.toggle('active',!state.room&&state.mode==='indoham');
-  $('modeToko').disabled=!!state.room;$('modeIndoham').disabled=!!state.room;
-  $('createRoomBtn').disabled=!state.user||!!state.room;
+  $('modeToko').disabled=!!state.room;$('modeIndoham').disabled=!!state.room;$('createRoomBtn').disabled=!state.user||!!state.room;
   $('inviteBtn').disabled=!state.user||!state.room||state.room.status!=='waiting';
   $('rolesBtn').disabled=!state.user||!state.room||state.room.status!=='waiting';
   $('readyBtn').disabled=!state.user||!state.room||state.room.status!=='waiting';
   $('leaveBtn').disabled=!state.user||!state.room;
+  const aiBtn=$('aiToggleBtn');if(aiBtn){aiBtn.disabled=!state.user||!state.room||state.room.status!=='waiting'||state.room.hostId!==state.user.id||state.room.mode!=='toko';aiBtn.textContent='AI SQUAD: '+(state.room?.aiFill?'ON':'OFF');aiBtn.classList.toggle('ai-on',!!state.room?.aiFill)}
   const me=state.room&&state.room.players.find(p=>p.id===state.user?.id);
   $('readyBtn').textContent=me&&me.ready?'UNREADY':'READY';$('readyBtn').classList.toggle('ready-on',!!(me&&me.ready));
-  const enough=count>=3,allReady=enough&&state.room&&state.room.players.every(p=>p.ready&&p.roleCode);
-  const canPlayToko=!!state.room&&state.room.mode==='toko';
-  const canOpenMission=!!state.room&&state.room.status==='playing'&&canPlayToko;
-  $('startBtn').disabled=!state.user||!state.room||(!canOpenMission&&(state.room.status!=='waiting'||state.room.hostId!==state.user.id||!allReady||!canPlayToko));
-  $('startBtn').textContent=canOpenMission?'OPEN MISSION ↗':(state.room&&state.room.mode==='indoham'?'PT INDOHAM SOON':'START MISSION ↗');
+  const allHumansReady=!!state.room&&state.room.players.length>=1&&state.room.players.every(p=>p.ready&&p.roleCode);
+  const joinedRoles=state.room?state.room.players.map(p=>p.roleCode).filter(Boolean).concat(aiPreviewPlayers().map(p=>p.roleCode)):[];
+  const coreReady=['sales','technician','administration'].every(role=>joinedRoles.includes(role));
+  const enoughWithoutAI=humans>=3&&allHumansReady&&coreReady;
+  const enoughWithAI=!!state.room?.aiFill&&allHumansReady&&count>=3&&coreReady;
+  const canOpenMission=!!state.room&&state.room.status==='playing'&&state.room.mode==='toko';
+  const canStart=state.room&&state.room.status==='waiting'&&state.room.hostId===state.user?.id&&state.room.mode==='toko'&&(state.room.aiFill?enoughWithAI:enoughWithoutAI);
+  $('startBtn').disabled=!state.user||!state.room||(!canOpenMission&&!canStart);
+  $('startBtn').textContent=canOpenMission?'OPEN MISSION ↗':(state.room&&state.room.mode==='indoham'?'PT INDOHAM SOON':state.room?.aiFill?(!coreReady?'NEED SALES + TECH + ADMIN':!allHumansReady?'WAITING FOR READY':'START WITH AI ↗'):'START MISSION ↗');
 }
 function renderRoles(){
   if(!state.room||!state.user)return;
   const me=state.room.players.find(p=>p.id===state.user.id),used=state.room.players.filter(p=>p.id!==state.user.id).map(p=>p.roleCode);
-  $('roleList').innerHTML='<p class="note">Pilih role milikmu. Setiap anggota harus memakai role berbeda.</p>'+labelsFor(state.room.mode).map(r=>{const taken=used.includes(r.code),selected=me&&me.roleCode===r.code;return '<button type="button" class="role-pick '+(selected?'selected':'')+'" data-role-code="'+r.code+'" '+(taken?'disabled':'')+'><span><b>'+esc(r.label)+'</b><small style="display:block;color:var(--muted);font-size:8px;margin-top:4px">'+(taken?'Sudah dipakai anggota lain':selected?'Role kamu saat ini':'Pilih role ini')+'</small></span><span class="leader-tier" style="--rank-color:'+(selected?'var(--green)':'var(--cyan)')+'">'+(selected?'SELECTED':'SELECT')+'</span></button>'}).join('');
+  $('roleList').innerHTML='<p class="note">Pilih role milikmu. Setiap anggota manusia memakai role berbeda. AI akan otomatis mengambil role kosong saat match dimulai.</p>'+labelsFor(state.room.mode).map(r=>{const taken=used.includes(r.code),selected=me&&me.roleCode===r.code;return '<button type="button" class="role-pick '+(selected?'selected':'')+'" data-role-code="'+r.code+'" '+(taken?'disabled':'')+'><span><b>'+esc(r.label)+'</b><small style="display:block;color:var(--muted);font-size:8px;margin-top:4px">'+(taken?'Sudah dipakai anggota lain':selected?'Role kamu saat ini':'Pilih role ini')+'</small></span><span class="leader-tier" style="--rank-color:'+(selected?'var(--green)':'var(--cyan)')+'">'+(selected?'SELECTED':'SELECT')+'</span></button>'}).join('');
 }
 async function loadInvitations(){
   const q=await state.sb.from('techlab_mp_invites').select('id,room_id,inviter_id,created_at').eq('invitee_id',state.user.id).eq('status','pending').order('created_at',{ascending:false}).limit(15);
@@ -413,7 +440,7 @@ async function loadCurrentRoom(){
   const mine=await state.sb.from('techlab_mp_members').select('room_id,joined_at').eq('user_id',state.user.id).order('joined_at',{ascending:false}).limit(5);
   if(mine.error)throw mine.error;const ids=(mine.data||[]).map(x=>x.room_id);
   if(!ids.length){state.room=null;renderStage();renderMeta();return}
-  const rooms=await state.sb.from('techlab_mp_rooms').select('id,room_code,room_name,game_mode,host_id,max_players,status,duration_estimate_minutes').in('id',ids).in('status',['waiting','playing']).order('created_at',{ascending:false}).limit(1);
+  const rooms=await state.sb.from('techlab_mp_rooms').select('id,room_code,room_name,game_mode,host_id,max_players,status,duration_estimate_minutes,ai_fill_enabled,ai_roles').in('id',ids).in('status',['waiting','playing']).order('created_at',{ascending:false}).limit(1);
   if(rooms.error)throw rooms.error;if(!rooms.data||!rooms.data.length){state.room=null;renderStage();renderMeta();return}
   const r=rooms.data[0],previous=state.room&&state.room.players?state.room.players.map(p=>p.id):[];
   const mode=r.game_mode==='pt_indoham'?'indoham':'toko';
@@ -426,7 +453,7 @@ async function loadCurrentRoom(){
     if(!x.error)(x.data||[]).forEach(row=>xp[row.user_id]=Number(row.total_xp)||0);
   }
   const players=(m.data||[]).map(x=>{const score=xp[x.user_id]||0,rank=rankData(score);return {id:x.user_id,name:profiles[x.user_id]||'Someone',xp:score,level:Math.floor(score/100)+1,color:rank.color,role:roleLabel(mode,x.role_code),roleCode:x.role_code,ready:x.is_ready,host:x.user_id===r.host_id}});
-  state.room={id:r.id,code:r.room_code,name:r.room_name,mode:mode,hostId:r.host_id,max:r.max_players,status:r.status,duration:r.duration_estimate_minutes,players:players};
+  state.room={id:r.id,code:r.room_code,name:r.room_name,mode:mode,hostId:r.host_id,max:r.max_players,status:r.status,duration:r.duration_estimate_minutes,aiFill:!!r.ai_fill_enabled,aiRoles:Array.isArray(r.ai_roles)?r.ai_roles:[],players:players};
   const newIds=players.filter(p=>!previous.includes(p.id)).map(p=>p.id);
   renderStage(newIds);renderMeta();
 }
@@ -506,10 +533,11 @@ async function joinRoomByCode(event){
 }
 async function createRoom(event){
   event.preventDefault();if(!state.user){toast('Login melalui TechLab Overview terlebih dahulu.');return}
-  const name=$('roomNameInput').value.trim()||'TKJ Squad Operations',max=Number($('maxPlayersInput').value);
+  const name=$('roomNameInput').value.trim()||'TKJ Squad Operations',max=Number($('maxPlayersInput').value),aiFill=$('aiFillCheckbox')?.checked??true;
   const result=await state.sb.rpc('techlab_mp_create_room',{p_game_mode:MODE_DB[state.mode],p_room_name:name,p_max_players:max});
   if(result.error){toast('Gagal membuat room: '+safeError(result.error));return}
-  closeModal('createModal');await refreshAll();toast('Room dibuat. Pilih role dan undang temanmu.');playTone(560);
+  if(aiFill){const ai=await state.sb.rpc('techlab_mp_set_ai_fill',{p_room_id:result.data,p_enabled:true});if(ai.error){toast('Room dibuat, tetapi pengaturan AI gagal: '+safeError(ai.error));await refreshAll();return}}
+  closeModal('createModal');await refreshAll();toast(aiFill?'Room dibuat. AI akan mengisi slot yang belum terpakai.':'Room dibuat. Undang teman dan kumpulkan minimal tiga pemain.');playTone(560);
 }
 async function leaveRoom(){
   if(!state.room)return;if(!confirm('Keluar dari squad? Jika kamu host, room akan ditutup untuk seluruh anggota.'))return;
@@ -518,14 +546,18 @@ async function leaveRoom(){
   const old=$('squadStage').querySelectorAll('.player-unit');old.forEach(el=>el.classList.add('despawning'));
   setTimeout(async()=>{state.room=null;await refreshAll();toast('Kamu sudah keluar dari squad.')},450);
 }
+async function toggleAIFill(){
+  if(!state.room||state.room.hostId!==state.user?.id)return;
+  const enabled=!state.room.aiFill;
+  const result=await state.sb.rpc('techlab_mp_set_ai_fill',{p_room_id:state.room.id,p_enabled:enabled});
+  if(result.error){toast('Pengaturan AI gagal: '+safeError(result.error));return;}
+  await refreshAll();toast(enabled?'AI Squad aktif. Slot kosong akan diisi bot.':'AI Squad dimatikan. Minimal tiga pemain manusia diperlukan.');
+}
 async function startMatch(){
   if(!state.room)return;
   if(state.room.mode!=='toko'){toast('Game PT Indoham belum tersedia. Untuk saat ini pilih PT Toko Gamer.');return}
-  if(state.room.status==='playing'){
-    location.href='pt-toko-gamer.html?room='+encodeURIComponent(state.room.id);
-    return;
-  }
-  const result=await state.sb.rpc('techlab_mp_start_room',{p_room_id:state.room.id});
+  if(state.room.status==='playing'){location.href='pt-toko-gamer.html?room='+encodeURIComponent(state.room.id);return}
+  const result=await state.sb.rpc('techlab_mp_start_room_ai',{p_room_id:state.room.id});
   if(result.error){toast('Squad belum siap: '+safeError(result.error));return}
   location.href='pt-toko-gamer.html?room='+encodeURIComponent(state.room.id);
 }
@@ -581,7 +613,7 @@ $('inviteBtn').addEventListener('click',openInvite);
 $('rolesBtn').addEventListener('click',openRoles);
 $('readyBtn').addEventListener('click',toggleReady);
 $('leaveBtn').addEventListener('click',leaveRoom);
-$('startBtn').addEventListener('click',startMatch);
+$('startBtn').addEventListener('click',startMatch);$('aiToggleBtn').addEventListener('click',toggleAIFill);
 $('copyCodeBtn').addEventListener('click',copyRoomCode);
 $('friendSearch').addEventListener('input',renderFriends);
 $('backToLobbyBtn').addEventListener('click',()=>closeModal('launchModal'));
