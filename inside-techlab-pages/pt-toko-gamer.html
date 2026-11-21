@@ -350,109 +350,95 @@ function buildMap(){
 function createAvatar(name,role,isNpc=false){
  const T=state.THREE,group=new T.Group();
  const palettes={
-  technician:{shirt:0x167c9a,trim:0xffc34d,pants:0x243847,inner:0xd8e7e9,hair:0x26333b},
-  sales:{shirt:0x247a59,trim:0x83e0b9,pants:0x233647,inner:0xf1f6f1,hair:0x392820},
-  administration:{shirt:0x365f99,trim:0x8ac8ff,pants:0x24364f,inner:0xf2f5fa,hair:0x302a2a},
-  quality_control:{shirt:0xdce8eb,trim:0x54c9d9,pants:0x405665,inner:0x26718a,hair:0x343038},
-  manager:{shirt:0x51436f,trim:0xe9c46a,pants:0x252d3d,inner:0xf2eee4,hair:0x29242a},
-  customer:{shirt:0x9a694f,trim:0xe8c69e,pants:0x3d4a59,inner:0xe9e0d2,hair:0x34261f}
+  technician:{shirt:0x315d70,trim:0xe0b85d,pants:0x283640,inner:0xd8e2e2,hair:0x24272c},
+  sales:{shirt:0x315f4d,trim:0x9ac6a8,pants:0x303a43,inner:0xf0eee7,hair:0x30251f},
+  administration:{shirt:0x3e5878,trim:0x9dbbda,pants:0x303b4c,inner:0xf1f2f0,hair:0x292427},
+  quality_control:{shirt:0xcbd6d7,trim:0x5cabb7,pants:0x394955,inner:0x28677a,hair:0x302a2a},
+  manager:{shirt:0x514d62,trim:0xd3b477,pants:0x30323b,inner:0xf2eee4,hair:0x292426},
+  customer:{shirt:0x8a654f,trim:0xc9a887,pants:0x414b54,inner:0xe9e3d8,hair:0x332820}
  };
  const p=palettes[role]||palettes.customer;
- const shirt=material(p.shirt,.56,.04),trim=material(p.trim,.42,.12),pants=material(p.pants,.68,.02),
-  skin=material(isNpc?0xc98f6e:0xc98e6e,.78,0),hair=material(p.hair,.84,0),shoe=material(0x17212b,.48,.08),
-  inner=material(p.inner,.47,.02),white=material(0xf8fbff,.28,0),iris=material(0x3d80a2,.3,.08),
-  pupil=material(0x101923,.22,.02),mouth=material(0x754348,.86,0),dark=material(0x142b39,.56,.12);
- const add=(parent,geo,mat,pos,scale,cast=true)=>{const m=new T.Mesh(geo,mat);if(pos)m.position.set(pos[0],pos[1],pos[2]);if(scale)m.scale.set(scale[0],scale[1],scale[2]);m.castShadow=cast;m.receiveShadow=true;parent.add(m);return m};
- const sphereGeo=new T.SphereGeometry(1,24,18),caps=(r,len)=>new T.CapsuleGeometry(r,len,6,12);
- // Waist, hips and two articulated legs with separate knees and shoes.
- add(group,sphereGeo,pants,[0,.78,0],[.30,.23,.22]);
+ const skinChoices=[0xb98268,0xc58e72,0xd09b7e,0xa96f56,0xd5a889];
+ let seed=0;for(const ch of String(name||'NPC'))seed=(seed*31+ch.charCodeAt(0))>>>0;
+ const skinColor=skinChoices[seed%skinChoices.length];
+ const shirt=material(p.shirt,.82,.015),trim=material(p.trim,.58,.03),pants=material(p.pants,.88,.01),
+  skin=material(skinColor,.88,0),hair=material(p.hair,.94,0),shoe=material(0x202329,.72,.04),
+  inner=material(p.inner,.78,.01),white=material(0xece9e2,.48,0),iris=material(0x49382f,.5,0),
+  pupil=material(0x111316,.32,0),mouth=material(0x754e48,.9,0),dark=material(0x202a30,.7,.02);
+ const mesh=(parent,geo,mat,pos,scale,cast=true)=>{const m=new T.Mesh(geo,mat);if(pos)m.position.set(pos[0],pos[1],pos[2]);if(scale)m.scale.set(scale[0],scale[1],scale[2]);m.castShadow=cast;m.receiveShadow=true;parent.add(m);return m};
+ const sph=new T.SphereGeometry(1,28,20),caps=(r,len)=>new T.CapsuleGeometry(r,len,6,12);
+ const cylinder=(rt,rb,h,mat,pos,segments=18)=>mesh(group,new T.CylinderGeometry(rt,rb,h,segments),mat,pos);
+ // Pelvis and legs: natural adult proportions, tapered rather than stacked ovals.
+ mesh(group,sph,pants,[0,.91,0],[.205,.16,.145]);
  const legs=[],arms=[];
  for(const side of [-1,1]){
-  const hip=new T.Group();hip.position.set(side*.155,.78,0);group.add(hip);
-  add(hip,caps(.112,.30),pants,[0,-.20,0],[1,1,1]);
-  const knee=new T.Group();knee.position.y=-.37;hip.add(knee);
-  add(knee,caps(.096,.30),pants,[0,-.17,0],[1,1,1]);
-  add(knee,sphereGeo,shoe,[0,-.335,.105],[.145,.085,.235]);
-  // A subtle colored seam on each shoe helps define the silhouette.
-  add(knee,new T.BoxGeometry(.18,.018,.018),trim,[0,-.315,.205],[1,1,1],false);
+  const hip=new T.Group();hip.position.set(side*.112,.87,0);group.add(hip);
+  mesh(hip,caps(.092,.29),pants,[0,-.19,0],[1,1,.92]);
+  const knee=new T.Group();knee.position.y=-.35;hip.add(knee);
+  mesh(knee,caps(.071,.29),pants,[0,-.16,0],[1,1,.92]);
+  mesh(knee,sph,shoe,[0,-.325,.095],[.105,.064,.19]);
+  mesh(knee,new T.BoxGeometry(.11,.025,.22),dark,[0,-.335,.10],[1,1,1],false);
   legs.push(hip);
  }
- // A tapered capsule torso instead of a stack of rectangular blocks.
- const torsoMesh=add(group,caps(.305,.48),shirt,[0,1.36,0],[1.08,1,.82]);
- add(group,caps(.225,.10),pants,[0,.98,0],[1.06,.72,.94]);
- add(group,caps(.075,.13),skin,[0,1.87,0],[1,1,1]);
- // Collar, inner shirt and role badge.
- add(group,new T.ConeGeometry(.115,.16,4),inner,[0,1.57,.235],[1,1,1]);
- add(group,new T.BoxGeometry(.13,.18,.025),dark,[.225,1.39,.225],[1,1,1],false);
- add(group,new T.BoxGeometry(.075,.085,.014),trim,[.225,1.405,.244],[1,1,1],false);
- add(group,new T.CapsuleGeometry(.012,.30,4,8),trim,[.17,1.49,.25],[1,1,1],false);
- // Head, jaw, ears and facial features. The eyes are intentionally smaller and less protruding.
- const head=new T.Group();head.position.set(0,2.13,0);group.add(head);
- add(head,sphereGeo,skin,[0,0,0],[.247,.302,.233]);
+ // Tailored torso made from a smooth lathed silhouette, not a capsule stack.
+ const torsoProfile=[new T.Vector2(0,0),new T.Vector2(.135,.025),new T.Vector2(.16,.10),new T.Vector2(.155,.22),new T.Vector2(.185,.34),new T.Vector2(.215,.47),new T.Vector2(.205,.55),new T.Vector2(.145,.62),new T.Vector2(.08,.65),new T.Vector2(0,.65)];
+ const torsoGeo=new T.LatheGeometry(torsoProfile,32);torsoGeo.scale(1,1,.74);
+ const torsoMesh=mesh(group,torsoGeo,shirt,[0,.91,0],[1,1,1]);
+ // Shirt collar and restrained uniform details.
+ mesh(group,new T.CylinderGeometry(.075,.08,.115,20),skin,[0,1.57,0]);
+ mesh(group,new T.TorusGeometry(.083,.012,8,28),inner,[0,1.575,0],[1,1,.8]).rotation.x=Math.PI/2;
+ mesh(group,new T.BoxGeometry(.022,.48,.012),trim,[.025,1.22,.158],[1,1,1],false);
+ mesh(group,new T.BoxGeometry(.105,.115,.018),dark,[.112,1.27,.151],[1,1,1],false);
+ mesh(group,new T.BoxGeometry(.075,.055,.012),trim,[.112,1.28,.164],[1,1,1],false);
+ // Shoulder line and articulated arms with small hands.
  for(const side of [-1,1]){
-  add(head,sphereGeo,skin,[side*.244,-.02,-.002],[.052,.083,.055]);
-  add(head,sphereGeo,material(0xb97967,.9,0),[side*.247,-.02,.012],[.022,.041,.012],false);
-  add(head,sphereGeo,white,[side*.086,.045,.206],[.041,.034,.022]);
-  add(head,sphereGeo,iris,[side*.086,.044,.225],[.021,.025,.012]);
-  add(head,sphereGeo,pupil,[side*.086,.044,.235],[.010,.017,.007]);
-  add(head,sphereGeo,white,[side*.080,.055,.242],[.005,.006,.003],false);
-  const brow=add(head,caps(.013,.065),hair,[side*.086,.112,.209],[1,1,1]);brow.rotation.z=Math.PI/2+(side*.08);
- }
- add(head,sphereGeo,skin,[0,-.028,.235],[.028,.043,.036]);
- const smile=new T.CatmullRomCurve3([new T.Vector3(-.043,-.105,.215),new T.Vector3(-.022,-.115,.226),new T.Vector3(0,-.119,.229),new T.Vector3(.022,-.115,.226),new T.Vector3(.043,-.105,.215)]);
- add(head,new T.TubeGeometry(smile,14,.009,6,false),mouth,[0,0,0],[1,1,1],false);
- // Hair cap with a swept fringe and side locks; hardhat is layered on top for technicians.
- const capGeo=new T.SphereGeometry(.262,28,18,0,Math.PI*2,0,Math.PI*.56);
- add(head,capGeo,hair,[0,.105,-.012],[1.04,1.03,1.04]);
- add(head,sphereGeo,hair,[-.105,.095,.177],[.18,.083,.095]);
- add(head,sphereGeo,hair,[.075,.135,.184],[.16,.074,.086]);
- for(const side of [-1,1])add(head,caps(.035,.12),hair,[side*.205,-.005,-.01],[1,1,1]);
- // Shoulder caps and articulated upper/lower arms with hands.
- for(const side of [-1,1]){
-  add(group,sphereGeo,shirt,[side*.345,1.59,0],[.175,.17,.17]);
-  const arm=new T.Group();arm.position.set(side*.37,1.57,0);group.add(arm);
-  add(arm,caps(.105,.27),shirt,[0,-.18,0],[1,1,1]);
-  const elbow=new T.Group();elbow.position.y=-.36;arm.add(elbow);
-  add(elbow,sphereGeo,shirt,[0,0,0],[.105,.105,.105]);
-  add(elbow,caps(.083,.27),inner,[0,-.17,0],[1,1,1]);
-  add(elbow,sphereGeo,skin,[0,-.36,.018],[.082,.09,.075]);
-  // Small fingers give the hand a readable shape at normal gameplay distance.
-  for(let f=-1;f<=1;f++)add(elbow,caps(.018,.055),skin,[f*.034,-.425,.047],[1,1,1],false);
+  mesh(group,sph,shirt,[side*.236,1.46,0],[.105,.095,.105]);
+  const arm=new T.Group();arm.position.set(side*.245,1.46,0);group.add(arm);
+  mesh(arm,caps(.063,.235),shirt,[0,-.145,0],[1,1,.96]);
+  mesh(arm,new T.TorusGeometry(.064,.009,7,20),trim,[0,-.285,0],[1,1,1]).rotation.x=Math.PI/2;
+  const elbow=new T.Group();elbow.position.y=-.29;arm.add(elbow);
+  mesh(elbow,caps(.052,.23),inner,[0,-.135,0],[1,1,.95]);
+  mesh(elbow,sph,skin,[0,-.292,.012],[.057,.064,.053]);
+  for(let f=-1;f<=1;f++)mesh(elbow,caps(.012,.045),skin,[f*.023,-.335,.035],[1,1,1],false);
   arms.push(arm);
  }
- // Role-specific garments and accessories.
- if(role==='technician'){
-  add(group,new T.CapsuleGeometry(.225,.40,6,12),dark,[0,1.35,.225],[1.02,1,.22]);
-  for(const side of [-1,1])add(group,new T.BoxGeometry(.095,.035,.012),trim,[side*.23,1.22,.286],[1,1,1],false);
-  add(group,new T.BoxGeometry(.12,.11,.02),trim,[.13,1.40,.285],[1,1,1],false);
-  const brim=add(head,new T.CylinderGeometry(.235,.245,.055,28),material(0x1c4e60,.46,.08),[0,.292,.018]);
-  add(head,new T.SphereGeometry(.225,28,16,0,Math.PI*2,0,Math.PI/2),material(0x236176,.44,.08),[0,.31,-.015],[1,1,.96]);
-  add(head,new T.BoxGeometry(.19,.022,.08),trim,[0,.285,.205],[1,1,1],false);
- }else if(role==='sales'){
-  add(group,new T.ConeGeometry(.052,.27,5),trim,[0,1.40,.265],[1,1,1]);
-  add(group,new T.BoxGeometry(.13,.11,.025),material(0x184c3e,.58,.05),[.23,1.26,.205],[1,1,1],false);
-  add(group,new T.SphereGeometry(.022,10,8),material(0xe8d28a),[.23,1.26,.222]);
- }else if(role==='administration'){
-  add(group,new T.BoxGeometry(.16,.20,.025),trim,[.23,1.28,.20],[1,1,1],false);
-  add(group,new T.CylinderGeometry(.012,.012,.29,8),trim,[.18,1.48,.21]);
-  add(head,new T.TorusGeometry(.055,.008,6,20),dark,[-.086,.045,.229],[1,1,.6],false);
-  add(head,new T.TorusGeometry(.055,.008,6,20),dark,[.086,.045,.229],[1,1,.6],false);
-  add(head,new T.BoxGeometry(.06,.012,.012),dark,[0,.045,.232],[1,1,1],false);
- }else if(role==='quality_control'){
-  add(group,new T.CapsuleGeometry(.265,.48,6,12),white,[0,1.36,.205],[1.02,1,.18]);
-  add(group,new T.BoxGeometry(.028,.78,.018),trim,[0,1.35,.258],[1,1,1],false);
-  add(group,new T.BoxGeometry(.13,.12,.025),material(0x2d6e83),[.22,1.27,.215],[1,1,1],false);
-  for(const side of [-1,1])add(head,new T.TorusGeometry(.052,.009,6,20),trim,[side*.086,.045,.228],[1,1,.6],false);
- }else if(role==='manager'){
-  add(group,new T.ConeGeometry(.055,.31,5),trim,[0,1.40,.265],[1,1,1]);
-  add(group,new T.BoxGeometry(.024,.38,.018),inner,[0,1.52,.252],[1,1,1],false);
-  add(group,new T.BoxGeometry(.16,.07,.02),trim,[0,1.73,.10],[1,1,1],false);
- }else{
-  // Customers wear casual color panels rather than a uniform.
-  add(group,new T.BoxGeometry(.12,.13,.022),trim,[.22,1.28,.205],[1,1,1],false);
+ // Neck, shaped jaw and subtle facial features.
+ const head=new T.Group();head.position.set(0,1.70,0);group.add(head);
+ const headProfile=[new T.Vector2(0,-.16),new T.Vector2(.075,-.15),new T.Vector2(.125,-.105),new T.Vector2(.145,-.04),new T.Vector2(.15,.04),new T.Vector2(.14,.12),new T.Vector2(.11,.19),new T.Vector2(.055,.225),new T.Vector2(0,.23)];
+ const headGeo=new T.LatheGeometry(headProfile,32);headGeo.scale(1,1,.84);
+ mesh(head,headGeo,skin,[0,0,0],[1,1,1]);
+ for(const side of [-1,1]){
+  mesh(head,sph,skin,[side*.146,-.015,0],[.027,.053,.035]);
+  mesh(head,sph,white,[side*.058,.035,.117],[.026,.018,.009]);
+  mesh(head,sph,iris,[side*.058,.035,.125],[.012,.014,.006]);
+  mesh(head,sph,pupil,[side*.058,.035,.130],[.006,.010,.004]);
+  const brow=mesh(head,new T.CapsuleGeometry(.006,.043,3,6),hair,[side*.058,.071,.121]);brow.rotation.z=Math.PI/2+(side*.08);
+  mesh(head,sph,hair,[side*.12,.04,.01],[.035,.12,.10]);
  }
- const nameTag=textSprite(name,isNpc?'#fff1d7':'#e8fbff','#071a2a');nameTag.scale.set(2.15,.52,1);nameTag.position.y=3.03;group.add(nameTag);
- group.userData={name,role,isNpc,legs,arms,head,torsoMesh,shirtMesh:torsoMesh,walkOffset:Math.random()*4};
+ mesh(head,sph,skin,[0,-.033,.132],[.018,.032,.025]);
+ const mouthCurve=new T.CatmullRomCurve3([new T.Vector3(-.026,-.087,.119),new T.Vector3(0,-.094,.126),new T.Vector3(.026,-.087,.119)]);
+ mesh(head,new T.TubeGeometry(mouthCurve,10,.0045,5,false),mouth,[0,0,0],[1,1,1],false);
+ // Hair is a fitted cap with a few separate locks; no oversized helmet or toy-like hair blobs.
+ const hairCap=new T.SphereGeometry(.154,28,18,0,Math.PI*2,0,Math.PI*.55);
+ mesh(head,hairCap,hair,[0,.092,-.006],[1.02,1.0,1.0]);
+ mesh(head,sph,hair,[-.043,.04,.116],[.095,.045,.042]);
+ mesh(head,sph,hair,[.035,.055,.121],[.09,.04,.035]);
+ const style=seed%3;
+ if(style===0){mesh(head,caps(.038,.17),hair,[-.125,-.065,-.005],[1,1,.9]);mesh(head,caps(.038,.17),hair,[.125,-.065,-.005],[1,1,.9]);}
+ else if(style===1){mesh(head,sph,hair,[0,.20,-.095],[.13,.09,.11]);mesh(head,caps(.032,.22),hair,[.13,-.045,-.01]);}
+ else{mesh(head,caps(.035,.23),hair,[-.13,-.035,0]);mesh(head,caps(.035,.23),hair,[.13,-.035,0]);}
+ // Compact footwear, belt and small role accessories.
+ mesh(group,new T.BoxGeometry(.29,.045,.035),dark,[0,.91,.13],[1,1,1],false);
+ if(role==='technician'){
+  mesh(group,new T.BoxGeometry(.28,.035,.02),trim,[0,1.53,.12],[1,1,1],false);
+  mesh(group,new T.BoxGeometry(.08,.11,.015),dark,[.105,1.29,.17],[1,1,1],false);
+ }else if(role==='sales'){
+  mesh(group,new T.ConeGeometry(.032,.16,5),trim,[0,1.34,.17]);
+ }else if(role==='administration'){
+  mesh(group,new T.BoxGeometry(.06,.12,.018),trim,[.11,1.28,.17],[1,1,1],false);
+ }
+ const nameTag=textSprite(name,isNpc?'#fff1d7':'#e8fbff','#071a2a');nameTag.scale.set(1.35,.30,1);nameTag.position.y=2.16;nameTag.visible=false;group.add(nameTag);
+ group.userData={name,role,isNpc,legs,arms,head,torsoMesh,shirtMesh:torsoMesh,torsoBaseY:.91,nameTag,walkOffset:(seed%100)/25};
  return {group,name,role};
 }
 function createRemoteAvatars(){for(const p of state.roster){if(p.id===state.user.id)continue;const av=createAvatar(p.name,p.role,true);const sp=ROLE_INFO[p.role]?.spawn||{x:0,z:9};const pos={x:sp.x+(p.isAI?0:((p.role==='sales'?-2:2))),z:sp.z};av.group.position.set(pos.x,0,pos.z);state.scene.add(av.group);state.remotePlayers.set(p.id,{...av,isAI:!!p.isAI,target:{x:pos.x,z:pos.z,rot:Math.PI},lastSeen:Date.now()})}}
@@ -530,7 +516,7 @@ function resumeGame(){hideOverlay('gameMenuOverlay');hideOverlay('settingsOverla
 function leaveToLobby(){if(!confirm('Keluar dari match dan kembali ke Multiplayer Lobby?'))return;if(document.pointerLockElement)document.exitPointerLock();location.href='multiplayer.html'}
 function loadGameSettings(){let v={};try{v=JSON.parse(localStorage.getItem('tg-game-settings-v1')||'{}')}catch(e){}state.cameraSensitivity=Number(v.sensitivity)||.0025;state.cameraDistance=Number(v.distance)||7.5;state.graphicsQuality=v.graphics||'medium';const fov=Number(v.fov)||68;if(state.camera){state.camera.fov=fov;state.camera.updateProjectionMatrix()}$('settingSensitivity').value=state.cameraSensitivity;$('sensitivityValue').value=state.cameraSensitivity.toFixed(4);$('settingCameraDistance').value=state.cameraDistance;$('cameraDistanceValue').value=state.cameraDistance.toFixed(1);$('settingFov').value=fov;$('fovValue').value=fov+'°';$('settingGraphics').value=state.graphicsQuality}
 function saveGameSettings(){try{localStorage.setItem('tg-game-settings-v1',JSON.stringify({sensitivity:state.cameraSensitivity,distance:state.cameraDistance,fov:state.camera?.fov||68,graphics:state.graphicsQuality}))}catch(e){}}
-function applyGraphicsQuality(){if(!state.renderer)return;const q=state.graphicsQuality||'medium',dpr=devicePixelRatio||1;const ratio=q==='low'?Math.min(dpr,.85):q==='high'?Math.min(dpr,1.65):Math.min(dpr,1.25);state.renderer.setPixelRatio(ratio);state.renderer.shadowMap.enabled=q!=='low';if(state.sunLight?.shadow){const size=q==='high'?2048:q==='medium'?1024:512;state.sunLight.shadow.mapSize.set(size,size);state.sunLight.shadow.needsUpdate=true;} }
+function applyGraphicsQuality(){if(!state.renderer)return;const q=state.graphicsQuality||'medium',dpr=devicePixelRatio||1;const ratio=q==='low'?Math.min(dpr,.85):q==='high'?Math.min(dpr,1.65):Math.min(dpr,1.25);state.renderer.setPixelRatio(ratio);state.renderer.shadowMap.enabled=q!=='low';if(state.sunLight?.shadow){const size=q==='high'?1536:q==='medium'?1024:512;state.sunLight.shadow.mapSize.set(size,size);state.sunLight.shadow.needsUpdate=true;} }
 
 function setupJoystick(){const joy=$('joystick'),knob=$('stickKnob');let active=false,center={x:0,y:0};function start(e){active=true;const r=joy.getBoundingClientRect();center={x:r.left+r.width/2,y:r.top+r.height/2};move(e)}function move(e){if(!active)return;const p=e.touches?e.touches[0]:e;let dx=p.clientX-center.x,dy=p.clientY-center.y;const len=Math.hypot(dx,dy),max=35;if(len>max){dx=dx/len*max;dy=dy/len*max}knob.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;state.move.x=dx/max;state.move.y=dy/max}function end(){active=false;state.move.x=0;state.move.y=0;knob.style.transform='translate(-50%,-50%)'}joy.addEventListener('pointerdown',e=>{e.preventDefault();joy.setPointerCapture(e.pointerId);start(e)});joy.addEventListener('pointermove',move);joy.addEventListener('pointerup',end);joy.addEventListener('pointercancel',end)}
 function gameLoop(){
@@ -574,7 +560,7 @@ function gameLoop(){
  if(Date.now()-state.lastHud>900){state.lastHud=Date.now();renderHud()}
  state.renderer.render(state.scene,state.camera);
 }
-function animateAvatar(g,t,working=false){const legs=g.userData.legs||[],arms=g.userData.arms||[],walking=t>0;legs.forEach((m,i)=>{m.rotation.x=walking?Math.sin(t+(i*Math.PI))*.62:0});arms.forEach((m,i)=>{m.rotation.x=walking?Math.sin(t+(i?Math.PI:0))*.42:working?Math.sin(Date.now()/210+(i*Math.PI))*.35:Math.sin(Date.now()/1300+i)*.012;m.rotation.z=working?(i===0?.15:-.15):(i===0?-.035:.035)});if(g.userData.head){g.userData.head.rotation.y=walking?Math.sin(t*.5)*.045:0;g.userData.head.rotation.x=walking?Math.sin(t)*.018:0;}if(g.userData.torsoMesh){g.userData.torsoMesh.position.y=1.36+(walking?Math.abs(Math.sin(t))*.035:0);g.userData.torsoMesh.rotation.z=walking?Math.sin(t)*.025:0;}}
+function animateAvatar(g,t,working=false){const legs=g.userData.legs||[],arms=g.userData.arms||[],walking=t>0;legs.forEach((m,i)=>{m.rotation.x=walking?Math.sin(t+(i*Math.PI))*.62:0});arms.forEach((m,i)=>{m.rotation.x=walking?Math.sin(t+(i?Math.PI:0))*.42:working?Math.sin(Date.now()/210+(i*Math.PI))*.35:Math.sin(Date.now()/1300+i)*.012;m.rotation.z=working?(i===0?.15:-.15):(i===0?-.035:.035)});if(g.userData.head){g.userData.head.rotation.y=walking?Math.sin(t*.5)*.045:0;g.userData.head.rotation.x=walking?Math.sin(t)*.018:0;}if(g.userData.torsoMesh){const base=g.userData.torsoBaseY??1.36;g.userData.torsoMesh.position.y=base+(walking?Math.abs(Math.sin(t))*.018:0);g.userData.torsoMesh.rotation.z=walking?Math.sin(t)*.012:0;}}
 
 function blocked(x,z){if(x< -76||x>78||z< -59||z>56)return true;for(const w of state.mapWalls||[]){if(x>w.minX&&x<w.maxX&&z>w.minZ&&z<w.maxZ)return true;}return false}
 function updateProximity(){const p=state.player.group.position;let best=null,dist=999;for(const s of state.stations){const d=Math.hypot(p.x-s.x,p.z-s.z);if(d<dist){dist=d;best=s}}for(const c of state.walkIns){if(c.status!=='waiting'||!c.group.visible)continue;const d=Math.hypot(p.x-c.group.position.x,p.z-c.group.position.z);if(d<dist){dist=d;best={kind:'walkin',walkInId:c.id,label:c.name}}}if(best&&dist<3.15){state.nearest=best;$('interactionPrompt').classList.add('show');$('promptText').textContent=best.kind==='walkin'?'Bicara dengan '+best.label+' · Tekan E':promptFor(best)}else{state.nearest=null;$('interactionPrompt').classList.remove('show')}}
@@ -675,7 +661,7 @@ function setupUI(){document.title='PT Toko Gamer · Living Town 3D Co-op Simulat
 
 function showError(err){console.error('[PT Toko Gamer 3D]',err);$('loadingScreen').classList.add('hide');$('errorMessage').textContent=err?.message||String(err);$('errorBox').classList.add('show')}
 
-/* ===== PT TOKO GAMER / LIVING TOWN WORLD UPDATE ===== */
+/* ===== PT TOKO GAMER / LIVING TOWN WORLD UPDATE 2.0 ===== */
 state.ambientNPCs=[];state.animals=[];state.trafficVehicles=[];state.worldPOIs=[];state.waypointPoi=null;state.waypointGroup=null;state.mapDrawAt=0;
 
 buildMap = function buildMap(){
@@ -683,7 +669,7 @@ buildMap = function buildMap(){
  const mats={
   grass:material(0x66886a),grass2:material(0x789a70),asphalt:material(0x343c43),roadEdge:material(0x69767a),sidewalk:material(0xbabbb0),tile:material(0xb2b8b2),
   wall:material(0xe2e0d7),cream:material(0xd8c9ae),white:material(0xf0eee7),wallDark:material(0x344a52),roof:material(0x34444b),blueRoof:material(0x23536b),
-  wood:material(0x80583c),lightWood:material(0xb98a58),cyan:material(0x5ac9df,.3,.22),glass:new T.MeshPhysicalMaterial({color:0x93d9e7,transparent:true,opacity:.48,roughness:.12,metalness:.08}),
+  wood:material(0x80583c),lightWood:material(0xb98a58),cyan:material(0x5ac9df,.3,.22),glass:new T.MeshPhysicalMaterial({color:0x8ab9c3,transparent:true,opacity:.68,roughness:.24,metalness:.16}),
   metal:material(0x677d87,.35,.65),black:material(0x101923,.32,.3),green:material(0x397653),red:material(0xb5524e),gold:material(0xd0a65b),concrete:material(0x929a99)
  };
  const addCollider=(x,z,w,d)=>state.mapWalls.push({minX:x-w/2-.12,maxX:x+w/2+.12,minZ:z-d/2-.12,maxZ:z+d/2+.12});
@@ -702,28 +688,56 @@ buildMap = function buildMap(){
  for(let i=-4;i<=4;i++){box(i*1.8,.035,35.8,1.05,.035,4.2,mats.white,{castShadow:false});box(62.1,.035,i*1.8,4.2,.035,1.05,mats.white,{castShadow:false})}
  for(let x=-19;x<=19;x+=4){box(x,.045,27, .12,.04,7,mats.white,{castShadow:false});box(x,.045,59,.12,.04,7,mats.white,{castShadow:false})}
  // Trees with layered crowns, trunks, occasional low branches and planting beds.
- const tree=(x,z,sc=1,kind=0)=>{box(x,.06,z,2.1*sc,.12,2.1*sc,mats.concrete,{castShadow:false});cylinder(x,.86*sc,z,.19*sc,.26*sc,1.65*sc,mats.wood,10);const c=kind%3===0?0x39764d:kind%3===1?0x4c8958:0x678d5c;for(const [dx,dy,dz,r] of [[0,2.0,0,.88],[-.46,1.75,.08,.56],[.48,1.82,-.06,.58],[0,2.5,0,.60]])sphere(x+dx*sc,dy*sc,z+dz*sc,r*sc,material(c,.94,0),14)};
- const lamp=(x,z)=>{cylinder(x,2.15,z,.065,.095,4.1,mats.metal,10);const bulb=sphere(x,4.25,z,.16,material(0xffe9ad,.36,.05,{emissive:0xffd98a,emissiveIntensity:.7}),12);const l=new T.PointLight(0xffdca2,3.4,13);l.position.set(x,4.1,z);state.scene.add(l);state.streetLights.push(l)};
- const bench=(x,z,rot=0)=>{const g=new T.Group();const seat=box(x,.58,z,1.8,.16,.48,mats.wood);const back=box(x,1.08,z-.18,1.8,.78,.13,mats.wood);for(const dx of [-.68,.68]){box(x+dx,.28,z,.12,.58,.13,mats.metal)}g.rotation.y=rot};
+ const tree=(x,z,sc=1,kind=0)=>{box(x,.06,z,2.1*sc,.12,2.1*sc,mats.concrete,{castShadow:false});cylinder(x,.86*sc,z,.19*sc,.26*sc,1.65*sc,mats.wood,10);const c=kind%3===0?0x39764d:kind%3===1?0x4c8958:0x678d5c;for(const [dx,dy,dz,r] of [[0,2.0,0,.88],[-.46,1.75,.08,.56],[.48,1.82,-.06,.58],[0,2.5,0,.60]])sphere(x+dx*sc,dy*sc,z+dz*sc,r*sc,material(c,.94,0),14);addCollider(x,z,.58*sc,.58*sc)};
+ const lamp=(x,z)=>{cylinder(x,2.15,z,.065,.095,4.1,mats.metal,10);const bulb=sphere(x,4.25,z,.16,material(0xffe9ad,.36,.05,{emissive:0xffd98a,emissiveIntensity:.7}),12);const l=new T.PointLight(0xffdca2,3.4,13);l.position.set(x,4.1,z);state.scene.add(l);state.streetLights.push(l);addCollider(x,z,.42,.42)};
+ const bench=(x,z,rot=0)=>{const g=new T.Group(),part=(geo,mat,px,py,pz)=>{const m=new T.Mesh(geo,mat);m.position.set(px,py,pz);m.castShadow=true;m.receiveShadow=true;g.add(m)};part(new T.BoxGeometry(1.8,.16,.48),mats.wood,0,.58,0);part(new T.BoxGeometry(1.8,.78,.13),mats.wood,0,1.08,-.18);for(const dx of [-.68,.68]){part(new T.BoxGeometry(.12,.58,.13),mats.metal,dx,.28,0);part(new T.BoxGeometry(.12,.58,.13),mats.metal,dx,1.02,-.18)}g.position.set(x,0,z);g.rotation.y=rot;state.scene.add(g);addCollider(x,z,2.0,.95)};
  // PT TOKO GAMER: one large building with physically separated departments inside.
  box(0,-.11,0,55,.22,41,mats.tile,{castShadow:false});
  box(0,.005,0,53,.035,39,material(0xc7c4b6),{castShadow:false});
- const H=6.6;
- wall(-27,3.25,0,.65,H,40,mats.wallDark);wall(27,3.25,0,.65,H,40,mats.wallDark);wall(0,3.25,-20,54,.65,.65,mats.wallDark);
+ const H=4.65;
+ wall(-27,H/2,0,.65,H,40,mats.wall);wall(27,H/2,0,.65,H,40,mats.wall);wall(0,H/2,-20,54,.65,.65,mats.wall);
  wall(-16.25,3.25,20,21.5,H,.65,mats.wallDark);wall(16.25,3.25,20,21.5,H,.65,mats.wallDark);
- // Front glazing, entrance doors, fascia and a clean retail sign.
- for(const x of [-22,-17,-10,10,17,22]){box(x,3.0,19.63,4.1,3.1,.12,mats.glass);box(x-2.06,3.0,19.68,.08,3.2,.1,mats.metal);box(x+2.06,3.0,19.68,.08,3.2,.1,mats.metal)}
- for(const x of [-5.2,5.2])box(x,3.1,19.58,.16,6.1,.18,mats.metal);
- box(-2.45,2.7,19.48,4.55,4.8,.09,mats.glass);box(2.45,2.7,19.48,4.55,4.8,.09,mats.glass);
- box(0,6.55,19.2,28,.38,1.15,mats.blueRoof);box(0,6.98,19.15,23,.28,.7,mats.gold);label('PT TOKO GAMER',0,7.48,19.9,6.4);
- for(const x of [-25,25]){box(x,5.9,19.1,.8,1.25,1.0,mats.cyan);box(x,1.15,19.35,.5,2.2,.55,mats.blueRoof)}
+ // Solid architectural facade: painted wall panels, two inset shop windows and a wide clear entrance.
+ // The previous frontage was almost entirely transparent and had no physical blockers.
+ wall(-22.5,H/2,19.68,9.0,H,.66,mats.wall);
+ wall(-6.15,H/2,19.68,3.9,H,.66,mats.wall);
+ wall(6.15,H/2,19.68,3.9,H,.66,mats.wall);
+ wall(22.5,H/2,19.68,9.0,H,.66,mats.wall);
+ // Side columns and lintels framing the two windows.
+ for(const x of [-18.2,-9.8,9.8,18.2])wall(x,H/2,19.68,.42,H,.7,mats.wall);
+ for(const x of [-14,14]){
+  box(x,.52,19.66,7.7,1.04,.70,mats.wallDark);
+  box(x,4.35,19.66,7.7,.72,.70,mats.wallDark);
+  const pane=box(x,2.48,19.63,7.5,2.72,.16,mats.glass);pane.material=mats.glass;
+  addCollider(x,19.63,7.5,.28);
+  for(const side of [-1,1])box(x+side*3.72,2.5,19.53,.10,2.9,.18,mats.metal);
+ }
+ // Wide central entrance; glass doors are parked open at each side instead of sealing the whole shop.
+ for(const x of [-2.35,2.35]){box(x,2.23,19.57,.16,4.46,.24,mats.metal);box(x,4.53,19.57,1.15,.16,.24,mats.gold);}
+ for(const x of [-3.25,3.25]){
+  box(x,1.22,19.58,1.18,2.42,.10,mats.glass);
+  box(x,1.22,19.50,.055,2.42,.13,mats.metal);
+  addCollider(x,19.58,1.2,.34);
+ }
+ box(0,.035,20.55,4.55,.07,1.55,mats.concrete,{castShadow:false});
+ box(0,4.92,19.18,28,.38,1.25,mats.blueRoof);box(0,5.30,19.18,23,.22,.8,mats.gold);label('PT TOKO GAMER',0,5.68,19.86,6.4);
+  // Contemporary storefront identity: layered sign, concrete piers, window sills and lighting.
+  box(0,5.78,19.02,24.8,.16,.92,mats.white);box(0,5.94,19.02,23.8,.07,.82,mats.cyan);
+  for(const x of [-25.5,25.5]){box(x,2.45,19.6,1.0,4.5,1.05,mats.wallDark);box(x,4.85,19.6,1.12,.16,1.12,mats.gold);box(x,.22,19.6,1.35,.42,1.35,mats.concrete)}
+  for(const x of [-21,-7,7,21]){box(x,.20,19.98,3.6,.35,1.0,mats.concrete,{castShadow:false});box(x,3.92,19.28,3.4,.09,.22,mats.gold)}
+  // Exterior planters and low hedges frame the entry without blocking the doorway.
+  for(const x of [-10.5,10.5]){box(x,.18,22.0,3.6,.36,1.25,mats.concrete,{castShadow:false});addCollider(x,22.0,3.7,1.35);for(let j=-1;j<=1;j++){const bush=sphere(x+j*.72,.72,22.0,.56,mats.green,14);bush.scale.set(1.25,.85,.9)}}
+  // Sign lamps add a soft evening glow instead of an oversized neon box.
+  for(const x of [-9,0,9]){const lamp=sphere(x,5.25,20.08,.10,material(0xffe0a0,.3,0,{emissive:0xffc66f,emissiveIntensity:.8}),10);}
+
+ for(const x of [-25,25]){box(x,4.15,19.1,.8,.95,1.0,mats.cyan);box(x,1.15,19.35,.5,2.2,.55,mats.blueRoof)}
  // Exterior side details: AC units, vents, awnings and sign lighting.
- for(const x of [-22,-15,15,22]){box(x,5.25,-20.45,1.8,.8,.85,mats.metal);box(x,5.25,-19.98,1.25,.44,.04,mats.black)}
- for(const x of [-20,20]){box(x,2.0,19.15,5.8,.3,1.6,mats.red);box(x,2.22,19.18,5.8,.12,1.6,mats.gold)}
+ for(const x of [-22,-15,15,22]){box(x,4.55,-20.45,1.8,.65,.85,mats.metal);box(x,4.55,-19.98,1.25,.34,.04,mats.black)}
+ for(const x of [-20,20]){box(x,1.65,19.15,5.8,.3,1.6,mats.red);box(x,1.87,19.18,5.8,.12,1.6,mats.gold)}
  // Interior floor zones, separated by full-height partitions with real door openings.
  box(-17,0.035,-7,18,.07,24,material(0x82938c),{castShadow:false});box(0,.04,-10,16,.08,18,material(0x6d8179),{castShadow:false});box(17,.04,-7,18,.08,24,material(0x9b9a8c),{castShadow:false});
  // Main showroom divider, leaving wide doors into workshop, warehouse and admin.
- const zdiv=-2.0, wh=4.8, thick=.34;
+ const zdiv=-2.0, wh=3.95, thick=.34;
  for(const [a,b] of [[-27,-22],[-14,-8],[8,14],[22,27]])wall((a+b)/2,wh/2,zdiv,b-a,wh,thick,mats.wallDark);
  for(const [a,b] of [[-8,-3],[3,8]])wall((a+b)/2,wh/2,zdiv,b-a,wh,thick,mats.wallDark);
  // Workshop / QC / warehouse / admin / manager walls with wide walk-through doors.
@@ -731,7 +745,7 @@ buildMap = function buildMap(){
  for(const [a,b] of [[-27,-20],[-14,-8]])wall((a+b)/2,wh/2,-11,b-a,wh,thick,mats.wallDark);
  for(const [a,b] of [[8,14],[20,27]])wall((a+b)/2,wh/2,-11,b-a,wh,thick,mats.wallDark);
  // Interior doors are visibly framed but stay passable for players.
- for(const [x,z] of [[-8,-7],[8,-7],[-17,-11],[17,-11]]){box(x,2.25,z,.17,4.5,.24,mats.gold);box(x,4.5,z,.2,.16,1.5,mats.gold)}
+ for(const [x,z] of [[-8,-7],[8,-7],[-17,-11],[17,-11]]){box(x,1.88,z,.14,3.76,.22,mats.gold);box(x,3.84,z,.2,.14,1.5,mats.gold)}
  // Showroom: reception, multiple display islands, boxed component shelves and demo PCs.
  box(0,1.0,11.2,12.5,.95,1.25,mats.wood);box(0,1.53,11.2,12.7,.12,1.34,mats.cyan);label('CUSTOMER SERVICE',0,2.2,11.0,4.2);
  for(let x of [-19,-13,13,19]){box(x,1.7,5.7,2.6,3.0,.55,mats.metal);for(let y of [.8,1.8,2.8]){box(x,y,6.0,2.55,.12,.9,mats.wood);for(let j=0;j<3;j++)box(x-0.72+j*.72,y+.38,5.75,.42,.62,.45,[mats.cyan,mats.gold,mats.red][(j+Math.abs(x))%3])}}
@@ -755,31 +769,93 @@ buildMap = function buildMap(){
  label('ADMINISTRATION',16,4.0,-3.8,3.4);
  box(16,1.0,-15,8,.18,2.8,mats.wood);box(16,1.13,-15,8.1,.1,2.9,mats.gold);box(16,2.0,-15.65,1.5,1.0,.08,mats.black);label('MANAGER ROOM',16,4.0,-17.0,3.2);
  // Roof edge, rooftop service units and a canopy instead of a solid opaque roof.
- box(0,6.25,-20,55,.34,.8,mats.blueRoof);box(0,6.25,20,55,.34,.8,mats.blueRoof);box(-27,6.25,0,.8,.34,40,mats.blueRoof);box(27,6.25,0,.8,.34,40,mats.blueRoof);
- box(-21,6.1,-14,4,.65,2.2,mats.metal);box(-14,6.1,-14,4,.65,2.2,mats.metal);box(16,6.1,-14,4,.65,2.2,mats.metal);
+ box(0,4.82,-20,55,.30,.8,mats.blueRoof);box(0,4.82,20,55,.30,.8,mats.blueRoof);box(-27,4.82,0,.8,.30,40,mats.blueRoof);box(27,4.82,0,.8,.30,40,mats.blueRoof);
+ box(-21,4.65,-14,4,.42,2.2,mats.metal);box(-14,4.65,-14,4,.42,2.2,mats.metal);box(16,4.65,-14,4,.42,2.2,mats.metal);
  // Distinct houses: different footprints, heights, roof silhouettes, facades and porches.
- const makeHouse=(x,z,name,opt={})=>{
-  const w=opt.w||15,d=opt.d||12,h=opt.h||3.6,body=material(opt.body||0xd8c7ad),trim=material(opt.trim||0xf2e9d8),roofMat=material(opt.roof||0x8c5145),doorMat=material(0x5f4939),win=material(0x85c6d2,.18,.16,{transparent:true,opacity:.8});
-  box(x,.12,z,w+1,.24,d+1,mats.concrete,{castShadow:false});box(x,h/2+.22,z,w,h,d,body);box(x,h+.28,z,w+.35,.22,d+.35,trim);
-  if(opt.roofStyle==='flat'){box(x,h+.48,z,w+1,.32,d+1,roofMat);for(const xx of [-w/2,w/2])box(x+xx,h+.76,z,.28,.55,d+1,trim)}
-  else{const r=new T.Mesh(new T.ConeGeometry(Math.max(w,d)*.72,Math.max(2,h*.58),4),roofMat);r.position.set(x,h+1.25,z);r.rotation.y=Math.PI/4;r.castShadow=true;state.scene.add(r)}
-  const front=z+d/2+.07;box(x,1.42,front,.95,2.45,.13,doorMat);for(const sx of [-1,1]){box(x+sx*w*.27,2.0,front,2.45,1.65,.13,win);box(x+sx*w*.27,2.0,front+.08,.09,1.8,.08,trim);box(x+sx*w*.27,2.0,front+.08,2.55,.08,.08,trim)}
-  if(opt.balcony){box(x,4.05,front+.4,w*.55,.18,.75,trim);box(x,4.45,front+.72,w*.55,.12,.12,mats.metal);for(let xx=-w*.24;xx<=w*.24;xx+=.7)box(x+xx,4.23,front+.72,.07,.43,.07,mats.metal)}
-  if(opt.porch){box(x,3.15,front+1.1,w*.65,.22,2.0,roofMat);for(const xx of [-w*.28,w*.28])box(x+xx,1.55,front+1.8,.16,3.1,.16,trim)}
-  if(opt.garage){box(x+w*.28,1.45,front+.1,w*.36,2.5,.15,material(0x9fa8a5));for(let k=0;k<4;k++)box(x+w*.28,0.55+k*.48,front+.2,w*.33,.045,.04,mats.metal)}
-  if(opt.ac){box(x-w*.32,2.9,z-d/2-.1,1.35,.72,.58,mats.white);box(x-w*.32,2.9,z-d/2-.4,.86,.36,.04,mats.metal)}
-  if(opt.plants){for(const sx of [-w*.42,w*.42]){cylinder(x+sx,.28,front+1.1,.28,.32,.5,mats.wood,10);sphere(x+sx,.85,front+1.1,.54,mats.green,12)}}
-  addCollider(x,z,w+.4,d+.4);label(name,x,h+2.25,front+1.3,Math.min(2.8,w*.18));
- };
- const makeRuko=(x,z,name,opt={})=>{
-  const w=opt.w||14,d=opt.d||12,h=opt.h||8.2;const body=material(opt.body||0xd3d7d4),accent=material(opt.accent||0x1e6c80),glass=material(0x77b9cb,.15,.2,{transparent:true,opacity:.78});
-  box(x,.12,z,w+1,.24,d+1,mats.concrete,{castShadow:false});box(x,h/2,z,w,h,d,body);box(x,3.7,z+d/2+.06,w*.92,.38,.18,accent);label(name,x,4.1,z+d/2+.3,Math.min(3.7,w*.24));
-  for(let floor=0;floor<2;floor++)for(const xx of [-w*.28,w*.28]){box(x+xx,floor?6.1:2.0,z+d/2+.08,w*.32,2.0,.15,glass);box(x+xx,floor?5.05:3.08,w*.0+z+d/2+.14,w*.32,.08,.08,mats.metal)}
-  box(x,8.25,z,w+.3,.28,d+.3,accent);box(x-w*.33,8.65,z+d*.18,1.5,.6,.9,mats.metal);box(x+w*.33,8.65,z+d*.18,1.5,.6,.9,mats.metal);addCollider(x,z,w+.5,d+.5);
- };
- // Main park with walking paths, a fountain, benches, play area and varied trees.
+   const makeHouse=(x,z,name,opt={})=>{
+   const w=opt.w||15,d=opt.d||12,h=opt.h||3.6;
+   const body=material(opt.body||0xd8c7ad,.9,0),trim=material(opt.trim||0xf2e9d8,.72,.02),roofMat=material(opt.roof||0x8c5145,.82,.02),doorMat=material(opt.door||0x5f4939,.78,.02);
+   const glass=material(0x77aeb9,.22,.16,{transparent:true,opacity:.78}),frame=material(opt.frame||0xede9df,.55,.08),darkGlass=material(0x1e3039,.38,.12);
+   box(x,.12,z,w+1.1,.24,d+1.1,mats.concrete,{castShadow:false});
+   // A strong plinth and a slightly inset facade give each home a real building silhouette.
+   box(x,.38,z,w+.16,.48,d+.16,material(0x777f7b,.9,0));
+   box(x,h/2+.35,z,w,h,d,body);
+   box(x,h+.62,z,w+.42,.22,d+.42,trim);
+   const front=z+d/2+.09;
+   // Roofs are deliberately different: flat/parapet or a two-plane pitched roof.
+   if(opt.roofStyle==='flat'){
+    box(x,h+.83,z,w+1.0,.30,d+1.0,roofMat);
+    for(const xx of [-w/2,w/2])box(x+xx,h+1.02,z,.20,.45,d+1.0,trim);
+    for(const zz of [-d/2,d/2])box(x,h+1.02,z+zz,w+1.0,.45,.20,trim);
+   }else{
+    const pitch=.48,half=d*.57,run=Math.sqrt(half*half+(h*.22)*(h*.22));
+    const leftRoof=box(x,h+1.05,z-half*.48,w+.75,.20,run,roofMat);leftRoof.rotation.x=-pitch;
+    const rightRoof=box(x,h+1.05,z+half*.48,w+.75,.20,run,roofMat);rightRoof.rotation.x=pitch;
+    box(x,h+1.34,z,w+.82,.18,.22,trim);
+    box(x,h+.68,front+.02,w+.6,.18,.28,trim);
+   }
+   // Front entry with recessed trim, handle and a small porch step.
+   const doorX=x-(opt.doorSide==='right'?-w*.22:w*.22);
+   box(doorX,1.47,front,.98,2.48,.16,doorMat);
+   box(doorX,1.47,front+.095,.70,2.15,.035,material(opt.doorInset||0x76543e,.62,.02));
+   box(doorX+.30,1.48,front+.14,.035,.12,.035,mats.gold);
+   box(doorX,0.10,front+.46,1.45,.20,.92,mats.concrete,{castShadow:false});
+   // Two or three glazed windows, with visible frames, cross-bars and shaded recesses.
+   const windowCount=opt.windows||2;
+   for(let i=0;i<windowCount;i++){
+    const wx=x+(i-(windowCount-1)/2)*w*.37+(opt.windowOffset||0),wy=opt.secondFloor?3.25:2.05,ww=opt.windowWidth||2.35,wh=opt.secondFloor?1.35:1.55;
+    box(wx,wy,front-.015,ww+.20,wh+.20,.12,frame);
+    box(wx,wy,front+.055,ww,wh,.045,darkGlass);
+    box(wx,wy,front+.083,ww-.12,wh-.12,.025,glass);
+    box(wx,wy,front+.105,.075,wh,.045,frame);box(wx,wy,front+.105,ww,.075,.045,frame);
+    box(wx,wy,front+.15,.055,wh-.12,.035,frame);
+    box(wx,wy-wh/2-.13,front+.16,ww+.30,.16,.30,trim);
+    if(opt.curtains){for(const side of [-1,1])box(wx+side*ww*.32,wy,front+.12,.18,wh-.1,.035,material(opt.curtainColor||0x9b8068))}
+   }
+   if(opt.balcony){
+    const bw=w*.54,bz=front+.66;box(x,4.18,bz,bw,.16,1.05,trim);box(x,4.62,bz+.42,bw,.11,.11,mats.metal);
+    for(let xx=-bw*.46;xx<=bw*.46;xx+=.62)box(x+xx,4.39,bz+.42,.055,.48,.055,mats.metal);
+   }
+   if(opt.porch){box(x,3.18,front+1.08,w*.72,.20,2.05,roofMat);for(const xx of [-w*.31,w*.31])box(x+xx,1.62,front+1.72,.16,3.12,.16,trim)}
+   if(opt.garage){const gx=x+w*.30;box(gx,1.50,front+.04,w*.37,2.48,.18,material(0xaab0ad));for(let k=0;k<5;k++)box(gx,.52+k*.45,front+.16,w*.35,.035,.055,mats.metal);box(gx,2.83,front+.10,w*.38,.10,.25,trim)}
+   if(opt.ac){const ax=x-w*.34;box(ax,2.92,z-d/2-.22,1.35,.72,.70,mats.white);box(ax,2.92,z-d/2-.59,.92,.36,.05,mats.metal);for(let k=-2;k<=2;k++)box(ax+k*.13,2.92,z-d/2-.63,.035,.23,.025,mats.black)}
+   if(opt.plants){for(const sx of [-w*.42,w*.42]){cylinder(x+sx,.30,front+1.15,.30,.34,.56,mats.wood,12);const bush=sphere(x+sx,.88,front+1.15,.54,mats.green,14);bush.scale.set(1,1.05,.9)}}
+   if(opt.fence){for(let xx=-w*.55;xx<=w*.55;xx+=.8){box(x+xx,.58,front+3.5,.07,1.05,.07,trim)}box(x,.98,front+3.5,w*1.12,.09,.11,trim);box(x,.22,front+3.5,w*1.12,.09,.11,trim)}
+   // Roof vents, rainwater pipe and facade lamp.
+   box(x+w*.37,h+.97,z-d*.25,.55,.42,.55,mats.metal);box(x-w*.48,h*.45,front+.18,.12,h*.86,.12,mats.metal);
+   const porchLamp=sphere(doorX,2.75,front+.28,.09,material(0xffe1a1,.35,0,{emissive:0xffc56b,emissiveIntensity:.55}),10);
+   addCollider(x,z,w+.55,d+.55);label(name,x,h+2.30,front+1.55,Math.min(2.8,w*.18));
+  };
+  const makeRuko=(x,z,name,opt={})=>{
+   const w=opt.w||14,d=opt.d||12,h=opt.h||8.2,front=z+d/2+.08;
+   const body=material(opt.body||0xd3d7d4,.88,.01),accent=material(opt.accent||0x1e6c80,.5,.08),glass=material(0x79b7c4,.20,.18,{transparent:true,opacity:.64}),frame=material(0xe6e7df,.55,.12),dark=material(0x1e2b32,.42,.1);
+   box(x,.12,z,w+1.2,.24,d+1.2,mats.concrete,{castShadow:false});
+   box(x,h/2,z,w,h,d,body);
+   // Upper-floor window bays and sun shades create a distinct two-storey facade.
+   for(const xx of [-w*.29,w*.29]){
+    box(x+xx,6.05,front+.055,w*.32,1.95,.14,frame);box(x+xx,6.05,front+.14,w*.32-.16,1.78,.045,dark);box(x+xx,6.05,front+.18,w*.32-.24,1.64,.025,glass);
+    box(x+xx,5.02,front+.27,w*.36,.12,.52,accent);box(x+xx,6.05,front+.20,.07,1.75,.05,frame);
+   }
+   // Ground-floor display windows flank a recessed glass entrance.
+   const sideW=w*.29;
+   for(const side of [-1,1]){
+    const wx=x+side*w*.29;box(wx,2.05,front+.06,sideW,2.75,.17,frame);box(wx,2.05,front+.16,sideW-.18,2.55,.04,dark);box(wx,2.05,front+.19,sideW-.30,2.38,.025,glass);
+    for(let k=-1;k<=1;k++)box(wx+k*sideW*.28,2.05,front+.22,.055,2.4,.04,frame);
+    box(wx,3.42,front+.24,sideW,.08,.08,frame);
+   }
+   box(x,1.52,front+.10,2.0,2.9,.16,frame);box(x,1.52,front+.20,1.70,2.62,.035,glass);box(x-.78,1.52,front+.25,.04,2.48,.04,accent);box(x+.78,1.52,front+.25,.04,2.48,.04,accent);
+   // Brand fascia, canopy, parapet and roof equipment.
+   box(x,4.05,front+.21,w*.96,.52,.42,accent);box(x,4.08,front+.44,w*.84,.12,.025,mats.white);
+   box(x,h+.22,z,w+.50,.34,d+.50,accent);box(x,h+.45,z+d*.12,w*.46,.34,.85,mats.metal);
+   for(const xx of [-w*.42,w*.42]){box(x+xx,1.95,front+.33,.15,3.65,.22,accent);box(x+xx,4.55,front+.32,1.1,.16,.35,mats.gold)}
+   for(let k=0;k<7;k++)box(x-w*.42+k*w*.14,.10,front+1.05,.11,.20,.7,mats.metal);
+   const acX=x+w*.34;box(acX,7.45,z-d*.22,1.5,.62,.88,mats.metal);box(acX,7.45,z-d*.22-.48,1.0,.32,.04,mats.black);
+   const awning=box(x,3.45,front+.78,w*.98,.14,1.1,accent);awning.rotation.x=-.06;
+   addCollider(x,z,w+.65,d+.65);
+  };
+// Main park with walking paths, a fountain, benches, play area and varied trees.
  box(-94,-.01,1,40,.12,47,mats.grass2,{castShadow:false});box(-94,.06,1,35,.09,3,mats.sidewalk,{castShadow:false});box(-94,.06,1,3,.09,40,mats.sidewalk,{castShadow:false});
- box(-94,.07,1,9,.1,9,material(0x638a78),{castShadow:false});cylinder(-94,.44,1,3.3,3.3,.65,mats.concrete,24);cylinder(-94,.88,1,2.5,2.5,.22,mats.cyan,24);const fountain=sphere(-94,1.5,1,.48,material(0x9be5eb,.2,.1,{transparent:true,opacity:.8,emissive:0x1d6870,emissiveIntensity:.2}),16);fountain.scale.y=1.7;
+ box(-94,.07,1,9,.1,9,material(0x638a78),{castShadow:false});cylinder(-94,.44,1,3.3,3.3,.65,mats.concrete,24);cylinder(-94,.88,1,2.5,2.5,.22,mats.cyan,24);addCollider(-94,1,6.8,6.8);const fountain=sphere(-94,1.5,1,.48,material(0x9be5eb,.2,.1,{transparent:true,opacity:.8,emissive:0x1d6870,emissiveIntensity:.2}),16);fountain.scale.y=1.7;
  for(const [x,z,sc] of [[-108,-15,1.2],[-98,-17,.95],[-81,-14,1.1],[-108,20,1.1],[-82,20,.9],[-94,28,1.0],[-112,2,.85],[-77,2,.9]])tree(x,z,sc,Math.round(x+z));
  for(const [x,z,r] of [[-106,-2,0],[-82,-2,.4],[-106,12,.5],[-82,12,-.4]])bench(x,z,r);
  // Playground equipment: climbing frame, slide and swing set.
@@ -812,7 +888,7 @@ buildMap = function buildMap(){
  sign(-63,34,'PUSAT KOTA');sign(63,-34,'PERUMAHAN');sign(-70,-34,'TAMAN KOTA');sign(68,52,'AREA TOKO');
  for(const [x,z] of [[-32,30],[32,30],[-33,55],[33,55],[-64,-60],[77,-60],[-76,75],[78,76],[0,-55],[0,62]])lamp(x,z);
  // Parked vehicles, parking lot, bicycle racks and delivery zone around the shop.
- const parked=(x,z,col)=>{const g=makeVehicleModel(col);g.position.set(x,0,z);g.rotation.y=Math.PI;state.scene.add(g)};
+ const parked=(x,z,col)=>{const g=makeVehicleModel(col);g.position.set(x,0,z);g.rotation.y=Math.PI;state.scene.add(g);addCollider(x,z,4.9,2.55)};
  for(const [x,z,c] of [[-17,28,0x3a7893],[-9,28,0xc5a65c],[9,28,0x8b5350],[17,28,0x5d7181],[-24,24,0xe0e0d7],[24,24,0x3d805e]])parked(x,z,c);
  for(let x=-23;x<=23;x+=4.6)box(x,.04,31,.12,.035,5,mats.white,{castShadow:false});
  for(const x of [-24,24]){for(let z of [7,12,17]){cylinder(x,.45,z,.07,.07,.9,mats.metal,8);sphere(x,.95,z,.12,mats.gold,10)}}
@@ -839,6 +915,147 @@ buildMap = function buildMap(){
 };
 
 blocked = function blocked(x,z){if(x< -128||x>128||z< -102||z>102)return true;for(const w of state.mapWalls||[]){if(x>w.minX&&x<w.maxX&&z>w.minZ&&z<w.maxZ)return true;}return false};
+
+// ===== PROCEDURAL CHARACTER + ANIMAL MODELS (NO EXTERNAL 3D ASSETS) =====
+createAvatar = function createAvatar(name,role,isNpc=false){
+ const T=state.THREE,group=new T.Group();
+ const palettes={
+  technician:{shirt:0x315d70,trim:0xe5bd68,pants:0x283640,inner:0xdce5e5,hair:0x24272c},
+  sales:{shirt:0x315f4d,trim:0xb6d7bd,pants:0x303a43,inner:0xf5f0e6,hair:0x30251f},
+  administration:{shirt:0x3e5878,trim:0xb5c8df,pants:0x303b4c,inner:0xf1f2f0,hair:0x292427},
+  quality_control:{shirt:0xdce3df,trim:0x5cabb7,pants:0x394955,inner:0x28677a,hair:0x302a2a},
+  manager:{shirt:0x514d62,trim:0xd9bd82,pants:0x30323b,inner:0xf2eee4,hair:0x292426},
+  customer:{shirt:0x8a654f,trim:0xc9a887,pants:0x414b54,inner:0xe9e3d8,hair:0x332820}
+ };
+ const p=palettes[role]||palettes.customer;let seed=0;for(const ch of String(name||'NPC'))seed=(seed*31+ch.charCodeAt(0))>>>0;
+ const pick=(a,n)=>a[(seed>>>n)%a.length];
+ const skinColor=pick([0xb98268,0xc58e72,0xd09b7e,0xa96f56,0xd5a889,0x9b6a55],0);
+ const skin=material(skinColor,.83,0),skinLight=material(new T.Color(skinColor).multiplyScalar(1.08),.86,0),skinShade=material(new T.Color(skinColor).multiplyScalar(.78),.9,0);
+ const shirt=material(p.shirt,.84,.01),shirtLight=material(new T.Color(p.shirt).multiplyScalar(1.12),.82,.01),trim=material(p.trim,.62,.03),pants=material(p.pants,.9,.01),inner=material(p.inner,.82,.01),hair=material(p.hair,.94,0),hairHi=material(new T.Color(p.hair).multiplyScalar(1.20),.92,0),shoe=material(0x202329,.72,.05),sole=material(0x101519,.8,.02),white=material(0xf2eee7,.48,0),iris=material(pick([0x49382f,0x354d58,0x4d382c,0x58604e],3),.48,0),pupil=material(0x111316,.28,.03),mouth=material(0x7a4548,.82,0),dark=material(0x202a30,.74,.02),metal=material(0x9aabb0,.36,.6);
+ const mesh=(parent,geo,mat,pos,scale,cast=true)=>{const m=new T.Mesh(geo,mat);if(pos)m.position.set(pos[0],pos[1],pos[2]);if(scale)m.scale.set(scale[0],scale[1],scale[2]);m.castShadow=cast;m.receiveShadow=true;parent.add(m);return m};
+ const sph=new T.SphereGeometry(1,32,24),caps=(r,len)=>new T.CapsuleGeometry(r,len,6,12);
+ const capsule=(parent,r,len,mat,pos)=>mesh(parent,caps(r,len),mat,pos);
+ const legs=[],arms=[];
+ // Shoes with soles, toe caps and subtle stitching.
+ for(const side of [-1,1]){
+  const foot=new T.Group();foot.position.set(side*.115,.12,.075);group.add(foot);
+  mesh(foot,new T.BoxGeometry(.205,.105,.34),shoe,[0,0,.045],[1,1,1]);mesh(foot,new T.BoxGeometry(.21,.035,.35),sole,[0,-.056,.045]);
+  mesh(foot,new T.BoxGeometry(.07,.012,.10),metal,[0,.057,.11],[1,1,1],false);
+  const leg=new T.Group();leg.position.set(side*.115,.91,0);group.add(leg);
+  capsule(leg,.092,.31,pants,[0,-.18,0]);
+  const knee=new T.Group();knee.position.set(0,-.355,0);leg.add(knee);mesh(knee,sph,pants,[0,0,0],[.078,.078,.082]);
+  capsule(knee,.073,.30,pants,[0,-.17,0]);
+  foot.position.set(0,-.405,.10);knee.add(foot);legs.push(leg);
+ }
+ // Pelvis and a shaped torso with a gentle shoulder taper.
+ const pelvisProfile=[new T.Vector2(0,0),new T.Vector2(.13,.015),new T.Vector2(.18,.07),new T.Vector2(.19,.15),new T.Vector2(.16,.22),new T.Vector2(.11,.25),new T.Vector2(0,.25)];
+ mesh(group,new T.LatheGeometry(pelvisProfile,32),pants,[0,.78,0]);
+ const torsoProfile=[new T.Vector2(0,0),new T.Vector2(.13,.015),new T.Vector2(.17,.08),new T.Vector2(.165,.20),new T.Vector2(.185,.32),new T.Vector2(.225,.48),new T.Vector2(.218,.57),new T.Vector2(.17,.65),new T.Vector2(.10,.69),new T.Vector2(0,.69)];
+ const torso=mesh(group,new T.LatheGeometry(torsoProfile,40),shirt,[0,.86,0]);torso.geometry.scale(1,1,.78);
+ // Side seam and shirt hem; buttons and chest pockets make uniforms look tailored.
+ mesh(group,new T.TorusGeometry(.155,.012,8,32),trim,[0,.91,0],[1,1,.78]).rotation.x=Math.PI/2;
+ mesh(group,new T.BoxGeometry(.018,.49,.014),trim,[0,1.23,.174],[1,1,1],false);
+ for(let y=1.12;y<=1.46;y+=.105)mesh(group,sph,metal,[.015,y,.184],[.012,.012,.008],false);
+ for(const side of [-1,1]){mesh(group,new T.BoxGeometry(.095,.12,.018),shirtLight,[side*.115,1.34,.164]);mesh(group,new T.BoxGeometry(.09,.018,.024),trim,[side*.115,1.405,.176],null,false)}
+ // Neck and collar.
+ mesh(group,caps(.067,.09),skin,[0,1.55,0]);
+ for(const side of [-1,1]){const collar=mesh(group,new T.BoxGeometry(.085,.13,.035),inner,[side*.045,1.58,.04]);collar.rotation.z=side*.32}
+ // Articulated arms: upper arm, elbow, forearm, palm and separate fingers.
+ for(const side of [-1,1]){
+  const arm=new T.Group();arm.position.set(side*.225,1.47,0);group.add(arm);
+  mesh(arm,sph,shirt,[side*.008,-.005,0],[.105,.105,.11]);capsule(arm,.067,.245,shirt,[0,-.16,0]);
+  const elbow=new T.Group();elbow.position.set(0,-.285,0);arm.add(elbow);mesh(elbow,sph,shirt,[0,0,0],[.061,.064,.064]);capsule(elbow,.056,.22,inner,[0,-.145,0]);
+  mesh(elbow,sph,skin,[0,-.285,.012],[.060,.064,.052]);
+  for(let f=-1;f<=2;f++)capsule(elbow,.010,.050,skin,[f*.020,-.333,.038]);
+  capsule(elbow,.054,.015,skin,[0,-.275,0]);arms.push(arm);
+ }
+ // Head with tapered jaw, cheek volume and a separate neck pivot.
+ const head=new T.Group();head.position.set(0,1.66,0);group.add(head);
+ const headProfile=[new T.Vector2(0,-.175),new T.Vector2(.065,-.17),new T.Vector2(.105,-.145),new T.Vector2(.137,-.095),new T.Vector2(.151,-.025),new T.Vector2(.154,.055),new T.Vector2(.144,.125),new T.Vector2(.116,.188),new T.Vector2(.072,.225),new T.Vector2(0,.235)];
+ const headGeo=new T.LatheGeometry(headProfile,40);headGeo.scale(1,1,.88);mesh(head,headGeo,skin,[0,0,0]);
+ // Ears, ear folds, cheeks and a softly modeled nose.
+ for(const side of [-1,1]){
+  mesh(head,sph,skin,[side*.151,-.005,0],[.036,.061,.035]);mesh(head,sph,skinShade,[side*.164,-.007,.012],[.015,.032,.018]);
+  mesh(head,sph,skinLight,[side*.077,-.045,.080],[.053,.041,.045]);
+  mesh(head,sph,white,[side*.060,.035,.128],[.031,.022,.016]);mesh(head,sph,iris,[side*.060,.035,.143],[.014,.016,.010]);mesh(head,sph,pupil,[side*.060,.035,.151],[.007,.011,.006]);mesh(head,sph,white,[side*.056,.043,.157],[.004,.004,.003],false);
+  const brow=mesh(head,caps(.009,.048),hair,[side*.060,.082,.123]);brow.rotation.z=Math.PI/2+(side*.12);
+ }
+ mesh(head,sph,skinLight,[0,-.005,.137],[.020,.073,.026]);mesh(head,sph,skin,[0,-.045,.158],[.035,.033,.035]);
+ mesh(head,sph,skinShade,[-.015,-.064,.148],[.008,.008,.008]);mesh(head,sph,skinShade,[.015,-.064,.148],[.008,.008,.008]);
+ const upperLip=new T.CatmullRomCurve3([new T.Vector3(-.035,-.105,.128),new T.Vector3(-.018,-.098,.136),new T.Vector3(0,-.103,.139),new T.Vector3(.018,-.098,.136),new T.Vector3(.035,-.105,.128)]);
+ mesh(head,new T.TubeGeometry(upperLip,14,.006,6,false),mouth,[0,0,0],[1,1,1],false);
+ const lowerLip=new T.CatmullRomCurve3([new T.Vector3(-.025,-.112,.13),new T.Vector3(0,-.121,.137),new T.Vector3(.025,-.112,.13)]);mesh(head,new T.TubeGeometry(lowerLip,10,.004,5,false),skinShade);
+ // Hair cap with swept fringe, side locks and selectable silhouettes.
+ const capGeo=new T.SphereGeometry(.158,32,22,0,Math.PI*2,0,Math.PI*.58);mesh(head,capGeo,hair,[0,.09,-.008],[1.02,1,.98]);
+ const style=seed%5;
+ if(style===0){mesh(head,caps(.035,.19),hair,[-.13,-.045,-.005]);mesh(head,caps(.035,.19),hair,[.13,-.045,-.005]);for(let i=0;i<4;i++){const strand=mesh(head,caps(.012,.09),hairHi,[-.09+i*.06,.015,.12]);strand.rotation.z=-.3+i*.13}}
+ else if(style===1){mesh(head,sph,hair,[0,.17,-.065],[.16,.075,.14]);for(let i=0;i<4;i++){const strand=mesh(head,caps(.013,.12),hairHi,[-.10+i*.065,.025,.12]);strand.rotation.z=-.42+i*.24}}
+ else if(style===2){mesh(head,sph,hair,[0,.21,-.045],[.13,.08,.13]);mesh(head,caps(.038,.20),hair,[.14,-.04,-.015]);}
+ else if(style===3){for(let i=0;i<5;i++){const lock=mesh(head,caps(.017,.15+(i%2)*.04),hair,[-.13+i*.065,.015,.11]);lock.rotation.z=-.28+i*.13}}
+ else{mesh(head,sph,hair,[0,.19,-.04],[.17,.08,.14]);mesh(head,caps(.035,.22),hair,[-.14,-.04,0]);mesh(head,caps(.035,.22),hair,[.14,-.04,0]);}
+ // Optional glasses on some deterministic NPCs.
+ if(isNpc&&seed%7===0){for(const side of [-1,1]){const lens=mesh(head,new T.TorusGeometry(.038,.006,6,20),dark,[side*.06,.035,.145]);lens.scale.set(1,.68,.5)}mesh(head,new T.BoxGeometry(.035,.008,.008),dark,[0,.04,.145])}
+ // Work role accessories, ID card, belt and watch.
+ mesh(group,new T.BoxGeometry(.30,.045,.04),dark,[0,.86,.13]);mesh(group,new T.BoxGeometry(.07,.075,.025),metal,[0,.86,.16]);
+ if(role==='technician'){
+  mesh(group,new T.BoxGeometry(.10,.14,.025),dark,[.12,1.27,.18]);mesh(group,new T.BoxGeometry(.075,.105,.018),trim,[.12,1.28,.198]);mesh(group,new T.TorusGeometry(.046,.008,6,18),metal,[-.28,1.13,.005]);
+ }else if(role==='sales'||role==='administration'||role==='manager'){
+  mesh(group,new T.BoxGeometry(.095,.13,.022),dark,[.13,1.27,.18]);mesh(group,new T.BoxGeometry(.073,.105,.016),trim,[.13,1.28,.197]);
+ }
+ // Distinct NPC body shapes and hair silhouettes, kept subtle and performance-friendly.
+ const height=0.96+(seed%5)*.018;group.scale.set(0.97+(seed%3)*.025,height,0.96+(seed%4)*.02);
+ const nameTag=textSprite(name,isNpc?'#fff1d7':'#e8fbff','#071a2a');nameTag.scale.set(1.35,.30,1);nameTag.position.y=2.15;nameTag.visible=false;group.add(nameTag);
+ group.userData={name,role,isNpc,legs,arms,head,torsoMesh:torso,shirtMesh:torso,torsoBaseY:.86,nameTag,walkOffset:(seed%100)/25};
+ return {group,name,role};
+};
+
+makeAnimal = function makeAnimal(kind,x,z){
+ const T=state.THREE,g=new T.Group(),isDog=kind==='dog';
+ const furColor=isDog?0x956d4d:0x85858a,fur=material(furColor,.94,0),furLight=material(isDog?0xc39b70:0xd1d0c8,.94,0),furDark=material(isDog?0x4d392e:0x54575a,.96,0),skin=material(0xd09a91,.84,0),black=material(0x17191d,.38,.02),white=material(0xf1eee7,.5,0),iris=material(0x30251f,.3,0),collar=material(isDog?0xb74e43:0x39788a,.58,.06),gold=material(0xd4b16d,.34,.62);
+ const sph=new T.SphereGeometry(1,24,18),mesh=(parent,geo,mat,pos,scale)=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);if(scale)m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m};
+ const capsule=(parent,r,len,mat,pos)=>mesh(parent,new T.CapsuleGeometry(r,len,5,10),mat,pos);
+ // Torso, chest and hips form a continuous quadruped silhouette; forward is +Z.
+ const body=mesh(g,sph,fur,[0,.53,-.08],isDog?[.34,.31,.57]:[.27,.25,.48]);
+ mesh(g,sph,furLight,[0,.44,.18],isDog?[.25,.19,.31]:[.19,.15,.25]);
+ const head=new T.Group();head.position.set(0,.80,.35);g.add(head);
+ mesh(head,sph,fur,[0,0,0],isDog?[.265,.255,.29]:[.225,.22,.235]);
+ // Muzzle and nose.
+ if(isDog){mesh(head,sph,furLight,[0,-.105,.225],[.16,.115,.22]);mesh(head,sph,black,[0,-.035,.414],[.075,.052,.06]);mesh(head,sph,white,[-.075,.075,.214],[.064,.065,.05]);mesh(head,sph,white,[.075,.075,.214],[.064,.065,.05]);
+  // Soft folded ears.
+  for(const side of [-1,1]){const ear=mesh(head,sph,furDark,[side*.205,.12,-.035],[.105,.20,.095]);ear.rotation.z=side*.24;mesh(head,sph,furLight,[side*.205,.045,.008],[.06,.12,.045]);}
+ }else{
+  mesh(head,sph,furLight,[0,-.075,.18],[.13,.10,.14]);mesh(head,sph,skin,[0,-.025,.292],[.045,.035,.028]);
+  for(const side of [-1,1]){const ear=mesh(head,new T.ConeGeometry(.115,.30,7),fur,[side*.145,.205,-.005]);ear.rotation.z=side*.12;mesh(head,new T.ConeGeometry(.067,.20,7),skin,[side*.145,.205,.012]);for(let whisk=-1;whisk<=1;whisk++){const path=new T.CatmullRomCurve3([new T.Vector3(side*.10,-.09,.22),new T.Vector3(side*.23,-.10+whisk*.035,.24),new T.Vector3(side*.33,-.08+whisk*.07,.22)]);mesh(head,new T.TubeGeometry(path,8,.004,4,false),furLight,[0,0,0])}}
+ }
+ for(const side of [-1,1]){mesh(head,sph,white,[side*.105,.075,.205],[.056,.052,.035]);mesh(head,sph,iris,[side*.105,.075,.234],[.027,.032,.018]);mesh(head,sph,black,[side*.105,.075,.247],[.013,.019,.010]);mesh(head,sph,white,[side*.098,.087,.255],[.006,.007,.005]);}
+ // Collar with small tag.
+ const collarRing=mesh(g,new T.TorusGeometry(isDog?.235:.198,.035,8,24),collar,[0,.73,.28]);collarRing.rotation.x=Math.PI/2;
+ mesh(g,new T.BoxGeometry(.10,.12,.035),gold,[0,.68,.49]);
+ // Four articulated legs with paws and toes.
+ for(const side of [-1,1])for(const fore of [true,false]){
+  const pivot=new T.Group();pivot.position.set(side*(isDog?.235:.19),.44,fore?.28:-.39);g.add(pivot);
+  capsule(pivot,isDog?.075:.052,isDog?.19:.16,fur,[0,-.13,0]);mesh(pivot,sph,fur,[0,-.26,.045],[isDog?.09:.07,.07,isDog?.115:.09]);
+  for(let toe=-1;toe<=1;toe++)mesh(pivot,sph,furLight,[toe*(isDog?.042:.032),-.29,.105],[.027,.025,.038]);
+  pivot.userData.animalLeg=true;pivot.userData.phase=(side===-1?0:Math.PI)+(fore?0:Math.PI);g.add(pivot);
+ }
+ // Tapered curved tail with its own pivot for wagging.
+ const tail=new T.Group();tail.position.set(0,.61,-.54);g.add(tail);
+ const tailCurve=isDog?new T.CatmullRomCurve3([new T.Vector3(0,0,0),new T.Vector3(0,.10,-.16),new T.Vector3(0,.25,-.25),new T.Vector3(0,.36,-.22)]):new T.CatmullRomCurve3([new T.Vector3(0,0,0),new T.Vector3(0,.12,-.18),new T.Vector3(0,.34,-.31),new T.Vector3(0,.48,-.48)]);
+ mesh(tail,new T.TubeGeometry(tailCurve,18,isDog?.055:.042,8,false),fur,[0,0,0]);
+ tail.userData.animalTail=true;g.userData.tail=tail;g.userData.head=head;g.userData.body=body;g.position.set(x,0,z);return g;
+};
+
+function makeBird(index){
+ const T=state.THREE,g=new T.Group(),feather=material(index%2?0x59666d:0x777d7b,.9,0),wingMat=material(index%2?0x46545b:0x60696b,.92,0),belly=material(0xc1c4bb,.95,0),beak=material(0xc99b47,.65,0),eye=material(0x17191d,.3,0);
+ const mesh=(parent,geo,mat,pos,scale)=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);if(scale)m.scale.set(...scale);m.castShadow=true;parent.add(m);return m};
+ mesh(g,new T.SphereGeometry(.18,18,12),feather,[0,0,0],[1.35,.80,1.85]);
+ const left=new T.Group();left.position.set(-.12,.045,-.02);g.add(left);mesh(left,new T.SphereGeometry(.16,14,10),wingMat,[-.13,0,0],[1.05,.25,.72]);
+ const right=new T.Group();right.position.set(.12,.045,-.02);g.add(right);mesh(right,new T.SphereGeometry(.16,14,10),wingMat,[.13,0,0],[1.05,.25,.72]);
+ mesh(g,new T.SphereGeometry(.11,14,10),feather,[0,.05,.25],[1,1,1]);mesh(g,new T.SphereGeometry(.13,14,10),belly,[0,-.055,.02],[1.1,.62,1.35]);
+ const bk=mesh(g,new T.ConeGeometry(.045,.16,6),beak,[0,-.015,.40]);bk.rotation.x=Math.PI/2;
+ mesh(g,new T.SphereGeometry(.025,10,8),eye,[-.07,.07,.31]);mesh(g,new T.SphereGeometry(.025,10,8),eye,[.07,.07,.31]);
+ mesh(g,new T.ConeGeometry(.07,.20,5),feather,[0,-.02,-.25]);g.children[1].userData.wing=true;g.children[2].userData.wing=true;return g;
+}
 
 function makeVehicleModel(color){
  const T=state.THREE,g=new T.Group(),body=material(color,.42,.18),glass=material(0x79aebd,.16,.22,{transparent:true,opacity:.82}),rubber=material(0x121820,.8,.05),rim=material(0x9aa8ac,.28,.75),lampMat=material(0xffe6a8,.25,.08,{emissive:0xffc56a,emissiveIntensity:.3});
@@ -875,9 +1092,9 @@ function createAmbientLife(){
  ];
  const shirtColors=[0x3c7895,0x8c5d48,0x5c8051,0x805f91,0xb17b3c,0x3d7770,0x995b5e,0x657b9b,0x8c8461,0x4e697d];
  routes.forEach((route,i)=>{const av=createAvatar(['Warga','Pengunjung','Kurir','Pelajar','Pelanggan','Tetangga','Pejalan','Warga','Pengunjung','Kurir'][i]+' '+(i+1),'customer',true);av.group.scale.setScalar(.88+(i%3)*.06);av.group.position.set(route[0][0],0,route[0][1]);av.group.userData.shirtMesh.material.color.setHex(shirtColors[i]);state.scene.add(av.group);state.ambientNPCs.push({group:av.group,route,index:1,speed:1.05+(i%4)*.12,pause:Math.random()*2.0,phase:i*1.7})});
- const dog=makeAnimal('dog',-103,9),cat=makeAnimal('cat',-38,14);state.animals.push({group:dog,kind:'dog',route:[[-103,9],[-99,12],[-94,13],[-96,5],[-103,9]],index:1,speed:1.2,phase:0});state.animals.push({group:cat,kind:'cat',route:[[-38,14],[-36,15],[-39,16],[-38,14]],index:1,speed:.35,phase:1.5});
- // Small birds circle and settle over the park canopy.
- for(let i=0;i<4;i++){const g=new T.Group(),feather=material(i%2?0x4c565c:0x6f7774,.8,0),beak=material(0xc89a43,.55,0);const b=new T.Mesh(new T.SphereGeometry(.16,10,8),feather);b.scale.set(1.35,.7,.8);g.add(b);const w1=new T.Mesh(new T.SphereGeometry(.14,8,6),feather);w1.position.set(-.16,.04,0);w1.scale.set(1,.22,.65);g.add(w1);const w2=w1.clone();w2.position.x=.16;g.add(w2);const bk=new T.Mesh(new T.ConeGeometry(.05,.16,5),beak);bk.rotation.z=-Math.PI/2;bk.position.set(.2,-.01,0);g.add(bk);g.position.set(-95+i*2.2,3.8+i%2,-2+i*1.5);state.scene.add(g);state.animals.push({group:g,kind:'bird',phase:i*1.3,center:{x:-94+i*2.2,z:-2+i*1.5}})}
+ const dog=makeAnimal('dog',-103,9),cat=makeAnimal('cat',-38,14),dog2=makeAnimal('dog',-81,-9),cat2=makeAnimal('cat',-87,18);state.animals.push({group:dog,kind:'dog',route:[[-103,9],[-99,12],[-94,13],[-96,5],[-103,9]],index:1,speed:1.05,phase:0});state.animals.push({group:cat,kind:'cat',route:[[-38,14],[-36,15],[-39,16],[-38,14]],index:1,speed:.38,phase:1.5});state.animals.push({group:dog2,kind:'dog',route:[[-81,-9],[-78,-6],[-80,-3],[-84,-6],[-81,-9]],index:1,speed:.92,phase:2.2});state.animals.push({group:cat2,kind:'cat',route:[[-87,18],[-84,19],[-83,17],[-87,18]],index:1,speed:.30,phase:2.8});
+ // Birds have a body, head, tail and hinged wings; they circle above the park.
+ for(let i=0;i<5;i++){const g=makeBird(i);g.position.set(-95+i*2.0,3.8+i%2,-2+i*1.35);state.scene.add(g);state.animals.push({group:g,kind:'bird',phase:i*1.3,center:{x:-94+i*2.0,z:-2+i*1.35}})}
  // Moving traffic follows the avenue and local road loops; parked cars remain static near shops.
  for(const [z,x,dir,col] of [[43,-118,1,0x3b718e],[-43,118,-1,0xc1a45b],[45,45,-1,0x8b514a],[-43,-40,1,0x61806c]]){const g=makeVehicleModel(col);g.position.set(x,0,z);g.rotation.y=dir>0?0:Math.PI;state.scene.add(g);state.trafficVehicles.push({group:g,axis:'x',fixed:z,dir,speed:4.2+(Math.abs(z)%3),range:121})}
  const vertical=makeVehicleModel(0x597b99);vertical.position.set(68,0,-90);vertical.rotation.y=Math.PI/2;state.scene.add(vertical);state.trafficVehicles.push({group:vertical,axis:'z',fixed:68,dir:1,speed:3.7,range:94});
@@ -891,7 +1108,7 @@ function updateLivingWorld(dt){
  for(const l of state.streetLights||[])l.intensity=3.4*(1-day);
  const hh=Math.floor(hour),mm=Math.floor((hour-hh)*60);if($('worldMapDistrict'))$('worldMapDistrict').textContent='KAWASAN TOKO GAMER · '+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
  for(const n of state.ambientNPCs){if(n.pause>0){n.pause-=dt;animateAvatar(n.group,0,false);continue}const p=n.group.position,t=n.route[n.index],dx=t[0]-p.x,dz=t[1]-p.z,d=Math.hypot(dx,dz);if(d<.38){n.index=(n.index+1)%n.route.length;n.pause=.45+((n.index+n.phase)%3)*.25;animateAvatar(n.group,0,false);continue}const step=Math.min(d,n.speed*dt);p.x+=dx/d*step;p.z+=dz/d*step;n.group.rotation.y=Math.atan2(dx,dz);animateAvatar(n.group,performance.now()*.0045+n.phase,false)}
- for(const a of state.animals){const g=a.group;if(a.kind==='bird'){const t=state.clock.elapsedTime+a.phase;g.position.x=a.center.x+Math.sin(t*.46)*4.2;g.position.z=a.center.z+Math.cos(t*.58)*3.0;g.position.y=3.5+Math.sin(t*1.8)*.35;g.rotation.y=Math.cos(t*.46)*.25;g.children[1].rotation.z=Math.sin(t*12)*.28;g.children[2].rotation.z=-Math.sin(t*12)*.28;continue}const p=g.position,target=a.route[a.index],dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);if(d<.28){a.index=(a.index+1)%a.route.length;continue}p.x+=dx/d*Math.min(d,a.speed*dt);p.z+=dz/d*Math.min(d,a.speed*dt);g.rotation.y=Math.atan2(dx,dz);const walk=state.clock.elapsedTime*7+a.phase;g.children.forEach((m,i)=>{if(m.userData.animalLeg)m.rotation.x=Math.sin(walk+i*Math.PI)*.28;if(m.userData.animalTail)m.rotation.x=Math.sin(walk*.6)*.22})}
+ for(const a of state.animals){const g=a.group;if(a.kind==='bird'){const t=state.clock.elapsedTime+a.phase;g.position.x=a.center.x+Math.sin(t*.46)*4.2;g.position.z=a.center.z+Math.cos(t*.58)*3.0;g.position.y=3.8+Math.sin(t*1.8)*.32;g.rotation.y=Math.cos(t*.46)*.25;g.children[1].rotation.z=Math.sin(t*10)*.42;g.children[2].rotation.z=-Math.sin(t*10)*.42;continue}const p=g.position,target=a.route[a.index],dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);if(d<.28){a.index=(a.index+1)%a.route.length;continue}p.x+=dx/d*Math.min(d,a.speed*dt);p.z+=dz/d*Math.min(d,a.speed*dt);g.rotation.y=Math.atan2(dx,dz);const walk=state.clock.elapsedTime*7+a.phase;g.children.forEach((m,i)=>{if(m.userData.animalLeg)m.rotation.x=Math.sin(walk+(m.userData.phase||i*Math.PI))*.32});if(g.userData.tail){g.userData.tail.rotation.y=Math.sin(walk*.55)*.42;g.userData.tail.rotation.x=Math.sin(walk*.8)*.09}if(g.userData.body)g.userData.body.position.y=.53+Math.abs(Math.sin(walk*2))*.018}
  for(const v of state.trafficVehicles){const p=v.group.position;if(v.axis==='x'){p.x+=v.dir*v.speed*dt;if(v.dir>0&&p.x>v.range)p.x=-v.range;if(v.dir<0&&p.x< -v.range)p.x=v.range;v.group.rotation.y=v.dir>0?0:Math.PI}else{p.z+=v.dir*v.speed*dt;if(v.dir>0&&p.z>v.range)p.z=-v.range;if(v.dir<0&&p.z< -v.range)p.z=v.range;v.group.rotation.y=v.dir>0?Math.PI/2:-Math.PI/2}}
 }
 function setWaypoint(id){const poi=state.worldPOIs.find(p=>p.id===id);if(!poi)return;state.waypointPoi=poi;if(state.waypointGroup){state.scene.remove(state.waypointGroup);state.waypointGroup.traverse(o=>{o.geometry?.dispose?.();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose?.())}})}const T=state.THREE,g=new T.Group();const beamMat=new T.MeshBasicMaterial({color:0x5ce8ff,transparent:true,opacity:.34,depthWrite:false});const coreMat=new T.MeshBasicMaterial({color:0x8bffcc});const beam=new T.Mesh(new T.CylinderGeometry(.18,.58,8.2,12,1,true),beamMat);beam.position.y=4.25;g.add(beam);const orb=new T.Mesh(new T.OctahedronGeometry(.62,1),coreMat);orb.position.y=8.8;g.add(orb);const ring=new T.Mesh(new T.TorusGeometry(1.35,.085,10,36),new T.MeshBasicMaterial({color:0x8bffcc,transparent:true,opacity:.9}));ring.rotation.x=Math.PI/2;ring.position.y=.12;g.add(ring);g.position.set(poi.x,0,poi.z);state.scene.add(g);state.waypointGroup=g;renderMapPlaces();toast('Waypoint dipasang: '+poi.name)}
@@ -904,8 +1121,10 @@ function drawOneWorldMap(canvas){if(!canvas||!state.player)return;const ctx=canv
  // Roads use the same overall orientation as the 3D town.
  const drawRoad=(x,z,rw,rd)=>{ctx.fillStyle='#465055';ctx.fillRect(px(x-rw/2),py(z+rd/2),rw/260*w,rd/210*h);ctx.strokeStyle='#d1c28f';ctx.lineWidth=Math.max(1,w/220);ctx.setLineDash([4,5]);if(rw>rd){ctx.beginPath();ctx.moveTo(px(x-rw/2),py(z));ctx.lineTo(px(x+rw/2),py(z));ctx.stroke()}else{ctx.beginPath();ctx.moveTo(px(x),py(z+rd/2));ctx.lineTo(px(x),py(z-rd/2));ctx.stroke()}ctx.setLineDash([])};
  drawRoad(0,43,258,12);drawRoad(0,-43,258,9);drawRoad(-67,0,10,202);drawRoad(68,0,11,202);drawRoad(0,0,8,82);
- // Buildings as small footprints provide a readable street-map look.
- ctx.fillStyle='#9a8976';for(const [x,z,bw,bd] of [[0,0,54,40],[-44,4,15,13],[44,1,16,14],[-47,60,17,13],[45,66,19,15],[92,-75,16,13]])ctx.fillRect(px(x-bw/2),py(z+bd/2),bw/260*w,bd/210*h);
+  // Building footprints: central PT Toko Gamer, commercial strip and mixed residential blocks.
+  ctx.fillStyle='#8b8172';for(const [x,z,bw,bd] of [[0,0,54,40],[-44,4,16,14],[44,1,17,15],[-47,60,18,14],[45,66,20,16],[81,-75,17,14],[-39,-78,18,14],[0,-80,16,14],[39,-78,19,15],[104,-69,18,15],[106,-18,17,14],[105,34,18,15],[-109,73,18,15]])ctx.fillRect(px(x-bw/2),py(z+bd/2),bw/260*w,bd/210*h);
+  ctx.fillStyle='#426e4a';ctx.fillRect(px(-114),py(24),px(40),py(-22)-py(24));
+  ctx.fillStyle='#b9b0a0';for(const [x,z,bw,bd] of [[-94,1,34,41],[-17,28,54,12],[17,31,54,12]])ctx.fillRect(px(x-bw/2),py(z+bd/2),bw/260*w,bd/210*h);
  for(const poi of state.worldPOIs){const p=worldToMap(poi.x,poi.z,w,h);ctx.beginPath();ctx.fillStyle=poi.id==='store'?'#70eaff':poi.type==='public'?'#7fe0a0':poi.type==='home'?'#f3c77b':'#f1f1e7';ctx.arc(p.x,p.y,Math.max(2.7,w/52),0,Math.PI*2);ctx.fill();ctx.strokeStyle='#102433';ctx.lineWidth=1;ctx.stroke();if(state.waypointPoi?.id===poi.id){ctx.beginPath();ctx.strokeStyle='#8fffd0';ctx.lineWidth=Math.max(1.5,w/90);ctx.arc(p.x,p.y,Math.max(5,w/34),0,Math.PI*2);ctx.stroke()}}
  const player=state.player.group.position,me=worldToMap(player.x,player.z,w,h);
  if(state.waypointPoi){const dest=worldToMap(state.waypointPoi.x,state.waypointPoi.z,w,h);ctx.save();ctx.strokeStyle='#8df5bd';ctx.lineWidth=Math.max(1.5,w/90);ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(me.x,me.y);ctx.lineTo(dest.x,dest.y);ctx.stroke();ctx.setLineDash([]);ctx.restore()}
@@ -919,7 +1138,7 @@ function drawWorldMaps(){if(Date.now()-state.mapDrawAt<145)return;state.mapDrawA
 function selectNearestPOIFromCanvas(canvas,e){const rect=canvas.getBoundingClientRect(),cx=(e.clientX-rect.left)/rect.width*canvas.width,cy=(e.clientY-rect.top)/rect.height*canvas.height;let best=null,dist=1e9;for(const p of state.worldPOIs){const q=worldToMap(p.x,p.z,canvas.width,canvas.height),d=Math.hypot(q.x-cx,q.y-cy);if(d<dist){dist=d;best=p}}if(best&&dist<Math.max(24,canvas.width*.08))setWaypoint(best.id);else toast('Pilih nama tempat dari daftar di samping peta.')}
 function setupWorldMapUI(){renderMapPlaces();$('worldMapExpand').onclick=()=>{$('worldMapOverlay').classList.add('show');drawOneWorldMap($('worldMapLarge'))};$('worldMapClose').onclick=()=>$('worldMapOverlay').classList.remove('show');$('clearWaypoint').onclick=clearWaypoint;$('worldMapCanvas').addEventListener('click',e=>selectNearestPOIFromCanvas($('worldMapCanvas'),e));$('worldMapLarge').addEventListener('click',e=>selectNearestPOIFromCanvas($('worldMapLarge'),e));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('worldMapOverlay').classList.contains('show'))$('worldMapOverlay').classList.remove('show')});}
 
-applyGraphicsQuality = function applyGraphicsQuality(){if(!state.renderer)return;const q=state.graphicsQuality||'medium',dpr=window.devicePixelRatio||1;const ratio=q==='low'?Math.min(dpr,.85):q==='high'?Math.min(dpr,1.8):Math.min(dpr,1.25);state.renderer.setPixelRatio(ratio);state.renderer.setSize(innerWidth,innerHeight,false);state.renderer.shadowMap.enabled=q!=='low';state.renderer.shadowMap.type=state.THREE.PCFSoftShadowMap;if(state.sunLight?.shadow){const size=q==='high'?2048:q==='medium'?1024:512;state.sunLight.shadow.mapSize.set(size,size);state.sunLight.shadow.needsUpdate=true}state.renderer.toneMapping=state.THREE.ACESFilmicToneMapping;state.renderer.toneMappingExposure=q==='high'?1.12:1.05};
+applyGraphicsQuality = function applyGraphicsQuality(){if(!state.renderer)return;const q=state.graphicsQuality||'medium',dpr=window.devicePixelRatio||1;const ratio=q==='low'?Math.min(dpr,.85):q==='high'?Math.min(dpr,1.5):Math.min(dpr,1.15);state.renderer.setPixelRatio(ratio);state.renderer.setSize(innerWidth,innerHeight,false);state.renderer.shadowMap.enabled=q!=='low';state.renderer.shadowMap.type=state.THREE.PCFSoftShadowMap;if(state.sunLight?.shadow){const size=q==='high'?1536:q==='medium'?1024:512;state.sunLight.shadow.mapSize.set(size,size);state.sunLight.shadow.needsUpdate=true}state.renderer.toneMapping=state.THREE.ACESFilmicToneMapping;state.renderer.toneMappingExposure=q==='high'?1.12:1.05};
 resizeWorld = function resizeWorld(){if(!state.renderer||!state.camera)return;state.camera.aspect=innerWidth/innerHeight;state.camera.updateProjectionMatrix();applyGraphicsQuality()};
 
 
