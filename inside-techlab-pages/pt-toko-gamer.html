@@ -332,8 +332,8 @@ function drawMiniMap(){
  const sx=(x)=>pad+(x-ex.minX)/(ex.maxX-ex.minX)*(w-pad*2),sy=(z)=>pad+(z-ex.minZ)/(ex.maxZ-ex.minZ)*(h-pad*2);
  ctx.clearRect(0,0,w,h);ctx.fillStyle='#284b3f';ctx.fillRect(0,0,w,h);
  // neighbourhood blocks and green spaces
- ctx.fillStyle='#315a47';ctx.fillRect(sx(-88),sy(-45),sx(-52)-sx(-88),sy(-11)-sy(-45));
- ctx.fillStyle='#66815b';ctx.fillRect(sx(-90),sy(-44),sx(-50)-sx(-90),sy(-12)-sy(-44));
+ ctx.fillStyle='#315a47';ctx.fillRect(sx(-107),sy(-81),sx(-71)-sx(-107),sy(-59)-sy(-81));
+ ctx.fillStyle='#66815b';ctx.fillRect(sx(-106),sy(-80),sx(-72)-sx(-106),sy(-60)-sy(-80));
  ctx.fillStyle='#6a6d68';ctx.fillRect(sx(-22),sy(-17),sx(22)-sx(-22),sy(17)-sy(-17));
  // main streets
  ctx.strokeStyle='#586367';ctx.lineWidth=17;ctx.beginPath();ctx.moveTo(sx(ex.minX),sy(31));ctx.lineTo(sx(ex.maxX),sy(31));ctx.moveTo(sx(ex.minX),sy(-48));ctx.lineTo(sx(ex.maxX),sy(-48));ctx.moveTo(sx(58),sy(ex.minZ));ctx.lineTo(sx(58),sy(ex.maxZ));ctx.moveTo(sx(-58),sy(ex.minZ));ctx.lineTo(sx(-58),sy(ex.maxZ));ctx.stroke();
@@ -407,9 +407,25 @@ function buildMap(){
   const side=(w-doorW)/2;addWall(cx-(doorW/2+side/2),front,side,t,h,h/2,mats.wallDark);addWall(cx+(doorW/2+side/2),front,side,t,h,h/2,mats.wallDark);
   return {front,back,left,right};
  };
+ // Keep buildings out of the road/sidewalk corridors and reserve the main shop + park.
+ const cityOccupied=[
+  {minX:-112,maxX:112,minZ:20.0,maxZ:42.0,name:'arterial-utara-dan-trotoar'},
+  {minX:-112,maxX:112,minZ:-59.5,maxZ:-37.0,name:'arterial-selatan-dan-trotoar'},
+  {minX:-69.5,maxX:-46.5,minZ:-82,maxZ:82,name:'jalan-vertikal-barat-dan-trotoar'},
+  {minX:46.5,maxX:70.5,minZ:-82,maxZ:82,name:'jalan-vertikal-timur-dan-trotoar'},
+  {minX:-23,maxX:23,minZ:-18,maxZ:18,name:'gedung-utama-pt-toko-gamer'},
+  {minX:-107,maxX:-71,minZ:-81,maxZ:-59,name:'taman-kota'}
+ ];
+ const reserveCityFootprint=(x,z,w,d,name)=>{
+  const pad=.65,fp={minX:x-w/2-pad,maxX:x+w/2+pad,minZ:z-d/2-pad,maxZ:z+d/2+pad,name};
+  const hit=cityOccupied.find(o=>fp.minX<o.maxX&&fp.maxX>o.minX&&fp.minZ<o.maxZ&&fp.maxZ>o.minZ);
+  if(hit){console.warn('Gedung dilewati agar tidak menimpa zona:',name,'beririsan dengan',hit.name);return false;}
+  cityOccupied.push(fp);return true;
+ };
  const townBuilding=(cfg)=>{
   const {x,z,w,d,name,wall=mats.cream,accent=mats.blue,roof=mats.roofBlue,door=2.8,style='shop',stories=1}=cfg;
-  const h=stories===2?8.2:5.1,front=z+d/2,back=z-d/2,left=x-w/2,right=x+w/2;
+  if(!reserveCityFootprint(x,z,w,d,name))return null;
+  const h=stories>=3?11.5:stories===2?8.2:5.1,front=z+d/2,back=z-d/2,left=x-w/2,right=x+w/2;
   const capture=beginFallbackCapture();
   floor(x,z,w,d,mats.concrete);
   // External walls are built in panels with a real entrance gap and glazed frontage.
@@ -466,25 +482,50 @@ function buildMap(){
    'Rumah Pelanggan':'residencial/casa_sobrado'
   };
   const asset=cfg.asset||assetMap[name]||(style==='house'?'residencial/casa_simples':style==='service'?'industrial/oficina':'comercial/loja_esquina');
-  queueCityAsset(asset,x,z,Math.min(w,d)/2,Math.PI,fallback,{label:name,labelY:Math.max(3.1,h)});
+  // The city kit mixes 2m, 4m and 6m building modules. Scale against each model's authored footprint.
+  const sixMetreAsset=/^(publicos\/(museu|universidade))$/.test(asset);
+  const fourMetreAsset=/^(comercial\/shopping|industrial\/(fabrica|porto)|publicos\/(centro_pesquisa|escola|hospital|monumento|prefeitura))$/.test(asset);
+  const assetBaseSize=sixMetreAsset?6:fourMetreAsset?4:2;
+  const assetScale=cfg.assetScale||Math.min(w,d)/assetBaseSize;
+  queueCityAsset(asset,x,z,assetScale,cfg.assetRotation??Math.PI,fallback,{label:name,labelY:Math.max(3.1,h)});
   return {x,z,w,d,front,back,left,right};
  };
 
- // Broad neighbourhood ground, multiple streets, sidewalks and marked crossings.
- box(0,-.34,0,224,.68,166,mats.grass,{castShadow:false});
+ // City ground and four arterial roads. Ground is slightly lower than road surfaces to prevent z-fighting.
+ box(0,-.44,0,224,.80,166,mats.grass,{castShadow:false});
  box(0,-.08,31,224,.16,13,mats.asphalt,{castShadow:false});
  box(0,-.08,-48,224,.16,11,mats.asphalt,{castShadow:false});
  box(58,-.08,0,12,.16,166,mats.asphalt,{castShadow:false});
  box(-58,-.08,0,10,.16,166,mats.asphalt,{castShadow:false});
- // Kerbs and pedestrian walkways.
- for(const z of [23.8,38.2,-54,-42])box(0,.02,z,224,.10,.55,mats.concrete,{castShadow:false});
- for(const x of [51,65,-64,-52])box(x,.02,0,.55,.10,166,mats.concrete,{castShadow:false});
- for(let x=-108;x<=108;x+=9){box(x,.025,31,.16,.035,5.8,mats.white,{castShadow:false});box(x,.025,-48,.16,.035,4.8,mats.white,{castShadow:false})}
- for(let z=-76;z<=76;z+=10){box(58,.025,z,5.8,.035,.16,mats.white,{castShadow:false});box(-58,.025,z,4.8,.035,.16,mats.white,{castShadow:false})}
- // Zebra crossings and painted parking bays.
- for(let i=0;i<8;i++)box(-5.6+i*1.6,.03,24.1,.8,.045,3.5,mats.white,{castShadow:false});
- for(let i=0;i<6;i++)box(68+i*3.1,.03,23.5,.12,.04,7.5,mats.white,{castShadow:false});
- for(let i=0;i<7;i++)box(-102+i*3.3,.03,23.5,.12,.04,7.5,mats.white,{castShadow:false});
+ // Continuous sidewalk segments, deliberately broken at road intersections so sidewalks never cover a junction.
+ const sidewalk=(x,z,w,d)=>box(x,.005,z,w,.10,d,mats.tile,{castShadow:false});
+ const curbZ=(x,z,w)=>box(x,.045,z,w,.18,.28,mats.concrete,{castShadow:false});
+ const curbX=(x,z,d)=>box(x,.045,z,.28,.18,d,mats.concrete,{castShadow:false});
+ // Horizontal arterial sidewalks: split around the two north/south cross streets.
+ for(const [z] of [[22.5],[39.5],[-55.5],[-40.5]]){
+  for(const [a,b] of [[-112,-69],[ -47,47],[71,112]]){
+   sidewalk((a+b)/2,z,b-a,4.0);
+  }
+ }
+ // Vertical arterial sidewalks: split around both horizontal arterial crossings.
+ for(const x of [50,66,-65,-51]){
+  for(const [a,b] of [[-82,-59.5],[-37,20],[42,82]])sidewalk(x,(a+b)/2,4.0,b-a);
+ }
+ // Raised curb edges run only between intersections.
+ for(const z of [24.5,37.5,-53.5,-42.5])for(const [a,b] of [[-112,-69],[-47,47],[71,112]])curbZ((a+b)/2,z,b-a);
+ for(const x of [52,64,-63,-53])for(const [a,b] of [[-82,-59.5],[-37,20],[42,82]])curbX(x,(a+b)/2,b-a);
+ // Proper dashed lane centrelines: parallel to traffic, never transverse across the whole road.
+ for(let x=-108;x<=108;x+=8){
+  box(x,.014,31,3.8,.025,.14,mats.white,{castShadow:false});
+  box(x,.014,-48,3.8,.025,.14,mats.white,{castShadow:false});
+ }
+ for(let z=-76;z<=76;z+=8){
+  box(58,.014,z,.14,.025,3.8,mats.white,{castShadow:false});
+  box(-58,.014,z,.14,.025,3.8,mats.white,{castShadow:false});
+ }
+ // Zebra crossings are placed fully on asphalt, with bars oriented across each road.
+ for(let i=0;i<8;i++)box(-5.35+i*1.53,.018,31,.82,.03,12.35,mats.white,{castShadow:false});
+ for(const cx of [-58,58])for(let i=0;i<7;i++)box(cx,.018,-4.5+i*1.5,cx===-58?9.35:11.35,.03,.82,mats.white,{castShadow:false});
 
  // PT TOKO GAMER: one main building, with all staff departments inside it.
  const main={x:0,z:0,w:44,d:34,front:17,back:-17};
@@ -553,48 +594,61 @@ function buildMap(){
  for(const [x,z] of [[-18,15],[18,15],[-19,-15],[19,-15]]){box(x,4.6,z,1.4,.45,.52,mats.white);for(let i=0;i<4;i++)box(x-.45+i*.3,4.6,z+.28,.08,.3,.05,mats.metal)}
  for(const x of [-15,-5,5,15])for(const z of [-12,-2,8]){const light=sphere(x,4.55,z,.13,material(0xffefc2,.3,.0,{emissive:0xffd88c,emissiveIntensity:.7}),10);}
 
- // Neighbourhood: varied houses, shopfronts, service businesses and civic spaces.
- townBuilding({x:-61,z:5,w:17,d:14,name:'Kafe Sudut Kota',wall:mats.cream,accent:mats.red,roof:mats.roofBlue,style:'shop',stories:1});
- townBuilding({x:68,z:4,w:18,d:14,name:'Mini Mart 24',wall:mats.wall2,accent:mats.green,roof:mats.green,style:'shop',stories:1});
- townBuilding({x:34,z:61,w:19,d:14,name:'Toko Elektronik',wall:mats.wall2,accent:mats.blue,roof:mats.navy,style:'shop',stories:2});
- townBuilding({x:78,z:61,w:18,d:14,name:'Bengkel Motor',wall:mats.sand,accent:mats.red,roof:mats.roof,style:'service',stories:1});
- townBuilding({x:-79,z:59,w:17,d:13,name:'Warung Pojok',wall:mats.cream,accent:mats.gold,roof:mats.red,style:'shop',stories:1});
- townBuilding({x:94,z:-23,w:18,d:15,name:'Rumah Pelanggan',wall:mats.cream,accent:mats.red,roof:mats.red,style:'house',stories:1,garage:true});
- const houseConfigs=[
-  {x:-91,z:-12,w:14,d:12,wall:mats.cream,accent:mats.blue,roof:mats.red,balcony:false,garage:false},
-  {x:-88,z:18,w:16,d:13,wall:mats.wall2,accent:mats.green,roof:mats.navy,balcony:true,garage:true},
-  {x:-34,z:61,w:15,d:13,wall:mats.sand,accent:mats.red,roof:mats.roofBlue,balcony:false,garage:true},
-  {x:-7,z:62,w:13,d:12,wall:mats.cream,accent:mats.gold,roof:mats.red,balcony:false,garage:false},
-  {x:6,z:-70,w:16,d:13,wall:mats.wall2,accent:mats.blue,roof:mats.navy,balcony:true,garage:true},
-  {x:39,z:-69,w:14,d:12,wall:mats.cream,accent:mats.green,roof:mats.roofBlue,balcony:false,garage:false},
-  {x:96,z:18,w:16,d:13,wall:mats.sand,accent:mats.red,roof:mats.red,balcony:true,garage:true},
-  {x:99,z:48,w:14,d:12,wall:mats.wall2,accent:mats.gold,roof:mats.navy,balcony:false,garage:true}
+ // Dense but walkable urban blocks. Each building is a real GLB mesh from assets/city/models.
+ const cityBuildings=[
+  // Commercial ring around PT Toko Gamer.
+  {x:-36,z:5,w:13,d:12,name:'Kafe Sudut Kota',asset:'comercial/restaurante',style:'shop',wall:mats.cream,accent:mats.red,roof:mats.roofBlue},
+  {x:36,z:5,w:13,d:12,name:'Mini Mart 24',asset:'comercial/mercado',style:'shop',wall:mats.wall2,accent:mats.green,roof:mats.green},
+  {x:-36,z:-27,w:13,d:12,name:'Bank Kota',asset:'comercial/banco',style:'office',wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:36,z:-27,w:13,d:12,name:'Bengkel Komputer',asset:'industrial/oficina',style:'service',wall:mats.sand,accent:mats.red,roof:mats.roof},
+  {x:-87,z:8,w:13,d:12,name:'Warung Pojok',asset:'comercial/loja_esquina',style:'shop',wall:mats.cream,accent:mats.gold,roof:mats.red},
+  {x:-87,z:-17,w:13,d:12,name:'Rumah Barat',asset:'residencial/casa_sobrado',style:'house',wall:mats.cream,accent:mats.blue,roof:mats.red,garage:true},
+  {x:87,z:8,w:13,d:12,name:'Kantor Pos',asset:'comercial/escritorio',style:'office',wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:94,z:-23,w:14,d:13,name:'Rumah Pelanggan',asset:'residencial/casa_sobrado',style:'house',wall:mats.cream,accent:mats.red,roof:mats.red,garage:true},
+
+  // North district: row of shops, civic buildings and mid/high-rise blocks.
+  {x:-95,z:57,w:13,d:13,name:'Rumah Utara 01',asset:'residencial/casa_simples',style:'house',wall:mats.cream,accent:mats.blue,roof:mats.red},
+  {x:-78,z:57,w:13,d:13,name:'Apartemen Utara',asset:'residencial/predio_apartamentos',style:'office',stories:3,wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:-37,z:57,w:14,d:14,name:'Sekolah Kota',asset:'publicos/escola',style:'civic',stories:2,wall:mats.cream,accent:mats.gold,roof:mats.red},
+  {x:-18,z:57,w:14,d:14,name:'Menara Kota',asset:'residencial/predio_alto',style:'office',stories:3,wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:0,z:57,w:14,d:14,name:'Perpustakaan',asset:'publicos/biblioteca',style:'civic',stories:2,wall:mats.cream,accent:mats.green,roof:mats.green},
+  {x:18,z:57,w:14,d:14,name:'Hotel Metro',asset:'comercial/hotel',style:'office',stories:3,wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:37,z:57,w:16,d:14,name:'Mall Kota',asset:'comercial/shopping',assetScale:3.55,style:'shop',stories:2,wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:79,z:57,w:13,d:13,name:'Ruko Timur',asset:'comercial/loja_esquina',style:'shop',wall:mats.cream,accent:mats.red,roof:mats.red},
+  {x:98,z:57,w:13,d:13,name:'Puskesmas Kota',asset:'publicos/posto_saude',style:'civic',stories:2,wall:mats.wall2,accent:mats.green,roof:mats.green},
+
+  // South district: apartment, homes, offices and service buildings.
+  {x:-38,z:-70,w:13,d:13,name:'Rumah Melati',asset:'residencial/casa_sobrado',style:'house',wall:mats.cream,accent:mats.red,roof:mats.red},
+  {x:-19,z:-70,w:13,d:13,name:'Apartemen Selatan',asset:'residencial/predio_apartamentos',style:'office',stories:3,wall:mats.wall2,accent:mats.blue,roof:mats.navy},
+  {x:0,z:-70,w:14,d:13,name:'Kantor Selatan',asset:'comercial/escritorio',style:'office',stories:3,wall:mats.wall2,accent:mats.gold,roof:mats.navy},
+  {x:19,z:-70,w:13,d:13,name:'Rumah Keluarga',asset:'residencial/casas_geminadas',style:'house',wall:mats.sand,accent:mats.green,roof:mats.roofBlue},
+  {x:38,z:-70,w:13,d:13,name:'Bengkel Selatan',asset:'industrial/oficina',style:'service',wall:mats.sand,accent:mats.red,roof:mats.roof},
+  {x:79,z:-70,w:13,d:13,name:'Rumah Modern Timur',asset:'residencial/casa_simples',style:'house',wall:mats.cream,accent:mats.green,roof:mats.roofBlue},
+  {x:98,z:-70,w:13,d:13,name:'Hotel Timur',asset:'comercial/hotel',style:'office',stories:3,wall:mats.wall2,accent:mats.blue,roof:mats.navy}
  ];
- const houseAssets=['residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_sobrado','residencial/casa_simples'];
- houseConfigs.forEach((h,i)=>townBuilding({...h,asset:houseAssets[i],z:h.z,name:['Rumah Melati','Rumah Pak Darto','Rumah Minimalis','Rumah Sudut','Rumah Keluarga','Rumah Modern','Rumah Teras','Rumah Dua Lantai'][i],style:'house',stories:h.balcony?2:1,door:2.6}));
- // Public park with paths, fountain, playground, benches and a small gazebo.
- floor(-70,-28,38,28,mats.lawn);
- box(-89,.12,-28,.18,.25,28,mats.concrete);box(-51,.12,-28,.18,.25,28,mats.concrete);
- box(-70,.12,-42,38,.25,.18,mats.concrete);box(-70,.12,-14,38,.25,.18,mats.concrete);
- // Cross-shaped park walkway (use separately positioned slabs).
- box(-70,.015,-28,34,.06,2.2,mats.path,{castShadow:false});box(-70,.02,-28,2.2,.06,24,mats.path,{castShadow:false});
- cylinder(-70,.25,-28,3.0,3.0,.35,mats.concrete,28);cylinder(-70,.48,-28,2.3,2.3,.22,mats.blue,28);cylinder(-70,1.12,-28,.32,.32,1.2,mats.gold,16);
- for(let i=0;i<12;i++){const a=i*Math.PI/6;const spray=sphere(-70+Math.cos(a)*1.5,1.6+Math.sin(i*2)*.14,-28+Math.sin(a)*1.5,.17,mats.cyan,8);}
- bench(-82,-35,.2);bench(-57,-35,-.2);bench(-82,-19,.4);bench(-57,-19,-.4);
- // Small play zone: low slide, seesaw and swing frame.
- box(-61,.55,-19,4,.14,1.3,mats.red);box(-61,1.0,-19,3.4,.13,.18,mats.gold);box(-61,.7,-19,3.4,.12,.18,mats.gold);
- for(const x of [-77,-73])cylinder(x,1.9,-19,.07,.07,3.8,mats.metal,8);box(-75,3.8,-19,4.2,.11,.11,mats.metal);
- for(const [x,z,sc] of [[-85,-39,1.2],[-57,-39,.9],[-85,-16,1],[-57,-16,1.1],[-71,-43,.75],[-70,-12,.85]])tree(x,z,sc);
- // Street trees, hedges, planters and lamps create a lived-in street edge.
- for(const [x,z,sc] of [[-103,43,.95],[-89,43,.8],[-69,43,1],[-43,43,.95],[42,43,.95],[72,43,.9],[95,43,1],[-103,-44,.9],[-85,-44,1],[-38,-44,.85],[35,-60,.95],[72,-60,1],[104,-8,.9]])tree(x,z,sc,Math.round(x+z));
- for(const [x,z] of [[-48,21],[-25,21],[25,21],[48,21],[86,24],[-94,29],[-70,29],[-35,-42],[0,-42],[40,-42],[83,-42]])lamp(x,z);
- for(let i=0;i<6;i++){const x=-90+i*7;const capture=beginFallbackCapture();const bush=sphere(x,.55,28,.85,mats.darkLeaf,10);bush.scale.set(1,.55,.75);const fallback=endFallbackCapture(capture,false);queueCityAsset('vegetacao/arbustos',x,28,2.3,0,fallback)}
- // Utility details on the outside: bins, hydrant, benches, post boxes and signage.
- const bin=(x,z)=>{const capture=beginFallbackCapture();cylinder(x,.58,z,.38,.42,1.1,mats.green,12);box(x,.18,z,.82,.12,.82,mats.metal);cylinder(x,.18,z,.44,.44,.12,mats.black,12);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/lixeira',x,z,3,0,fallback)};
- bin(-44,24);bin(42,24);bin(75,-37);bin(-88,-4);
- for(const x of [-8,8]){box(x,1.1,22.6,.25,2.2,.25,mats.metal);box(x,2.35,22.6,.8,.4,.35,mats.red)}
- // Parking and customer drop-off next to the main shop.
- for(let i=0;i<5;i++){const x=-13+i*6;box(x,.03,26,.12,.05,6.4,mats.white,{castShadow:false});}
+ cityBuildings.forEach(b=>townBuilding({...b,door:b.door||2.8}));
+
+ // A compact public park in the southwest block, fully separated from the roads and buildings.
+ floor(-89,-70,34,20,mats.lawn);
+ box(-106,.12,-70,.18,.25,20,mats.concrete);box(-72,.12,-70,.18,.25,20,mats.concrete);
+ box(-89,.12,-80,34,.25,.18,mats.concrete);box(-89,.12,-60,34,.25,.18,mats.concrete);
+ box(-89,.015,-70,30,.06,2.0,mats.path,{castShadow:false});box(-89,.02,-70,2.0,.06,16,mats.path,{castShadow:false});
+ cylinder(-89,.25,-70,2.6,2.6,.35,mats.concrete,28);cylinder(-89,.48,-70,2.0,2.0,.22,mats.blue,28);cylinder(-89,1.08,-70,.28,.28,1.0,mats.gold,16);
+ for(let i=0;i<12;i++){const a=i*Math.PI/6;sphere(-89+Math.cos(a)*1.3,1.45+Math.sin(i*2)*.12,-70+Math.sin(a)*1.3,.15,mats.cyan,8);}
+ bench(-101,-76,.2);bench(-77,-76,-.2);bench(-101,-64,.4);bench(-77,-64,-.4);
+ // Trees and low planting in the park; tree GLBs replace the hidden fallback meshes after loading.
+ for(const [x,z,sc] of [[-103,-77,.9],[-75,-77,.9],[-103,-63,1],[-75,-63,1],[-89,-79,.65],[-89,-61,.65]])tree(x,z,sc);
+ // Street trees, lamps and bins sit on pedestrian space, not in the carriageways.
+ for(const [x,z,sc] of [[-44,22,.8],[44,22,.8],[-44,40,.8],[44,40,.8],[-44,-40,.8],[44,-40,.8],[-44,-56,.8],[44,-56,.8],[76,22,.8],[76,40,.8],[-76,40,.8]])tree(x,z,sc,Math.round(x+z));
+ for(const [x,z] of [[-47,22],[47,22],[-47,40],[47,40],[-47,-40],[47,-40],[-47,-56],[47,-56],[-76,20],[76,20]])lamp(x,z);
+ const bin=(x,z)=>{const capture=beginFallbackCapture();cylinder(x,.58,z,.38,.42,1.1,mats.green,12);box(x,.18,z,.82,.12,.82,mats.metal);cylinder(x,.18,z,.44,.44,.12,mats.black,12);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/lixeira',x,z,2.6,0,fallback)};
+ for(const [x,z] of [[-41,21],[41,21],[-41,-40],[41,-40],[-72,-59],[72,-59]])bin(x,z);
+ // A parking court behind the main shop, clearly separated from the street and nearby shops.
+ box(0,-.005,-28,28,.07,9,mats.asphalt,{castShadow:false});
+ for(const x of [-12,-6,0,6,12]){
+  box(x,.04,-28, .10,.025,7.2,mats.white,{castShadow:false});
+ }
+ box(0,.04,-23.7,27,.025,.12,mats.white,{castShadow:false});box(0,.04,-32.3,27,.025,.12,mats.white,{castShadow:false});
 
  // Detailed compact cars with windows, wheel arches, bumpers and lights. These move along the roads.
  const makeCar=(x,z,color,dir=1,speed=4.2)=>{
@@ -611,14 +665,15 @@ function buildMap(){
   state.vehicles.push(vehicleRecord);
   queueCityAsset('veiculos/carro',x,z,4.8,dir>0?-Math.PI/2:Math.PI/2,g,{vehicleRecord});
  };
- makeCar(-80,29,0x477e91,1,4.6);makeCar(25,34,0xc69b4f,-1,3.9);makeCar(87,-46,0x7e5451,-1,4.1);makeCar(-12,-52,0x536c5a,1,3.5);
+ makeCar(-80,29,0x477e91,1,4.6);makeCar(25,34,0xc69b4f,-1,3.9);makeCar(87,-46,0x7e5451,-1,4.1);makeCar(-12,-50,0x536c5a,1,3.5);
 
 
  // Small street-life NPCs: each follows a looping sidewalk route instead of standing in place.
  const pedestrianPaths=[
-  [[-52,21],[-44,21],[-34,21],[-44,21]],[[42,20],[48,20],[49,11],[48,20]],
-  [[-91,34],[-83,34],[-76,34],[-83,34]],[[78,-35],[87,-35],[91,-26],[87,-35]],
-  [[-73,-17],[-63,-17],[-60,-23],[-63,-17]],[[35,43],[43,43],[48,39],[43,43]]
+  [[-45,22],[-33,22],[-21,22],[-33,22]],[[24,22],[36,22],[45,22],[36,22]],
+  [[-102,40],[-89,40],[-76,40],[-89,40]],[[76,40],[88,40],[101,40],[88,40]],
+  [[-45,-40],[-32,-40],[-19,-40],[-32,-40]],[[24,-40],[37,-40],[45,-40],[37,-40]],
+  [[-102,-56],[-89,-56],[-76,-56],[-89,-56]],[[76,-56],[89,-56],[102,-56],[89,-56]]
  ];
  const npcNames=['Dina','Rizky','Pak Budi','Naya','Fajar','Bu Rina'];
  pedestrianPaths.forEach((path,i)=>{
@@ -648,22 +703,23 @@ function buildMap(){
   }
   g.position.set(x,0,z);state.scene.add(g);state.ambientAnimals.push({group:g,kind,home:{x,z},phase:Math.random()*6,speed:.45+Math.random()*.25});
  };
- makeAnimal('dog',-54,25,0x9b7957);makeAnimal('cat',-65,-19,0x777b83);makeAnimal('cat',84,20,0xc28c57);
- for(let i=0;i<4;i++)makeAnimal('bird',-72+i*2.1,-31+(i%2)*1.7,0x536e7f);
- queueCityAsset('beira_rio/capivara',-68,-11,3.0,0,null);
- queueCityAsset('beira_rio/garca',-76,-35,2.5,0,null);
+ makeAnimal('dog',-97,-70,0x9b7957);makeAnimal('cat',92,8,0x777b83);makeAnimal('cat',-82,8,0xc28c57);
+ for(let i=0;i<4;i++)makeAnimal('bird',-94+i*2.1,-72+(i%2)*1.7,0x536e7f);
+ queueCityAsset('beira_rio/capivara',-84,-72,3.0,0,null);
+ queueCityAsset('beira_rio/garca',-100,-68,2.5,0,null);
 
  // Landmark list for mini-map and waypoint navigation.
+ console.info('City layout reserved and placed:',cityOccupied.length-6,'building footprints; sidewalks and crossings separated from roads.');
  state.worldPlaces=[
   {id:'store',name:'PT Toko Gamer',short:'TOKO',x:0,z:0},
-  {id:'park',name:'Taman Kota',short:'TAMAN',x:-70,z:-28},
-  {id:'cafe',name:'Kafe Sudut Kota',short:'KAFE',x:-61,z:5},
-  {id:'mart',name:'Mini Mart 24',short:'MART',x:68,z:4},
-  {id:'electronics',name:'Toko Elektronik',short:'ELEKTRONIK',x:34,z:61},
-  {id:'garage',name:'Bengkel Motor',short:'BENGKEL',x:78,z:61},
-  {id:'residential',name:'Perumahan',short:'RUMAH',x:-88,z:18},
+  {id:'park',name:'Taman Kota',short:'TAMAN',x:-89,z:-70},
+  {id:'cafe',name:'Kafe Sudut Kota',short:'KAFE',x:-36,z:5},
+  {id:'mart',name:'Mini Mart 24',short:'MART',x:36,z:5},
+  {id:'electronics',name:'Mall Kota',short:'MALL',x:37,z:57},
+  {id:'garage',name:'Bengkel Komputer',short:'BENGKEL',x:36,z:-27},
+  {id:'residential',name:'Perumahan Utara',short:'RUMAH',x:-95,z:57},
   {id:'customerhome',name:'Rumah Pelanggan',short:'HOME',x:94,z:-23},
-  {id:'warung',name:'Warung Pojok',short:'WARUNG',x:-79,z:59}
+  {id:'warung',name:'Warung Pojok',short:'WARUNG',x:-87,z:8}
  ];
  const makeStation=(id,txt,x,z,role,kind)=>{const ring=new T.Mesh(new T.TorusGeometry(.8,.045,10,36),new T.MeshBasicMaterial({color:0x5bd9e7,transparent:true,opacity:.48}));ring.rotation.x=Math.PI/2;ring.position.set(x,.08,z);state.scene.add(ring);const marker=new T.Mesh(new T.CylinderGeometry(.045,.045,.24,10),material(0x6be8f2,.3,.2,{emissive:0x164f5b,emissiveIntensity:.32}));marker.position.set(x,.25,z);state.scene.add(marker);const tag=textSprite(txt,'#d8faff','#102c40');tag.position.set(x,3.15,z);tag.scale.set(2.55,.58,1);state.scene.add(tag);state.stations.push({id,label:txt,x,z,role,kind,ring,marker})};
  makeStation('counter','CUSTOMER SERVICE',0,7.1,'sales','counter');
@@ -674,7 +730,7 @@ function buildMap(){
  makeStation('online','ONLINE ORDERS',15,10.8,'administration','online');
  makeStation('dispatch','SERVICE DISPATCH',-18,3.0,'technician','dispatch');
  makeStation('warehouse','WAREHOUSE STOCK',15,-12.4,'all','warehouse');
- makeStation('house','CUSTOMER HOME',94,-20,'technician','house');
+ makeStation('house','CUSTOMER HOME',94,-15.5,'technician','house');
 }
 function createAvatar(name,role,isNpc=false){
  const T=state.THREE,group=new T.Group();
@@ -997,7 +1053,7 @@ function openMissionLog(){renderMissionLog();showOverlay('missionOverlay')}
 function renderMissionLog(){const open=state.game.orders.filter(o=>!o.completed);let html='<div class="eyebrow">CUSTOMER ORDERS · '+state.game.completed_orders+'/'+state.game.total_orders+' DONE</div><div class="order-grid">'+state.game.orders.map(o=>'<button class="order-tile" data-mission-order="'+o.id+'"><b>'+esc(o.title)+'</b><small>'+esc(o.customer_name)+' · '+esc(o.customer_type)+'<br>'+esc(statusFor(o))+' · '+orderProgress(o)+'% progress</small><span class="tag">'+(['order-02','order-04'].includes(o.id)?(state.onlineContacted[o.id]?'ONLINE · ADMIN REPLIED':'ONLINE · NEW'):'IN STORE')+'</span></button>').join('')+'</div><div class="eyebrow" style="margin:17px 0 8px">SERVICE TICKETS · MATCH EXTRA</div><div class="task-list">'+state.sideJobs.map(j=>'<div class="task-row"><div><b>'+esc(j.type)+' · '+esc(j.title)+'</b><small>'+esc(j.customer)+' · '+(j.status==='done'?'SELESAI':j.status==='active'?'SEDANG DIKERJAKAN':'MENUNGGU TIM')+'<br>'+esc(j.dialog)+'</small></div><button data-side-job="'+j.id+'">'+(j.status==='done'?'✓ DONE':'LIHAT TIKET')+'</button></div>').join('')+'</div><div class="chat-line" style="margin-top:12px">Tiket tambahan disinkronkan ke anggota squad selama sesi match. Penyelesaian lima order utama tetap tercatat pada sistem match TechLab.</div>';$('missionContent').innerHTML=html;$('missionContent').querySelectorAll('[data-mission-order]').forEach(b=>b.onclick=()=>{state.selectedOrder=b.dataset.missionOrder;hideOverlay('missionOverlay');if(state.role==='sales'||state.role==='manager')openCustomerDialog(selectedOrder());else openStation(state.role)});$('missionContent').querySelectorAll('[data-side-job]').forEach(b=>b.onclick=()=>openSideJob(b.dataset.sideJob))}
 function openSideJob(id){const j=state.sideJobs.find(x=>x.id===id);if(!j)return;if(j.role&&j.role!==state.role){toast('Tiket ini ditangani oleh '+roleName(j.role)+'.');return;}if(j.status==='waiting'&&j.id!=='home-visit-01'){toast('Tiket belum diterima dari pelanggan. Sales/Admin perlu mencatat permintaan terlebih dahulu.');return;}const extra=j.id==='home-visit-01'?'<div class="task-row"><div><b>Komunikasi dengan pelanggan</b><small id="homeCustomerReply">Bu Maya menunggu teknisi menjelaskan langkah pemeriksaan.</small></div><button id="askHomeSymptoms">TANYAKAN GEJALA</button></div>':'';const html='<div class="dialogue"><div class="dialogue-avatar">'+(j.type==='HOME VISIT'?'🏠':j.type==='COMPLAINT'?'🧰':'🖥️')+'</div><div><strong>'+esc(j.customer)+'</strong><p>'+esc(j.dialog)+'</p></div></div><div class="task-list">'+extra+j.steps.map((s,i)=>'<div class="task-row"><div><b>'+(i+1)+'. '+esc(s)+'</b><small>'+(i<j.step?'Selesai':i===j.step?'Tugas berikutnya':'Menunggu langkah sebelumnya')+'</small></div><button data-side-step="'+i+'" '+(j.status==='done'||i!==j.step?'disabled':'')+'>'+(i<j.step?'✓ SELESAI':i===j.step?'KERJAKAN':'LOCKED')+'</button></div>').join('')+'</div>';$('stationKicker').textContent=j.type;$('stationTitle').textContent=j.title;$('stationSubtitle').textContent='Tiket tambahan untuk melayani pelanggan di luar order rakitan PC.';$('stationContent').innerHTML=html;$('stationContent').querySelectorAll('[data-side-step]').forEach(b=>b.onclick=()=>completeSideStep(j.id,Number(b.dataset.sideStep)));if($('askHomeSymptoms'))$('askHomeSymptoms').onclick=()=>{$('homeCustomerReply').textContent='Bu Maya: Lampu PC menyala, tetapi layar tetap gelap. Sebelum masalah muncul, komputer sempat berbunyi beep beberapa kali.';$('askHomeSymptoms').textContent='INFO DITERIMA';$('askHomeSymptoms').disabled=true};showOverlay('stationOverlay')}
 function completeSideStep(id,step){const j=state.sideJobs.find(x=>x.id===id);if(!j||j.step!==step||j.status==='done')return;if(j.id==='home-visit-01'&&step===0&&j.status==='waiting'){j.status='active';syncSideJobs();toast('Tiket aktif. Keluar dari toko dan ikuti jalur luar ke rumah pelanggan di sisi kanan map.');hideOverlay('stationOverlay');return}j.step++;if(j.step>=j.steps.length)j.status='done';appendChat('System',j.customer+' · '+j.steps[step]+' selesai.');syncSideJobs();if(j.status==='done'){toast('Tiket layanan selesai dan statusnya tersinkron ke squad.');}openSideJob(id)}
-function openHomeVisit(){const j=state.sideJobs.find(x=>x.id==='home-visit-01');if(!j||j.status==='waiting'){toast('Ambil tiket kunjungan rumah dari Service Dispatch Board terlebih dahulu.');return}if(j.status==='done'){toast('Kunjungan rumah sudah selesai.');return}if(state.role!=='technician'){toast('Kunjungan rumah ditangani Teknisi.');return}if(Math.hypot(state.player.group.position.x-61,state.player.group.position.z-3.0)>5){toast('Dekati pintu rumah pelanggan.');return}openSideJob(j.id)}
+function openHomeVisit(){const j=state.sideJobs.find(x=>x.id==='home-visit-01');if(!j||j.status==='waiting'){toast('Ambil tiket kunjungan rumah dari Service Dispatch Board terlebih dahulu.');return}if(j.status==='done'){toast('Kunjungan rumah sudah selesai.');return}if(state.role!=='technician'){toast('Kunjungan rumah ditangani Teknisi.');return}if(Math.hypot(state.player.group.position.x-94,state.player.group.position.z+15.5)>5){toast('Dekati pintu rumah pelanggan.');return}openSideJob(j.id)}
 function startTutorialIfNeeded(){const key='tg-tutorial-v3-'+state.user.id;try{if(localStorage.getItem(key)==='done')return}catch(e){}showOverlay('tutorialOverlay')}
 function roleStation(){const kind=ROLE_INFO[state.role]?.station;return state.stations.find(s=>s.kind===kind)||state.stations.find(s=>s.kind==='counter')}
 function removeTutorialBeacon(){if(state.tutorial.beacon&&state.scene){state.scene.remove(state.tutorial.beacon);state.tutorial.beacon.traverse?.(o=>{if(o.geometry)o.geometry.dispose();if(o.material&&!Array.isArray(o.material))o.material.dispose()})}state.tutorial.beacon=null}
