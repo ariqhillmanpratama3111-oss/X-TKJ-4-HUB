@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#07101b">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <title>PT Toko Gamer · 3D Business Campus Simulator</title>
 <style>
 :root{--bg:#07101b;--panel:#0b1828ee;--line:#31506b;--cyan:#62eaff;--green:#7cf0b9;--gold:#ffd36d;--red:#ff8395;--text:#edf7ff;--muted:#9ab0c4;--purple:#c5a5ff}
@@ -205,13 +206,13 @@ const RETAIL_REQUESTS=[
 ];
 
 
-const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium'};
+const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,captureGroup:null,cityAssetRequests:[],cityAssetTemplates:null,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium'};
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2700)}
 function roleName(code){return ROLE_INFO[code]?.name||'Belum dipilih'}
 function showOverlay(id){if(document.pointerLockElement&&id!=='tutorialOverlay')document.exitPointerLock();$(id).classList.add('show')}function hideOverlay(id){$(id).classList.remove('show')}
 function openPanel(id){hideOverlay('dialogOverlay');hideOverlay('missionOverlay');showOverlay(id)}
 function setLoading(p,status){$('loadingPercent').textContent=p+'%';$('loadingBar').style.width=p+'%';$('loadingStatus').textContent=status}
-function animateLoading(){const steps=[[15,'CONNECTING TO STORE...'],[34,'LOADING 3D ENVIRONMENT...'],[55,'SPAWNING ROLE CHARACTERS...'],[76,'SYNCING YOUR SQUAD...'],[92,'PREPARING CUSTOMER NPC...'],[100,'STORE IS READY...']];return new Promise(resolve=>{let i=0;const next=()=>{if(i>=steps.length){setTimeout(()=>{$('loadingScreen').classList.add('hide');resolve()},450);return}setLoading(steps[i][0],steps[i][1]);i++;setTimeout(next,310)};next()})}
+function animateLoading(){const steps=[[15,'CONNECTING TO STORE...'],[34,'LOADING 3D CITY MODELS...'],[55,'SPAWNING ROLE CHARACTERS...'],[76,'SYNCING YOUR SQUAD...'],[92,'PREPARING CUSTOMER NPC...'],[100,'STORE IS READY...']];return new Promise(resolve=>{let i=0;const next=()=>{if(i>=steps.length){setTimeout(()=>{$('loadingScreen').classList.add('hide');resolve()},450);return}setLoading(steps[i][0],steps[i][1]);i++;setTimeout(next,310)};next()})}
 async function loadSupabase(){if(window.supabase?.createClient)return true;for(const url of ['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js']){try{await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.async=true;s.onload=resolve;s.onerror=()=>reject(Error('Supabase CDN gagal'));document.head.appendChild(s)});if(window.supabase?.createClient)return true}catch(e){console.warn(e)}}return false}
 async function loadThree(){try{return await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js')}catch(e){throw Error('Library 3D gagal dimuat. Periksa koneksi internet atau browser WebGL. Detail: '+e.message)}}
 function qs(k){return new URLSearchParams(location.search).get(k)}
@@ -238,15 +239,80 @@ async function boot(){
  const g=await state.sb.rpc('techlab_tg_bootstrap',{p_room_id:roomId});if(g.error)throw g.error;state.game=g.data;state.retailLedger=loadRetailLedger(roomId);
  const eco=await state.sb.rpc('techlab_tg_economy_bootstrap',{p_room_id:roomId});if(eco.error)throw eco.error;state.economy=eco.data;state.activeItemId=state.economy.inventory?.[0]?.id||null;
  const sideSession=loadSideSession(roomId);state.sideJobs=sideSession.jobs;state.onlineContacted=sideSession.onlineContacted;state.selectedOrder=state.game.orders.find(o=>!o.completed)?.id||state.game.orders[0]?.id;
- const THREE=await loadThree();state.THREE=THREE;createWorld();setupControls();setupUI();subscribe();renderHud();renderHotbar();await animateLoading();startTutorialIfNeeded();if(state.aiEnabled&&state.user.id===state.room.host_id)startAIBrain();
+ const THREE=await loadThree();state.THREE=THREE;createWorld();await loadCityAssetModels();setupControls();setupUI();subscribe();renderHud();renderHotbar();await animateLoading();startTutorialIfNeeded();if(state.aiEnabled&&state.user.id===state.room.host_id)startAIBrain();
 }
 function createWorld(){const T=state.THREE;const canvas=$('worldCanvas');state.scene=new T.Scene();state.scene.background=new T.Color(0xa9c9d8);state.scene.fog=new T.Fog(0xa9c9d8,110,230);state.camera=new T.PerspectiveCamera(68,innerWidth/innerHeight,.1,280);state.camera.position.set(0,4.4,8);state.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});state.renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.35));state.renderer.setSize(innerWidth,innerHeight);state.renderer.shadowMap.enabled=true;state.renderer.shadowMap.type=T.PCFSoftShadowMap;state.renderer.outputColorSpace=T.SRGBColorSpace;state.renderer.toneMapping=T.ACESFilmicToneMapping;state.renderer.toneMappingExposure=1.08;state.clock=new T.Clock();const hemi=new T.HemisphereLight(0xe6f7ff,0x53606a,2.3);state.scene.add(hemi);const sun=new T.DirectionalLight(0xffedcf,2.65);sun.position.set(-18,28,16);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-82;sun.shadow.camera.right=82;sun.shadow.camera.top=82;sun.shadow.camera.bottom=-82;sun.shadow.bias=-.00025;state.sunLight=sun;state.scene.add(sun);const fill=new T.PointLight(0x53d9ff,23,30);fill.position.set(0,7,-4);state.scene.add(fill);const warm=new T.PointLight(0xffc98a,12,22);warm.position.set(-10,5,5);state.scene.add(warm);buildMap();state.player=createAvatar(state.profile?.display_name||'You',state.role,false);const spawn=ROLE_INFO[state.role].spawn;state.player.group.position.set(spawn.x,0,spawn.z);state.player.group.rotation.y=0;state.scene.add(state.player.group);state.yaw=Math.PI;createRemoteAvatars();createNPCs();loadGameSettings();applyGraphicsQuality();initWorldMapHud();state.worldReady=true;startWalkInCustomerFlow();window.addEventListener('resize',resizeWorld);state.renderer.setAnimationLoop(gameLoop)}
 function material(color,roughness=.78,metalness=.02,extra={}){return new state.THREE.MeshStandardMaterial({color,roughness,metalness,...extra})}
-function box(x,y,z,w,h,d,mat,opts={}){const T=state.THREE;const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=opts.castShadow!==false;m.receiveShadow=opts.receiveShadow!==false;state.scene.add(m);return m}
-function cylinder(x,y,z,r1,r2,h,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.CylinderGeometry(r1,r2,h,segments),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;state.scene.add(m);return m}
-function sphere(x,y,z,r,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.SphereGeometry(r,segments,10),mat);m.position.set(x,y,z);m.castShadow=true;state.scene.add(m);return m}
+function box(x,y,z,w,h,d,mat,opts={}){const T=state.THREE;const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=opts.castShadow!==false;m.receiveShadow=opts.receiveShadow!==false;(state.captureGroup||state.scene).add(m);return m}
+function cylinder(x,y,z,r1,r2,h,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.CylinderGeometry(r1,r2,h,segments),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;(state.captureGroup||state.scene).add(m);return m}
+function sphere(x,y,z,r,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.SphereGeometry(r,segments,10),mat);m.position.set(x,y,z);m.castShadow=true;(state.captureGroup||state.scene).add(m);return m}
 function textSprite(text,color='#d9f8ff',bg='#082033'){const T=state.THREE;const c=document.createElement('canvas');c.width=512;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle=bg;ctx.strokeStyle='#6eddf0';ctx.lineWidth=5;roundRect(ctx,6,6,500,116,22);ctx.fill();ctx.stroke();ctx.font='bold 34px Arial';ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(text).slice(0,28),256,64);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const mat=new T.SpriteMaterial({map:tex,transparent:true,depthWrite:false});const s=new T.Sprite(mat);s.scale.set(3.2,.8,1);return s}
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+
+function beginFallbackCapture(){
+ const previous=state.captureGroup||null;
+ const group=new state.THREE.Group();
+ state.captureGroup=group;
+ return {previous,group};
+}
+function endFallbackCapture(capture,visible=false){
+ state.captureGroup=capture.previous||null;
+ capture.group.visible=visible;
+ (capture.previous||state.scene).add(capture.group);
+ return capture.group;
+}
+function queueCityAsset(key,x,z,scale=1,rotation=0,fallbackGroup=null,extra={}){
+ if(!key)return;
+ state.cityAssetRequests.push({key,x,z,scale,rotation,fallbackGroup,...extra});
+}
+async function loadCityAssetModels(){
+ const requests=state.cityAssetRequests||[];
+ if(!requests.length)return;
+ let GLTFLoader;
+ try{
+  ({GLTFLoader}=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js'));
+ }catch(e){
+  console.warn('GLTFLoader tidak tersedia; memakai visual fallback.',e);
+  requests.forEach(r=>{if(r.fallbackGroup)r.fallbackGroup.visible=true;});
+  return;
+ }
+ const loader=new GLTFLoader();
+ const keys=[...new Set(requests.map(r=>r.key))];
+ const templates=new Map();
+ await Promise.all(keys.map(async key=>{
+  try{
+   const url=new URL('assets/city/models/'+key+'.glb',document.baseURI).href;
+   const gltf=await loader.loadAsync(url);
+   templates.set(key,gltf.scene);
+  }catch(e){console.warn('Aset kota gagal dimuat:',key,e)}
+ }));
+ state.cityAssetTemplates=templates;
+ let placed=0,failed=0;
+ for(const req of requests){
+  const template=templates.get(req.key);
+  if(!template){failed++;if(req.fallbackGroup)req.fallbackGroup.visible=true;continue;}
+  const model=template.clone(true);
+  model.position.set(req.x,req.y||0,req.z);
+  model.scale.setScalar(req.scale||1);
+  model.rotation.y=req.rotation||0;
+  model.traverse(o=>{
+   if(o.isMesh){o.castShadow=(state.graphicsQuality==='high');o.receiveShadow=true;}
+  });
+  state.scene.add(model);
+  if(req.fallbackGroup){if(req.fallbackGroup.parent)req.fallbackGroup.parent.remove(req.fallbackGroup);req.fallbackGroup.traverse(o=>{if(o.isMesh&&o.geometry)o.geometry.dispose();});req.fallbackGroup.clear();req.fallbackGroup=null;}
+  if(req.label){
+   const tag=textSprite(req.label,'#f5fbff','#17354b');
+   const bounds=new state.THREE.Box3().setFromObject(model);const localTop=(bounds.max.y-(req.y||0))/Math.max(.001,req.scale||1);
+   tag.position.set(0,localTop+.08,-1.02);
+   tag.scale.set(.78,.18,1);
+   model.add(tag);
+  }
+  if(req.vehicleRecord)req.vehicleRecord.group=model;
+  placed++;
+ }
+ console.info('City GLB assets loaded:',placed,'/',requests.length,'models; failed:',failed);
+}
+
 const MAP_EXTENTS={minX:-112,maxX:112,minZ:-82,maxZ:82};
 function setWaypoint(placeId){
  const place=state.worldPlaces?.find(p=>p.id===placeId);if(!place)return;
@@ -295,7 +361,7 @@ function updateAmbientLife(dt){
 
 function buildMap(){
  const T=state.THREE;
- state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];
+ state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];state.cityAssetRequests=[];
  const mats={
   grass:material(0x567b5b),lawn:material(0x6e986c),asphalt:material(0x303a43),roadEdge:material(0x242e36),
   path:material(0xb6b7aa),tile:material(0x9a9e9b),wall:material(0xe7e1d5),wall2:material(0xd2d8d8),
@@ -310,23 +376,31 @@ function buildMap(){
   box(x,y,z,w,h,d,mat);
   state.mapWalls.push({minX:x-w/2-.18,maxX:x+w/2+.18,minZ:z-d/2-.18,maxZ:z+d/2+.18});
  };
- const label=(txt,x,y,z,scale=3.5)=>{const sp=textSprite(txt,'#f3fbff','#182d3a');sp.position.set(x,y,z);sp.scale.set(scale,scale*.22,1);state.scene.add(sp);return sp};
+ const label=(txt,x,y,z,scale=3.5)=>{const sp=textSprite(txt,'#f3fbff','#182d3a');sp.position.set(x,y,z);sp.scale.set(scale,scale*.22,1);(state.captureGroup||state.scene).add(sp);return sp};
  const floor=(x,z,w,d,mat=mats.tile)=>box(x,-.11,z,w,.22,d,mat,{castShadow:false});
  const tree=(x,z,sc=1,variant=0)=>{
+  const capture=beginFallbackCapture();
   const trunk=cylinder(x,.8*sc,z,.24*sc,.34*sc,1.6*sc,mats.wood,10);
   const leafMat=variant%2?mats.darkLeaf:mats.leaf;
   const crown=sphere(x,2.12*sc,z,.92*sc,leafMat,14);crown.scale.set(1,1.22,.92);
   sphere(x-.42*sc,2.0*sc,z+.08*sc,.55*sc,leafMat,12);
   sphere(x+.43*sc,2.05*sc,z-.14*sc,.58*sc,variant%2?mats.leaf:mats.darkLeaf,12);
   sphere(x,2.6*sc,z,.45*sc,leafMat,10);
+  const fallback=endFallbackCapture(capture,false);
+  const treeAssets=['vegetacao/ipe_amarelo','vegetacao/araucaria','vegetacao/buriti'];
+  const ix=((Math.abs(Math.floor(variant))%treeAssets.length)+treeAssets.length)%treeAssets.length;
+  queueCityAsset(treeAssets[ix],x,z,1.9*sc,0,fallback);
   return trunk;
  };
  const lamp=(x,z)=>{
+  const capture=beginFallbackCapture();
   cylinder(x,1.65,z,.075,.095,3.3,mats.metal,10);
   const arm=box(x+.32,3.22,z,.72,.07,.08,mats.metal);arm.rotation.z=-.16;
   sphere(x+.62,3.12,z,.17,material(0xffe6ad,.36,0,{emissive:0xffc66c,emissiveIntensity:.42}),12);
+  const fallback=endFallbackCapture(capture,false);
+  queueCityAsset('mobiliario/poste_luz',x,z,2,0,fallback);
  };
- const bench=(x,z,rot=0)=>{const g=new T.Group();const wood=material(0x805a3e),metal=mats.metal;for(let i=0;i<3;i++){const b=new T.Mesh(new T.BoxGeometry(2.1,.12,.18),wood);b.position.set(0,.55,(i-1)*.2);g.add(b)}for(const xx of [-.78,.78]){const leg=new T.Mesh(new T.BoxGeometry(.12,.55,.15),metal);leg.position.set(xx,.28,0);g.add(leg);const back=new T.Mesh(new T.BoxGeometry(.12,.7,.13),metal);back.position.set(xx,.95,-.22);g.add(back)}g.position.set(x,0,z);g.rotation.y=rot;state.scene.add(g)};
+ const bench=(x,z,rot=0)=>{const capture=beginFallbackCapture();const g=new T.Group();const wood=material(0x805a3e),metal=mats.metal;for(let i=0;i<3;i++){const b=new T.Mesh(new T.BoxGeometry(2.1,.12,.18),wood);b.position.set(0,.55,(i-1)*.2);g.add(b)}for(const xx of [-.78,.78]){const leg=new T.Mesh(new T.BoxGeometry(.12,.55,.15),metal);leg.position.set(xx,.28,0);g.add(leg);const back=new T.Mesh(new T.BoxGeometry(.12,.7,.13),metal);back.position.set(xx,.95,-.22);g.add(back)}g.position.set(x,0,z);g.rotation.y=rot;state.captureGroup.add(g);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/banco_praca',x,z,3,rot,fallback)};
  const addBuildingCollision=(cx,cz,w,d,doorW)=>{
   const h=5.4,t=.55,front=cz+d/2,back=cz-d/2,left=cx-w/2,right=cx+w/2;
   addWall(left,cz,t,d,h,h/2,mats.wallDark);addWall(right,cz,t,d,h,h/2,mats.wallDark);addWall(cx,back,w,t,h,h/2,mats.wallDark);
@@ -336,6 +410,7 @@ function buildMap(){
  const townBuilding=(cfg)=>{
   const {x,z,w,d,name,wall=mats.cream,accent=mats.blue,roof=mats.roofBlue,door=2.8,style='shop',stories=1}=cfg;
   const h=stories===2?8.2:5.1,front=z+d/2,back=z-d/2,left=x-w/2,right=x+w/2;
+  const capture=beginFallbackCapture();
   floor(x,z,w,d,mats.concrete);
   // External walls are built in panels with a real entrance gap and glazed frontage.
   const ht=h-.3;
@@ -381,6 +456,17 @@ function buildMap(){
    box(x,1.1,z-1,w*.38,.15,1.4,mats.wood);
    for(const sx of [-1,1])box(x+sx*w*.23,1.8,z-1,.75,1.4,.72,mats.cream);
   }
+  const fallback=endFallbackCapture(capture,false);
+  const assetMap={
+   'Kafe Sudut Kota':'comercial/restaurante',
+   'Mini Mart 24':'comercial/mercado',
+   'Toko Elektronik':'comercial/loja_esquina',
+   'Bengkel Motor':'industrial/oficina',
+   'Warung Pojok':'comercial/loja_esquina',
+   'Rumah Pelanggan':'residencial/casa_sobrado'
+  };
+  const asset=cfg.asset||assetMap[name]||(style==='house'?'residencial/casa_simples':style==='service'?'industrial/oficina':'comercial/loja_esquina');
+  queueCityAsset(asset,x,z,Math.min(w,d)/2,Math.PI,fallback,{label:name,labelY:Math.max(3.1,h)});
   return {x,z,w,d,front,back,left,right};
  };
 
@@ -484,7 +570,8 @@ function buildMap(){
   {x:96,z:18,w:16,d:13,wall:mats.sand,accent:mats.red,roof:mats.red,balcony:true,garage:true},
   {x:99,z:48,w:14,d:12,wall:mats.wall2,accent:mats.gold,roof:mats.navy,balcony:false,garage:true}
  ];
- houseConfigs.forEach((h,i)=>townBuilding({...h,z:h.z,name:['Rumah Melati','Rumah Pak Darto','Rumah Minimalis','Rumah Sudut','Rumah Keluarga','Rumah Modern','Rumah Teras','Rumah Dua Lantai'][i],style:'house',stories:h.balcony?2:1,door:2.6}));
+ const houseAssets=['residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_sobrado','residencial/casa_simples'];
+ houseConfigs.forEach((h,i)=>townBuilding({...h,asset:houseAssets[i],z:h.z,name:['Rumah Melati','Rumah Pak Darto','Rumah Minimalis','Rumah Sudut','Rumah Keluarga','Rumah Modern','Rumah Teras','Rumah Dua Lantai'][i],style:'house',stories:h.balcony?2:1,door:2.6}));
  // Public park with paths, fountain, playground, benches and a small gazebo.
  floor(-70,-28,38,28,mats.lawn);
  box(-89,.12,-28,.18,.25,28,mats.concrete);box(-51,.12,-28,.18,.25,28,mats.concrete);
@@ -501,9 +588,9 @@ function buildMap(){
  // Street trees, hedges, planters and lamps create a lived-in street edge.
  for(const [x,z,sc] of [[-103,43,.95],[-89,43,.8],[-69,43,1],[-43,43,.95],[42,43,.95],[72,43,.9],[95,43,1],[-103,-44,.9],[-85,-44,1],[-38,-44,.85],[35,-60,.95],[72,-60,1],[104,-8,.9]])tree(x,z,sc,Math.round(x+z));
  for(const [x,z] of [[-48,21],[-25,21],[25,21],[48,21],[86,24],[-94,29],[-70,29],[-35,-42],[0,-42],[40,-42],[83,-42]])lamp(x,z);
- for(let i=0;i<6;i++){const x=-90+i*7;const bush=sphere(x,.55,28,.85,mats.darkLeaf,10);bush.scale.set(1,.55,.75)}
+ for(let i=0;i<6;i++){const x=-90+i*7;const capture=beginFallbackCapture();const bush=sphere(x,.55,28,.85,mats.darkLeaf,10);bush.scale.set(1,.55,.75);const fallback=endFallbackCapture(capture,false);queueCityAsset('vegetacao/arbustos',x,28,2.3,0,fallback)}
  // Utility details on the outside: bins, hydrant, benches, post boxes and signage.
- const bin=(x,z)=>{cylinder(x,.58,z,.38,.42,1.1,mats.green,12);box(x,.18,z,.82,.12,.82,mats.metal);cylinder(x,.18,z,.44,.44,.12,mats.black,12)};
+ const bin=(x,z)=>{const capture=beginFallbackCapture();cylinder(x,.58,z,.38,.42,1.1,mats.green,12);box(x,.18,z,.82,.12,.82,mats.metal);cylinder(x,.18,z,.44,.44,.12,mats.black,12);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/lixeira',x,z,3,0,fallback)};
  bin(-44,24);bin(42,24);bin(75,-37);bin(-88,-4);
  for(const x of [-8,8]){box(x,1.1,22.6,.25,2.2,.25,mats.metal);box(x,2.35,22.6,.8,.4,.35,mats.red)}
  // Parking and customer drop-off next to the main shop.
@@ -519,9 +606,13 @@ function buildMap(){
   for(const xx of [-1.3,1.3])for(const zz of [-1,1]){const wh=new T.Mesh(new T.CylinderGeometry(.43,.43,.22,18),rubber);wh.rotation.z=Math.PI/2;wh.position.set(xx,.48,zz*.79);g.add(wh);const hub=new T.Mesh(new T.CylinderGeometry(.19,.19,.24,12),rim);hub.rotation.z=Math.PI/2;hub.position.copy(wh.position);g.add(hub)}
   for(const zz of [-.61,.61]){const head=new T.Mesh(new T.BoxGeometry(.16,.22,.12),mats.gold);head.position.set(2.06,.94,zz);g.add(head);const tail=new T.Mesh(new T.BoxGeometry(.14,.2,.12),mats.red);tail.position.set(-2.06,.94,zz);g.add(tail)}
   const bumper=new T.Mesh(new T.BoxGeometry(.12,.18,1.92),mats.metal);bumper.position.set(2.1,.55,0);g.add(bumper);
-  g.position.set(x,0,z);g.rotation.y=dir<0?Math.PI:0;g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});state.scene.add(g);state.vehicles.push({group:g,x,z,dir,speed,axis:'x',range:105});
+  g.position.set(x,0,z);g.rotation.y=dir<0?Math.PI:0;g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});state.scene.add(g);
+  const vehicleRecord={group:g,x,z,dir,speed,axis:'x',range:105};
+  state.vehicles.push(vehicleRecord);
+  queueCityAsset('veiculos/carro',x,z,4.8,dir>0?-Math.PI/2:Math.PI/2,g,{vehicleRecord});
  };
  makeCar(-80,29,0x477e91,1,4.6);makeCar(25,34,0xc69b4f,-1,3.9);makeCar(87,-46,0x7e5451,-1,4.1);makeCar(-12,-52,0x536c5a,1,3.5);
+
 
  // Small street-life NPCs: each follows a looping sidewalk route instead of standing in place.
  const pedestrianPaths=[
@@ -559,6 +650,8 @@ function buildMap(){
  };
  makeAnimal('dog',-54,25,0x9b7957);makeAnimal('cat',-65,-19,0x777b83);makeAnimal('cat',84,20,0xc28c57);
  for(let i=0;i<4;i++)makeAnimal('bird',-72+i*2.1,-31+(i%2)*1.7,0x536e7f);
+ queueCityAsset('beira_rio/capivara',-68,-11,3.0,0,null);
+ queueCityAsset('beira_rio/garca',-76,-35,2.5,0,null);
 
  // Landmark list for mini-map and waypoint navigation.
  state.worldPlaces=[
