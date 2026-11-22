@@ -93,6 +93,9 @@
 @media(max-width:900px){.world-map-hud{left:8px;bottom:8px;gap:5px}.world-map-shell{width:166px;padding:6px}.world-place-shell{width:122px;padding:6px}#miniMapCanvas{height:94px}.world-place-list{max-height:110px}.world-place-btn{padding:5px;font-size:7px}.world-map-head{font-size:7px}.map-waypoint-status{font-size:7px}}
 @media(max-width:600px){.world-map-hud{left:8px;bottom:104px}.world-map-shell{width:142px}.world-place-shell{width:112px}#miniMapCanvas{height:82px}.world-place-list{max-height:92px}.waypoint-arrow{top:60px}}
 
+
+.city-phone-modal{width:min(430px,94vw);max-height:88vh;background:#101b28;border:1px solid #4aa1bc;border-radius:28px;padding:12px;box-shadow:0 22px 80px #000b;color:#ecf7fb;display:flex;flex-direction:column;gap:10px}.phone-top{display:flex;justify-content:space-between;align-items:center;font-weight:800;letter-spacing:.12em;font-size:11px;padding:4px 8px}.phone-top button,.phone-home{background:#1b3447;border:1px solid #48687b;color:white;border-radius:12px;padding:9px 14px}.phone-screen{background:linear-gradient(160deg,#e8f0ed,#d9e6e1);color:#1b2b2d;border-radius:18px;min-height:440px;max-height:68vh;overflow:auto;padding:18px}.phone-welcome{background:#1d5d49;color:#fff;padding:18px;border-radius:16px;font-size:18px}.phone-welcome small{display:block;font-size:10px;opacity:.8;letter-spacing:.1em;margin-top:7px}.phone-app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.phone-app-grid button{border:0;border-radius:14px;background:#fff;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#18323a;box-shadow:0 4px 10px #193c4318}.phone-app-grid span{font-size:25px}.phone-app-grid b{font-size:12px}.phone-balance{background:#1c5d4b;color:#fff;padding:18px;border-radius:14px;display:flex;flex-direction:column;gap:7px}.phone-balance b{font-size:25px}.phone-balance span,.phone-balance small{opacity:.82}.phone-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.phone-actions button,.phone-primary{border:0;background:#214f77;color:#fff;border-radius:10px;padding:12px;font-size:11px;font-weight:800}.phone-actions .wide{grid-column:1/-1}.phone-history,.phone-list{display:flex;flex-direction:column;gap:7px}.phone-history>div,.phone-list>div,.phone-list>button{background:#fff;border-radius:10px;padding:11px;display:flex;justify-content:space-between;align-items:center;color:#1d2e32;border:0;text-align:left}.phone-history small,.phone-list small{display:block;color:#6c7977;font-size:10px;margin-top:3px}.phone-history .positive{color:#16834d}.phone-screen h3{margin:2px 0 12px}.phone-screen h4{margin:14px 0 8px}.phone-screen p{line-height:1.5}.phone-home{align-self:center;min-width:100px}
+
 </style>
 </head>
 <body>
@@ -102,7 +105,7 @@
 <div class="hud top-hud"><div class="brand"><div class="brand-mark">TG</div><div><b>PT TOKO GAMER</b><small>OPEN NEIGHBOURHOOD SIMULATION</small></div></div><div class="top-stats"><div class="stat-pill"><small>STORE CASH</small><b id="cashValue">Rp30.000.000</b></div><div class="stat-pill wallet-pill"><small>WALLET / RAPIAH</small><b id="rapiahValue">R 150.000</b></div><div class="stat-pill"><small>REPUTATION</small><b id="reputationValue">60 / 100</b></div><div class="stat-pill"><small>PELANGGAN TOKO</small><b id="servedValue">0 dilayani · 0 menunggu</b></div></div><div class="right-actions"><button class="glass-btn cyan" id="mapBtn">MAP / JOBS</button><button class="glass-btn" id="menuBtn" aria-label="Buka menu game">☰ MENU</button></div></div>
 <aside class="hud left-hud"><div class="mini-card"><div class="eyebrow">YOUR SHIFT</div><h3 id="roleTitle">Memuat role...</h3><p id="roleObjective">Masuk ke toko dan mulai shift bersama squad.</p><div class="role-chip" id="roleChip">ROLE</div><div class="objective-list" id="objectiveList"></div></div></aside>
 <aside class="hud team-card"><div class="team-title"><b>YOUR SQUAD</b><span id="squadCount">0 / 5</span></div><div id="teamList"></div></aside>
-<div class="hud bottom-hud"><div class="controls-hint"><b>WASD</b> bergerak · <b>SPACE</b> lompat · <b>Mouse</b> kamera · <b>CTRL</b> lepas mouse · <b>SHIFT</b> sprint · <b>E</b> interaksi</div><div class="interaction-prompt" id="interactionPrompt"><span class="keycap">E</span><span id="promptText">Berinteraksi</span></div><div class="bottom-right"><button class="glass-btn" id="guideBtn">TUTORIAL</button><button class="glass-btn" id="missionBtn">MISSION LOG</button></div></div>
+<div class="hud bottom-hud"><div class="controls-hint"><b>WASD</b> bergerak · <b>SPACE</b> lompat · <b>Mouse</b> kamera · <b>CTRL</b> lepas mouse · <b>SHIFT</b> sprint · <b>E</b> interaksi</div><div class="interaction-prompt" id="interactionPrompt"><span class="keycap">E</span><span id="promptText">Berinteraksi</span></div><div class="bottom-right"><button class="glass-btn" id="guideBtn">TUTORIAL</button><button class="glass-btn" id="missionBtn">MISSION LOG</button><button class="glass-btn cyan" id="phoneBtn">📱 PONSEL</button></div></div>
 <div class="mobile-controls" id="mobileControls"><div class="joystick" id="joystick"><div class="stick-knob" id="stickKnob"></div></div><div class="mobile-buttons"><button class="primary" id="mobileInteract">INTERACT<br>E</button><button class="sprint" id="mobileSprint">SPRINT</button><button id="mobileGuide">GUIDE</button><button id="mobileMap">JOBS</button><button id="mobileJump" class="primary">JUMP<br>SPACE</button></div></div>
 <div class="hotbar-wrap" id="hotbarWrap"><button class="bag-open" id="bagBtn" title="Buka tas">🎒 <span>TAS</span><small id="bagCount">0 / 10</small></button><div class="hotbar" id="hotbar" aria-label="Hotbar item"></div></div>
 <div class="tutorial-coach" id="tutorialCoach" hidden>
@@ -115,6 +118,7 @@
 <div class="aim-dot" id="aimDot" hidden></div>
 <div class="toast" id="toast"></div>
 </div>
+<div class="overlay" id="cityPhoneOverlay"><section class="city-phone-modal"><div class="phone-top"><span>● INSIDE MOBILE</span><button id="phoneClose">✕</button></div><div class="phone-screen"><div id="cityPhoneContent"></div></div><button class="phone-home" id="phoneHome">HOME</button></section></div>
 <div class="overlay" id="dialogOverlay"><section class="modal"><div class="modal-head"><div><div class="eyebrow" id="dialogKicker">CUSTOMER SERVICE</div><h2 id="dialogTitle">Percakapan pelanggan</h2><p id="dialogSubtitle">Sambut pelanggan dengan ramah.</p></div><button class="close" data-close="dialogOverlay">TUTUP ✕</button></div><div class="dialogue"><div class="dialogue-avatar" id="dialogAvatar">👤</div><div><strong id="dialogSpeaker">Pelanggan</strong><p id="dialogLine">Halo, selamat datang.</p></div></div><div class="dialogue-log" id="dialogLog"></div><div class="choices" id="dialogChoices"></div></section></div>
 <div class="overlay" id="stationOverlay"><section class="modal wide"><div class="modal-head"><div><div class="eyebrow" id="stationKicker">WORKSTATION</div><h2 id="stationTitle">Pilih pekerjaan</h2><p id="stationSubtitle">Selesaikan tugas sesuai role kamu.</p></div><button class="close" data-close="stationOverlay">TUTUP ✕</button></div><div id="stationContent"></div></section></div>
 
@@ -206,7 +210,7 @@ const RETAIL_REQUESTS=[
 ];
 
 
-const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,captureGroup:null,cityAssetRequests:[],cityAssetTemplates:null,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium',interiorMode:false,currentInterior:null,cityInteriors:[],businessDoors:[],billboards:[],marketingActive:false,marketingRooms:new Set()};
+const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,captureGroup:null,cityAssetRequests:[],cityAssetTemplates:null,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium',interiorMode:false,currentInterior:null,cityInteriors:[],businessDoors:[],billboards:[],marketingActive:false,marketingRooms:new Set(),seats:[],isSitting:false,currentSeat:null,personalFinance:null,atms:[],interiorEmployees:[]};
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2700)}
 function roleName(code){return ROLE_INFO[code]?.name||'Belum dipilih'}
 function showOverlay(id){if(document.pointerLockElement&&id!=='tutorialOverlay')document.exitPointerLock();$(id).classList.add('show')}function hideOverlay(id){$(id).classList.remove('show')}
@@ -237,7 +241,7 @@ async function boot(){
  else if(humanRoster.length<3||!['sales','technician','administration'].every(role=>humanRoster.some(p=>p.role===role)))throw Error('PT Toko Gamer membutuhkan minimal 3 pemain dengan role wajib: Sales, Teknisi, dan Administrasi. Aktifkan AI Squad di lobby untuk bermain sendiri.');
  state.roster=[...humanRoster,...state.aiRoles.map(role=>({id:'ai-'+role,name:'AI '+ROLE_INFO[role].name,role,ready:true,host:false,isAI:true}))];
  const g=await state.sb.rpc('techlab_tg_bootstrap',{p_room_id:roomId});if(g.error)throw g.error;state.game=g.data;state.retailLedger=loadRetailLedger(roomId);
- const eco=await state.sb.rpc('techlab_tg_economy_bootstrap',{p_room_id:roomId});if(eco.error)throw eco.error;state.economy=eco.data;state.activeItemId=state.economy.inventory?.[0]?.id||null;
+ const eco=await state.sb.rpc('techlab_tg_economy_bootstrap',{p_room_id:roomId});if(eco.error)throw eco.error;state.economy=eco.data;loadPersonalFinance();state.activeItemId=state.economy.inventory?.[0]?.id||null;
  const sideSession=loadSideSession(roomId);state.sideJobs=sideSession.jobs;state.onlineContacted=sideSession.onlineContacted;state.selectedOrder=state.game.orders.find(o=>!o.completed)?.id||state.game.orders[0]?.id;
  const THREE=await loadThree();state.THREE=THREE;createWorld();await loadCityAssetModels();setupControls();setupUI();subscribe();renderHud();renderHotbar();await animateLoading();startTutorialIfNeeded();if(state.aiEnabled&&state.user.id===state.room.host_id)startAIBrain();
 }
@@ -354,15 +358,22 @@ function initWorldMapHud(){
  $('mapWaypointStatus').textContent='Pilih lokasi untuk memasang penanda';drawMiniMap();
 }
 function updateAmbientLife(dt){
- for(const v of state.vehicles){v.x+=v.dir*v.speed*dt;if(v.x>112){v.x=-112}if(v.x< -112){v.x=112}v.group.position.x=v.x;}
- for(const n of state.ambientNPCs){if(n.wait>0){n.wait-=dt;animateAvatar(n.group,0);continue;}const target=n.path[n.index],p=n.group.position,dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);if(d<.5){n.index=(n.index+1)%n.path.length;n.wait=1.0+Math.random()*1.5;continue;}const step=Math.min(d,n.speed*dt);p.x+=dx/d*step;p.z+=dz/d*step;n.group.rotation.y=Math.atan2(dx,dz);animateAvatar(n.group,performance.now()*.006);}
- for(const a of state.ambientAnimals){a.phase+=dt*a.speed;if(a.kind==='bird'){const path=a.path||[[a.home.x,a.home.z],[a.home.x+9,a.home.z+6],[a.home.x+2,a.home.z-7]];const t=path[a.index],dx=t[0]-a.group.position.x,dz=t[1]-a.group.position.z,d=Math.hypot(dx,dz);if(d<1.1){a.index=(a.index+1)%path.length;}else{const step=Math.min(d,a.speed*dt*3.4);a.group.position.x+=dx/d*step;a.group.position.z+=dz/d*step;a.group.position.y=2.8+Math.sin(a.phase*3)*.35;a.group.rotation.y=Math.atan2(dx,dz);}}
- else{const path=a.path||[[a.home.x,a.home.z],[a.home.x+5,a.home.z],[a.home.x+3,a.home.z+5],[a.home.x-4,a.home.z+4]];const t=path[a.index],dx=t[0]-a.group.position.x,dz=t[1]-a.group.position.z,d=Math.hypot(dx,dz);if(d<.55){a.index=(a.index+1)%path.length;a.wait=1.5+Math.random()*3;}else if(a.wait>0){a.wait-=dt;}else{const step=Math.min(d,a.speed*dt*1.2);a.group.position.x+=dx/d*step;a.group.position.z+=dz/d*step;a.group.rotation.y=Math.atan2(dx,dz);}}}
+ for(const v of state.vehicles){v.x+=v.dir*v.speed*dt;if(v.x>112)v.x=-112;if(v.x< -112)v.x=112;v.group.position.x=v.x;}
+ for(const n of state.ambientNPCs){if(n.wait>0){n.wait-=dt;animateAvatar(n.group,0);continue;}const target=n.path[n.index],p=n.group.position,dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);if(d<.55){n.index=(n.index+1)%n.path.length;n.wait=1.4+Math.random()*2.2;continue;}const step=Math.min(d,n.speed*dt);p.x+=dx/d*step;p.z+=dz/d*step;const rot=Math.atan2(dx,dz),dr=Math.atan2(Math.sin(rot-n.group.rotation.y),Math.cos(rot-n.group.rotation.y));n.group.rotation.y+=dr*Math.min(1,dt*4);animateAvatar(n.group,performance.now()*.004);}
+ const animalSafe=(x,z,kind='cat')=>{if(x<-110||x>110||z<-80||z>80)return false;if(kind!=='bird'&&(Math.abs(z-31)<7.5||Math.abs(z+48)<7||Math.abs(x-58)<7||Math.abs(x+58)<7))return false;if(kind!=='bird')for(const w of state.mapWalls||[])if(x>w.minX-.45&&x<w.maxX+.45&&z>w.minZ-.45&&z<w.maxZ+.45)return false;return true;};
+ for(const e of state.interiorEmployees||[])if(e.visible||e.parent?.visible)animateAvatar(e,performance.now()*.0035,true,false);
+ for(const a of state.ambientAnimals){let p=a.group.position;if(a.kind!=='bird'&&!animalSafe(p.x,p.z,a.kind)){let spot=null;for(let r=1;r<=12&&!spot;r+=1)for(let k=0;k<24&&!spot;k++){const ang=k*Math.PI/12,xx=a.home.x+Math.cos(ang)*r,zz=a.home.z+Math.sin(ang)*r;if(animalSafe(xx,zz,a.kind))spot={x:xx,z:zz};}if(spot){p.x=spot.x;p.z=spot.z;a.home={x:spot.x,z:spot.z};a.path=[[p.x,p.z],[p.x+1.8,p.z+.7],[p.x+2.2,p.z+1.8],[p.x-.8,p.z+2.1]];a.index=1;}}a.phase+=dt*a.speed;if(a.wait>0){a.wait-=dt;if(a.kind==='bird')a.group.position.y=2.4+Math.sin(a.phase*2)*.22;else{a.group.position.y=0;(a.legs||[]).forEach(l=>l.rotation.x=0);}continue;}
+  const path=a.path||[[a.home.x,a.home.z],[a.home.x+2,a.home.z+1],[a.home.x+1,a.home.z-2]],target=path[a.index],dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);
+  if(d<.65){a.index=(a.index+1)%path.length;a.wait=2+Math.random()*4;continue;}
+  const step=Math.min(d,a.speed*dt),nx=p.x+dx/d*step,nz=p.z+dz/d*step;
+  if(!animalSafe(nx,nz,a.kind)){a.index=(a.index+1)%path.length;a.wait=1.2+Math.random()*1.8;continue;}
+  p.x=nx;p.z=nz;if(a.kind!=='bird'){p.y=.025+Math.abs(Math.sin(a.phase*8))*.035;(a.legs||[]).forEach((l,i)=>l.rotation.x=Math.sin(a.phase*8+(i%2)*Math.PI)*.32);}const rot=Math.atan2(dx,dz),dr=Math.atan2(Math.sin(rot-a.group.rotation.y),Math.cos(rot-a.group.rotation.y));a.group.rotation.y+=dr*Math.min(1,dt*2.4);
+  if(a.kind==='bird'){p.y=2.4+Math.sin(a.phase*2.3)*.22;const wingL=a.wings?.[0],wingR=a.wings?.[1];if(wingL)wingL.rotation.x=Math.sin(a.phase*9)*.35;if(wingR)wingR.rotation.x=-Math.sin(a.phase*9)*.35;}
  }
-
+}
 function buildMap(){
  const T=state.THREE;
- state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];state.cityAssetRequests=[];
+ state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];state.cityAssetRequests=[];state.seats=[];
  const mats={
   grass:material(0x567b5b),lawn:material(0x6e986c),asphalt:material(0x303a43),roadEdge:material(0x242e36),
   path:material(0xb6b7aa),tile:material(0x9a9e9b),wall:material(0xe7e1d5),wall2:material(0xd2d8d8),
@@ -401,7 +412,7 @@ function buildMap(){
   const fallback=endFallbackCapture(capture,false);
   queueCityAsset('mobiliario/poste_luz',x,z,2,0,fallback);
  };
- const bench=(x,z,rot=0)=>{const capture=beginFallbackCapture();const g=new T.Group();const wood=material(0x805a3e),metal=mats.metal;for(let i=0;i<3;i++){const b=new T.Mesh(new T.BoxGeometry(2.1,.12,.18),wood);b.position.set(0,.55,(i-1)*.2);g.add(b)}for(const xx of [-.78,.78]){const leg=new T.Mesh(new T.BoxGeometry(.12,.55,.15),metal);leg.position.set(xx,.28,0);g.add(leg);const back=new T.Mesh(new T.BoxGeometry(.12,.7,.13),metal);back.position.set(xx,.95,-.22);g.add(back)}g.position.set(x,0,z);g.rotation.y=rot;state.captureGroup.add(g);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/banco_praca',x,z,3,rot,fallback)};
+ const bench=(x,z,rot=0)=>{const capture=beginFallbackCapture();const g=new T.Group();const wood=material(0x805a3e),metal=mats.metal;for(let i=0;i<3;i++){const b=new T.Mesh(new T.BoxGeometry(2.1,.12,.18),wood);b.position.set(0,.55,(i-1)*.2);g.add(b)}for(const xx of [-.78,.78]){const leg=new T.Mesh(new T.BoxGeometry(.12,.55,.15),metal);leg.position.set(xx,.28,0);g.add(leg);const back=new T.Mesh(new T.BoxGeometry(.12,.7,.13),metal);back.position.set(xx,.95,-.22);g.add(back)}g.position.set(x,0,z);g.rotation.y=rot;state.captureGroup.add(g);const fallback=endFallbackCapture(capture,false);queueCityAsset('mobiliario/banco_praca',x,z,3,rot,fallback);state.seats.push({x,z,rot,occupied:false})};
  const addBuildingCollision=(cx,cz,w,d,doorW)=>{
   const h=5.4,t=.55,front=cz+d/2,back=cz-d/2,left=cx-w/2,right=cx+w/2;
   addWall(left,cz,t,d,h,h/2,mats.wallDark);addWall(right,cz,t,d,h,h/2,mats.wallDark);addWall(cx,back,w,t,h,h/2,mats.wallDark);
@@ -411,6 +422,7 @@ function buildMap(){
  const townBuilding=(cfg)=>{
   const {x,z,w,d,name,wall=mats.cream,accent=mats.blue,roof=mats.roofBlue,door=2.8,style='shop',stories=1}=cfg;
   const h=stories===2?8.2:5.1,front=z+d/2,back=z-d/2,left=x-w/2,right=x+w/2;
+  const wallStart=state.mapWalls.length;
   const capture=beginFallbackCapture();
   floor(x,z,w,d,mats.concrete);
   // External walls are built in panels with a real entrance gap and glazed frontage.
@@ -467,7 +479,17 @@ function buildMap(){
    'Rumah Pelanggan':'residencial/casa_sobrado'
   };
   const asset=cfg.asset||assetMap[name]||(style==='house'?'residencial/casa_simples':style==='service'?'industrial/oficina':'comercial/loja_esquina');
-  queueCityAsset(asset,x,z,Math.min(w,d)/2,Math.PI,fallback,{label:name,labelY:Math.max(3.1,h)});
+  const assetYaw=(cfg.assetRotation??chooseRoadFacingRotation(x,z));
+  // Procedural fallback facade is authored toward +Z while City Kit fronts local -Z.
+  // Rotate the fallback (including windows, signs, doorway and collision boxes) to the same street frontage.
+  const fallbackYaw=assetYaw+Math.PI,cy=Math.cos(fallbackYaw),sy=Math.sin(fallbackYaw);
+  if(Math.abs(fallbackYaw% (Math.PI*2))>.001){
+   fallback.rotation.y=fallbackYaw;
+   fallback.position.set(x-(x*cy+z*sy),0,z-(-x*sy+z*cy));
+   const rotRect=rect=>{const pts=[[rect.minX,rect.minZ],[rect.minX,rect.maxZ],[rect.maxX,rect.minZ],[rect.maxX,rect.maxZ]].map(([px,pz])=>[x+(px-x)*cy+(pz-z)*sy,z-(px-x)*sy+(pz-z)*cy]);return {minX:Math.min(...pts.map(v=>v[0])),maxX:Math.max(...pts.map(v=>v[0])),minZ:Math.min(...pts.map(v=>v[1])),maxZ:Math.max(...pts.map(v=>v[1]))};};
+   for(let wi=wallStart;wi<state.mapWalls.length;wi++)Object.assign(state.mapWalls[wi],rotRect(state.mapWalls[wi]));
+  }
+  queueCityAsset(asset,x,z,Math.min(w,d)/2,assetYaw,fallback,{label:name,labelY:Math.max(3.1,h)});
   return {x,z,w,d,front,back,left,right};
  };
 
@@ -477,15 +499,21 @@ function buildMap(){
  box(0,-.08,-48,224,.16,11,mats.asphalt,{castShadow:false});
  box(58,-.08,0,12,.16,166,mats.asphalt,{castShadow:false});
  box(-58,-.08,0,10,.16,166,mats.asphalt,{castShadow:false});
- // Kerbs and pedestrian walkways.
- for(const z of [23.8,38.2,-54,-42])box(0,.02,z,224,.10,.55,mats.concrete,{castShadow:false});
- for(const x of [51,65,-64,-52])box(x,.02,0,.55,.10,166,mats.concrete,{castShadow:false});
- for(let x=-108;x<=108;x+=9){box(x,.025,31,.16,.035,5.8,mats.white,{castShadow:false});box(x,.025,-48,.16,.035,4.8,mats.white,{castShadow:false})}
- for(let z=-76;z<=76;z+=10){box(58,.025,z,5.8,.035,.16,mats.white,{castShadow:false});box(-58,.025,z,4.8,.035,.16,mats.white,{castShadow:false})}
- // Zebra crossings and painted parking bays.
- for(let i=0;i<8;i++)box(-5.6+i*1.6,.03,24.1,.8,.045,3.5,mats.white,{castShadow:false});
- for(let i=0;i<6;i++)box(68+i*3.1,.03,23.5,.12,.04,7.5,mats.white,{castShadow:false});
- for(let i=0;i<7;i++)box(-102+i*3.3,.03,23.5,.12,.04,7.5,mats.white,{castShadow:false});
+ // Real sidewalks are segmented at intersections so their pavement never sits on top of cross streets.
+ const horizontalSidewalkZ=[22.2,39.8,-56,-40],horizontalCurbZ=[24.65,37.35,-53.65,-42.35];
+ const horizontalSegments=[[-112,-63.5],[-52.5,52],[64,112]];
+ for(const z of horizontalSidewalkZ)for(const [a,b] of horizontalSegments)box((a+b)/2,-.005,z,b-a,.14,4.6,mats.path,{castShadow:false});
+ for(const z of horizontalCurbZ)for(const [a,b] of horizontalSegments)box((a+b)/2,.055,z,b-a,.22,.36,mats.concrete,{castShadow:false});
+ const verticalSidewalkX=[49.6,66.4,-65.3,-50.7],verticalCurbX=[51.85,64.15,-63.15,-52.85];
+ const verticalSegments=[[-82,-54],[-42,24],[38,82]];
+ for(const x of verticalSidewalkX)for(const [a,b] of verticalSegments)box(x,-.005,(a+b)/2,4.6,.14,b-a,mats.path,{castShadow:false});
+ for(const x of verticalCurbX)for(const [a,b] of verticalSegments)box(x,.055,(a+b)/2,.36,.22,b-a,mats.concrete,{castShadow:false});
+ // Dashed lane separators are painted on the road centre, never on sidewalks.
+ for(let x=-108;x<=108;x+=12){box(x,.025,31,.16,.035,4.5,mats.white,{castShadow:false});box(x,.025,-48,.16,.035,4.0,mats.white,{castShadow:false});}
+ for(let z=-76;z<=76;z+=12){box(58,.025,z,4.2,.035,.16,mats.white,{castShadow:false});box(-58,.025,z,3.8,.035,.16,mats.white,{castShadow:false});}
+ // Zebra crossings span the asphalt at crossing points. White bars are perpendicular to travel direction.
+ for(const cx of [-58,0,58])for(let i=-5;i<=5;i++)box(cx+i*1.05,.035,31,.62,.045,12.4,mats.white,{castShadow:false});
+ for(const cz of [-48,0])for(let i=-5;i<=5;i++){box(58,.035,cz+i*1.05,11.6,.045,.62,mats.white,{castShadow:false});box(-58,.035,cz+i*1.05,9.6,.045,.62,mats.white,{castShadow:false});}
 
  // PT TOKO GAMER: one main building, with all staff departments inside it.
  const main={x:0,z:0,w:44,d:34,front:17,back:-17};
@@ -561,21 +589,22 @@ function buildMap(){
  for(const x of [-15,-5,5,15])for(const z of [-12,-2,8]){const light=sphere(x,4.55,z,.13,material(0xffefc2,.3,.0,{emissive:0xffd88c,emissiveIntensity:.7}),10);}
 
  // Neighbourhood: varied houses, shopfronts, service businesses and civic spaces.
- townBuilding({x:-61,z:5,w:17,d:14,name:'Kafe Sudut Kota',wall:mats.cream,accent:mats.red,roof:mats.roofBlue,style:'shop',stories:1});
- townBuilding({x:68,z:4,w:18,d:14,name:'Mini Mart 24',wall:mats.wall2,accent:mats.green,roof:mats.green,style:'shop',stories:1});
- townBuilding({x:34,z:61,w:19,d:14,name:'Toko Elektronik',wall:mats.wall2,accent:mats.blue,roof:mats.navy,style:'shop',stories:2});
- townBuilding({x:78,z:61,w:18,d:14,name:'Bengkel Motor',wall:mats.sand,accent:mats.red,roof:mats.roof,style:'service',stories:1});
- townBuilding({x:-79,z:59,w:17,d:13,name:'Warung Pojok',wall:mats.cream,accent:mats.gold,roof:mats.red,style:'shop',stories:1});
+ townBuilding({x:-82,z:5,w:17,d:14,name:'Kafe Sudut Kota',wall:mats.cream,accent:mats.red,roof:mats.roofBlue,style:'shop',stories:1,assetRotation:-Math.PI/2});
+ townBuilding({x:78,z:4,w:18,d:14,name:'Mini Mart 24',wall:mats.wall2,accent:mats.green,roof:mats.green,style:'shop',stories:1,assetRotation:Math.PI/2});
+ townBuilding({x:34,z:61,w:19,d:14,name:'Toko Elektronik',wall:mats.wall2,accent:mats.blue,roof:mats.navy,style:'shop',stories:2,assetRotation:-Math.PI/2});
+ townBuilding({x:78,z:61,w:18,d:14,name:'Bengkel Motor',wall:mats.sand,accent:mats.red,roof:mats.roof,style:'service',stories:1,assetRotation:Math.PI/2});
+ townBuilding({x:-79,z:59,w:17,d:13,name:'Warung Pojok',wall:mats.cream,accent:mats.gold,roof:mats.red,style:'shop',stories:1,assetRotation:-Math.PI/2});
+ townBuilding({x:33,z:-29,w:17,d:13,name:'Bank Kota',wall:mats.wall2,accent:mats.blue,roof:mats.navy,style:'shop',stories:2,asset:'comercial/banco',assetRotation:0});
  townBuilding({x:94,z:-23,w:18,d:15,name:'Rumah Pelanggan',wall:mats.cream,accent:mats.red,roof:mats.red,style:'house',stories:1,garage:true});
  const houseConfigs=[
-  {x:-91,z:-12,w:14,d:12,wall:mats.cream,accent:mats.blue,roof:mats.red,balcony:false,garage:false},
-  {x:-88,z:18,w:16,d:13,wall:mats.wall2,accent:mats.green,roof:mats.navy,balcony:true,garage:true},
-  {x:-34,z:61,w:15,d:13,wall:mats.sand,accent:mats.red,roof:mats.roofBlue,balcony:false,garage:true},
-  {x:-7,z:62,w:13,d:12,wall:mats.cream,accent:mats.gold,roof:mats.red,balcony:false,garage:false},
-  {x:6,z:-70,w:16,d:13,wall:mats.wall2,accent:mats.blue,roof:mats.navy,balcony:true,garage:true},
-  {x:39,z:-69,w:14,d:12,wall:mats.cream,accent:mats.green,roof:mats.roofBlue,balcony:false,garage:false},
-  {x:96,z:18,w:16,d:13,wall:mats.sand,accent:mats.red,roof:mats.red,balcony:true,garage:true},
-  {x:99,z:48,w:14,d:12,wall:mats.wall2,accent:mats.gold,roof:mats.navy,balcony:false,garage:true}
+  {x:-91,z:-12,w:14,d:12,wall:mats.cream,accent:mats.blue,roof:mats.red,balcony:false,garage:false,assetRotation:-Math.PI/2},
+  {x:-88,z:18,w:16,d:13,wall:mats.wall2,accent:mats.green,roof:mats.navy,balcony:true,garage:true,assetRotation:Math.PI},
+  {x:-34,z:61,w:15,d:13,wall:mats.sand,accent:mats.red,roof:mats.roofBlue,balcony:false,garage:true,assetRotation:Math.PI/2},
+  {x:-7,z:62,w:13,d:12,wall:mats.cream,accent:mats.gold,roof:mats.red,balcony:false,garage:false,assetRotation:0},
+  {x:6,z:-70,w:16,d:13,wall:mats.wall2,accent:mats.blue,roof:mats.navy,balcony:true,garage:true,assetRotation:Math.PI},
+  {x:39,z:-69,w:14,d:12,wall:mats.cream,accent:mats.green,roof:mats.roofBlue,balcony:false,garage:false,assetRotation:Math.PI},
+  {x:96,z:18,w:16,d:13,wall:mats.sand,accent:mats.red,roof:mats.red,balcony:true,garage:true,assetRotation:Math.PI},
+  {x:99,z:48,w:14,d:12,wall:mats.wall2,accent:mats.gold,roof:mats.navy,balcony:false,garage:true,assetRotation:0}
  ];
  const houseAssets=['residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_simples','residencial/casa_sobrado','residencial/casas_geminadas','residencial/casa_sobrado','residencial/casa_simples'];
  houseConfigs.forEach((h,i)=>townBuilding({...h,asset:houseAssets[i],z:h.z,name:['Rumah Melati','Rumah Pak Darto','Rumah Minimalis','Rumah Sudut','Rumah Keluarga','Rumah Modern','Rumah Teras','Rumah Dua Lantai'][i],style:'house',stories:h.balcony?2:1,door:2.6}));
@@ -636,29 +665,30 @@ function buildMap(){
 
  // Cats, dogs and birds as ambient neighbourhood life.
  const makeAnimal=(kind,x,z,color)=>{
-  const g=new T.Group(),fur=material(color,.9,0),dark=material(0x282421,.88,0),eye=material(0x17191b,.25,0),pink=material(0xc7877d,.8,0);
+  const g=new T.Group(),fur=material(color,.9,0),dark=material(0x282421,.88,0),eye=material(0x17191b,.25,0),pink=material(0xc7877d,.8,0),legs=[];
   const ell=(geo,mat,pos,scale)=>{const m=new T.Mesh(geo,mat);m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;g.add(m);return m};
   const sph=new T.SphereGeometry(1,16,12);
+  const makeLeg=(lx,lz,rad,len)=>{const pivot=new T.Group();pivot.position.set(lx,.31,lz);g.add(pivot);const mesh=new T.Mesh(sph,fur);mesh.position.y=-len*.5;mesh.scale.set(rad,len*.5,rad);mesh.castShadow=true;pivot.add(mesh);legs.push(pivot);};
   if(kind==='dog'){
    ell(sph,fur,[0,.46,0],[.65,.36,.31]);ell(sph,fur,[.47,.72,.03],[.30,.29,.28]);ell(sph,fur,[.70,.63,.2],[.21,.13,.18]);
    for(const side of [-1,1]){ell(sph,fur,[.34,.95,side*.19],[.09,.22,.07]);ell(sph,eye,[.54,.78,side*.23],[.035,.04,.025]);}
-   for(const x0 of [-.42,.42])for(const z0 of [-.19,.19])ell(sph,fur,[x0,.19,z0],[.11,.28,.11]);
+   for(const x0 of [-.42,.42])for(const z0 of [-.19,.19])makeLeg(x0,z0,.11,.30);
    const tail=ell(sph,fur,[-.68,.65,0],[.28,.075,.075]);tail.rotation.z=-.55;
   }else if(kind==='cat'){
    ell(sph,fur,[0,.42,0],[.54,.28,.27]);ell(sph,fur,[.42,.63,.02],[.25,.24,.23]);
    for(const side of [-1,1]){const ear=ell(new T.ConeGeometry(.12,.28,6),fur,[.34,.91,side*.15],[1,1,1]);ear.rotation.z=-.12;ell(sph,eye,[.53,.68,side*.14],[.025,.03,.02]);}
-   for(const x0 of [-.32,.32])for(const z0 of [-.16,.16])ell(sph,fur,[x0,.15,z0],[.08,.23,.08]);
+   for(const x0 of [-.32,.32])for(const z0 of [-.16,.16])makeLeg(x0,z0,.08,.24);
    const tail=ell(new T.CapsuleGeometry(.055,.45,4,8),fur,[-.62,.64,0],[1,1,1]);tail.rotation.z=-.75;
   }else{
    ell(sph,fur,[0,.2,0],[.25,.2,.22]);ell(new T.ConeGeometry(.10,.22,6),pink,[.22,.18,0],[1,1,1]);
-   for(const side of [-1,1]){const wing=ell(sph,fur,[0,.3,side*.22],[.24,.07,.16]);wing.rotation.x=side*.25;}
+   const wings=[];for(const side of [-1,1]){const wing=ell(sph,fur,[0,.3,side*.22],[.24,.07,.16]);wing.rotation.x=side*.25;wings.push(wing);}g.userData.wings=wings;
   }
-  g.position.set(x,0,z);state.scene.add(g);state.ambientAnimals.push({group:g,kind,home:{x,z},path:kind==='bird'?[[x,z],[x+8,z+5],[x+5,z-8],[x-7,z-3]]:[[x,z],[x+4,z],[x+3,z+4],[x-3,z+3]],index:1,wait:Math.random()*2,phase:Math.random()*6,speed:.65+Math.random()*.5});
+  if(kind!=='bird'){const safe=(xx,zz)=>xx>-110&&xx<110&&zz>-80&&zz<80&&!(Math.abs(zz-31)<7.5||Math.abs(zz+48)<7||Math.abs(xx-58)<7||Math.abs(xx+58)<7)&&!(state.mapWalls||[]).some(w=>xx>w.minX-.45&&xx<w.maxX+.45&&zz>w.minZ-.45&&zz<w.maxZ+.45);let found=null;for(let r=0;r<=10&&!found;r+=1)for(let a=0;a<24&&!found;a++){const ang=a*Math.PI/12,xx=x+Math.cos(ang)*r,zz=z+Math.sin(ang)*r;if(safe(xx,zz))found={x:xx,z:zz};}if(found){x=found.x;z=found.z;}}
+  g.position.set(x,0,z);state.scene.add(g);state.ambientAnimals.push({group:g,kind,legs,home:{x,z},path:kind==='bird'?[[x,z],[x+8,z+5],[x+5,z-8],[x-7,z-3]]:[[x,z],[x+1.8,z+.7],[x+2.2,z+1.8],[x-.8,z+2.1]],index:1,wait:Math.random()*2,phase:Math.random()*6,speed:kind==='bird'?0.72+Math.random()*.18:0.18+Math.random()*.10,wings:g.userData.wings||[]});
  };
  makeAnimal('dog',-54,25,0x9b7957);makeAnimal('cat',-65,-19,0x777b83);makeAnimal('cat',84,20,0xc28c57);
  for(let i=0;i<4;i++)makeAnimal('bird',-72+i*2.1,-31+(i%2)*1.7,0x536e7f);
- queueCityAsset('beira_rio/capivara',-68,-11,3.0,0,null);
- queueCityAsset('beira_rio/garca',-76,-35,2.5,0,null);
+ makeAnimal('cat',-68,-11,0x9a8d74);makeAnimal('bird',-76,-35,0x708b9a);
  // More animals distributed across green pockets and residential streets.
  const animalHomes=[['cat',-93,38,0x6d7077],['cat',-81,-37,0xc48b56],['cat',-28,19,0x8d8883],['cat',16,-40,0x33383c],['cat',73,38,0xe0c69a],['cat',103,-39,0x6f7479],['dog',-104,-39,0x8b684d],['dog',-43,17,0xd3b78d],['dog',29,-40,0x766152],['dog',88,38,0x9e6e55],['bird',-49,40,0x607889],['bird',-23,40,0x647e8e],['bird',12,40,0x607889],['bird',45,40,0x647e8e],['bird',82,-38,0x607889],['bird',100,-38,0x647e8e]];
  animalHomes.forEach(([kind,x,z,color])=>makeAnimal(kind,x,z,color));
@@ -667,9 +697,10 @@ function buildMap(){
  state.worldPlaces=[
   {id:'store',name:'PT Toko Gamer',short:'TOKO',x:0,z:0},
   {id:'park',name:'Taman Kota',short:'TAMAN',x:-70,z:-28},
-  {id:'cafe',name:'Kafe Sudut Kota',short:'KAFE',x:-61,z:5},
-  {id:'mart',name:'Mini Mart 24',short:'MART',x:68,z:4},
+  {id:'cafe',name:'Kafe Sudut Kota',short:'KAFE',x:-82,z:5},
+  {id:'mart',name:'Mini Mart 24',short:'MART',x:78,z:4},
   {id:'electronics',name:'Toko Elektronik',short:'ELEKTRONIK',x:34,z:61},
+  {id:'bank',name:'Bank Kota',short:'BANK',x:33,z:-29},
   {id:'garage',name:'Bengkel Motor',short:'BENGKEL',x:78,z:61},
   {id:'residential',name:'Perumahan',short:'RUMAH',x:-88,z:18},
   {id:'customerhome',name:'Rumah Pelanggan',short:'HOME',x:94,z:-23},
@@ -687,97 +718,185 @@ function buildMap(){
  makeStation('house','CUSTOMER HOME',94,-20,'technician','house');
 }
 function setBillboardPurchased(ad){if(!ad||!state.THREE)return;const old=ad.plate;if(old&&old.parent)old.parent.remove(old);const label=textSprite('PT TOKO GAMER · PC & SERVICE','#f5fbff','#145332');label.position.set(0,5.1,.25);label.scale.set(3.7,1.15,1);ad.group.add(label);ad.plate=label;}
-function setupCityFeatures(){
- const T=state.THREE;state.billboardPurchased=Array.isArray(state.retailLedger?.billboards)?state.retailLedger.billboards.slice():[];
- // Compact storefront and apartment blocks fill the remaining empty urban parcels.
- const denseRows=[
-  ['comercial/loja_esquina',-103,55,4.0,Math.PI],['residencial/casas_geminadas',-72,73,4.4,Math.PI],
-  ['comercial/hotel',-100,-66,5.0,0],['residencial/predio_apartamentos',-73,-65,4.8,0],
-  ['comercial/loja_esquina',-36,-66,4.1,0],['residencial/casa_sobrado',-13,-65,4.0,0],
-  ['comercial/restaurante',64,-66,4.0,0],['residencial/casas_geminadas',101,-66,4.1,0],
-  ['comercial/loja_esquina',102,54,4.1,Math.PI],['residencial/predio_alto',101,72,5.2,Math.PI],
-  ['comercial/escritorio',65,51,4.4,Math.PI],['comercial/banco',-38,-37,4.4,0],['publicos/biblioteca',-35,49,4.2,Math.PI],
-  ['publicos/escola',-13,48,4.5,Math.PI],['comercial/hotel',-98,72,4.5,Math.PI],
-  ['industrial/galpao',-36,73,4.1,Math.PI],['comercial/loja_esquina',-13,73,4.1,Math.PI]
+function chooseRoadFacingRotation(x,z){
+ // City Kit storefront fronts point toward local -Z. Aim that facade toward the nearest road,
+ // choosing the correct side of the road rather than a fixed compass direction.
+ const roads=[
+  {d:Math.abs(z-31),yaw:z>31?0:Math.PI},
+  {d:Math.abs(z+48),yaw:z>-48?0:Math.PI},
+  {d:Math.abs(x-58),yaw:x<58?-Math.PI/2:Math.PI/2},
+  {d:Math.abs(x+58),yaw:x<-58?-Math.PI/2:Math.PI/2}
  ];
- denseRows.forEach(([key,x,z,scale,rot])=>queueCityAsset(key,x,z,scale,rot,null,{urbanFill:true}));
- // A tree-lined, densely planted street grid and park perimeter.
- const treeKeys=['vegetacao/ipe_amarelo','vegetacao/araucaria','vegetacao/buriti'];
- const treeSpots=[];
- for(let x=-104;x<=104;x+=13){treeSpots.push([x,18,1.25],[x,-36,1.12]);}
- for(let z=-75;z<=75;z+=14){treeSpots.push([-69,z,1.05],[69,z,1.05]);}
- // Keep the clear storefront and road approaches while planting in the green strips.
- treeSpots.filter(([x,z])=>!(Math.abs(x)<15&&Math.abs(z)<18)&&!(x<-50&&x>-90&&z<-10&&z>-45)).forEach(([x,z,sc],i)=>queueCityAsset(treeKeys[i%3],x,z,1.55*sc,(i%2)*Math.PI,null,{treeFill:true}));
- // Park education signage with readable front-facing placards.
- const poster=new T.Group();const frame=new T.Mesh(new T.BoxGeometry(3.3,2.35,.16),new T.MeshStandardMaterial({color:0x4e644b}));frame.position.set(-70,1.55,-12.3);poster.add(frame);
- const board=new T.Mesh(new T.BoxGeometry(3.0,2.08,.08),new T.MeshStandardMaterial({color:0xe4edd2}));board.position.set(-70,1.55,-12.2);poster.add(board);
- const text=textSprite('LINDUNGI SATWA & TUMBUHAN','#f5ffe8','#245b3b');text.position.set(-70,1.63,-12.12);text.scale.set(2.85,.72,1);poster.add(text);
- const sub=textSprite('JAGA HABITAT · JAGA KEHIDUPAN','#f2fff0','#245b3b');sub.position.set(-70,.98,-12.12);sub.scale.set(2.6,.34,1);poster.add(sub);state.scene.add(poster);
- // Advertising boards along prominent intersections. Billboard meshes are interactable.
- const adSpecs=[{id:'ad-north',x:-36,z:24,cost:2200},{id:'ad-east',x:51,z:24,cost:3200},{id:'ad-south',x:0,z:-42,cost:1800},{id:'ad-west',x:-52,z:-43,cost:1600}];
- adSpecs.forEach((a,i)=>{
-  const g=new T.Group();const pole=new T.Mesh(new T.BoxGeometry(.28,4.6,.28),new T.MeshStandardMaterial({color:0x515d64}));pole.position.y=2.3;g.add(pole);
-  const board=new T.Mesh(new T.BoxGeometry(7.8,3.0,.28),new T.MeshStandardMaterial({color:0x132d43,roughness:.55,metalness:.2}));board.position.y=5.1;g.add(board);
-  const trim=new T.Mesh(new T.BoxGeometry(8.05,3.2,.12),new T.MeshStandardMaterial({color:0x38bdd5,emissive:0x126277,emissiveIntensity:.25}));trim.position.y=5.1;g.add(trim);trim.position.z=.17;
-  const plate=textSprite(state.billboardPurchased?.includes(a.id)?'PT TOKO GAMER · PC & SERVICE':'BILLBOARD · TEKAN E UNTUK IKLAN','#f4fbff','#12324a');plate.position.set(0,5.1,.25);plate.scale.set(3.7,1.15,1);g.add(plate);g.position.set(a.x,0,a.z);g.rotation.y=i%2?Math.PI/2:0;state.scene.add(g);
-  const trigger=new T.Mesh(new T.TorusGeometry(.7,.055,8,28),new T.MeshBasicMaterial({color:0x69e4f4,transparent:true,opacity:.65}));trigger.rotation.x=Math.PI/2;trigger.position.set(a.x,0.08,a.z+2.3);state.scene.add(trigger);
-  state.billboards.push({...a,group:g,plate,trigger});
- });
- // Real business entry markers. Each interior is a separate compact instanced space beyond map bounds.
+ roads.sort((a,b)=>a.d-b.d);return roads[0].yaw;
+}
+function loadPersonalFinance(){
+ const key='tg-player-bank-'+state.roomId+'-'+(state.user?.id||'guest');let data=null;
+ try{data=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
+ state.personalFinance=data&&Number.isFinite(Number(data.cash))&&Number.isFinite(Number(data.bank))?{cash:Number(data.cash),bank:Number(data.bank),history:Array.isArray(data.history)?data.history.slice(0,12):[]}:{cash:150000,bank:300000,history:[]};
+}
+function savePersonalFinance(){try{localStorage.setItem('tg-player-bank-'+state.roomId+'-'+(state.user?.id||'guest'),JSON.stringify(state.personalFinance))}catch(e){}}
+function bankTransfer(kind,amount){
+ const f=state.personalFinance;if(!f)return false;amount=Math.floor(Number(amount)||0);if(amount<1000){toast('Minimal transaksi R 1.000.');return false;}
+ if(kind==='deposit'){if(f.cash<amount){toast('Uang tunai tidak mencukupi.');return false;}f.cash-=amount;f.bank+=amount;}
+ else{if(f.bank<amount){toast('Saldo rekening tidak mencukupi.');return false;}f.bank-=amount;f.cash+=amount;}
+ f.history.unshift({kind,amount,at:new Date().toLocaleString('id-ID')});f.history=f.history.slice(0,12);savePersonalFinance();openCityPhone('bank');toast((kind==='deposit'?'Setor tunai':'Tarik tunai')+' berhasil: '+formatRapiah(amount));return true;
+}
+function openCityPhone(app='home'){
+ const root=$('cityPhoneOverlay');if(!root)return;root.classList.add('show');root.dataset.app=app;
+ const f=state.personalFinance||{cash:0,bank:0,history:[]};let body='';
+ if(app==='home'){
+  body='<div class="phone-welcome">Selamat datang di <b>Inside Mobile</b><small>LAYANAN KOTA · DOMPET · INFORMASI</small></div><div class="phone-app-grid">'+[['bank','🏦','Bank'],['map','🗺️','Peta Kota'],['jobs','📋','Pekerjaan'],['ads','📢','Iklan'],['contacts','👥','Kontak'],['about','ℹ️','Info Kota']].map(a=>'<button data-phone-app="'+a[0]+'"><span>'+a[1]+'</span><b>'+a[2]+'</b></button>').join('')+'</div>';
+ }else if(app==='bank'){
+  body='<div class="phone-balance"><small>REKENING WARGA</small><b>'+formatRapiah(f.bank)+'</b><span>Tunai di dompet: '+formatRapiah(f.cash)+'</span></div><div class="phone-actions"><button data-bank="deposit" data-amount="10000">SETOR R 10.000</button><button data-bank="deposit" data-amount="50000">SETOR R 50.000</button><button data-bank="withdraw" data-amount="10000">TARIK R 10.000</button><button data-bank="withdraw" data-amount="50000">TARIK R 50.000</button><button class="wide" data-bank="custom">JUMLAH LAIN</button></div><h4>Riwayat transaksi</h4><div class="phone-history">'+(f.history.length?f.history.map(t=>'<div><span>'+ (t.kind==='deposit'?'Setor tunai':'Tarik tunai')+'<small>'+esc(t.at)+'</small></span><b class="'+(t.kind==='deposit'?'positive':'')+'">'+(t.kind==='deposit'?'+':'-')+formatRapiah(t.amount)+'</b></div>').join(''):'<small>Belum ada transaksi.</small>')+'</div>';
+ }else if(app==='map'){
+  body='<h3>Peta & tujuan kota</h3><div class="phone-list">'+(state.worldPlaces||[]).map(p=>'<button data-phone-waypoint="'+p.id+'"><b>'+esc(p.name)+'</b><small>Atur waypoint ke lokasi</small></button>').join('')+'</div>';
+ }else if(app==='jobs'){
+  body='<h3>Aktivitas shift</h3><p>Mission Log menyimpan order pelanggan, komplain dan pekerjaan layanan.</p><button data-phone-missions class="phone-primary">BUKA MISSION LOG</button>';
+ }else if(app==='ads'){
+  body='<h3>Marketing PT Toko Gamer</h3><p>Kelola billboard dengan mendatangi papan iklan di kota.</p><div class="phone-list">'+(state.billboards||[]).map(a=>'<div><b>'+a.id.toUpperCase()+'</b><small>'+ (state.billboardPurchased?.includes(a.id)?'Iklan aktif':'Belum dibeli')+' · '+formatRapiah(a.cost)+'</small></div>').join('')+'</div>';
+ }else if(app==='contacts'){
+  body='<h3>Kontak tim</h3><div class="phone-list">'+(state.roster||[]).map(p=>'<div><b>'+esc(p.name)+'</b><small>'+esc(roleName(p.role))+'</small></div>').join('')+'</div>';
+ }else{body='<h3>Inside City Services</h3><p>Gunakan ponsel untuk akses rekening warga, peta kota, misi, dan informasi pemasaran. Layanan bank pribadi tersimpan di perangkat dan akun pemain ini.</p>';}
+ $('cityPhoneContent').innerHTML=body;
+ $('cityPhoneContent').querySelectorAll('[data-phone-app]').forEach(b=>b.onclick=()=>openCityPhone(b.dataset.phoneApp));
+ $('cityPhoneContent').querySelectorAll('[data-bank]').forEach(b=>b.onclick=()=>{const kind=b.dataset.bank;if(kind==='custom'){const raw=prompt('Masukkan nominal transaksi (Rapiah):','25000');if(raw===null)return;const amount=Number(String(raw).replace(/[^0-9]/g,''));const type=confirm('OK = Setor tunai. Cancel = Tarik tunai.')?'deposit':'withdraw';bankTransfer(type,amount);}else bankTransfer(kind,Number(b.dataset.amount));});
+ $('cityPhoneContent').querySelectorAll('[data-phone-waypoint]').forEach(b=>b.onclick=()=>{const p=state.worldPlaces.find(x=>x.id===b.dataset.phoneWaypoint);if(p){setWaypoint(p.id);toast('Waypoint: '+p.name);}});
+ const mission=$('cityPhoneContent').querySelector('[data-phone-missions]');if(mission)mission.onclick=()=>{$('cityPhoneOverlay').classList.remove('show');openMissionLog();};
+}
+function setupCityFeatures(){
+ const T=state.THREE;state.billboardPurchased=Array.isArray(state.retailLedger?.billboards)?state.retailLedger.billboards.slice():[];state.billboards=[];state.cityInteriors=[];state.businessDoors=[];state.atms=[];state.interiorEmployees=[];
+ // Density is created only in validated parcels. Keep road, sidewalk, park, and existing building clearances.
+ const fillModels=['comercial/loja_esquina','comercial/escritorio','residencial/casa_sobrado','residencial/casas_geminadas','residencial/predio_apartamentos','comercial/hotel','publicos/biblioteca','comercial/restaurante'];
+ const candidates=[];for(const z of [-75,-63,-25,-10,47,63,76])for(const x of [-106,-94,-82,-38,-26,26,38,82,94,106])candidates.push({x,z});
+ state.cityBuildingFootprints=[];let filled=0;for(const p of candidates){if(filled>=24)break;const half=4.9;
+  if(Math.abs(p.z-31)<16||Math.abs(p.z+48)<15||Math.abs(p.x-58)<16||Math.abs(p.x+58)<16)continue;
+  if(p.x-half<-110||p.x+half>110||p.z-half<-80||p.z+half>80)continue;
+  if(p.x>-28&&p.x<28&&p.z>-23&&p.z<23)continue;
+  if(p.x<-48&&p.x>-91&&p.z<-46&&p.z>-10)continue; // protected park block
+  const blocked=(state.mapWalls||[]).some(w=>p.x+half>w.minX-1&&p.x-half<w.maxX+1&&p.z+half>w.minZ-1&&p.z-half<w.maxZ+1);
+  if(blocked)continue;
+  if((state.cityBuildingFootprints||[]).some(b=>Math.abs(p.x-b.x)<10.4&&Math.abs(p.z-b.z)<10.4))continue;
+  const key=fillModels[filled%fillModels.length],rot=chooseRoadFacingRotation(p.x,p.z);
+  queueCityAsset(key,p.x,p.z,4.7,rot,null,{urbanFill:true});state.mapWalls.push({minX:p.x-half,maxX:p.x+half,minZ:p.z-half,maxZ:p.z+half});(state.cityBuildingFootprints|| (state.cityBuildingFootprints=[])).push({x:p.x,z:p.z});filled++;
+ }
+ // Build a proper environmental poster with a large photo-style nature illustration, heading and caption.
+ function poster(x,z,yaw=0){
+  const g=new T.Group(),frame=material(0x3f5147),pole=new T.Mesh(new T.BoxGeometry(.12,2.9,.12),frame);pole.position.set(0,1.35,0);g.add(pole);
+  const panel=new T.Mesh(new T.BoxGeometry(3.25,4.25,.16),frame);panel.position.set(0,2.55,0);g.add(panel);
+  const c=document.createElement('canvas');c.width=720;c.height=960;const ctx=c.getContext('2d');
+  ctx.fillStyle='#f7f5ec';ctx.fillRect(0,0,720,960);
+  ctx.fillStyle='#17633e';ctx.fillRect(0,0,720,158);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='bold 58px Arial';ctx.fillText('AYO JAGA ALAM',360,72);ctx.font='bold 38px Arial';ctx.fillText('LINDUNGI SATWA & TUMBUHAN',360,127);
+  // Large illustrated photo-style landscape window.
+  const sky=ctx.createLinearGradient(0,170,0,650);sky.addColorStop(0,'#79b9d5');sky.addColorStop(.56,'#d8e7d0');sky.addColorStop(1,'#6d9d68');ctx.fillStyle=sky;ctx.fillRect(34,180,652,465);
+  ctx.fillStyle='#557f68';ctx.beginPath();ctx.moveTo(34,470);ctx.quadraticCurveTo(170,350,290,465);ctx.quadraticCurveTo(470,325,686,450);ctx.lineTo(686,645);ctx.lineTo(34,645);ctx.fill();
+  ctx.fillStyle='#3f8650';ctx.beginPath();ctx.moveTo(34,540);ctx.quadraticCurveTo(210,440,360,550);ctx.quadraticCurveTo(500,455,686,535);ctx.lineTo(686,645);ctx.lineTo(34,645);ctx.fill();
+  for(const [tx,ty,r] of [[130,375,74],[230,420,57],[555,365,82],[635,435,54]]){ctx.fillStyle='#76513b';ctx.fillRect(tx-9,ty,18,155);ctx.fillStyle='#286b43';ctx.beginPath();ctx.arc(tx,ty-30,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='#4c9653';ctx.beginPath();ctx.arc(tx-26,ty-52,r*.57,0,Math.PI*2);ctx.fill();}
+  // Wildlife illustration: a deer-like animal and birds make the poster read as an environmental campaign.
+  ctx.fillStyle='#a56f43';ctx.beginPath();ctx.ellipse(395,520,65,34,-.08,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(448,486,24,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#67452e';ctx.lineWidth=9;ctx.lineCap='round';for(const xx of [360,410,435,465]){ctx.beginPath();ctx.moveTo(xx,540);ctx.lineTo(xx-4,590);ctx.stroke();}
+  ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(451,468);ctx.lineTo(438,440);ctx.lineTo(427,430);ctx.moveTo(451,468);ctx.lineTo(462,438);ctx.lineTo(474,430);ctx.stroke();
+  ctx.fillStyle='#263c38';for(const [bx,by] of [[300,285],[340,305],[520,270]]){ctx.beginPath();ctx.arc(bx,by,6,0,Math.PI*2);ctx.fill();}
+  ctx.fillStyle='#194f35';ctx.textAlign='left';ctx.font='bold 38px Arial';ctx.fillText('SATWA PUNYA RUMAH.',48,715);ctx.fillText('POHON PUNYA PERAN.',48,763);
+  ctx.fillStyle='#3e5144';ctx.font='28px Arial';ctx.fillText('Jaga habitat, jangan merusak sarang,',48,820);ctx.fillText('tanam pohon, dan buang sampah pada tempatnya.',48,860);
+  ctx.fillStyle='#e0bc58';ctx.fillRect(34,895,652,12);ctx.fillStyle='#17633e';ctx.font='bold 22px Arial';ctx.fillText('KAMPANYE LINGKUNGAN · TAMAN KOTA',48,940);
+  const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const image=new T.Mesh(new T.PlaneGeometry(3.0,4.0),new T.MeshBasicMaterial({map:tex}));image.position.set(0,2.55,.095);g.add(image);
+  g.position.set(x,0,z);g.rotation.y=yaw;state.scene.add(g);
+ }
+ poster(-86,-18,0);poster(-54,-36,Math.PI/2);poster(-67,-40,0);
+ // Trees placed in green strips and park margins; never on road or door approach.
+ const treeRows=[[-105,68],[-92,72],[-42,72],[-25,70],[28,72],[43,69],[78,72],[96,69],[-106,-72],[-91,-70],[-42,-70],[-24,-70],[28,-71],[44,-72],[78,-71],[99,-70],[-104,7],[-98,12],[-45,8],[-35,10],[94,10],[105,13],[-97,-14],[-42,-13],[42,-14],[104,-15]];
+ const treeKeys=['vegetacao/ipe_amarelo','vegetacao/araucaria','vegetacao/buriti'];treeRows.forEach(([x,z],i)=>{if(Math.abs(z-31)<16||Math.abs(z+48)<15||Math.abs(x-58)<16||Math.abs(x+58)<16)return;if((state.mapWalls||[]).some(w=>x>w.minX-2.2&&x<w.maxX+2.2&&z>w.minZ-2.2&&z<w.maxZ+2.2))return;const key=treeKeys[i%3];queueCityAsset(key,x,z,1.8+(i%3)*.12,(i%2)*Math.PI,null,{treeFill:true});});
+ // Actual ATM machines at bank, minimarket, and near the central commercial strip.
+ const createATM=(id,x,z,yaw=0)=>{const g=new T.Group(),bodyMat=material(0x263b4b),screenMat=material(0x4aa4bd,.22,.24,{emissive:0x174a62,emissiveIntensity:.45}),metal=material(0x8b9ba2,.45,.55);const body=new T.Mesh(new T.BoxGeometry(.95,1.85,.62),bodyMat);body.position.y=.95;g.add(body);const screen=new T.Mesh(new T.BoxGeometry(.56,.42,.035),screenMat);screen.position.set(0,1.4,.33);g.add(screen);const keypad=new T.Mesh(new T.BoxGeometry(.45,.35,.04),metal);keypad.position.set(0,.88,.34);g.add(keypad);const slot=new T.Mesh(new T.BoxGeometry(.48,.07,.035),material(0x14191e));slot.position.set(0,.48,.34);g.add(slot);g.position.set(x,0,z);g.rotation.y=yaw;state.scene.add(g);state.atms.push({id,x,z,group:g});};
+ createATM('atm-bank',39.0,-37.5,0);createATM('atm-mart',74.5,4,Math.PI/2);createATM('atm-central',25.5,6.5,0);
+ const ads=[{id:'ad-north',x:-38,z:43,cost:22000},{id:'ad-east',x:75,z:43,cost:32000},{id:'ad-south',x:-86,z:-57,cost:18000},{id:'ad-west',x:89,z:-57,cost:16000}];
+ ads.forEach((a,i)=>{const g=new T.Group(),metal=material(0x56636c,.45,.55),boardMat=material(0x112b40,.5,.2);const pole=new T.Mesh(new T.BoxGeometry(.32,4.8,.32),metal);pole.position.y=2.4;g.add(pole);const board=new T.Mesh(new T.BoxGeometry(8,3.2,.26),boardMat);board.position.y=5.25;g.add(board);const trim=new T.Mesh(new T.BoxGeometry(8.3,3.5,.12),material(0x3cc5d7,.35,.25,{emissive:0x145a6a,emissiveIntensity:.3}));trim.position.set(0,5.25,.18);g.add(trim);const plate=textSprite(state.billboardPurchased.includes(a.id)?'PT TOKO GAMER · PC & SERVICE':'SPACE IKLAN · TEKAN E','#f5fbff','#14344a');plate.position.set(0,5.25,.27);plate.scale.set(3.8,1.15,1);g.add(plate);g.position.set(a.x,0,a.z);g.rotation.y=i%2?Math.PI/2:0;state.scene.add(g);const trigger=new T.Mesh(new T.TorusGeometry(.72,.055,8,28),new T.MeshBasicMaterial({color:0x69e4f4,transparent:true,opacity:.55}));trigger.rotation.x=Math.PI/2;trigger.position.set(a.x,.08,a.z+2.5);state.scene.add(trigger);state.billboards.push({...a,group:g,plate,trigger});});
+ // Businesses are paired with street-facing doors in the outside world and dedicated interiors beyond the map.
  const businesses=[
-  {id:'ptg',name:'PT Toko Gamer',outside:{x:0,z:15.5},type:'showroom',size:[26,18],price:0},
-  {id:'mini',name:'Mini Mart 24',outside:{x:68,z:12.5},type:'minimarket',size:[20,16],price:0},
-  {id:'bank',name:'Bank Kota',outside:{x:-38,z:-34.5},type:'bank',size:[22,16],price:0},
-  {id:'cafe',name:'Kafe Sudut Kota',outside:{x:-61,z:12.5},type:'cafe',size:[18,16],price:0},
-  {id:'electronics',name:'Toko Elektronik',outside:{x:34,z:68.2},type:'electronics',size:[22,16],price:0},
-  {id:'garage',name:'Bengkel Motor',outside:{x:78,z:68.2},type:'garage',size:[24,18],price:0},
-  {id:'warung',name:'Warung Pojok',outside:{x:-79,z:65.8},type:'warung',size:[16,14],price:0}
+  {id:'ptg',name:'PT Toko Gamer',outside:{x:0,z:19.3},type:'showroom',size:[26,18],floors:3},
+  {id:'mini',name:'Mini Mart 24',outside:{x:68.4,z:4},type:'minimarket',size:[20,16],floors:1},
+  {id:'bank',name:'Bank Kota',outside:{x:33.0,z:-35.5},type:'bank',size:[22,16],floors:1},
+  {id:'cafe',name:'Kafe Sudut Kota',outside:{x:-72.5,z:5},type:'cafe',size:[18,16],floors:1},
+  {id:'electronics',name:'Toko Elektronik',outside:{x:44.2,z:61},type:'electronics',size:[22,16],floors:1},
+  {id:'garage',name:'Bengkel Motor',outside:{x:68.5,z:61},type:'garage',size:[24,18],floors:1},
+  {id:'warung',name:'Warung Pojok',outside:{x:-69.2,z:59},type:'warung',size:[16,14],floors:1}
  ];
  businesses.forEach((b,i)=>{
-  b.origin={x:260+i*48,z:260};b.interiorGroup=new T.Group();b.interiorGroup.visible=false;state.scene.add(b.interiorGroup);
-  const [w,d]=b.size, g=b.interiorGroup;
-  const mat=(color)=>new T.MeshStandardMaterial({color,roughness:.78});
-  const floor=new T.Mesh(new T.BoxGeometry(w,.25,d),mat(b.type==='bank'?0xb9b7a9:0xc2b99f));floor.position.set(b.origin.x,-.12,b.origin.z);g.add(floor);
-  const wallMat=mat(0xd9dedc),wallAccent=mat(0x3b6f83),wood=mat(0x8a6549),metal=mat(0x5c6c75);
-  const wall=(x,y,z,ww,hh,dd,m=wallMat)=>{const q=new T.Mesh(new T.BoxGeometry(ww,hh,dd),m);q.position.set(b.origin.x+x,y,b.origin.z+z);q.castShadow=true;q.receiveShadow=true;g.add(q);};
-  // Enclosed shell with wide entry gap at front; storefront glass and signage.
-  wall(-w/2,2.4,0,.3,4.8,d);wall(w/2,2.4,0,.3,4.8,d);wall(0,2.4,-d/2,w,4.8,.3);
-  wall(-w*.32,2.4,d/2,w*.36,4.8,.3);wall(w*.32,2.4,d/2,w*.36,4.8,.3);
-  wall(0,4.85,0,w,.22,d,wallAccent);
-  const sign=textSprite(b.name.toUpperCase(),'#f1fbff','#17425a');sign.position.set(b.origin.x,4.3,b.origin.z+d/2+.45);sign.scale.set(Math.min(w*.48,7),.65,1);g.add(sign);
-  const shelf=(x,z,rows=3)=>{wall(x,1.2,z,1.25,.15,2.5,wood);for(let r=0;r<rows;r++){wall(x,.65+r*.85,z,1.05,.08,2.35,metal);for(let n=0;n<3;n++)wall(x-.35+n*.35,.92+r*.85,z+.05,.25,.48,.3,[mat(0x36a2b5),mat(0xc89d56),mat(0x8a5b69)][n]);}};
-  if(['minimarket','warung'].includes(b.type)){for(let x of [-w*.28,0,w*.28])shelf(x,-d*.1,4);wall(0,1.1,d*.32,w*.55,.16,1.2,wood);wall(0,1.8,d*.32,w*.5,1.2,.15,wallAccent);}
-  else if(b.type==='bank'){wall(-w*.25,1.1,-d*.2,w*.4,.18,1.4,wood);for(let x of [-w*.3,0,w*.3]){wall(x,2.1,-d*.25,2.0,1.5,.12,wallAccent);wall(x,1.6,d*.25,2.6,.2,1.2,wood);}}
-  else if(b.type==='cafe'){for(let x of [-w*.25,w*.25])for(let z of [-d*.1,d*.15]){wall(x,.95,z,1.5,.14,1.1,wood);wall(x,1.65,z,1.3,.7,.08,wallAccent);}}
-  else if(b.type==='electronics'||b.type==='showroom'){for(let x of [-w*.3,0,w*.3])shelf(x,-d*.1,3);wall(0,1.0,d*.3,w*.6,.16,1.4,wood);}
-  else if(b.type==='garage'){for(let x of [-w*.25,w*.25]){wall(x,1.2,-d*.1,3,.18,3,wood);wall(x,2.0,-d*.1,2.2,1.2,.1,wallAccent);}}
-  else {for(let x of [-w*.25,w*.25])wall(x,1.0,-d*.2,1.2,.15,1.1,wood);}
-  b.exitMarker=new T.Mesh(new T.TorusGeometry(.8,.06,8,32),new T.MeshBasicMaterial({color:0x68e2f2}));b.exitMarker.rotation.x=Math.PI/2;b.exitMarker.position.set(b.origin.x,0.08,b.origin.z+d/2-1);g.add(b.exitMarker);
-  const exitLabel=textSprite('TEKAN E UNTUK KELUAR','#f5fdff','#18425a');exitLabel.position.set(b.origin.x,2.8,b.origin.z+d/2-1);exitLabel.scale.set(2.6,.55,1);g.add(exitLabel);
-  const doorRing=new T.Mesh(new T.TorusGeometry(.72,.06,8,30),new T.MeshBasicMaterial({color:0x68e2f2,transparent:true,opacity:.8}));doorRing.rotation.x=Math.PI/2;doorRing.position.set(b.outside.x,.09,b.outside.z);state.scene.add(doorRing);const doorLabel=textSprite('E · '+b.name,'#f6fdff','#173a4e');doorLabel.position.set(b.outside.x,2.45,b.outside.z);doorLabel.scale.set(2.2,.5,1);state.scene.add(doorLabel);b.doorRing=doorRing;b.doorLabel=doorLabel;state.cityInteriors.push(b);state.businessDoors.push(b);
+  b.origin={x:260+i*48,z:260};b.floorGroups=[];b.floorIndex=0;b.colliders=[];b.interiorGroup=new T.Group();b.interiorGroup.visible=false;state.scene.add(b.interiorGroup);
+  const [w,d]=b.size,levelHeight=4.2,levels=b.floors||1,mat=(color,rough=.78)=>new T.MeshStandardMaterial({color,roughness:rough});
+  const addBox=(parent,x,y,z,ww,hh,dd,m,collide=false)=>{const q=new T.Mesh(new T.BoxGeometry(ww,hh,dd),m);q.position.set(b.origin.x+x,y,b.origin.z+z);q.castShadow=true;q.receiveShadow=true;parent.add(q);if(collide)b.colliders.push({minX:b.origin.x+x-ww/2,maxX:b.origin.x+x+ww/2,minZ:b.origin.z+z-dd/2,maxZ:b.origin.z+z+dd/2});return q;};
+  const wallMat=mat(0xd9dedc),accent=mat(b.type==='bank'?0x315d85:0x3b6f83),wood=mat(0x8a6549),metal=mat(0x5c6c75),glass=mat(0x8ac9d7,.22),base=mat(0xc7c3b8);
+  for(let level=0;level<levels;level++){
+   const floorY=level*levelHeight,fg=new T.Group();b.interiorGroup.add(fg);b.floorGroups.push(fg);
+   addBox(fg,0,floorY-.12,0,w,.24,d,base);
+   // Room shell with a proper entrance gap on the front wall.
+   addBox(fg,-w/2,floorY+2.05,0,.28,4.1,d,wallMat,true);addBox(fg,w/2,floorY+2.05,0,.28,4.1,d,wallMat,true);addBox(fg,0,floorY+2.05,-d/2,w,4.1,.28,wallMat,true);
+   addBox(fg,-w*.31,floorY+2.05,d/2,w*.38,4.1,.28,wallMat,true);addBox(fg,w*.31,floorY+2.05,d/2,w*.38,4.1,.28,wallMat,true);
+   addBox(fg,0,floorY+4.06,0,w,.22,d,accent);
+   const sign=textSprite(level===0?b.name.toUpperCase():b.type==='showroom'?(level===1?'WORKSHOP & REPAIR':'OFFICE · QC LAB'):'STAFF AREA','#effaff','#173b55');sign.position.set(b.origin.x,floorY+3.55,b.origin.z+d/2+.22);sign.scale.set(Math.min(w*.48,7),.6,1);fg.add(sign);
+   if(b.type==='showroom'){
+    if(level===0){for(const x of [-w*.28,0,w*.28]){addBox(fg,x,floorY+1.0,-2.4,3.0,.16,2.0,wood);addBox(fg,x,floorY+1.65,-2.65,1.2,1.0,.8,mat(0x141d25));addBox(fg,x,floorY+1.72,-2.22,1.08,.78,.04,glass);}addBox(fg,0,floorY+1.05,d*.27,w*.62,.18,1.4,wood);}
+    if(level===1){for(const x of [-7,-1,5]){addBox(fg,x,floorY+1.0,-2.6,3.6,.18,2.0,wood);addBox(fg,x,floorY+1.75,-2.8,1.35,1.1,.85,mat(0x141a20));}addBox(fg,7,floorY+1.1,-3,2,.18,5,wood);}
+    if(level===2){for(const x of [-7,0,7]){addBox(fg,x,floorY+1.0,-2.5,3.1,.18,1.9,wood);addBox(fg,x,floorY+1.7,-2.8,1.15,1.1,.7,mat(0x151c25));}addBox(fg,0,floorY+1.0,4,8,.18,1.5,wood);}
+   }else if(b.type==='minimarket'||b.type==='warung'||b.type==='electronics'){
+    for(const x of [-w*.28,0,w*.28]){addBox(fg,x,floorY+1.1,-2.4,1.2,.16,4.0,wood);for(let y=0;y<3;y++)addBox(fg,x,floorY+.75+y*.76,-2.4,1.05,.08,3.8,metal);}
+    addBox(fg,0,floorY+1.0,d*.28,w*.55,.18,1.25,wood);addBox(fg,0,floorY+1.65,d*.28,w*.52,1.05,.14,accent);
+   }else if(b.type==='bank'){
+    for(const x of [-5,0,5]){addBox(fg,x,floorY+1.15,-4.5,2.8,.18,1.2,wood);addBox(fg,x,floorY+2.0,-4.85,2.2,1.35,.18,accent);addBox(fg,x,floorY+1.8,-4.15,2.5,.18,metal);}addBox(fg,0,floorY+1.05,2,7,.18,1.2,wood);
+   }else if(b.type==='cafe'){
+    for(const x of [-5,5])for(const z of [-3,2]){addBox(fg,x,floorY+.92,z,1.5,.14,1.2,wood);addBox(fg,x,floorY+1.55,z,1.3,.72,.08,accent);}addBox(fg,0,floorY+1.05,5,7,.18,1.2,wood);
+   }else if(b.type==='garage'){
+    for(const x of [-5,5]){addBox(fg,x,floorY+1.1,-2.5,3.4,.18,3,wood);addBox(fg,x,floorY+2.0,-2.9,2.1,1.1,.1,accent);} 
+   }
+   // Employee avatars are placed at their actual workstation, not outside as decoration.
+   let staff=[];if(b.type==='bank')staff=[['Bu Sari','administration',-3.4,-3.0],['Pak Dimas','administration',3.4,-3.0]];
+   else if(b.type==='showroom')staff=level===0?[['Nadia · Sales','sales',0,4.6]]:level===1?[['Rizky · Teknisi','technician',-3.5,3.4],['Fajar · Teknisi','technician',4,3.4]]:[['Bu Rina · Admin','administration',-3.5,3.5],['Pak Arman · Manager','manager',4,3.5]];
+   else if(b.type==='minimarket'||b.type==='warung')staff=[['Kasir Toko','sales',0,4.0]];else if(b.type==='cafe')staff=[['Barista','sales',0,4.0]];else if(b.type==='electronics')staff=[['Staf Elektronik','sales',0,4.0]];else if(b.type==='garage')staff=[['Mekanik','technician',0,4.0]];
+   staff.forEach(([nm,role,sx,sz])=>{const avatar=createAvatar(nm,role,true);avatar.group.position.set(b.origin.x+sx,floorY,b.origin.z+sz);avatar.group.rotation.y=Math.PI;fg.add(avatar.group);state.interiorEmployees.push(avatar.group);});
+   // Staircase is a real visible series of steps; E changes the active usable floor after approaching it.
+   if(b.type==='showroom'&&level<levels-1){const sx=-w/2+3.0,sz=2;for(let st=0;st<10;st++){const step=addBox(fg,sx,floorY+.18+st*.38,sz+st*.62,1.45,.28,.72,wood);step.rotation.x=-.05;}addBox(fg,sx,floorY+4.0,sz+6.3,2.3,.18,2.0,accent);}
+  }
+  b.levelHeight=levelHeight;b.stairUpPos={x:b.origin.x-w/2+3,z:b.origin.z+2.0};b.stairDownPos={x:b.origin.x-w/2+3,z:b.origin.z+8.2};b.exitPos={x:b.origin.x,z:b.origin.z+d/2-1.2};
+  if(b.type==='bank')b.servicePos={x:b.origin.x,z:b.origin.z-3.2};
+  b.exitMarker=new T.Mesh(new T.TorusGeometry(.8,.06,8,32),new T.MeshBasicMaterial({color:0x68e2f2}));b.exitMarker.rotation.x=Math.PI/2;b.exitMarker.position.set(b.exitPos.x,.08,b.exitPos.z);b.interiorGroup.add(b.exitMarker);
+  const exitLabel=textSprite('PINTU KELUAR · E','#f5fdff','#18425a');exitLabel.position.set(b.exitPos.x,2.8,b.exitPos.z);exitLabel.scale.set(2.6,.55,1);b.interiorGroup.add(exitLabel);
+  const ring=new T.Mesh(new T.TorusGeometry(.72,.06,8,30),new T.MeshBasicMaterial({color:0x68e2f2,transparent:true,opacity:.8}));ring.rotation.x=Math.PI/2;ring.position.set(b.outside.x,.09,b.outside.z);state.scene.add(ring);const tag=textSprite('E · '+b.name,'#f6fdff','#173a4e');tag.position.set(b.outside.x,2.45,b.outside.z);tag.scale.set(2.2,.5,1);state.scene.add(tag);b.doorRing=ring;b.doorLabel=tag;state.cityInteriors.push(b);state.businessDoors.push(b);
  });
- state.billboardPurchased=state.billboardPurchased||[];
+ // Keep a dense but clear commercial edge and protect pedestrian space.
  state.marketingActive=state.billboardPurchased.length>0;
 }
-function enterBusiness(b){if(!b||state.interiorMode)return;state.interiorMode=true;state.currentInterior=b;state.player.group.position.set(b.origin.x,0,b.origin.z);state.player.group.rotation.y=Math.PI;state.yaw=Math.PI;state.cameraPitch=.16;state.cameraDistance=7.2;state.cityInteriors.forEach(x=>x.interiorGroup.visible=x===b);state.scene.fog.near=8;state.scene.fog.far=55;state.scene.background=new state.THREE.Color(0xb5c6cc);state.nearest={kind:'exitDoor',business:b};toast('Masuk: '+b.name+' · Tekan E di pintu untuk keluar');}
+
+
+function setInteriorFloor(b,index){if(!b||b.type!=='showroom')return;const old=b.floorIndex,max=(b.floors||1)-1,next=Math.max(0,Math.min(max,index));if(next===old)return;b.floorIndex=next;b.floorGroups.forEach((g,i)=>g.visible=i===b.floorIndex);const landing=next>old?b.stairDownPos:b.stairUpPos;state.player.group.position.set(landing.x,b.floorIndex*b.levelHeight,landing.z);state.velocity.x=0;state.velocity.z=0;toast('PT Toko Gamer · Lantai '+(b.floorIndex+1));}
+function enterBusiness(b){if(!b||state.interiorMode)return;state.interiorMode=true;state.currentInterior=b;state.isSitting=false;state.currentSeat=null;b.floorIndex=0;state.velocity.x=0;state.velocity.z=0;state.player.group.position.set(b.origin.x,0,b.origin.z+b.size[1]/2-2.2);state.player.group.rotation.y=Math.PI;state.yaw=Math.PI;state.cameraPitch=.16;state.cameraDistance=7.2;state.cityInteriors.forEach(x=>{x.interiorGroup.visible=x===b;if(x===b)x.floorGroups.forEach((g,i)=>g.visible=i===0)});state.scene.fog.near=8;state.scene.fog.far=55;state.scene.background=new state.THREE.Color(0xb5c6cc);toast('Masuk: '+b.name+' · Dekati penanda E untuk keluar atau naik lantai');}
+
 function exitBusiness(){const b=state.currentInterior;if(!b)return;state.cityInteriors.forEach(x=>x.interiorGroup.visible=false);state.interiorMode=false;state.currentInterior=null;state.player.group.position.set(b.outside.x,0,b.outside.z);state.scene.fog.near=110;state.scene.fog.far=230;state.scene.background=new state.THREE.Color(0xa9c9d8);state.nearest=null;toast('Keluar: '+b.name);}
+
 function interact(){
- if(state.interiorMode){const b=state.currentInterior,p=state.player.group.position;if(b&&Math.hypot(p.x-b.origin.x,p.z-(b.origin.z+b.size[1]/2-1))<3.5)exitBusiness();else toast('Dekati pintu keluar untuk keluar.');return;}
+ if(state.isSitting){state.isSitting=false;state.player.group.userData.sitting=false;if(state.currentSeat)state.currentSeat.occupied=false;state.currentSeat=null;toast('Kamu berdiri.');return;}
+ if(state.interiorMode){const b=state.currentInterior;if(state.nearest?.kind==='exitDoor'){exitBusiness();return;}if(state.nearest?.kind==='interiorStairUp'&&b?.type==='showroom'){setInteriorFloor(b,b.floorIndex+1);return;}if(state.nearest?.kind==='interiorStairDown'&&b?.type==='showroom'){setInteriorFloor(b,b.floorIndex-1);return;}if(state.nearest?.kind==='bankCounter'){openCityPhone('bank');return;}toast('Dekati pintu, tangga, atau meja teller.');return;}
  if(state.nearest?.kind==='businessDoor'){enterBusiness(state.nearest.business);return;}
- if(state.nearest?.kind==='billboard'){const ad=state.nearest.billboard;if(state.billboardPurchased?.includes(ad.id)){toast('Iklan PT Toko Gamer aktif di billboard ini.');return;}if(!state.game){toast('Saldo game belum tersedia.');return;}if(storeBalance()<ad.cost){toast('Kas toko tidak cukup untuk membeli billboard. Biaya '+formatRapiah(ad.cost));return;}if(confirm('Aktifkan billboard untuk room ini?\nBiaya: '+formatRapiah(ad.cost)+'\nBenefit: peningkatan pelanggan walk-in dan popularitas toko.')){state.billboardPurchased.push(ad.id);state.marketingActive=true;state.retailLedger.billboards=state.billboardPurchased.slice();state.retailLedger.adCost=(Number(state.retailLedger.adCost)||0)+ad.cost;saveRetailLedger();setBillboardPurchased(ad);toast('Billboard aktif! PT TOKO GAMER tampil di iklan.');state.channel?.send({type:'broadcast',event:'city_ad_purchase',payload:{id:ad.id,owner:state.user.id,cost:ad.cost,brand:'PT TOKO GAMER'}});}return;}
+ if(state.nearest?.kind==='atm'){openCityPhone('bank');return;}
+ if(state.nearest?.kind==='seat'){const seat=state.nearest.seat;if(seat&&!seat.occupied){seat.occupied=true;state.isSitting=true;state.player.group.userData.sitting=true;state.currentSeat=seat;const fx=Math.sin(seat.rot)*.62,fz=Math.cos(seat.rot)*.62;state.player.group.position.set(seat.x+fx,0,seat.z+fz);state.player.group.rotation.y=seat.rot;toast('Duduk di bangku · Tekan E untuk berdiri.');}return;}
+ if(state.nearest?.kind==='billboard'){const ad=state.nearest.billboard;if(state.billboardPurchased?.includes(ad.id)){toast('Iklan PT Toko Gamer aktif di billboard ini.');return;}if(!state.game){toast('Saldo game belum tersedia.');return;}if(storeBalance()<ad.cost){toast('Kas toko tidak cukup untuk membeli billboard. Biaya '+formatRapiah(ad.cost));return;}if(confirm('Aktifkan billboard untuk room ini?\nBiaya: '+formatRapiah(ad.cost)+'\nBenefit: pelanggan walk-in dan popularitas toko meningkat.')){state.billboardPurchased.push(ad.id);state.marketingActive=true;state.retailLedger.billboards=state.billboardPurchased.slice();state.retailLedger.adCost=(Number(state.retailLedger.adCost)||0)+ad.cost;saveRetailLedger();setBillboardPurchased(ad);toast('Billboard aktif! PT TOKO GAMER tampil di iklan.');state.channel?.send({type:'broadcast',event:'city_ad_purchase',payload:{id:ad.id,owner:state.user.id,cost:ad.cost,brand:'PT TOKO GAMER'}});}return;}
  if(state.nearest?.kind==='walkin'){const customer=state.walkIns.find(c=>c.id===state.nearest.walkInId);openWalkInDialog(customer);return;}
  if(state.nearest?.kind==='station'){const st=state.nearest.station;state.nearest=st;interactLegacy();return;}
- toast('Dekati pintu toko, billboard, pelanggan, atau titik kerja hingga prompt E muncul.');
+ toast('Dekati pintu, ATM, bangku, billboard, pelanggan, atau workstation.');
 }
+
 function updateCityFeatureProximity(){const p=state.player.group.position;let best=null,dist=999;
- if(state.interiorMode){const b=state.currentInterior;if(b){const d=Math.hypot(p.x-b.origin.x,p.z-(b.origin.z+b.size[1]/2-1));best={kind:'exitDoor',business:b};dist=d;}state.nearest=best;$('interactionPrompt').classList.toggle('show',!!best&&dist<3.4);if(best&&dist<3.4)$('promptText').textContent='◉ '+b.name+' · TEKAN E UNTUK KELUAR';return;}
+ if(state.isSitting){state.nearest={kind:'seat'};$('interactionPrompt').classList.add('show');$('promptText').textContent='DUDUK · TEKAN E UNTUK BERDIRI';return;}
+ if(state.interiorMode){const b=state.currentInterior;if(b){const de=Math.hypot(p.x-b.exitPos.x,p.z-b.exitPos.z);if(de<dist){dist=de;best={kind:'exitDoor',business:b};}if(b.type==='showroom'&&b.floorIndex<(b.floors-1)){const ds=Math.hypot(p.x-b.stairUpPos.x,p.z-b.stairUpPos.z);if(ds<dist){dist=ds;best={kind:'interiorStairUp',business:b};}}if(b.type==='showroom'&&b.floorIndex>0){const ds=Math.hypot(p.x-b.stairDownPos.x,p.z-b.stairDownPos.z);if(ds<dist){dist=ds;best={kind:'interiorStairDown',business:b};}}if(b.type==='bank'&&b.servicePos){const db=Math.hypot(p.x-b.servicePos.x,p.z-b.servicePos.z);if(db<dist){dist=db;best={kind:'bankCounter',business:b};}}}state.nearest=best;const show=!!best&&dist<3.2;$('interactionPrompt').classList.toggle('show',show);if(show)$('promptText').textContent=best.kind==='exitDoor'?'PINTU KELUAR · TEKAN E':best.kind==='interiorStairUp'?'NAIK LANTAI '+(b.floorIndex+2)+' · TEKAN E':best.kind==='interiorStairDown'?'TURUN KE LANTAI '+b.floorIndex+' · TEKAN E':'LAYANAN TELLER · TEKAN E';return;}
  for(const b of state.businessDoors){const d=Math.hypot(p.x-b.outside.x,p.z-b.outside.z);if(d<dist){dist=d;best={kind:'businessDoor',business:b};}}
- for(const a of state.billboards){const d=Math.hypot(p.x-a.x,p.z-(a.z+2.3));if(d<dist){dist=d;best={kind:'billboard',billboard:a};}}
- for(const s of state.stations){const d=Math.hypot(p.x-s.x,p.z-s.z);if(d<dist){dist=d;best={kind:'station',station:s};}}
+ for(const a of state.atms){const d=Math.hypot(p.x-a.x,p.z-a.z);if(d<dist){dist=d;best={kind:'atm',atm:a};}}
+ for(const a of state.billboards){const d=Math.hypot(p.x-a.x,p.z-(a.z+2.5));if(d<dist){dist=d;best={kind:'billboard',billboard:a};}}
+ for(const seat of state.seats||[]){if(seat.occupied)continue;const d=Math.hypot(p.x-seat.x,p.z-seat.z);if(d<dist){dist=d;best={kind:'seat',seat};}}
+ for(const st of state.stations){const d=Math.hypot(p.x-st.x,p.z-st.z);if(d<dist){dist=d;best={kind:'station',station:st};}}
  for(const c of state.walkIns){if(c.status!=='waiting'||!c.group?.visible)continue;const d=Math.hypot(p.x-c.group.position.x,p.z-c.group.position.z);if(d<dist){dist=d;best={kind:'walkin',walkInId:c.id,label:c.name};}}
  state.nearest=best;const show=!!best&&dist<3.2;$('interactionPrompt').classList.toggle('show',show);
- if(show){const b=best.kind==='businessDoor'?best.business.name:best.kind==='billboard'?('Billboard '+(state.billboardPurchased?.includes(best.billboard.id)?' · Iklan aktif':'· Beli slot iklan')):best.kind==='station'?best.station.label:best.label;$('promptText').textContent='◉ '+b+' · Tekan E';}
+ if(show){const b=best.kind==='businessDoor'?best.business.name:best.kind==='atm'?'ATM · LAYANAN BANK':best.kind==='seat'?'BANGKU TAMAN · DUDUK':best.kind==='billboard'?('Billboard '+(state.billboardPurchased?.includes(best.billboard.id)?'· Iklan aktif':'· Beli slot iklan')):best.kind==='station'?best.station.label:best.label;$('promptText').textContent='◉ '+b+' · TEKAN E';}
 }
+
 function createAvatar(name,role,isNpc=false){
  const T=state.THREE,group=new T.Group();
  const palettes={
@@ -927,7 +1046,7 @@ function syncNPCState(){for(const n of state.npcs){const o=state.game.orders.fin
 function resizeWorld(){if(!state.renderer||!state.camera)return;state.camera.aspect=innerWidth/innerHeight;state.camera.updateProjectionMatrix();state.renderer.setSize(innerWidth,innerHeight);state.renderer.setPixelRatio(Math.min(devicePixelRatio||1,(state.graphicsQuality==='high'?1.5:state.graphicsQuality==='low'?.82:1.12)))}
 function setupControls(){
  const canvas=$('worldCanvas');
- function hasBlockingOverlay(){return ['dialogOverlay','stationOverlay','pcBuilderOverlay','missionOverlay','inventoryOverlay','tutorialOverlay','gameMenuOverlay','settingsOverlay','controlsOverlay'].some(id=>$(id)?.classList.contains('show'))}
+ function hasBlockingOverlay(){return ['dialogOverlay','stationOverlay','pcBuilderOverlay','missionOverlay','inventoryOverlay','tutorialOverlay','gameMenuOverlay','settingsOverlay','controlsOverlay','cityPhoneOverlay'].some(id=>$(id)?.classList.contains('show'))}
  function updateLockUI(){const locked=document.pointerLockElement===canvas;state.pointerLocked=locked;$('lockMouseHint').classList.toggle('locked',locked);$('aimDot').hidden=!locked;}
  canvas.addEventListener('click',()=>{if(hasBlockingOverlay())return;if(matchMedia('(pointer:fine)').matches&&!state.pointerLocked&&canvas.requestPointerLock){try{canvas.requestPointerLock()}catch(e){toast('Pointer Lock tidak tersedia. Coba browser desktop terbaru.')}}});
  document.addEventListener('pointerlockchange',updateLockUI);
@@ -956,7 +1075,7 @@ function setupControls(){
  $('mapBtn').onclick=()=>openMissionLog();$('missionBtn').onclick=()=>openMissionLog();$('bagBtn').onclick=()=>openInventory('bag');
  document.querySelectorAll('[data-inv-tab]').forEach(b=>b.onclick=()=>openInventory(b.dataset.invTab));$('upgradeBagBtn').onclick=()=>economyAction('upgrade_bag');
  $('mobileMap').onclick=()=>openMissionLog();$('guideBtn').onclick=()=>startGuidedTutorial(true);$('mobileGuide').onclick=()=>startGuidedTutorial(true);
- $('mobileInteract').onclick=interact;$('mobileJump').onclick=()=>{if(!hasBlockingOverlay()&&state.grounded){state.jumpVelocity=7.2;state.grounded=false;}};$('mobileSprint').addEventListener('pointerdown',()=>state.sprinting=true);$('mobileSprint').addEventListener('pointerup',()=>state.sprinting=false);$('mobileSprint').addEventListener('pointercancel',()=>state.sprinting=false);
+ $('mobileInteract').onclick=interact;$('phoneBtn').onclick=()=>openCityPhone('home');$('phoneClose').onclick=()=>hideOverlay('cityPhoneOverlay');$('phoneHome').onclick=()=>openCityPhone('home');$('mobileJump').onclick=()=>{if(!hasBlockingOverlay()&&state.grounded){state.jumpVelocity=7.2;state.grounded=false;}};$('mobileSprint').addEventListener('pointerdown',()=>state.sprinting=true);$('mobileSprint').addEventListener('pointerup',()=>state.sprinting=false);$('mobileSprint').addEventListener('pointercancel',()=>state.sprinting=false);
  $('menuBtn').onclick=openGameMenu;$('menuClose').onclick=resumeGame;$('menuResume').onclick=resumeGame;$('menuSettings').onclick=()=>{hideOverlay('gameMenuOverlay');showOverlay('settingsOverlay')};$('menuControls').onclick=()=>{hideOverlay('gameMenuOverlay');showOverlay('controlsOverlay')};$('menuExit').onclick=leaveToLobby;
  $('settingsClose').onclick=()=>{hideOverlay('settingsOverlay');showOverlay('gameMenuOverlay')};$('controlsClose').onclick=()=>{hideOverlay('controlsOverlay');showOverlay('gameMenuOverlay')};
  $('settingSensitivity').addEventListener('input',e=>{state.cameraSensitivity=Number(e.target.value);$('sensitivityValue').value=state.cameraSensitivity.toFixed(4);saveGameSettings()});
@@ -978,8 +1097,8 @@ function setupJoystick(){const joy=$('joystick'),knob=$('stickKnob');let active=
 function gameLoop(){
  if(!state.worldReady)return;
  const dt=Math.min(state.clock.getDelta(),.04),p=state.player;
- let movingNow=false;const paused=['dialogOverlay','stationOverlay','pcBuilderOverlay','missionOverlay','inventoryOverlay','tutorialOverlay','gameMenuOverlay','settingsOverlay','controlsOverlay'].some(id=>$(id)?.classList.contains('show'));
- if(!paused){
+ let movingNow=false;const paused=['dialogOverlay','stationOverlay','pcBuilderOverlay','missionOverlay','inventoryOverlay','tutorialOverlay','gameMenuOverlay','settingsOverlay','controlsOverlay','cityPhoneOverlay'].some(id=>$(id)?.classList.contains('show'));
+ if(!paused&&!state.isSitting){
    const forward=(state.keys.w||state.keys.arrowup?1:0)-(state.keys.s||state.keys.arrowdown?1:0)+(-state.move.y);
    const strafe=(state.keys.d||state.keys.arrowright?1:0)-(state.keys.a||state.keys.arrowleft?1:0)+state.move.x;
    let f=forward,st=strafe,len=Math.hypot(f,st);if(len>1){f/=len;st/=len;}
@@ -1016,9 +1135,9 @@ function gameLoop(){
  if(Date.now()-state.lastHud>900){state.lastHud=Date.now();renderHud()}
  state.renderer.render(state.scene,state.camera);
 }
-function animateAvatar(g,t,working=false,jumping=false){const legs=g.userData.legs||[],arms=g.userData.arms||[],walking=t>0;legs.forEach((limb,i)=>{const phase=t+i*Math.PI;limb.joint.rotation.x=jumping?(i===0?-.12:.12):walking?Math.sin(phase)*.56:0;if(limb.knee)limb.knee.rotation.x=jumping?-.18:walking?Math.max(0,Math.sin(phase+Math.PI))*.55:0});arms.forEach((limb,i)=>{const phase=t+(i?Math.PI:0);limb.joint.rotation.x=jumping?(i===0?-.48:.48):walking?Math.sin(phase)*.38:working?Math.sin(Date.now()/210+(i*Math.PI))*.34:Math.sin(Date.now()/1300+i)*.012;limb.joint.rotation.z=working?(i===0?.15:-.15):(i===0?-.035:.035);if(limb.elbow)limb.elbow.rotation.x=working?.34:walking?Math.max(0,Math.sin(phase+Math.PI))*.28:jumping?-.12:0});if(g.userData.head){g.userData.head.rotation.y=walking?Math.sin(t*.5)*.045:0;g.userData.head.rotation.x=walking?Math.sin(t)*.018:0;}if(g.userData.torsoMesh){g.userData.torsoMesh.position.y=1.36+(walking?Math.abs(Math.sin(t))*.035:0)+(jumping?.05:0);g.userData.torsoMesh.rotation.z=walking?Math.sin(t)*.025:0;}}
+function animateAvatar(g,t,working=false,jumping=false){const legs=g.userData.legs||[],arms=g.userData.arms||[],walking=t>0;if(g.userData.sitting){legs.forEach(l=>{l.joint.rotation.x=-1.05;if(l.knee)l.knee.rotation.x=1.25});arms.forEach(l=>{l.joint.rotation.x=-.42;l.joint.rotation.z=0;if(l.elbow)l.elbow.rotation.x=.6});if(g.userData.torsoMesh){g.userData.torsoMesh.position.y=1.36;g.userData.torsoMesh.rotation.z=0;}return;}legs.forEach((limb,i)=>{const phase=t+i*Math.PI;limb.joint.rotation.x=jumping?(i===0?-.12:.12):walking?Math.sin(phase)*.56:0;if(limb.knee)limb.knee.rotation.x=jumping?-.18:walking?Math.max(0,Math.sin(phase+Math.PI))*.55:0});arms.forEach((limb,i)=>{const phase=t+(i?Math.PI:0);limb.joint.rotation.x=jumping?(i===0?-.48:.48):walking?Math.sin(phase)*.38:working?Math.sin(Date.now()/210+(i*Math.PI))*.34:Math.sin(Date.now()/1300+i)*.012;limb.joint.rotation.z=working?(i===0?.15:-.15):(i===0?-.035:.035);if(limb.elbow)limb.elbow.rotation.x=working?.34:walking?Math.max(0,Math.sin(phase+Math.PI))*.28:jumping?-.12:0});if(g.userData.head){g.userData.head.rotation.y=walking?Math.sin(t*.5)*.045:0;g.userData.head.rotation.x=walking?Math.sin(t)*.018:0;}if(g.userData.torsoMesh){g.userData.torsoMesh.position.y=1.36+(walking?Math.abs(Math.sin(t))*.035:0)+(jumping?.05:0);g.userData.torsoMesh.rotation.z=walking?Math.sin(t)*.025:0;}}
 
-function blocked(x,z){if(state.interiorMode){const b=state.currentInterior;if(!b)return true;return x<b.origin.x-b.size[0]/2+1||x>b.origin.x+b.size[0]/2-1||z<b.origin.z-b.size[1]/2+1||z>b.origin.z+b.size[1]/2-1;}if(x< -112||x>112||z< -82||z>82)return true;for(const w of state.mapWalls||[]){if(x>w.minX&&x<w.maxX&&z>w.minZ&&z<w.maxZ)return true;}return false}
+function blocked(x,z){if(state.interiorMode){const b=state.currentInterior;if(!b)return true;if(x<b.origin.x-b.size[0]/2+.8||x>b.origin.x+b.size[0]/2-.8||z<b.origin.z-b.size[1]/2+.8||z>b.origin.z+b.size[1]/2-.8)return true;for(const w of b.colliders||[])if(x>w.minX-.28&&x<w.maxX+.28&&z>w.minZ-.28&&z<w.maxZ+.28)return true;return false;}if(x< -112||x>112||z< -82||z>82)return true;for(const w of state.mapWalls||[]){if(x>w.minX&&x<w.maxX&&z>w.minZ&&z<w.maxZ)return true;}return false}
 function updateProximity(){const p=state.player.group.position;let best=null,dist=999;for(const s of state.stations){const d=Math.hypot(p.x-s.x,p.z-s.z);if(d<dist){dist=d;best=s}}for(const c of state.walkIns){if(c.status!=='waiting'||!c.group.visible)continue;const d=Math.hypot(p.x-c.group.position.x,p.z-c.group.position.z);if(d<dist){dist=d;best={kind:'walkin',walkInId:c.id,label:c.name}}}if(best&&dist<3.15){state.nearest=best;$('interactionPrompt').classList.add('show');$('promptText').textContent=best.kind==='walkin'?'Bicara dengan '+best.label+' · Tekan E':promptFor(best)}else{state.nearest=null;$('interactionPrompt').classList.remove('show')}}
 function promptFor(s){if(s.kind==='counter')return state.role==='sales'||state.role==='manager'?'Sambut pelanggan / customer service':'Dekati meja customer service';if(s.kind==='workbench')return state.role==='technician'?'Buka workbench teknisi':'Workstation khusus Teknisi';if(s.kind==='admin'||s.kind==='online')return state.role==='administration'?'Kelola order, garansi & invoice':'Meja administrasi';if(s.kind==='qc')return state.role==='quality_control'||(state.role==='technician'&&!state.roster.some(x=>x.role==='quality_control'))?'Mulai Quality Control':'Meja khusus Quality Control';if(s.kind==='manager')return state.role==='manager'?'Buka ruang manager':'Ruang khusus Manager';if(s.kind==='dispatch')return'Buka tiket perawatan & kunjungan rumah';if(s.kind==='warehouse')return'Buka gudang · ambil item dan cek stok';if(s.kind==='house')return'Kunjungan rumah pelanggan';return'Berinteraksi'}
 function interactLegacy(){if(!state.nearest){toast('Dekati titik kerja atau pelanggan sampai muncul tombol E.');return}const s=state.nearest;if(s.kind==='walkin'){const customer=state.walkIns.find(c=>c.id===s.walkInId);openWalkInDialog(customer);return;}const ownStation=roleStation();if(state.tutorial.active&&state.tutorial.step===2&&ownStation&&s.kind===ownStation.kind){advanceGuidedTutorial();}if(s.kind==='counter'){if(state.role!=='sales'&&state.role!=='manager'){toast('Serahkan konsultasi pelanggan kepada Sales.');return}const complaint=state.sideJobs.find(j=>j.id==='complaint-01');if(complaint&&complaint.status==='waiting'){openComplaintDialog();return}const o=state.game.orders.find(x=>!x.completed&&!x.accepted&&!['order-02','order-04'].includes(x.id))||state.game.orders.find(x=>!x.completed&&!['order-02','order-04'].includes(x.id));if(o){openCustomerDialog(o)}else openMissionLog();return}if(s.kind==='workbench'){if(state.role!=='technician'){toast('Area ini khusus Teknisi.');return}openStation('technician');return}if(s.kind==='admin'||s.kind==='online'){if(state.role!=='administration'&&state.role!=='manager'){toast('Pesanan digital dan invoice ditangani Administrasi.');return}if(s.kind==='online'&&state.role==='administration'){if(state.sideJobs.find(j=>j.id==='maintenance-01')?.status==='waiting'){openOnlineServiceDialog();return}const pendingOnline=state.game.orders.find(o=>['order-02','order-04'].includes(o.id)&&!o.completed&&!state.onlineContacted[o.id]);if(pendingOnline){openOnlineOrderDialog(pendingOnline);return}}openStation(state.role==='manager'?'manager':'administration');return}if(s.kind==='qc'){if(state.role!=='quality_control'&&!(state.role==='technician'&&!state.roster.some(x=>x.role==='quality_control'))){toast('Pemeriksaan ini ditangani Quality Control.');return}openStation(state.role==='technician'?'technician':'quality_control');return}if(s.kind==='manager'){if(state.role!=='manager'){toast('Ruang ini khusus Manager.');return}openStation('manager');return}if(s.kind==='dispatch'){openMissionLog();return}if(s.kind==='warehouse'){openInventory('warehouse');return}if(s.kind==='house'){openHomeVisit();return}}
