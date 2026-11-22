@@ -96,6 +96,7 @@
 
 .city-phone-modal{width:min(430px,94vw);max-height:88vh;background:#101b28;border:1px solid #4aa1bc;border-radius:28px;padding:12px;box-shadow:0 22px 80px #000b;color:#ecf7fb;display:flex;flex-direction:column;gap:10px}.phone-top{display:flex;justify-content:space-between;align-items:center;font-weight:800;letter-spacing:.12em;font-size:11px;padding:4px 8px}.phone-top button,.phone-home{background:#1b3447;border:1px solid #48687b;color:white;border-radius:12px;padding:9px 14px}.phone-screen{background:linear-gradient(160deg,#e8f0ed,#d9e6e1);color:#1b2b2d;border-radius:18px;min-height:440px;max-height:68vh;overflow:auto;padding:18px}.phone-welcome{background:#1d5d49;color:#fff;padding:18px;border-radius:16px;font-size:18px}.phone-welcome small{display:block;font-size:10px;opacity:.8;letter-spacing:.1em;margin-top:7px}.phone-app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.phone-app-grid button{border:0;border-radius:14px;background:#fff;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#18323a;box-shadow:0 4px 10px #193c4318}.phone-app-grid span{font-size:25px}.phone-app-grid b{font-size:12px}.phone-balance{background:#1c5d4b;color:#fff;padding:18px;border-radius:14px;display:flex;flex-direction:column;gap:7px}.phone-balance b{font-size:25px}.phone-balance span,.phone-balance small{opacity:.82}.phone-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.phone-actions button,.phone-primary{border:0;background:#214f77;color:#fff;border-radius:10px;padding:12px;font-size:11px;font-weight:800}.phone-actions .wide{grid-column:1/-1}.phone-history,.phone-list{display:flex;flex-direction:column;gap:7px}.phone-history>div,.phone-list>div,.phone-list>button{background:#fff;border-radius:10px;padding:11px;display:flex;justify-content:space-between;align-items:center;color:#1d2e32;border:0;text-align:left}.phone-history small,.phone-list small{display:block;color:#6c7977;font-size:10px;margin-top:3px}.phone-history .positive{color:#16834d}.phone-screen h3{margin:2px 0 12px}.phone-screen h4{margin:14px 0 8px}.phone-screen p{line-height:1.5}.phone-home{align-self:center;min-width:100px}
 
+#cityPhoneContent input#storeBrandInput{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid rgba(111,205,225,.38);border-radius:10px;background:#102432;color:#f3fbff;font:600 14px inherit;margin:7px 0 12px}#cityPhoneContent .phone-field-label{display:block;color:#91aab7;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -210,7 +211,7 @@ const RETAIL_REQUESTS=[
 ];
 
 
-const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,captureGroup:null,cityAssetRequests:[],cityAssetTemplates:null,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium',interiorMode:false,currentInterior:null,cityInteriors:[],businessDoors:[],billboards:[],marketingActive:false,marketingRooms:new Set(),seats:[],isSitting:false,currentSeat:null,personalFinance:null,atms:[],interiorEmployees:[]};
+const state={sb:null,user:null,roomId:null,room:null,profile:null,role:null,roster:[],aiRoles:[],aiEnabled:false,aiTimer:null,aiBusy:false,game:null,economy:null,inventoryTab:'bag',activeItemId:null,selectedOrder:'order-01',channel:null,toastTimer:null,THREE:null,scene:null,camera:null,renderer:null,clock:null,player:null,remotePlayers:new Map(),npcs:[],walkIns:[],walkInTimer:null,walkInSequence:1,retailLedger:null,seenRetailEvents:new Set(),seenWalkInResolutions:new Set(),stations:[],mapWalls:[],ambientNPCs:[],ambientAnimals:[],vehicles:[],waypoint:null,lastMapDraw:0,velocity:{x:0,z:0},jumpVelocity:0,grounded:true,keys:{},yaw:0,cameraPitch:.26,cameraDistance:8.2,cameraSensitivity:.0025,move:{x:0,y:0},sprinting:false,lastMoveSent:0,lastHud:0,nearest:null,dialogOrder:null,dialogLines:[],sideJobs:[],onlineContacted:{},sideNPCs:[],worldReady:false,captureGroup:null,cityAssetRequests:[],cityAssetTemplates:null,tutorialIndex:0,pointerLocked:false,cameraDrag:false,lastPointer:{x:0,y:0},tutorial:{active:false,step:0,beacon:null,lookMoves:0,settingsKey:'tg-game-settings-v1'},graphicsQuality:'medium',interiorMode:false,currentInterior:null,cityInteriors:[],businessDoors:[],billboards:[],marketingActive:false,marketingRooms:new Set(),seats:[],isSitting:false,currentSeat:null,personalFinance:null,atms:[],interiorEmployees:[],storeName:"PT TOKO GAMER",storeSignSprite:null,storeSignAnchor:{x:0,z:18.25},cityBuildingFootprints:[],propertyAccessRequests:[]};
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2700)}
 function roleName(code){return ROLE_INFO[code]?.name||'Belum dipilih'}
 function showOverlay(id){if(document.pointerLockElement&&id!=='tutorialOverlay')document.exitPointerLock();$(id).classList.add('show')}function hideOverlay(id){$(id).classList.remove('show')}
@@ -251,6 +252,28 @@ function box(x,y,z,w,h,d,mat,opts={}){const T=state.THREE;const m=new T.Mesh(new
 function cylinder(x,y,z,r1,r2,h,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.CylinderGeometry(r1,r2,h,segments),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;(state.captureGroup||state.scene).add(m);return m}
 function sphere(x,y,z,r,mat,segments=12){const T=state.THREE;const m=new T.Mesh(new T.SphereGeometry(r,segments,10),mat);m.position.set(x,y,z);m.castShadow=true;(state.captureGroup||state.scene).add(m);return m}
 function textSprite(text,color='#d9f8ff',bg='#082033'){const T=state.THREE;const c=document.createElement('canvas');c.width=512;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle=bg;ctx.strokeStyle='#6eddf0';ctx.lineWidth=5;roundRect(ctx,6,6,500,116,22);ctx.fill();ctx.stroke();ctx.font='bold 34px Arial';ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(text).slice(0,28),256,64);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const mat=new T.SpriteMaterial({map:tex,transparent:true,depthWrite:false});const s=new T.Sprite(mat);s.scale.set(3.2,.8,1);return s}
+function getStoreName(){try{return (localStorage.getItem('tg-shop-name-'+(state.user?.id||state.roomId||'default'))||'PT TOKO GAMER').slice(0,28)}catch(e){return 'PT TOKO GAMER'}}
+function setStoreName(value,broadcast=true){const cleaned=String(value||'').trim().replace(/[<>]/g,'').slice(0,28);if(cleaned.length<2){toast('Nama toko minimal 2 karakter.');return false;}state.storeName=cleaned;try{localStorage.setItem('tg-shop-name-'+(state.user?.id||state.roomId||'default'),cleaned)}catch(e){}if(state.storeSignSprite?.parent)state.storeSignSprite.parent.remove(state.storeSignSprite);state.storeSignSprite=textSprite(cleaned,'#fff7de','#15334a');state.storeSignSprite.position.set(0,5.58,17.49);state.storeSignSprite.scale.set(6.4,1.05,1);state.scene.add(state.storeSignSprite);for(const ad of state.billboards||[])if(state.billboardPurchased?.includes(ad.id))setBillboardPurchased(ad);if(broadcast)state.channel?.send({type:'broadcast',event:'city_store_name',payload:{name:cleaned,sender:state.user?.id}});toast('Nama papan toko diperbarui: '+cleaned);return true;}
+function billboardArtworkTexture(brand,owned=false){
+ const T=state.THREE,c=document.createElement('canvas');c.width=1200;c.height=480;const x=c.getContext('2d');
+ const base=x.createLinearGradient(0,0,1200,480);base.addColorStop(0,'#102638');base.addColorStop(.62,'#173c55');base.addColorStop(1,'#081722');x.fillStyle=base;x.fillRect(0,0,1200,480);
+ // Real gaming-PC photograph is the main billboard artwork. The E prompt stays in the HUD, never on the sign.
+ const drawBrand=()=>{
+  const shade=x.createLinearGradient(0,0,760,0);shade.addColorStop(0,'rgba(4,15,25,.96)');shade.addColorStop(.7,'rgba(4,15,25,.77)');shade.addColorStop(1,'rgba(4,15,25,0)');x.fillStyle=shade;x.fillRect(0,0,820,480);
+  x.fillStyle='#f8fbff';x.textAlign='left';x.textBaseline='alphabetic';x.font='900 68px Arial';x.fillText(owned?String(brand||'PT TOKO GAMER').slice(0,22):'KOMPUTER GAMING',58,156);
+  x.fillStyle='#7de4ff';x.font='bold 39px Arial';x.fillText(owned?'PC GAMING  ·  RAKIT  ·  SERVICE':'PERANGKAT  ·  AKSESORI  ·  UPGRADE',62,220);
+  x.fillStyle='#edf5fa';x.font='28px Arial';x.fillText(owned?'Showroom • Rakit PC • Perbaikan':'Pilihan komputer untuk belajar dan bermain',62,278);
+  x.fillStyle='#f4c65e';x.fillRect(62,316,330,7);
+  x.fillStyle='rgba(255,255,255,.9)';x.font='bold 22px Arial';x.fillText('GAMING  /  WORK  /  CREATIVE',62,365);
+  x.strokeStyle='rgba(220,245,255,.72)';x.lineWidth=3;x.strokeRect(20,20,1160,440);
+ };
+ const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=4;
+ const photo=new Image();photo.crossOrigin='anonymous';
+ photo.onload=()=>{try{const iw=photo.naturalWidth||photo.width,ih=photo.naturalHeight||photo.height,scale=Math.max(1200/iw,480/ih),dw=iw*scale,dh=ih*scale;x.clearRect(0,0,1200,480);x.drawImage(photo,(1200-dw)/2,(480-dh)/2,dw,dh);drawBrand();tex.needsUpdate=true;}catch(e){console.warn('Foto billboard gagal dirender; memakai latar bawaan.',e)}};
+ photo.onerror=()=>{drawBrand();tex.needsUpdate=true;console.warn('Foto billboard tidak tersedia; memakai artwork cadangan.')};
+ photo.src='https://upload.wikimedia.org/wikipedia/commons/f/f4/Gaming_pc.jpg';
+ return tex;
+}
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 
 function beginFallbackCapture(){
@@ -304,13 +327,6 @@ async function loadCityAssetModels(){
   });
   state.scene.add(model);
   if(req.fallbackGroup){if(req.fallbackGroup.parent)req.fallbackGroup.parent.remove(req.fallbackGroup);req.fallbackGroup.traverse(o=>{if(o.isMesh&&o.geometry)o.geometry.dispose();});req.fallbackGroup.clear();req.fallbackGroup=null;}
-  if(req.label){
-   const tag=textSprite(req.label,'#f5fbff','#17354b');
-   const bounds=new state.THREE.Box3().setFromObject(model);const localTop=(bounds.max.y-(req.y||0))/Math.max(.001,req.scale||1);
-   tag.position.set(0,localTop+.08,-1.02);
-   tag.scale.set(.78,.18,1);
-   model.add(tag);
-  }
   if(req.vehicleRecord)req.vehicleRecord.group=model;
   placed++;
  }
@@ -362,7 +378,7 @@ function updateAmbientLife(dt){
  for(const n of state.ambientNPCs){if(n.wait>0){n.wait-=dt;animateAvatar(n.group,0);continue;}const target=n.path[n.index],p=n.group.position,dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);if(d<.55){n.index=(n.index+1)%n.path.length;n.wait=1.4+Math.random()*2.2;continue;}const step=Math.min(d,n.speed*dt);p.x+=dx/d*step;p.z+=dz/d*step;const rot=Math.atan2(dx,dz),dr=Math.atan2(Math.sin(rot-n.group.rotation.y),Math.cos(rot-n.group.rotation.y));n.group.rotation.y+=dr*Math.min(1,dt*4);animateAvatar(n.group,performance.now()*.004);}
  const animalSafe=(x,z,kind='cat')=>{if(x<-110||x>110||z<-80||z>80)return false;if(kind!=='bird'&&(Math.abs(z-31)<7.5||Math.abs(z+48)<7||Math.abs(x-58)<7||Math.abs(x+58)<7))return false;if(kind!=='bird')for(const w of state.mapWalls||[])if(x>w.minX-.45&&x<w.maxX+.45&&z>w.minZ-.45&&z<w.maxZ+.45)return false;return true;};
  for(const e of state.interiorEmployees||[])if(e.visible||e.parent?.visible)animateAvatar(e,performance.now()*.0035,true,false);
- for(const a of state.ambientAnimals){let p=a.group.position;if(a.kind!=='bird'&&!animalSafe(p.x,p.z,a.kind)){let spot=null;for(let r=1;r<=12&&!spot;r+=1)for(let k=0;k<24&&!spot;k++){const ang=k*Math.PI/12,xx=a.home.x+Math.cos(ang)*r,zz=a.home.z+Math.sin(ang)*r;if(animalSafe(xx,zz,a.kind))spot={x:xx,z:zz};}if(spot){p.x=spot.x;p.z=spot.z;a.home={x:spot.x,z:spot.z};a.path=[[p.x,p.z],[p.x+1.8,p.z+.7],[p.x+2.2,p.z+1.8],[p.x-.8,p.z+2.1]];a.index=1;}}a.phase+=dt*a.speed;if(a.wait>0){a.wait-=dt;if(a.kind==='bird')a.group.position.y=2.4+Math.sin(a.phase*2)*.22;else{a.group.position.y=0;(a.legs||[]).forEach(l=>l.rotation.x=0);}continue;}
+ for(const a of state.ambientAnimals){let p=a.group.position;if(a.kind!=='bird'&&!animalSafe(p.x,p.z,a.kind)){let spot=null;for(let r=1;r<=12&&!spot;r+=1)for(let k=0;k<24&&!spot;k++){const ang=k*Math.PI/12,xx=a.home.x+Math.cos(ang)*r,zz=a.home.z+Math.sin(ang)*r;if(animalSafe(xx,zz,a.kind))spot={x:xx,z:zz};}if(spot){p.x=spot.x;p.z=spot.z;a.home={x:spot.x,z:spot.z};a.path=[[p.x,p.z],[p.x+3.8,p.z+1.4],[p.x+5.6,p.z+4.1],[p.x+1.5,p.z+6.0],[p.x-2.8,p.z+3.2]];a.index=1;}}a.phase+=dt*a.speed;if(a.wait>0){a.wait-=dt;if(a.kind==='bird')a.group.position.y=2.4+Math.sin(a.phase*2)*.22;else{a.group.position.y=0;(a.legs||[]).forEach(l=>l.rotation.x=0);}continue;}
   const path=a.path||[[a.home.x,a.home.z],[a.home.x+2,a.home.z+1],[a.home.x+1,a.home.z-2]],target=path[a.index],dx=target[0]-p.x,dz=target[1]-p.z,d=Math.hypot(dx,dz);
   if(d<.65){a.index=(a.index+1)%path.length;a.wait=2+Math.random()*4;continue;}
   const step=Math.min(d,a.speed*dt),nx=p.x+dx/d*step,nz=p.z+dz/d*step;
@@ -373,7 +389,7 @@ function updateAmbientLife(dt){
 }
 function buildMap(){
  const T=state.THREE;
- state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];state.cityAssetRequests=[];state.seats=[];
+ state.stations=[];state.mapWalls=[];state.ambientNPCs=[];state.ambientAnimals=[];state.vehicles=[];state.cityAssetRequests=[];state.seats=[];state.cityBuildingFootprints=[];state.propertyAccessRequests=[];
  const mats={
   grass:material(0x567b5b),lawn:material(0x6e986c),asphalt:material(0x303a43),roadEdge:material(0x242e36),
   path:material(0xb6b7aa),tile:material(0x9a9e9b),wall:material(0xe7e1d5),wall2:material(0xd2d8d8),
@@ -440,7 +456,7 @@ function buildMap(){
    box(px,3.05,front-.31,1.52,.10,.13,accent);
   }
   for(const xx of [x-w/2+.18,x+w/2-.18])box(xx,h/2,front-.28,.16,h-.6,.18,accent);
-  label(name.toUpperCase(),x,h+.12,front+.5,Math.min(4.3,Math.max(2.5,w*.20)));
+  
   if(style==='shop'){
    box(x,4.15,front-.55,w*.72,.15,.26,mats.gold);
    for(let xx=x-w*.28;xx<=x+w*.28;xx+=w*.14)box(xx,2.0,front-.38,.07,2.1,.11,mats.white);
@@ -479,7 +495,7 @@ function buildMap(){
    'Rumah Pelanggan':'residencial/casa_sobrado'
   };
   const asset=cfg.asset||assetMap[name]||(style==='house'?'residencial/casa_simples':style==='service'?'industrial/oficina':'comercial/loja_esquina');
-  const assetYaw=(cfg.assetRotation??chooseRoadFacingRotation(x,z));
+  const roadInfo=nearestStreetInfo(x,z);const assetYaw=roadInfo.yaw;
   // Procedural fallback facade is authored toward +Z while City Kit fronts local -Z.
   // Rotate the fallback (including windows, signs, doorway and collision boxes) to the same street frontage.
   const fallbackYaw=assetYaw+Math.PI,cy=Math.cos(fallbackYaw),sy=Math.sin(fallbackYaw);
@@ -489,7 +505,25 @@ function buildMap(){
    const rotRect=rect=>{const pts=[[rect.minX,rect.minZ],[rect.minX,rect.maxZ],[rect.maxX,rect.minZ],[rect.maxX,rect.maxZ]].map(([px,pz])=>[x+(px-x)*cy+(pz-z)*sy,z-(px-x)*sy+(pz-z)*cy]);return {minX:Math.min(...pts.map(v=>v[0])),maxX:Math.max(...pts.map(v=>v[0])),minZ:Math.min(...pts.map(v=>v[1])),maxZ:Math.max(...pts.map(v=>v[1]))};};
    for(let wi=wallStart;wi<state.mapWalls.length;wi++)Object.assign(state.mapWalls[wi],rotRect(state.mapWalls[wi]));
   }
-  queueCityAsset(asset,x,z,Math.min(w,d)/2,assetYaw,fallback,{label:name,labelY:Math.max(3.1,h)});
+  queueCityAsset(asset,x,z,Math.min(w,d)/2,assetYaw,fallback);
+  const c=Math.abs(Math.cos(assetYaw)),sn=Math.abs(Math.sin(assetYaw));
+  const footprint={x,z,halfW:(c*w+sn*d)/2+1.1,halfD:(sn*w+c*d)/2+1.1,style,name};
+  state.cityBuildingFootprints.push(footprint);
+  state.propertyAccessRequests.push({x,z,w,d,style,assetYaw,footprint});
+  // Property identity is physically attached to the facade, never floating over the roof.
+  const identity=new T.Group();identity.position.set(x,0,z);identity.rotation.y=assetYaw;state.scene.add(identity);
+  if(style==='house'){
+   const mx=-w*.34,mz=-d/2-1.05;
+   const post=new T.Mesh(new T.BoxGeometry(.13,1.0,.13),mats.wood);post.position.set(mx,.5,mz);identity.add(post);
+   const mailbox=new T.Mesh(new T.BoxGeometry(.72,.48,.52),mats.metal);mailbox.position.set(mx,.98,mz);identity.add(mailbox);
+   const flap=new T.Mesh(new T.BoxGeometry(.54,.13,.04),mats.gold);flap.position.set(mx,1.08,mz-.28);identity.add(flap);
+   const plate=textSprite(name,'#f8f3e7','#354b4b');plate.position.set(mx,1.48,mz-.30);plate.scale.set(1.45,.34,1);identity.add(plate);
+  }else{
+   const signWidth=Math.min(w*.64,8.8),signY=Math.max(3.25,h-.85),signZ=-d/2-.22;
+   const board=new T.Mesh(new T.BoxGeometry(signWidth,1.05,.22),mats.navy);board.position.set(0,signY,signZ);identity.add(board);
+   const trim=new T.Mesh(new T.BoxGeometry(signWidth+.12,.12,.26),mats.gold);trim.position.set(0,signY+.55,signZ);identity.add(trim);
+   const sign=textSprite(name,'#fff7df','#18364a');sign.position.set(0,signY,signZ-.14);sign.scale.set(Math.min(4.8,signWidth*.52),.78,1);identity.add(sign);
+  }
   return {x,z,w,d,front,back,left,right};
  };
 
@@ -500,13 +534,13 @@ function buildMap(){
  box(58,-.08,0,12,.16,166,mats.asphalt,{castShadow:false});
  box(-58,-.08,0,10,.16,166,mats.asphalt,{castShadow:false});
  // Real sidewalks are segmented at intersections so their pavement never sits on top of cross streets.
- const horizontalSidewalkZ=[22.2,39.8,-56,-40],horizontalCurbZ=[24.65,37.35,-53.65,-42.35];
+ const horizontalSidewalkZ=[21.9,40.1,-56.2,-39.8],horizontalCurbZ=[24.45,37.55,-53.55,-42.45];
  const horizontalSegments=[[-112,-63.5],[-52.5,52],[64,112]];
- for(const z of horizontalSidewalkZ)for(const [a,b] of horizontalSegments)box((a+b)/2,-.005,z,b-a,.14,4.6,mats.path,{castShadow:false});
+ for(const z of horizontalSidewalkZ)for(const [a,b] of horizontalSegments){box((a+b)/2,-.005,z,b-a,.18,5.2,mats.path,{castShadow:false});for(let tx=a+2;tx<b-1;tx+=4)box(tx,.09,z, .055,.015,4.8,mats.concrete,{castShadow:false});}
  for(const z of horizontalCurbZ)for(const [a,b] of horizontalSegments)box((a+b)/2,.055,z,b-a,.22,.36,mats.concrete,{castShadow:false});
- const verticalSidewalkX=[49.6,66.4,-65.3,-50.7],verticalCurbX=[51.85,64.15,-63.15,-52.85];
+ const verticalSidewalkX=[49.3,66.7,-65.5,-50.5],verticalCurbX=[51.65,64.35,-63.35,-52.65];
  const verticalSegments=[[-82,-54],[-42,24],[38,82]];
- for(const x of verticalSidewalkX)for(const [a,b] of verticalSegments)box(x,-.005,(a+b)/2,4.6,.14,b-a,mats.path,{castShadow:false});
+ for(const x of verticalSidewalkX)for(const [a,b] of verticalSegments){box(x,-.005,(a+b)/2,5.2,.18,b-a,mats.path,{castShadow:false});for(let tz=a+2;tz<b-1;tz+=4)box(x,.09,tz,4.8,.015,.055,mats.concrete,{castShadow:false});}
  for(const x of verticalCurbX)for(const [a,b] of verticalSegments)box(x,.055,(a+b)/2,.36,.22,b-a,mats.concrete,{castShadow:false});
  // Dashed lane separators are painted on the road centre, never on sidewalks.
  for(let x=-108;x<=108;x+=12){box(x,.025,31,.16,.035,4.5,mats.white,{castShadow:false});box(x,.025,-48,.16,.035,4.0,mats.white,{castShadow:false});}
@@ -532,7 +566,9 @@ function buildMap(){
  for(const x of [-16,-10,-4,4,10,16])for(const y of [8.0,11.95]){box(x,y,17.75,4.6,.12,.1,mats.metal);for(const z of [16.9,18.5])box(x,y,17.0,.08,.42,.08,mats.metal);}
  for(const x of [-21,-15,-5,5,15,21])box(x,3,16.35,.22,5.8,.34,mats.metal);
  box(-5.05,1.35,16.45,.18,2.7,.16,mats.glass);box(5.05,1.35,16.45,.18,2.7,.16,mats.glass);
- box(0,5.0,16.25,12,.24,.38,mats.gold);label('PT TOKO GAMER',0,6.95,17.85,8.2);label('PT TOKO GAMER · FLAGSHIP',0,14.15,17.9,8.4);
+ box(0,5.55,17.22,19.2,1.45,.42,mats.navy);box(0,6.30,17.23,19.35,.12,.48,mats.gold);
+  state.storeName=getStoreName();state.storeSignAnchor={x:10.0,z:17.6};
+  state.storeSignSprite=textSprite(state.storeName,'#fff7df','#17364c');state.storeSignSprite.position.set(0,5.58,17.49);state.storeSignSprite.scale.set(6.8,1.1,1);state.scene.add(state.storeSignSprite);
  box(-15,5.35,2,9,.28,24,mats.roofBlue);box(15,5.35,-3,9,.28,21,mats.red);
  // Exterior trim, rooftop ventilation, AC units and branded pylon sign.
  for(const x of [-19,-12,12,19]){box(x,3.25,16.1,.32,6.2,.55,mats.roofBlue);box(x,5.95,16.1,.7,.18,.7,mats.gold)}
@@ -684,7 +720,7 @@ function buildMap(){
    const wings=[];for(const side of [-1,1]){const wing=ell(sph,fur,[0,.3,side*.22],[.24,.07,.16]);wing.rotation.x=side*.25;wings.push(wing);}g.userData.wings=wings;
   }
   if(kind!=='bird'){const safe=(xx,zz)=>xx>-110&&xx<110&&zz>-80&&zz<80&&!(Math.abs(zz-31)<7.5||Math.abs(zz+48)<7||Math.abs(xx-58)<7||Math.abs(xx+58)<7)&&!(state.mapWalls||[]).some(w=>xx>w.minX-.45&&xx<w.maxX+.45&&zz>w.minZ-.45&&zz<w.maxZ+.45);let found=null;for(let r=0;r<=10&&!found;r+=1)for(let a=0;a<24&&!found;a++){const ang=a*Math.PI/12,xx=x+Math.cos(ang)*r,zz=z+Math.sin(ang)*r;if(safe(xx,zz))found={x:xx,z:zz};}if(found){x=found.x;z=found.z;}}
-  g.position.set(x,0,z);state.scene.add(g);state.ambientAnimals.push({group:g,kind,legs,home:{x,z},path:kind==='bird'?[[x,z],[x+8,z+5],[x+5,z-8],[x-7,z-3]]:[[x,z],[x+1.8,z+.7],[x+2.2,z+1.8],[x-.8,z+2.1]],index:1,wait:Math.random()*2,phase:Math.random()*6,speed:kind==='bird'?0.72+Math.random()*.18:0.18+Math.random()*.10,wings:g.userData.wings||[]});
+  g.position.set(x,0,z);state.scene.add(g);state.ambientAnimals.push({group:g,kind,legs,home:{x,z},path:kind==='bird'?[[x,z],[x+8,z+5],[x+5,z-8],[x-7,z-3]]:[[x,z],[x+4.5,z+1.8],[x+7,z+5],[x+2,z+7],[x-3,z+4]],index:1,wait:Math.random()*2,phase:Math.random()*6,speed:kind==='bird'?1.1+Math.random()*.25:0.58+Math.random()*.32,wings:g.userData.wings||[]});
  };
  makeAnimal('dog',-54,25,0x9b7957);makeAnimal('cat',-65,-19,0x777b83);makeAnimal('cat',84,20,0xc28c57);
  for(let i=0;i<4;i++)makeAnimal('bird',-72+i*2.1,-31+(i%2)*1.7,0x536e7f);
@@ -717,18 +753,20 @@ function buildMap(){
  makeStation('warehouse','WAREHOUSE STOCK',15,-12.4,'all','warehouse');
  makeStation('house','CUSTOMER HOME',94,-20,'technician','house');
 }
-function setBillboardPurchased(ad){if(!ad||!state.THREE)return;const old=ad.plate;if(old&&old.parent)old.parent.remove(old);const label=textSprite('PT TOKO GAMER · PC & SERVICE','#f5fbff','#145332');label.position.set(0,5.1,.25);label.scale.set(3.7,1.15,1);ad.group.add(label);ad.plate=label;}
-function chooseRoadFacingRotation(x,z){
- // City Kit storefront fronts point toward local -Z. Aim that facade toward the nearest road,
- // choosing the correct side of the road rather than a fixed compass direction.
+function setBillboardPurchased(ad){if(!ad||!state.THREE)return;const old=ad.artMat?.map;const tex=billboardArtworkTexture(state.storeName||'PT TOKO GAMER',true);if(old)old.dispose();if(ad.artMat){ad.artMat.map=tex;ad.artMat.needsUpdate=true;}}
+function nearestStreetInfo(x,z){
  const roads=[
-  {d:Math.abs(z-31),yaw:z>31?0:Math.PI},
-  {d:Math.abs(z+48),yaw:z>-48?0:Math.PI},
-  {d:Math.abs(x-58),yaw:x<58?-Math.PI/2:Math.PI/2},
-  {d:Math.abs(x+58),yaw:x<-58?-Math.PI/2:Math.PI/2}
+  {axis:'z',center:31,half:6.5,d:Math.abs(z-31)},
+  {axis:'z',center:-48,half:5.5,d:Math.abs(z+48)},
+  {axis:'x',center:58,half:6,d:Math.abs(x-58)},
+  {axis:'x',center:-58,half:5,d:Math.abs(x+58)}
  ];
- roads.sort((a,b)=>a.d-b.d);return roads[0].yaw;
+ roads.sort((a,b)=>a.d-b.d);const r=roads[0];
+ if(r.axis==='x'){r.side=x>r.center?1:-1;r.nx=-r.side;r.nz=0;r.yaw=r.side>0?Math.PI/2:-Math.PI/2;}
+ else{r.side=z>r.center?1:-1;r.nx=0;r.nz=-r.side;r.yaw=r.side>0?0:Math.PI;}
+ return r;
 }
+function chooseRoadFacingRotation(x,z){return nearestStreetInfo(x,z).yaw;}
 function loadPersonalFinance(){
  const key='tg-player-bank-'+state.roomId+'-'+(state.user?.id||'guest');let data=null;
  try{data=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
@@ -745,7 +783,7 @@ function openCityPhone(app='home'){
  const root=$('cityPhoneOverlay');if(!root)return;root.classList.add('show');root.dataset.app=app;
  const f=state.personalFinance||{cash:0,bank:0,history:[]};let body='';
  if(app==='home'){
-  body='<div class="phone-welcome">Selamat datang di <b>Inside Mobile</b><small>LAYANAN KOTA · DOMPET · INFORMASI</small></div><div class="phone-app-grid">'+[['bank','🏦','Bank'],['map','🗺️','Peta Kota'],['jobs','📋','Pekerjaan'],['ads','📢','Iklan'],['contacts','👥','Kontak'],['about','ℹ️','Info Kota']].map(a=>'<button data-phone-app="'+a[0]+'"><span>'+a[1]+'</span><b>'+a[2]+'</b></button>').join('')+'</div>';
+  body='<div class="phone-welcome">Selamat datang di <b>Inside Mobile</b><small>LAYANAN KOTA · DOMPET · INFORMASI</small></div><div class="phone-app-grid">'+[['bank','🏦','Bank'],['map','🗺️','Peta Kota'],['jobs','📋','Pekerjaan'],['ads','📢','Iklan'],['contacts','👥','Kontak'],['brand','🏷️','Nama Toko'],['about','ℹ️','Info Kota']].map(a=>'<button data-phone-app="'+a[0]+'"><span>'+a[1]+'</span><b>'+a[2]+'</b></button>').join('')+'</div>';
  }else if(app==='bank'){
   body='<div class="phone-balance"><small>REKENING WARGA</small><b>'+formatRapiah(f.bank)+'</b><span>Tunai di dompet: '+formatRapiah(f.cash)+'</span></div><div class="phone-actions"><button data-bank="deposit" data-amount="10000">SETOR R 10.000</button><button data-bank="deposit" data-amount="50000">SETOR R 50.000</button><button data-bank="withdraw" data-amount="10000">TARIK R 10.000</button><button data-bank="withdraw" data-amount="50000">TARIK R 50.000</button><button class="wide" data-bank="custom">JUMLAH LAIN</button></div><h4>Riwayat transaksi</h4><div class="phone-history">'+(f.history.length?f.history.map(t=>'<div><span>'+ (t.kind==='deposit'?'Setor tunai':'Tarik tunai')+'<small>'+esc(t.at)+'</small></span><b class="'+(t.kind==='deposit'?'positive':'')+'">'+(t.kind==='deposit'?'+':'-')+formatRapiah(t.amount)+'</b></div>').join(''):'<small>Belum ada transaksi.</small>')+'</div>';
  }else if(app==='map'){
@@ -754,6 +792,8 @@ function openCityPhone(app='home'){
   body='<h3>Aktivitas shift</h3><p>Mission Log menyimpan order pelanggan, komplain dan pekerjaan layanan.</p><button data-phone-missions class="phone-primary">BUKA MISSION LOG</button>';
  }else if(app==='ads'){
   body='<h3>Marketing PT Toko Gamer</h3><p>Kelola billboard dengan mendatangi papan iklan di kota.</p><div class="phone-list">'+(state.billboards||[]).map(a=>'<div><b>'+a.id.toUpperCase()+'</b><small>'+ (state.billboardPurchased?.includes(a.id)?'Iklan aktif':'Belum dibeli')+' · '+formatRapiah(a.cost)+'</small></div>').join('')+'</div>';
+ }else if(app==='brand'){
+  body='<h3>Identitas toko</h3><p>Atur nama yang tampil pada papan nama toko dan iklan billboard.</p><label class="phone-field-label">Nama toko</label><input id="storeBrandInput" maxlength=28 value="'+esc(state.storeName||'PT TOKO GAMER')+'" placeholder="Nama toko"><button id="saveStoreBrand" class="phone-primary">SIMPAN NAMA TOKO</button>';
  }else if(app==='contacts'){
   body='<h3>Kontak tim</h3><div class="phone-list">'+(state.roster||[]).map(p=>'<div><b>'+esc(p.name)+'</b><small>'+esc(roleName(p.role))+'</small></div>').join('')+'</div>';
  }else{body='<h3>Inside City Services</h3><p>Gunakan ponsel untuk akses rekening warga, peta kota, misi, dan informasi pemasaran. Layanan bank pribadi tersimpan di perangkat dan akun pemain ini.</p>';}
@@ -761,6 +801,7 @@ function openCityPhone(app='home'){
  $('cityPhoneContent').querySelectorAll('[data-phone-app]').forEach(b=>b.onclick=()=>openCityPhone(b.dataset.phoneApp));
  $('cityPhoneContent').querySelectorAll('[data-bank]').forEach(b=>b.onclick=()=>{const kind=b.dataset.bank;if(kind==='custom'){const raw=prompt('Masukkan nominal transaksi (Rapiah):','25000');if(raw===null)return;const amount=Number(String(raw).replace(/[^0-9]/g,''));const type=confirm('OK = Setor tunai. Cancel = Tarik tunai.')?'deposit':'withdraw';bankTransfer(type,amount);}else bankTransfer(kind,Number(b.dataset.amount));});
  $('cityPhoneContent').querySelectorAll('[data-phone-waypoint]').forEach(b=>b.onclick=()=>{const p=state.worldPlaces.find(x=>x.id===b.dataset.phoneWaypoint);if(p){setWaypoint(p.id);toast('Waypoint: '+p.name);}});
+ const brandSave=$('cityPhoneContent').querySelector('#saveStoreBrand');if(brandSave)brandSave.onclick=()=>{const input=$('cityPhoneContent').querySelector('#storeBrandInput');if(setStoreName(input?.value,true))openCityPhone('brand');};
  const mission=$('cityPhoneContent').querySelector('[data-phone-missions]');if(mission)mission.onclick=()=>{$('cityPhoneOverlay').classList.remove('show');openMissionLog();};
 }
 function setupCityFeatures(){
@@ -768,38 +809,73 @@ function setupCityFeatures(){
  // Density is created only in validated parcels. Keep road, sidewalk, park, and existing building clearances.
  const fillModels=['comercial/loja_esquina','comercial/escritorio','residencial/casa_sobrado','residencial/casas_geminadas','residencial/predio_apartamentos','comercial/hotel','publicos/biblioteca','comercial/restaurante'];
  const candidates=[];for(const z of [-75,-63,-25,-10,47,63,76])for(const x of [-106,-94,-82,-38,-26,26,38,82,94,106])candidates.push({x,z});
- state.cityBuildingFootprints=[];let filled=0;for(const p of candidates){if(filled>=24)break;const half=4.9;
+ let filled=0;for(const p of candidates){if(filled>=22)break;const half=5.0;
   if(Math.abs(p.z-31)<16||Math.abs(p.z+48)<15||Math.abs(p.x-58)<16||Math.abs(p.x+58)<16)continue;
   if(p.x-half<-110||p.x+half>110||p.z-half<-80||p.z+half>80)continue;
   if(p.x>-28&&p.x<28&&p.z>-23&&p.z<23)continue;
   if(p.x<-48&&p.x>-91&&p.z<-46&&p.z>-10)continue; // protected park block
-  const blocked=(state.mapWalls||[]).some(w=>p.x+half>w.minX-1&&p.x-half<w.maxX+1&&p.z+half>w.minZ-1&&p.z-half<w.maxZ+1);
+  const blocked=(state.mapWalls||[]).some(w=>p.x+half>w.minX-.8&&p.x-half<w.maxX+.8&&p.z+half>w.minZ-.8&&p.z-half<w.maxZ+.8);
   if(blocked)continue;
-  if((state.cityBuildingFootprints||[]).some(b=>Math.abs(p.x-b.x)<10.4&&Math.abs(p.z-b.z)<10.4))continue;
-  const key=fillModels[filled%fillModels.length],rot=chooseRoadFacingRotation(p.x,p.z);
-  queueCityAsset(key,p.x,p.z,4.7,rot,null,{urbanFill:true});state.mapWalls.push({minX:p.x-half,maxX:p.x+half,minZ:p.z-half,maxZ:p.z+half});(state.cityBuildingFootprints|| (state.cityBuildingFootprints=[])).push({x:p.x,z:p.z});filled++;
+  const overlap=(state.cityBuildingFootprints||[]).some(b=>p.x+half+1.1>b.x-b.halfW&&p.x-half-1.1<b.x+b.halfW&&p.z+half+1.1>b.z-b.halfD&&p.z-half-1.1<b.z+b.halfD);
+  if(overlap)continue;
+  const key=fillModels[filled%fillModels.length],rot=chooseRoadFacingRotation(p.x,p.z),style=key.startsWith('residencial/')?'house':'shop';
+  queueCityAsset(key,p.x,p.z,4.7,rot,null,{urbanFill:true});
+  const footprint={x:p.x,z:p.z,halfW:half+1.1,halfD:half+1.1,style,name:'',urban:true};state.cityBuildingFootprints.push(footprint);
+  state.mapWalls.push({minX:p.x-half,maxX:p.x+half,minZ:p.z-half,maxZ:p.z+half});
+  state.propertyAccessRequests.push({x:p.x,z:p.z,w:9.4,d:9.4,style,assetYaw:rot,footprint});filled++;
  }
+ // Connect every property to the nearest street. Houses receive a compact dirt/paver footpath;
+ // commercial buildings receive a narrow one-way access lane with separated pedestrian sidewalks.
+ const accessMaterials={dirt:material(0xb49a73),asphalt:material(0x343d45),walk:material(0xb9b9ae),curb:material(0x858e8e),line:material(0xf0e6c8)};
+ const addAccessLink=req=>{
+  const road=nearestStreetInfo(req.x,req.z),axis=road.axis,nx=road.nx,nz=road.nz;
+  const along=req.d/2,startX=req.x+nx*(along+.8),startZ=req.z+nz*(along+.8);
+  const endX=axis==='x'?road.center+road.side*(road.half+4.6):startX;
+  const endZ=axis==='z'?road.center+road.side*(road.half+4.6):startZ;
+  const dx=endX-startX,dz=endZ-startZ,len=Math.hypot(dx,dz);if(len<1.4||len>58)return;
+  // Refuse a connector if its centre line would cut through another building lot.
+  const owner=req.footprint;let blockedPath=false;for(let k=1;k<Math.ceil(len*2);k++){const t=k/Math.ceil(len*2),px=startX+dx*t,pz=startZ+dz*t;for(const f of state.cityBuildingFootprints||[]){if(f===owner)continue;if(px>f.x-f.halfW-.6&&px<f.x+f.halfW+.6&&pz>f.z-f.halfD-.6&&pz<f.z+f.halfD+.6){blockedPath=true;break;}}if(blockedPath)break;}
+  if(blockedPath)return;
+  const midX=(startX+endX)/2,midZ=(startZ+endZ)/2;
+  if(req.style==='house'){
+   if(axis==='x')box(midX,.015,req.z,len,.08,2.15,accessMaterials.dirt,{castShadow:false});
+   else box(req.x,.015,midZ,2.15,.08,len,accessMaterials.dirt,{castShadow:false});
+  }else{
+   if(axis==='x'){
+    box(midX,-.005,req.z,len,.13,4.5,accessMaterials.asphalt,{castShadow:false});
+    for(const side of [-1,1]){box(midX,.005,req.z+side*3.05,len,.14,1.25,accessMaterials.walk,{castShadow:false});box(midX,.06,req.z+side*2.38,len,.18,.22,accessMaterials.curb,{castShadow:false});}
+   }else{
+    box(req.x,-.005,midZ,4.5,.13,len,accessMaterials.asphalt,{castShadow:false});
+    for(const side of [-1,1]){box(req.x+side*3.05,.005,midZ,1.25,.14,len,accessMaterials.walk,{castShadow:false});box(req.x+side*2.38,.06,midZ,.22,.18,len,accessMaterials.curb,{castShadow:false});}
+   }
+   // Low white arrow marks the single direction leading from the property to the main street.
+   const arrow=new T.Mesh(new T.ConeGeometry(.42,.95,3),accessMaterials.line);arrow.position.set(midX,.16,midZ);
+   if(axis==='x')arrow.rotation.z=dx>=0?-Math.PI/2:Math.PI/2;else arrow.rotation.x=dz>=0?Math.PI/2:-Math.PI/2;state.scene.add(arrow);
+  }
+ };
+ (state.propertyAccessRequests||[]).forEach(addAccessLink);
+ // The flagship has a short pedestrian forecourt linking its entrance to the main commercial sidewalk.
+ box(0,.015,18.85,13,.08,3.2,accessMaterials.walk,{castShadow:false});
  // Build a proper environmental poster with a large photo-style nature illustration, heading and caption.
  function poster(x,z,yaw=0){
   const g=new T.Group(),frame=material(0x3f5147),pole=new T.Mesh(new T.BoxGeometry(.12,2.9,.12),frame);pole.position.set(0,1.35,0);g.add(pole);
-  const panel=new T.Mesh(new T.BoxGeometry(3.25,4.25,.16),frame);panel.position.set(0,2.55,0);g.add(panel);
-  const c=document.createElement('canvas');c.width=720;c.height=960;const ctx=c.getContext('2d');
-  ctx.fillStyle='#f7f5ec';ctx.fillRect(0,0,720,960);
-  ctx.fillStyle='#17633e';ctx.fillRect(0,0,720,158);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='bold 58px Arial';ctx.fillText('AYO JAGA ALAM',360,72);ctx.font='bold 38px Arial';ctx.fillText('LINDUNGI SATWA & TUMBUHAN',360,127);
-  // Large illustrated photo-style landscape window.
-  const sky=ctx.createLinearGradient(0,170,0,650);sky.addColorStop(0,'#79b9d5');sky.addColorStop(.56,'#d8e7d0');sky.addColorStop(1,'#6d9d68');ctx.fillStyle=sky;ctx.fillRect(34,180,652,465);
-  ctx.fillStyle='#557f68';ctx.beginPath();ctx.moveTo(34,470);ctx.quadraticCurveTo(170,350,290,465);ctx.quadraticCurveTo(470,325,686,450);ctx.lineTo(686,645);ctx.lineTo(34,645);ctx.fill();
-  ctx.fillStyle='#3f8650';ctx.beginPath();ctx.moveTo(34,540);ctx.quadraticCurveTo(210,440,360,550);ctx.quadraticCurveTo(500,455,686,535);ctx.lineTo(686,645);ctx.lineTo(34,645);ctx.fill();
-  for(const [tx,ty,r] of [[130,375,74],[230,420,57],[555,365,82],[635,435,54]]){ctx.fillStyle='#76513b';ctx.fillRect(tx-9,ty,18,155);ctx.fillStyle='#286b43';ctx.beginPath();ctx.arc(tx,ty-30,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='#4c9653';ctx.beginPath();ctx.arc(tx-26,ty-52,r*.57,0,Math.PI*2);ctx.fill();}
-  // Wildlife illustration: a deer-like animal and birds make the poster read as an environmental campaign.
-  ctx.fillStyle='#a56f43';ctx.beginPath();ctx.ellipse(395,520,65,34,-.08,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(448,486,24,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='#67452e';ctx.lineWidth=9;ctx.lineCap='round';for(const xx of [360,410,435,465]){ctx.beginPath();ctx.moveTo(xx,540);ctx.lineTo(xx-4,590);ctx.stroke();}
-  ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(451,468);ctx.lineTo(438,440);ctx.lineTo(427,430);ctx.moveTo(451,468);ctx.lineTo(462,438);ctx.lineTo(474,430);ctx.stroke();
-  ctx.fillStyle='#263c38';for(const [bx,by] of [[300,285],[340,305],[520,270]]){ctx.beginPath();ctx.arc(bx,by,6,0,Math.PI*2);ctx.fill();}
-  ctx.fillStyle='#194f35';ctx.textAlign='left';ctx.font='bold 38px Arial';ctx.fillText('SATWA PUNYA RUMAH.',48,715);ctx.fillText('POHON PUNYA PERAN.',48,763);
-  ctx.fillStyle='#3e5144';ctx.font='28px Arial';ctx.fillText('Jaga habitat, jangan merusak sarang,',48,820);ctx.fillText('tanam pohon, dan buang sampah pada tempatnya.',48,860);
-  ctx.fillStyle='#e0bc58';ctx.fillRect(34,895,652,12);ctx.fillStyle='#17633e';ctx.font='bold 22px Arial';ctx.fillText('KAMPANYE LINGKUNGAN · TAMAN KOTA',48,940);
-  const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const image=new T.Mesh(new T.PlaneGeometry(3.0,4.0),new T.MeshBasicMaterial({map:tex}));image.position.set(0,2.55,.095);g.add(image);
+  const panel=new T.Mesh(new T.BoxGeometry(3.45,4.6,.16),material(0xf3f0e6));panel.position.set(0,2.65,0);g.add(panel);
+  const c=document.createElement('canvas');c.width=900;c.height=1200;const ctx=c.getContext('2d');
+  ctx.fillStyle='#f7f4eb';ctx.fillRect(0,0,900,1200);
+  ctx.fillStyle='#185a3d';ctx.fillRect(0,0,900,150);ctx.fillStyle='#ffffff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 57px Arial';ctx.fillText('LINDUNGI SATWA &',450,58);ctx.fillText('TUMBUHAN',450,121);
+  // Photo-style landscape panel: layered light, dense canopy, mountain silhouettes, wildlife and textured foreground.
+  const sky=ctx.createLinearGradient(0,160,0,870);sky.addColorStop(0,'#6ea4bd');sky.addColorStop(.42,'#c7d6be');sky.addColorStop(1,'#344f39');ctx.fillStyle=sky;ctx.fillRect(38,178,824,640);
+  ctx.fillStyle='#516d68';ctx.beginPath();ctx.moveTo(38,515);ctx.lineTo(210,350);ctx.lineTo(340,495);ctx.lineTo(510,325);ctx.lineTo(700,505);ctx.lineTo(862,385);ctx.lineTo(862,818);ctx.lineTo(38,818);ctx.fill();
+  ctx.fillStyle='#294e39';ctx.beginPath();ctx.moveTo(38,610);ctx.quadraticCurveTo(200,450,355,625);ctx.quadraticCurveTo(590,455,862,600);ctx.lineTo(862,818);ctx.lineTo(38,818);ctx.fill();
+  for(const [tx,ty,r] of [[115,470,94],[245,520,78],[650,455,105],[785,535,78],[465,560,68]]){ctx.fillStyle='#644a35';ctx.fillRect(tx-13,ty,26,180);ctx.fillStyle='#183f2b';ctx.beginPath();ctx.arc(tx,ty-35,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(105,151,79,.72)';ctx.beginPath();ctx.arc(tx-24,ty-58,r*.57,0,Math.PI*2);ctx.fill();}
+  // Large wildlife subject in silhouette, framed like a field photograph.
+  ctx.fillStyle='#9b7048';ctx.beginPath();ctx.ellipse(468,650,112,58,-.08,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(565,600,42,48,.18,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(565,564);ctx.lineTo(552,515);ctx.lineTo(532,490);ctx.lineTo(542,478);ctx.lineTo(570,510);ctx.lineTo(588,476);ctx.lineTo(602,486);ctx.lineTo(579,525);ctx.lineTo(600,563);ctx.fill();
+  ctx.strokeStyle='#65482f';ctx.lineWidth=15;ctx.lineCap='round';for(const xx of [410,460,520,555]){ctx.beginPath();ctx.moveTo(xx,687);ctx.lineTo(xx-9,770);ctx.stroke();}
+  // Grass, foliage texture and soft light flecks make the image panel feel photographic rather than icon-like.
+  for(let i=0;i<260;i++){const gx=38+(i*137)%824,gy=600+(i*71)%218;ctx.strokeStyle=i%3?'rgba(177,202,125,.35)':'rgba(28,65,39,.45)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx+(i%2?7:-6),gy-13-(i%9));ctx.stroke();}
+  ctx.fillStyle='#1b3929';ctx.textAlign='left';ctx.font='bold 42px Arial';ctx.fillText('JAGA HABITAT ALAMI',54,898);ctx.fillStyle='#49594a';ctx.font='30px Arial';ctx.fillText('Satwa liar membutuhkan ruang hidup.',54,955);ctx.fillText('Rawat pohon, hutan, sungai, dan taman.',54,1004);
+  ctx.fillStyle='#e0b957';ctx.fillRect(54,1050,792,8);ctx.fillStyle='#1b6241';ctx.font='bold 26px Arial';ctx.fillText('JANGAN BERBURU · JANGAN MERUSAK · TANAM POHON',54,1110);ctx.fillStyle='#68766a';ctx.font='21px Arial';ctx.fillText('KAMPANYE LINGKUNGAN · TAMAN KOTA',54,1154);ctx.font='15px Arial';ctx.fillText('Foto: Arifinal0109 · Wikimedia Commons · CC BY-SA 4.0',54,1182);
+  const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=4;const image=new T.Mesh(new T.PlaneGeometry(3.18,4.28),new T.MeshBasicMaterial({map:tex,toneMapped:false}));image.position.set(0,2.65,.095);g.add(image);const photo=new Image();photo.crossOrigin='anonymous';photo.onload=()=>{try{ctx.clearRect(38,178,824,640);ctx.drawImage(photo,38,178,824,640);const shade=ctx.createLinearGradient(0,580,0,818);shade.addColorStop(0,'rgba(9,32,22,0)');shade.addColorStop(1,'rgba(9,32,22,.62)');ctx.fillStyle=shade;ctx.fillRect(38,178,824,640);ctx.fillStyle='#fff';ctx.font='bold 23px Arial';ctx.textAlign='left';ctx.fillText('ORANGUTAN SUMATERA · TAMAN NASIONAL GUNUNG LEUSER',58,785);tex.needsUpdate=true;}catch(e){console.warn('Foto poster tidak dapat diproses; memakai ilustrasi bawaan.',e)}};photo.onerror=()=>console.warn('Foto poster tidak tersedia; memakai ilustrasi bawaan.');photo.src='https://upload.wikimedia.org/wikipedia/commons/a/ad/BAYI_ORANGUTAN.jpg';
   g.position.set(x,0,z);g.rotation.y=yaw;state.scene.add(g);
  }
  poster(-86,-18,0);poster(-54,-36,Math.PI/2);poster(-67,-40,0);
@@ -810,7 +886,7 @@ function setupCityFeatures(){
  const createATM=(id,x,z,yaw=0)=>{const g=new T.Group(),bodyMat=material(0x263b4b),screenMat=material(0x4aa4bd,.22,.24,{emissive:0x174a62,emissiveIntensity:.45}),metal=material(0x8b9ba2,.45,.55);const body=new T.Mesh(new T.BoxGeometry(.95,1.85,.62),bodyMat);body.position.y=.95;g.add(body);const screen=new T.Mesh(new T.BoxGeometry(.56,.42,.035),screenMat);screen.position.set(0,1.4,.33);g.add(screen);const keypad=new T.Mesh(new T.BoxGeometry(.45,.35,.04),metal);keypad.position.set(0,.88,.34);g.add(keypad);const slot=new T.Mesh(new T.BoxGeometry(.48,.07,.035),material(0x14191e));slot.position.set(0,.48,.34);g.add(slot);g.position.set(x,0,z);g.rotation.y=yaw;state.scene.add(g);state.atms.push({id,x,z,group:g});};
  createATM('atm-bank',39.0,-37.5,0);createATM('atm-mart',74.5,4,Math.PI/2);createATM('atm-central',25.5,6.5,0);
  const ads=[{id:'ad-north',x:-38,z:43,cost:22000},{id:'ad-east',x:75,z:43,cost:32000},{id:'ad-south',x:-86,z:-57,cost:18000},{id:'ad-west',x:89,z:-57,cost:16000}];
- ads.forEach((a,i)=>{const g=new T.Group(),metal=material(0x56636c,.45,.55),boardMat=material(0x112b40,.5,.2);const pole=new T.Mesh(new T.BoxGeometry(.32,4.8,.32),metal);pole.position.y=2.4;g.add(pole);const board=new T.Mesh(new T.BoxGeometry(8,3.2,.26),boardMat);board.position.y=5.25;g.add(board);const trim=new T.Mesh(new T.BoxGeometry(8.3,3.5,.12),material(0x3cc5d7,.35,.25,{emissive:0x145a6a,emissiveIntensity:.3}));trim.position.set(0,5.25,.18);g.add(trim);const plate=textSprite(state.billboardPurchased.includes(a.id)?'PT TOKO GAMER · PC & SERVICE':'SPACE IKLAN · TEKAN E','#f5fbff','#14344a');plate.position.set(0,5.25,.27);plate.scale.set(3.8,1.15,1);g.add(plate);g.position.set(a.x,0,a.z);g.rotation.y=i%2?Math.PI/2:0;state.scene.add(g);const trigger=new T.Mesh(new T.TorusGeometry(.72,.055,8,28),new T.MeshBasicMaterial({color:0x69e4f4,transparent:true,opacity:.55}));trigger.rotation.x=Math.PI/2;trigger.position.set(a.x,.08,a.z+2.5);state.scene.add(trigger);state.billboards.push({...a,group:g,plate,trigger});});
+ ads.forEach((a,i)=>{const g=new T.Group(),metal=material(0x56636c,.45,.55),boardMat=material(0x112b40,.5,.2);const pole=new T.Mesh(new T.BoxGeometry(.32,4.8,.32),metal);pole.position.y=2.4;g.add(pole);const board=new T.Mesh(new T.BoxGeometry(8,3.2,.26),boardMat);board.position.y=5.25;g.add(board);const trim=new T.Mesh(new T.BoxGeometry(8.3,3.5,.12),material(0x3cc5d7,.35,.25,{emissive:0x145a6a,emissiveIntensity:.3}));trim.position.set(0,5.25,.18);g.add(trim);const artMat=new T.MeshBasicMaterial({map:billboardArtworkTexture(state.storeName,state.billboardPurchased.includes(a.id)),toneMapped:false});const plate=new T.Mesh(new T.PlaneGeometry(7.72,2.9),artMat);plate.position.set(0,5.25,.255);g.add(plate);g.position.set(a.x,0,a.z);g.rotation.y=i%2?Math.PI/2:0;state.scene.add(g);const trigger=new T.Mesh(new T.TorusGeometry(.72,.055,8,28),new T.MeshBasicMaterial({color:0x69e4f4,transparent:true,opacity:.55}));trigger.rotation.x=Math.PI/2;trigger.position.set(a.x,.08,a.z+2.5);state.scene.add(trigger);state.billboards.push({...a,group:g,plate,artMat,trigger});});
  // Businesses are paired with street-facing doors in the outside world and dedicated interiors beyond the map.
  const businesses=[
   {id:'ptg',name:'PT Toko Gamer',outside:{x:0,z:19.3},type:'showroom',size:[26,18],floors:3},
@@ -848,6 +924,30 @@ function setupCityFeatures(){
    }else if(b.type==='garage'){
     for(const x of [-5,5]){addBox(fg,x,floorY+1.1,-2.5,3.4,.18,3,wood);addBox(fg,x,floorY+2.0,-2.9,2.1,1.1,.1,accent);} 
    }
+   // Additional business-specific interior dressing: shop fixtures, queues, seating and service tools.
+   const detail=mat(0x2f424d),screen=mat(0x183d50,.22,.16,{emissive:0x0b2837,emissiveIntensity:.25}),plant=mat(0x39794c);
+   if(b.type==='minimarket'){
+    for(const x of [-7,7]){addBox(fg,x,floorY+1.15,3.0,1.0,2.25,1.25,mat(0x92a8ad));addBox(fg,x,floorY+2.35,3.0,1.0,.12,1.25,glass);}
+    for(let i=0;i<5;i++){addBox(fg,-8+i*4,floorY+.28,-6,.65,.5,.55,[mat(0xd45b4f),mat(0xd9b54f),mat(0x4e9c6b),mat(0x5a88bc),mat(0xc6d0d2)][i]);}
+    addBox(fg,-w*.32,floorY+1.0,5,2.8,.18,1.2,wood);addBox(fg,-w*.32,floorY+1.8,4.7,1.0,1.2,.12,screen);
+   }else if(b.type==='bank'){
+    for(const x of [-7.2,7.2]){addBox(fg,x,floorY+.52,4.8,1.8,.12,1.1,wood);addBox(fg,x,floorY+1.0,4.2,1.65,.85,.10,accent);}
+    for(const x of [-6,0,6]){addBox(fg,x,floorY+.46,6.0,1.0,.1,.65,metal);addBox(fg,x,floorY+1.0,6.0,.92,.1,.1,wood);}
+    for(const x of [-8,8]){addBox(fg,x,floorY+1.4,-7,1.0,2.8,.8,metal);addBox(fg,x,floorY+1.6,-6.55,.78,.7,.04,screen);}
+   }else if(b.type==='cafe'){
+    addBox(fg,-5,floorY+1.35,5,8,.18,1.5,wood);addBox(fg,-5,floorY+2.0,4.25,1.3,1.25,.1,screen);for(let i=0;i<4;i++){addBox(fg,-8+i*2,floorY+2.15,5.2,.28,.34,.28,mat(0x8b5b38));addBox(fg,-8+i*2,floorY+1.1,5.65,.55,.07,.55,metal);}
+    addBox(fg,5,floorY+1.05,5,2.3,.18,1.2,wood);addBox(fg,5,floorY+1.65,4.5,1.3,.95,.08,screen);addBox(fg,5,floorY+1.65,5.1,.35,.22,.35,metal);
+   }else if(b.type==='electronics'){
+    for(const x of [-7,0,7]){addBox(fg,x,floorY+.95,4,3.4,.18,1.6,wood);for(const side of [-.75,.75]){addBox(fg,x+side,floorY+1.75,3.6,.85,1.15,.65,detail);addBox(fg,x+side,floorY+1.8,3.25,.74,.88,.04,screen);}}
+   }else if(b.type==='garage'){
+    for(const x of [-6,6]){addBox(fg,x,floorY+.18,-1, .18,.36,6,mat(0xd2a84e));addBox(fg,x,floorY+.48,-1,.28,.18,6,metal);}
+    for(let i=0;i<8;i++){addBox(fg,-8+i*2.2,floorY+2.3,-7,.12,2.6,.5,metal);addBox(fg,-8+i*2.2,floorY+1.1,-7,.95,.12,.9,wood);}
+   }else if(b.type==='warung'){
+    for(const x of [-4,4]){addBox(fg,x,floorY+.45,2,1.6,.1,1.1,wood);for(const dx of [-.55,.55])addBox(fg,x+dx,floorY+.24,2,.1,.45,.1,metal);}
+    addBox(fg,0,floorY+1.8,-6,8,.16,1.25,wood);for(let i=0;i<5;i++)addBox(fg,-3.2+i*1.6,floorY+2.3,-6,.75,.75,.08,screen);
+   }
+   // Ambient lights and a visible room identifier make each interior read as a real place.
+   for(const lx of [-w*.28,w*.28]){const bulb=new T.Mesh(new T.SphereGeometry(.12,10,8),mat(0xffe6ae,.3,.0,{emissive:0xffd38a,emissiveIntensity:.65}));bulb.position.set(b.origin.x+lx,floorY+3.72,b.origin.z);fg.add(bulb);}
    // Employee avatars are placed at their actual workstation, not outside as decoration.
    let staff=[];if(b.type==='bank')staff=[['Bu Sari','administration',-3.4,-3.0],['Pak Dimas','administration',3.4,-3.0]];
    else if(b.type==='showroom')staff=level===0?[['Nadia · Sales','sales',0,4.6]]:level===1?[['Rizky · Teknisi','technician',-3.5,3.4],['Fajar · Teknisi','technician',4,3.4]]:[['Bu Rina · Admin','administration',-3.5,3.5],['Pak Arman · Manager','manager',4,3.5]];
@@ -860,7 +960,7 @@ function setupCityFeatures(){
   if(b.type==='bank')b.servicePos={x:b.origin.x,z:b.origin.z-3.2};
   b.exitMarker=new T.Mesh(new T.TorusGeometry(.8,.06,8,32),new T.MeshBasicMaterial({color:0x68e2f2}));b.exitMarker.rotation.x=Math.PI/2;b.exitMarker.position.set(b.exitPos.x,.08,b.exitPos.z);b.interiorGroup.add(b.exitMarker);
   const exitLabel=textSprite('PINTU KELUAR · E','#f5fdff','#18425a');exitLabel.position.set(b.exitPos.x,2.8,b.exitPos.z);exitLabel.scale.set(2.6,.55,1);b.interiorGroup.add(exitLabel);
-  const ring=new T.Mesh(new T.TorusGeometry(.72,.06,8,30),new T.MeshBasicMaterial({color:0x68e2f2,transparent:true,opacity:.8}));ring.rotation.x=Math.PI/2;ring.position.set(b.outside.x,.09,b.outside.z);state.scene.add(ring);const tag=textSprite('E · '+b.name,'#f6fdff','#173a4e');tag.position.set(b.outside.x,2.45,b.outside.z);tag.scale.set(2.2,.5,1);state.scene.add(tag);b.doorRing=ring;b.doorLabel=tag;state.cityInteriors.push(b);state.businessDoors.push(b);
+  const ring=new T.Mesh(new T.TorusGeometry(.72,.06,8,30),new T.MeshBasicMaterial({color:0x68e2f2,transparent:true,opacity:.8}));ring.rotation.x=Math.PI/2;ring.position.set(b.outside.x,.09,b.outside.z);state.scene.add(ring);b.doorRing=ring;state.cityInteriors.push(b);state.businessDoors.push(b);
  });
  // Keep a dense but clear commercial edge and protect pedestrian space.
  state.marketingActive=state.billboardPurchased.length>0;
@@ -875,6 +975,7 @@ function exitBusiness(){const b=state.currentInterior;if(!b)return;state.cityInt
 function interact(){
  if(state.isSitting){state.isSitting=false;state.player.group.userData.sitting=false;if(state.currentSeat)state.currentSeat.occupied=false;state.currentSeat=null;toast('Kamu berdiri.');return;}
  if(state.interiorMode){const b=state.currentInterior;if(state.nearest?.kind==='exitDoor'){exitBusiness();return;}if(state.nearest?.kind==='interiorStairUp'&&b?.type==='showroom'){setInteriorFloor(b,b.floorIndex+1);return;}if(state.nearest?.kind==='interiorStairDown'&&b?.type==='showroom'){setInteriorFloor(b,b.floorIndex-1);return;}if(state.nearest?.kind==='bankCounter'){openCityPhone('bank');return;}toast('Dekati pintu, tangga, atau meja teller.');return;}
+ if(state.nearest?.kind==='storeSign'){const value=prompt('Ganti nama papan toko (maksimal 28 karakter):',state.storeName||'PT TOKO GAMER');if(value!==null)setStoreName(value,true);return;}
  if(state.nearest?.kind==='businessDoor'){enterBusiness(state.nearest.business);return;}
  if(state.nearest?.kind==='atm'){openCityPhone('bank');return;}
  if(state.nearest?.kind==='seat'){const seat=state.nearest.seat;if(seat&&!seat.occupied){seat.occupied=true;state.isSitting=true;state.player.group.userData.sitting=true;state.currentSeat=seat;const fx=Math.sin(seat.rot)*.62,fz=Math.cos(seat.rot)*.62;state.player.group.position.set(seat.x+fx,0,seat.z+fz);state.player.group.rotation.y=seat.rot;toast('Duduk di bangku · Tekan E untuk berdiri.');}return;}
@@ -889,12 +990,13 @@ function updateCityFeatureProximity(){const p=state.player.group.position;let be
  if(state.interiorMode){const b=state.currentInterior;if(b){const de=Math.hypot(p.x-b.exitPos.x,p.z-b.exitPos.z);if(de<dist){dist=de;best={kind:'exitDoor',business:b};}if(b.type==='showroom'&&b.floorIndex<(b.floors-1)){const ds=Math.hypot(p.x-b.stairUpPos.x,p.z-b.stairUpPos.z);if(ds<dist){dist=ds;best={kind:'interiorStairUp',business:b};}}if(b.type==='showroom'&&b.floorIndex>0){const ds=Math.hypot(p.x-b.stairDownPos.x,p.z-b.stairDownPos.z);if(ds<dist){dist=ds;best={kind:'interiorStairDown',business:b};}}if(b.type==='bank'&&b.servicePos){const db=Math.hypot(p.x-b.servicePos.x,p.z-b.servicePos.z);if(db<dist){dist=db;best={kind:'bankCounter',business:b};}}}state.nearest=best;const show=!!best&&dist<3.2;$('interactionPrompt').classList.toggle('show',show);if(show)$('promptText').textContent=best.kind==='exitDoor'?'PINTU KELUAR · TEKAN E':best.kind==='interiorStairUp'?'NAIK LANTAI '+(b.floorIndex+2)+' · TEKAN E':best.kind==='interiorStairDown'?'TURUN KE LANTAI '+b.floorIndex+' · TEKAN E':'LAYANAN TELLER · TEKAN E';return;}
  for(const b of state.businessDoors){const d=Math.hypot(p.x-b.outside.x,p.z-b.outside.z);if(d<dist){dist=d;best={kind:'businessDoor',business:b};}}
  for(const a of state.atms){const d=Math.hypot(p.x-a.x,p.z-a.z);if(d<dist){dist=d;best={kind:'atm',atm:a};}}
+ const signPos=state.storeSignAnchor||{x:0,z:18.35};const signDist=Math.hypot(p.x-signPos.x,p.z-signPos.z);if(signDist<dist){dist=signDist;best={kind:'storeSign'};}
  for(const a of state.billboards){const d=Math.hypot(p.x-a.x,p.z-(a.z+2.5));if(d<dist){dist=d;best={kind:'billboard',billboard:a};}}
  for(const seat of state.seats||[]){if(seat.occupied)continue;const d=Math.hypot(p.x-seat.x,p.z-seat.z);if(d<dist){dist=d;best={kind:'seat',seat};}}
  for(const st of state.stations){const d=Math.hypot(p.x-st.x,p.z-st.z);if(d<dist){dist=d;best={kind:'station',station:st};}}
  for(const c of state.walkIns){if(c.status!=='waiting'||!c.group?.visible)continue;const d=Math.hypot(p.x-c.group.position.x,p.z-c.group.position.z);if(d<dist){dist=d;best={kind:'walkin',walkInId:c.id,label:c.name};}}
  state.nearest=best;const show=!!best&&dist<3.2;$('interactionPrompt').classList.toggle('show',show);
- if(show){const b=best.kind==='businessDoor'?best.business.name:best.kind==='atm'?'ATM · LAYANAN BANK':best.kind==='seat'?'BANGKU TAMAN · DUDUK':best.kind==='billboard'?('Billboard '+(state.billboardPurchased?.includes(best.billboard.id)?'· Iklan aktif':'· Beli slot iklan')):best.kind==='station'?best.station.label:best.label;$('promptText').textContent='◉ '+b+' · TEKAN E';}
+ if(show){const b=best.kind==='businessDoor'?best.business.name:best.kind==='atm'?'ATM · LAYANAN BANK':best.kind==='seat'?'BANGKU TAMAN · DUDUK':best.kind==='billboard'?('Billboard '+(state.billboardPurchased?.includes(best.billboard.id)?'· Iklan aktif':'· Beli slot iklan')):best.kind==='station'?best.station.label:best.label;$('promptText').textContent=best.kind==='billboard'?'BILLBOARD · TEKAN E UNTUK KELOLA':best.kind==='storeSign'?'PAPAN NAMA TOKO · TEKAN E UNTUK GANTI NAMA':'◉ '+b+' · TEKAN E';}
 }
 
 function createAvatar(name,role,isNpc=false){
@@ -1192,7 +1294,7 @@ function nextAIAction(){
  return null;
 }
 function renderHud(){if(!state.game)return;$('cashValue').textContent=fmt(storeBalance());$('reputationValue').textContent=state.game.reputation+' / 100';$('servedValue').textContent=(Number(state.game.completed_orders||0)+Number(state.retailLedger?.served||0))+' dilayani · '+state.walkIns.filter(c=>c.status!=='done').length+' menunggu';$('squadCount').textContent=state.roster.length+' / '+state.room.max_players;$('roleTitle').textContent=ROLE_INFO[state.role].name+' · Shift Aktif';$('roleObjective').textContent=ROLE_INFO[state.role].objective;$('roleChip').textContent=ROLE_INFO[state.role].icon+' '+ROLE_INFO[state.role].name.toUpperCase();$('teamList').innerHTML=state.roster.map(p=>'<div class="team-member"><span class="team-dot" style="'+(p.isAI?'background:#a58aff;box-shadow:0 0 8px #a58aff':'')+'"></span><div><b>'+esc(p.name)+'</b><small>'+esc(roleName(p.role))+(p.isAI?' · BOT AKTIF':'')+'</small></div>'+(p.id===state.user.id?'<span class="you">YOU</span>':'')+'</div>').join('');const open=state.game.orders.filter(o=>!o.completed);$('objectiveList').innerHTML='<button class="objective" id="quickOrders"><strong><span>Customer orders</span><em>'+open.length+' OPEN</em></strong><small>'+state.game.completed_orders+' dari '+state.game.total_orders+' order selesai</small></button><button class="objective" id="quickJobs"><strong><span>Service tickets</span><em>'+state.sideJobs.filter(j=>j.status!=='done').length+' ACTIVE</em></strong><small>Komplain · perawatan · home visit</small></button><button class="objective" id="quickRetail"><strong><span>Component sales</span><em>'+Number(state.retailLedger?.sales||0)+' SOLD</em></strong><small>'+fmt(state.retailLedger?.revenue||0)+' omzet · atur stok di gudang</small></button>'+(state.aiEnabled?'<div class="chat-line" style="margin-top:6px">🤖 AI Squad aktif · '+state.aiRoles.length+' asisten mengerjakan role kosong.</div>':'');if($('quickOrders'))$('quickOrders').onclick=()=>openStation(state.role);if($('quickJobs'))$('quickJobs').onclick=openMissionLog;if($('quickRetail'))$('quickRetail').onclick=()=>openInventory('warehouse');renderHotbar();}
-function subscribe(){state.channel=state.sb.channel('pt-toko-game-'+state.roomId).on('postgres_changes',{event:'*',schema:'public',table:'techlab_tg_game_states',filter:'room_id=eq.'+state.roomId},payload=>{if(payload.new?.state){state.game=payload.new.state;if(!state.game.orders.some(o=>o.id===state.selectedOrder))state.selectedOrder=state.game.orders.find(o=>!o.completed)?.id;renderHud();syncNPCState();refreshOpenPanels()}}).on('postgres_changes',{event:'*',schema:'public',table:'techlab_mp_members',filter:'room_id=eq.'+state.roomId},()=>refreshRoster()).on('broadcast',{event:'player_move'},({payload})=>{if(!payload||payload.id===state.user.id)return;let remote=state.remotePlayers.get(payload.id);if(!remote){const av=createAvatar(payload.name,payload.role,true);state.scene.add(av.group);remote={...av,target:{x:payload.x,z:payload.z,rot:payload.rot},lastSeen:Date.now()};state.remotePlayers.set(payload.id,remote)}remote.target={x:payload.x,z:payload.z,rot:payload.rot};remote.lastSeen=Date.now()}).on('broadcast',{event:'side_job_sync'},({payload})=>{if(payload?.jobs){state.sideJobs=payload.jobs;if(payload.onlineContacted)state.onlineContacted=payload.onlineContacted;persistSideJobs();syncNPCState();renderHud();refreshOpenPanels()}}).on('broadcast',{event:'walkin_spawn'},({payload})=>{if(payload)spawnWalkInCustomer(payload,false)}).on('broadcast',{event:'walkin_resolve'},({payload})=>{if(payload?.id){state.seenWalkInResolutions.add(payload.id);resolveWalkIn(payload.id,payload.kind||'served',false)}}).on('broadcast',{event:'pc_build_sync'},({payload})=>{if(payload?.orderId&&payload.work&&payload.sender!==state.user.id){pcBuildWork[payload.orderId]=payload.work;savePCBuildWork(payload.orderId,payload.work,false);if($('pcBuilderOverlay')?.classList.contains('show')&&pcBuilderOrderId===payload.orderId)renderPCBuilder();}}).on('broadcast',{event:'retail_transaction'},({payload})=>{if(payload&&payload.sender!==state.user.id)applyRetailTransaction(payload,false)}).on('broadcast',{event:'city_ad_purchase'},({payload})=>{if(payload?.id&&!state.billboardPurchased.includes(payload.id)){state.billboardPurchased.push(payload.id);state.marketingActive=true;state.retailLedger.billboards=state.billboardPurchased.slice();state.retailLedger.adCost=(Number(state.retailLedger.adCost)||0)+Number(payload.cost||0);saveRetailLedger();const ad=state.billboards.find(x=>x.id===payload.id);if(ad)setBillboardPurchased(ad);}}).subscribe();}
+function subscribe(){state.channel=state.sb.channel('pt-toko-game-'+state.roomId).on('postgres_changes',{event:'*',schema:'public',table:'techlab_tg_game_states',filter:'room_id=eq.'+state.roomId},payload=>{if(payload.new?.state){state.game=payload.new.state;if(!state.game.orders.some(o=>o.id===state.selectedOrder))state.selectedOrder=state.game.orders.find(o=>!o.completed)?.id;renderHud();syncNPCState();refreshOpenPanels()}}).on('postgres_changes',{event:'*',schema:'public',table:'techlab_mp_members',filter:'room_id=eq.'+state.roomId},()=>refreshRoster()).on('broadcast',{event:'player_move'},({payload})=>{if(!payload||payload.id===state.user.id)return;let remote=state.remotePlayers.get(payload.id);if(!remote){const av=createAvatar(payload.name,payload.role,true);state.scene.add(av.group);remote={...av,target:{x:payload.x,z:payload.z,rot:payload.rot},lastSeen:Date.now()};state.remotePlayers.set(payload.id,remote)}remote.target={x:payload.x,z:payload.z,rot:payload.rot};remote.lastSeen=Date.now()}).on('broadcast',{event:'side_job_sync'},({payload})=>{if(payload?.jobs){state.sideJobs=payload.jobs;if(payload.onlineContacted)state.onlineContacted=payload.onlineContacted;persistSideJobs();syncNPCState();renderHud();refreshOpenPanels()}}).on('broadcast',{event:'walkin_spawn'},({payload})=>{if(payload)spawnWalkInCustomer(payload,false)}).on('broadcast',{event:'walkin_resolve'},({payload})=>{if(payload?.id){state.seenWalkInResolutions.add(payload.id);resolveWalkIn(payload.id,payload.kind||'served',false)}}).on('broadcast',{event:'pc_build_sync'},({payload})=>{if(payload?.orderId&&payload.work&&payload.sender!==state.user.id){pcBuildWork[payload.orderId]=payload.work;savePCBuildWork(payload.orderId,payload.work,false);if($('pcBuilderOverlay')?.classList.contains('show')&&pcBuilderOrderId===payload.orderId)renderPCBuilder();}}).on('broadcast',{event:'retail_transaction'},({payload})=>{if(payload&&payload.sender!==state.user.id)applyRetailTransaction(payload,false)}).on('broadcast',{event:'city_store_name'},({payload})=>{if(payload?.name&&payload.sender!==state.user.id){state.storeName=String(payload.name).slice(0,28);try{localStorage.setItem('tg-shop-name-'+(state.user?.id||state.roomId||'default'),state.storeName)}catch(e){}if(state.storeSignSprite?.parent)state.storeSignSprite.parent.remove(state.storeSignSprite);state.storeSignSprite=textSprite(state.storeName,'#fff7df','#17364c');state.storeSignSprite.position.set(0,5.58,17.49);state.storeSignSprite.scale.set(6.8,1.1,1);state.scene.add(state.storeSignSprite);for(const ad of state.billboards||[])if(state.billboardPurchased?.includes(ad.id))setBillboardPurchased(ad);}}).on('broadcast',{event:'city_ad_purchase'},({payload})=>{if(payload?.id&&!state.billboardPurchased.includes(payload.id)){state.billboardPurchased.push(payload.id);state.marketingActive=true;state.retailLedger.billboards=state.billboardPurchased.slice();state.retailLedger.adCost=(Number(state.retailLedger.adCost)||0)+Number(payload.cost||0);saveRetailLedger();const ad=state.billboards.find(x=>x.id===payload.id);if(ad)setBillboardPurchased(ad);}}).subscribe();}
 async function refreshRoster(){const q=await state.sb.from('techlab_mp_members').select('user_id,role_code,is_ready,joined_at').eq('room_id',state.roomId).order('joined_at');if(q.error)return;const ids=q.data.map(x=>x.user_id),names=await state.sb.from('techlab_profiles').select('id,display_name').in('id',ids);const nm={};(names.data||[]).forEach(x=>nm[x.id]=x.display_name);const humans=q.data.map(m=>({id:m.user_id,name:nm[m.user_id]||'Someone',role:m.role_code,ready:m.is_ready,host:m.user_id===state.room.host_id,isAI:false}));state.roster=mergeAIRoster(humans);renderHud()}
 function loadSideSession(roomId){const defaults=defaultSideJobs();try{const saved=JSON.parse(localStorage.getItem('tg-sidejobs-'+roomId)||'null');if(Array.isArray(saved)){return {jobs:defaults.map(j=>({...j,...(saved.find(x=>x.id===j.id)||{})})),onlineContacted:{}}}if(saved&&typeof saved==='object'){return {jobs:defaults.map(j=>({...j,...((saved.jobs||[]).find(x=>x.id===j.id)||{})})),onlineContacted:saved.onlineContacted||{}}}}catch(e){}return {jobs:defaults,onlineContacted:{}}}function persistSideJobs(){try{localStorage.setItem('tg-sidejobs-'+state.roomId,JSON.stringify({jobs:state.sideJobs,onlineContacted:state.onlineContacted}))}catch(e){}}
 function syncSideJobs(){persistSideJobs();state.channel?.send({type:'broadcast',event:'side_job_sync',payload:{jobs:state.sideJobs,onlineContacted:state.onlineContacted}});syncNPCState();renderHud();refreshOpenPanels()}
