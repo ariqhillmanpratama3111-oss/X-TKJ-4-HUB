@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "Atribuição é opcional (CC0). Se quiser citar ou dar crédito, use estes dados."
+type: dataset
+title: "Kit Cidade Low Poly: modelos 3D low poly de cidade brasileira sustentável"
+abstract: >-
+  Kit livre de modelos 3D low poly (glTF/GLB) para montar cidades: casas, comércio, serviços públicos, água e
+  saneamento, energia, resíduos, parques, ruas modulares, terreno, veículos, mobiliário urbano, vegetação nativa
+  brasileira e beira de rio. Cada modelo é gerado por um script Python no Blender, com paleta de cores única,
+  sem texturas. Nasceu dos modelos próprios do jogo educativo Guardião da Água.
+authors:
+  - family-names: Rotondo
+    given-names: Kayque
+  - family-names: Roxinol
+    given-names: Cláudia Dias
+license: CC0-1.0
+repository-code: "https://github.com/kayquer/kit-cidade-lowpoly"
+keywords:
+  - low poly
+  - 3D
+  - glTF
+  - Blender
+  - city builder
+  - game assets
+  - CC0
+  - cidade sustentável
+  - recursos hídricos
+  - low poly city kit
+  - free 3D models
+  - public domain
+  - GLB
+  - Godot
+  - Unity
+  - three.js

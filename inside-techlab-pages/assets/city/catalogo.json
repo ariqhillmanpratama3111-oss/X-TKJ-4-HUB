@@ -1,0 +1,905 @@
+{
+ "agua/barragem_subterranea": {
+  "categoria": "agua",
+  "id": "barragem_subterranea",
+  "tris": 592,
+  "kb": 45.3,
+  "descricao": "Barragem Subterrânea (2×2): leito de riacho do semiárido em corte. A frente mostra o chão cortado: a parede de lona (preta) enterrada até a rocha segura a água dentro da areia (faixa turquesa), e o poço amazonas (anel de concreto com sarilho que gira, nó \"gira_1\") tira essa água. Em cima, plantação verde."
+ },
+ "agua/bomba_agua": {
+  "categoria": "agua",
+  "id": "bomba_agua",
+  "tris": 440,
+  "kb": 30.4,
+  "descricao": "Bomba de Água (1×1): casa de máquinas + bomba com motor + canos azuis saindo do chão."
+ },
+ "agua/caixa_dagua": {
+  "categoria": "agua",
+  "id": "caixa_dagua",
+  "tris": 1232,
+  "kb": 72.4,
+  "descricao": "Caixa-d'Água Elevada (1×1): estilo cidade do interior — torre de concreto em quatro pilares com vigas cruzadas, escada marinheiro, tanque cilíndrico branco com faixa azul e borda, tampa cônica, cano de descida até o registro no chão, cerca e grama em volta."
+ },
+ "agua/centro_controle_perdas": {
+  "categoria": "agua",
+  "id": "centro_controle_perdas",
+  "tris": 964,
+  "kb": 70.5,
+  "descricao": "Centro de Controle de Perdas (2×2): prédio de operação com telão (mapa da rede em azul), antena de telemetria girando (nó \"gira_1\"), canos azuis da rede que entram no chão com medidores e um trecho aberto com o vazamento consertado (remendo amarelo). Mostra a ideia: achar e tapar vazamentos = água nova."
+ },
+ "agua/centro_pesquisa_agua": {
+  "categoria": "agua",
+  "id": "centro_pesquisa_agua",
+  "tris": 1112,
+  "kb": 75.5,
+  "descricao": "Centro de Pesquisas Hídricas (3×3): laboratório moderno com fachada de vidro e faixa turquesa, tanques de experimento com águas de cores diferentes, estação meteorológica e painéis solares."
+ },
+ "agua/estacao_filtragem": {
+  "categoria": "agua",
+  "id": "estacao_filtragem",
+  "tris": 984,
+  "kb": 57.5,
+  "descricao": "Estação de Filtros (1×1): casa de controle, dois filtros de pressão e uma coluna em corte mostrando as camadas do filtro (água, areia, cascalho e carvão)."
+ },
+ "agua/estacao_monitoramento": {
+  "categoria": "agua",
+  "id": "estacao_monitoramento",
+  "tris": 684,
+  "kb": 47.7,
+  "descricao": "Estação de Monitoramento (1×1): cabine de dados com antena, painel solar, anemômetro, pluviômetro e régua de nível d'água (linímetro) — mede chuva, vento e o nível do rio."
+ },
+ "agua/eta": {
+  "categoria": "agua",
+  "id": "eta",
+  "tris": 1268,
+  "kb": 77.1,
+  "descricao": "Estação de Tratamento de Água — ETA (2×2): capta água de rio/lago (cano de água bruta entrando pela esquerda, com bomba amarela) → floculação → decantadores → filtros de areia → reservatório de água tratada, com prédio de controle e casa de química. A cor da água muda a cada etapa. Desenho que era do treatment_plant até 10/2026 (que virou a ETE, de esgoto)."
+ },
+ "agua/ete": {
+  "categoria": "agua",
+  "id": "ete",
+  "tris": 1232,
+  "kb": 80.6,
+  "descricao": "Estação de Tratamento de Esgoto — ETE (2×2): esgoto marrom chega pela grade → tanque de aeração (bolhas: as bactérias comem a sujeira) → decantador redondo com a ponte raspadora girando (gira_1) → água limpa saindo pelo cano da direita de volta ao rio. Leitos de secagem do lodo no fundo e prédio de controle de telhado verde (a ETA, de água, tem telhado azul). A cor da água clareia a cada etapa."
+ },
+ "agua/jardim_chuva": {
+  "categoria": "agua",
+  "id": "jardim_chuva",
+  "tris": 776,
+  "kb": 61.1,
+  "descricao": "Jardim de Chuva (2×2): canteiro rebaixado com plantas e pedras que recebe a água da calçada por uma canaleta e deixa ela infiltrar (poça no meio)."
+ },
+ "agua/jardim_flutuante": {
+  "categoria": "agua",
+  "id": "jardim_flutuante",
+  "tris": 1212,
+  "kb": 77.7,
+  "descricao": "Jardim Flutuante (3×3, sobre a água): ilhas de plantas filtradoras em balsas de madeira, ligadas por passarelas, com boias de sinalização. As raízes (penduradas sob a balsa) limpam a água."
+ },
+ "agua/monitor_qualidade_agua": {
+  "categoria": "agua",
+  "id": "monitor_qualidade_agua",
+  "tris": 508,
+  "kb": 39.9,
+  "descricao": "Monitor de Qualidade (1×1): laboratório pequeno com sonda mergulhada num tanque de amostra, boia medidora e painel mostrando a qualidade (barras verdes)."
+ },
+ "agua/poco_artesiano": {
+  "categoria": "agua",
+  "id": "poco_artesiano",
+  "tris": 656,
+  "kb": 44.2,
+  "descricao": "Poço Artesiano (1×1): torre de perfuração sobre a boca do poço, cano até a caixa e bica no cocho."
+ },
+ "agua/reservatorio": {
+  "categoria": "agua",
+  "id": "reservatorio",
+  "tris": 868,
+  "kb": 53.3,
+  "descricao": "Reservatório (1×1): tanque cilíndrico apoiado no chão, com faixas azuis, teto cônico, escada lateral com guarda-corpo, régua de nível mostrando a água por dentro, cano de entrada (vem da captação/tratamento) e de saída (vai para a cidade) com registro, e uma bordinha de grama. Pedagógico: a régua azul na frente mostra \"quanto de água está guardada\"."
+ },
+ "agua/usina_dessalinizacao": {
+  "categoria": "agua",
+  "id": "usina_dessalinizacao",
+  "tris": 1468,
+  "kb": 88.6,
+  "descricao": "Usina de Dessalinização (3×3): a água salgada (verde-azulada) entra por um cano grosso, passa pelos pré-filtros e pelas fileiras de tubos brancos de membrana (osmose reversa), sai como água potável (turquesa) para o reservatório azul. A salmoura volta por um cano marrom. Bombas de alta pressão com ventilador no telhado (nó \"gira_1\") e muitos cabos de energia: ela gasta muita eletricidade."
+ },
+ "agua/usina_reuso_agua": {
+  "categoria": "agua",
+  "id": "usina_reuso_agua",
+  "tris": 938,
+  "kb": 66.3,
+  "descricao": "Estação de Água de Reúso (3×3): esgoto já tratado (verde-claro) entra no tanque de aeração com o misturador girando (nó \"gira_1\"), passa pelo galpão das membranas e vira água de reúso (lilás, a cor usada no Brasil para os canos de água não potável) que segue em canos roxos para a fábrica vizinha. Inspiração: o Aquapolo, em São Paulo, que entrega água de reúso para um polo industrial."
+ },
+ "beira_rio/barco_pesca": {
+  "categoria": "beira_rio",
+  "id": "barco_pesca",
+  "tris": 412,
+  "kb": 26.2,
+  "descricao": "Barco de pesca pequeno a motor sobre um pedaço de água: casco branco com faixa azul e popa reta, cabine pequena com janelas, motor de popa escuro, caixa de isopor e vara de pesca."
+ },
+ "beira_rio/boia_rio": {
+  "categoria": "beira_rio",
+  "id": "boia_rio",
+  "tris": 364,
+  "kb": 23.6,
+  "descricao": "Boia de monitoramento do rio: flutuador amarelo num pedaço de água, mastro com plaquinha solar, sensor e luz de sinalização vermelha."
+ },
+ "beira_rio/canoa": {
+  "categoria": "beira_rio",
+  "id": "canoa",
+  "tris": 296,
+  "kb": 17.2,
+  "descricao": "Canoa de madeira de pescador num remanso do rio: casco em duas camadas, bancos, remo apoiado e uma rede dobrada."
+ },
+ "beira_rio/capivara": {
+  "categoria": "beira_rio",
+  "id": "capivara",
+  "tris": 300,
+  "kb": 21.4,
+  "descricao": "Capivara estilizada num pedaço de grama da margem: corpo marrom robusto, cabeça quadrada olhando para a frente (-Y), focinho escuro, orelhinhas, olhos e pernas curtas."
+ },
+ "beira_rio/garca": {
+  "categoria": "beira_rio",
+  "id": "garca",
+  "tris": 222,
+  "kb": 17.9,
+  "descricao": "Garça-branca em pé numa pedra da beira do rio: corpo branco, pescoço em S, bico amarelo apontado para a frente (-Y) e pernas finas escuras."
+ },
+ "beira_rio/trapiche": {
+  "categoria": "beira_rio",
+  "id": "trapiche",
+  "tris": 570,
+  "kb": 34.8,
+  "descricao": "Trapiche (píer curto de madeira): sai de um pedaço de margem com grama (atrás, +Y) e avança sobre a água (frente, -Y), com tábuas, estacas, cabeços de amarração com corda e um lampião na ponta."
+ },
+ "comercial/banco": {
+  "categoria": "comercial",
+  "id": "banco",
+  "tris": 662,
+  "kb": 45.0,
+  "descricao": "Agência bancária (1×1): prédio de pedra clara com escadaria, quatro colunas na fachada, frontão liso, porta de vidro, caixa eletrônico em quiosque na lateral e cúpula baixa no telhado."
+ },
+ "comercial/escritorio": {
+  "categoria": "comercial",
+  "id": "escritorio",
+  "tris": 820,
+  "kb": 53.4,
+  "descricao": "Prédio de escritórios (1×1): bloco médio de seis andares com fachada de vidro azul em faixas e lajes brancas aparentes, núcleo de concreto na lateral, entrada com pé-direito duplo, terraço com árvores e bicicletário na calçada."
+ },
+ "comercial/hotel": {
+  "categoria": "comercial",
+  "id": "hotel",
+  "tris": 678,
+  "kb": 45.9,
+  "descricao": "Hotel (1×1): torre de sete andares creme e terracota com janelas em fita, marquise grande sobre a entrada de carros, porta giratória de vidro, bandeiras na fachada e piscina com espreguiçadeiras e guarda-sol na cobertura."
+ },
+ "comercial/loja_esquina": {
+  "categoria": "comercial",
+  "id": "loja_esquina",
+  "tris": 652,
+  "kb": 46.0,
+  "descricao": "Loja de esquina (1×1): sobradinho comercial verde-água com vitrine grande, toldo listrado laranja e branco na frente e na lateral, letreiro liso, moradia em cima, caixotes de frutas e vasos na calçada."
+ },
+ "comercial/mercado": {
+  "categoria": "comercial",
+  "id": "mercado",
+  "tris": 512,
+  "kb": 36.4,
+  "descricao": "Mercado de bairro (1×1): galpão térreo branco com faixa vermelha, fachada de vidro, letreiro liso no alto, cobertura na entrada, carrinhos de compra em fila e estacionamento pequeno com vagas pintadas."
+ },
+ "comercial/posto_recarga": {
+  "categoria": "comercial",
+  "id": "posto_recarga",
+  "tris": 636,
+  "kb": 45.5,
+  "descricao": "Posto de recarga de carros elétricos (1×1): cobertura de painéis solares sobre duas vagas com carregadores verdes, faixas de vaga pintadas, lojinha de conveniência envidraçada, bateria estacionária e canteiros."
+ },
+ "comercial/restaurante": {
+  "categoria": "comercial",
+  "id": "restaurante",
+  "tris": 738,
+  "kb": 50.7,
+  "descricao": "Restaurante (1×1): casa de esquina terracota com telhado de telha, janelões, chaminé do forno a lenha, letreiro liso, deque de madeira na calçada com mesas, cadeiras e guarda-sóis coloridos e vasos."
+ },
+ "comercial/shopping": {
+  "categoria": "comercial",
+  "id": "shopping",
+  "tris": 796,
+  "kb": 56.7,
+  "descricao": "Shopping (2×2): galeria baixa em L com fachada de vidro e lojas, claraboia em arco sobre o corredor central, entrada com marquise, telhado verde em parte da cobertura, estacionamento com vagas, árvores e ponto de táxi na frente."
+ },
+ "energia/biodigestor": {
+  "categoria": "energia",
+  "id": "biodigestor",
+  "tris": 1408,
+  "kb": 87.6,
+  "descricao": "Biodigestor (2×2): restos de comida e lodo de esgoto entram pela caixa de carga (marrom), viram biogás em dois tanques de concreto com cúpula de lona, o gás vai por canos amarelos ao gasômetro e dele ao gerador (casinha com faixa amarela e ventilador no telhado, nó \"gira_1\") ou ao queimador de segurança."
+ },
+ "energia/hidreletrica": {
+  "categoria": "energia",
+  "id": "hidreletrica",
+  "tris": 972,
+  "kb": 67.7,
+  "descricao": "Hidrelétrica (3×3, sobre a água): represa alta atrás, barragem de concreto, vertedouro com a queda d'água, casa de força com as tubulações (condutos forçados) e torre de transmissão amarela."
+ },
+ "energia/parque_eolico": {
+  "categoria": "energia",
+  "id": "parque_eolico",
+  "tris": 846,
+  "kb": 54.7,
+  "descricao": "Campo Eólico (2×2): três aerogeradores brancos de alturas diferentes (pás como nós separados, \"pas_1\"..\"pas_3\", pivô no cubo) sobre um morrinho de grama, com subestação de faixa amarela."
+ },
+ "energia/poste_energia": {
+  "categoria": "energia",
+  "id": "poste_energia",
+  "tris": 264,
+  "kb": 21.1,
+  "descricao": "Poste de Energia (1×1): poste de madeira com cruzeta, isoladores, transformador e fios saindo para os dois lados."
+ },
+ "energia/termeletrica": {
+  "categoria": "energia",
+  "id": "termeletrica",
+  "tris": 844,
+  "kb": 53.3,
+  "descricao": "Termelétrica (2×2): casa de caldeiras, turbina, duas chaminés listradas soltando fumaça cinza e tanque de combustível — mostra que queimar combustível polui o ar."
+ },
+ "energia/usina_biomassa": {
+  "categoria": "energia",
+  "id": "usina_biomassa",
+  "tris": 1056,
+  "kb": 68.3,
+  "descricao": "Usina de Biomassa (2×2): pilha de cavaco e toras (resíduos de madeira e da roça), esteira inclinada que leva o combustível ao alto da caldeira, filtro de mangas antes da chaminé (fumaça clara), prédio da turbina com faixa amarela e exaustor no telhado (nó \"gira_1\") e transformador de energia."
+ },
+ "energia/usina_cana": {
+  "categoria": "energia",
+  "id": "usina_cana",
+  "tris": 1440,
+  "kb": 90.9,
+  "descricao": "Usina Sucroenergética (3×3): o caminhão traz cana para o pátio, a esteira leva à moenda (galpão), o caldo vira açúcar e etanol (tanques cilíndricos) e o bagaço (monte amarelado) queima na caldeira de chaminé alta, gerando vapor e eletricidade (subestação de faixa amarela). Torre de resfriamento baixa com ventilador no topo (nó \"gira_1\")."
+ },
+ "energia/usina_carvao": {
+  "categoria": "energia",
+  "id": "usina_carvao",
+  "tris": 512,
+  "kb": 36.0,
+  "descricao": "Usina a Carvão (2×2): pilha de carvão, esteira até a caldeira, chaminé alta com fumaça escura — a fonte de energia que mais polui."
+ },
+ "energia/usina_mare": {
+  "categoria": "energia",
+  "id": "usina_mare",
+  "tris": 640,
+  "kb": 45.4,
+  "descricao": "Usina Maremotriz (2×2, sobre a água): uma barragem baixa de concreto atravessa a água com comportas; na frente, o canal por onde a maré entra e sai gira uma turbina (nó \"pas_1\", gira no eixo do rotor); casa de controle com faixa amarela e cabo até o poste. Inspiração: o projeto da Baía de São Marcos (MA)."
+ },
+ "energia/usina_nuclear": {
+  "categoria": "energia",
+  "id": "usina_nuclear",
+  "tris": 1488,
+  "kb": 84.4,
+  "descricao": "Usina Nuclear (4×4): duas torres de resfriamento soltando vapor branco, prédio do reator com cúpula, sala de turbinas com faixa amarela e cerca de segurança."
+ },
+ "energia/usina_solar": {
+  "categoria": "energia",
+  "id": "usina_solar",
+  "tris": 944,
+  "kb": 58.0,
+  "descricao": "Usina Solar (3×3): fileiras de painéis inclinados para o sol, inversor com raio amarelo e transformador ligado à rede."
+ },
+ "industrial/fabrica": {
+  "categoria": "industrial",
+  "id": "fabrica",
+  "tris": 1372,
+  "kb": 83.6,
+  "descricao": "Fábrica (2×2): galpão de tijolo com telhado em dente de serra (sheds com vidro virado para o fundo), escritório anexo, chaminé alta com filtro e faixas, tanques, doca de carga com caminhão e pátio de asfalto."
+ },
+ "industrial/galpao": {
+  "categoria": "industrial",
+  "id": "galpao",
+  "tris": 748,
+  "kb": 47.8,
+  "descricao": "Galpão / Armazém (1×1): galpão de metal com telhado em arco, portão de enrolar listrado, porta lateral, plataforma de carga, pilhas de paletes e caixas, empilhadeira amarela e faixas de segurança no pátio."
+ },
+ "industrial/oficina": {
+  "categoria": "industrial",
+  "id": "oficina",
+  "tris": 1164,
+  "kb": 65.0,
+  "descricao": "Oficina Mecânica (1×1): prédio baixo com dois boxes de portão aberto, um carro no elevador, pilha de pneus, tambores de óleo, bancada de ferramentas, toldo listrado e placa genérica com uma chave inglesa."
+ },
+ "industrial/porto": {
+  "categoria": "industrial",
+  "id": "porto",
+  "tris": 1020,
+  "kb": 65.6,
+  "descricao": "Porto (2×2, sobre a água): cais de concreto avançando sobre a água com defensas pretas e cabeços de amarração, guindaste de pórtico laranja, pilhas de contêineres coloridos, armazém e um barco de carga atracado."
+ },
+ "mobiliario/banco_praca": {
+  "categoria": "mobiliario",
+  "id": "banco_praca",
+  "tris": 420,
+  "kb": 25.7,
+  "descricao": "Banco de praça: assento e encosto de ripas de madeira sobre dois pés de ferro fundido escuro, com braços."
+ },
+ "mobiliario/barril_chuva": {
+  "categoria": "mobiliario",
+  "id": "barril_chuva",
+  "tris": 672,
+  "kb": 42.3,
+  "descricao": "Barril de captação de chuva: tambor azul sobre um estrado de madeira, cano da calha descendo até a tampa, torneira na frente com um regador ao lado e marcador de nível de água na lateral direita."
+ },
+ "mobiliario/bebedouro": {
+  "categoria": "mobiliario",
+  "id": "bebedouro",
+  "tris": 472,
+  "kb": 28.4,
+  "descricao": "Bebedouro público: pedestal de concreto, cuba turquesa com bica de metal, pedal e bacia para animais na base."
+ },
+ "mobiliario/bicicletario": {
+  "categoria": "mobiliario",
+  "id": "bicicletario",
+  "tris": 476,
+  "kb": 27.3,
+  "descricao": "Bicicletário: base de concreto com três arcos em U invertido de metal amarelo e uma bicicleta vermelha presa."
+ },
+ "mobiliario/cerca_madeira": {
+  "categoria": "mobiliario",
+  "id": "cerca_madeira",
+  "tris": 348,
+  "kb": 21.7,
+  "descricao": "Cerca de madeira (trecho de 2 unidades ao longo de X): cinco mourões com ponta e duas travessas, para emendar lado a lado na borda de um lote."
+ },
+ "mobiliario/cisterna": {
+  "categoria": "mobiliario",
+  "id": "cisterna",
+  "tris": 600,
+  "kb": 35.6,
+  "descricao": "Cisterna de placas (semiárido): tanque branco de concreto com faixa azul, tampa cônica, cano trazendo a água da calha do telhado, bomba manual e balde na frente."
+ },
+ "mobiliario/hidrante": {
+  "categoria": "mobiliario",
+  "id": "hidrante",
+  "tris": 422,
+  "kb": 23.0,
+  "descricao": "Hidrante de rua: corpo vermelho com tampa amarela, duas saídas laterais e uma frontal, sobre base de concreto."
+ },
+ "mobiliario/lixeira": {
+  "categoria": "mobiliario",
+  "id": "lixeira",
+  "tris": 284,
+  "kb": 17.1,
+  "descricao": "Lixeira comum de calçada (papeleira): cesto laranja com borda escura preso num poste baixo de metal."
+ },
+ "mobiliario/lixeira_seletiva": {
+  "categoria": "mobiliario",
+  "id": "lixeira_seletiva",
+  "tris": 936,
+  "kb": 50.3,
+  "descricao": "Lixeira seletiva de rua: quatro cestos (azul papel, vermelho plástico, verde vidro, amarelo metal) presos numa travessa sobre dois postes, cada um com boca escura e etiqueta clara na frente; base de concreto."
+ },
+ "mobiliario/orelhao": {
+  "categoria": "mobiliario",
+  "id": "orelhao",
+  "tris": 276,
+  "kb": 21.6,
+  "descricao": "Orelhão (telefone público brasileiro): concha laranja em forma de ovo com a abertura escura na frente, aparelho cinza dentro, coluna e base de concreto."
+ },
+ "mobiliario/parquinho": {
+  "categoria": "mobiliario",
+  "id": "parquinho",
+  "tris": 596,
+  "kb": 37.6,
+  "descricao": "Parquinho: piso de areia com borda de madeira, escorregador (escada, plataforma com telhadinho e rampa amarela) e balanço de dois assentos."
+ },
+ "mobiliario/placa_educativa": {
+  "categoria": "mobiliario",
+  "id": "placa_educativa",
+  "tris": 274,
+  "kb": 22.4,
+  "descricao": "Placa educativa de beira de rio: quadro de madeira com telhadinho sobre dois postes, gota azul e árvore desenhadas, faixa verde de título e linhas de texto (sem letras)."
+ },
+ "mobiliario/placa_pare": {
+  "categoria": "mobiliario",
+  "id": "placa_pare",
+  "tris": 136,
+  "kb": 9.8,
+  "descricao": "Placa de parada obrigatória: octógono vermelho com borda branca (sem letras), costas de metal e poste."
+ },
+ "mobiliario/ponto_onibus": {
+  "categoria": "mobiliario",
+  "id": "ponto_onibus",
+  "tris": 480,
+  "kb": 38.2,
+  "descricao": "Ponto de ônibus com telhado verde: abrigo de metal com fundo de vidro, banco, cobertura com grama e plantas (segura a água da chuva) e placa azul do ponto ao lado."
+ },
+ "mobiliario/poste_luz": {
+  "categoria": "mobiliario",
+  "id": "poste_luz",
+  "tris": 236,
+  "kb": 15.7,
+  "descricao": "Poste de iluminação comum: base de concreto, coluna cônica cinza, braço curvo e luminária com lâmpada amarela."
+ },
+ "mobiliario/poste_solar": {
+  "categoria": "mobiliario",
+  "id": "poste_solar",
+  "tris": 320,
+  "kb": 22.0,
+  "descricao": "Poste solar: mastro cônico, placa solar inclinada no topo virada para o sol, braço com luminária de LED amarela, caixa da bateria no meio do poste e base de concreto."
+ },
+ "mobiliario/quiosque": {
+  "categoria": "mobiliario",
+  "id": "quiosque",
+  "tris": 462,
+  "kb": 31.9,
+  "descricao": "Quiosque de praça: base octogonal, corpo verde com balcão de madeira e janela de atendimento na frente, cobertura cônica vermelha com beiral, toldo listrado e dois banquinhos."
+ },
+ "mobiliario/semaforo": {
+  "categoria": "mobiliario",
+  "id": "semaforo",
+  "tris": 480,
+  "kb": 28.9,
+  "descricao": "Semáforo veicular de esquina: coluna de metal com braço sobre a rua (-X), grupo focal pendurado no braço e outro na coluna, cada um com vermelho, amarelo e verde voltados para a frente (-Y)."
+ },
+ "mobiliario/semaforo_pedestre": {
+  "categoria": "mobiliario",
+  "id": "semaforo_pedestre",
+  "tris": 212,
+  "kb": 15.5,
+  "descricao": "Semáforo de pedestre: coluna baixa com grupo focal de duas luzes (vermelha em cima, verde embaixo) e botoeira amarela na altura da mão."
+ },
+ "mobiliario/vaso_planta": {
+  "categoria": "mobiliario",
+  "id": "vaso_planta",
+  "tris": 328,
+  "kb": 26.1,
+  "descricao": "Floreira de concreto de calçada: caixa quadrada com terra, arbusto central e flores rosas e amarelas."
+ },
+ "parques/ecoparque": {
+  "categoria": "parques",
+  "id": "ecoparque",
+  "tris": 1480,
+  "kb": 100.5,
+  "descricao": "Ecoparque (3×3): central de tratamento avançado de resíduos. Galpão de triagem automatizada com telhado de painéis solares e lixeiras coloridas na entrada, biodigestor pequeno com cúpula, pátio de compostagem com leiras, área verde com árvores e um aerogerador pequeno (rotor \"pas_1\"): o lixo vira material reciclado, adubo e energia."
+ },
+ "parques/parede_verde": {
+  "categoria": "parques",
+  "id": "parede_verde",
+  "tris": 876,
+  "kb": 58.5,
+  "descricao": "Parede Verde (1×1): prédio estreito com as fachadas cobertas de módulos de plantas (jardim vertical), cano de irrigação no alto e floreiras na calçada."
+ },
+ "parques/parque": {
+  "categoria": "parques",
+  "id": "parque",
+  "tris": 1484,
+  "kb": 97.2,
+  "descricao": "Parque Turístico (4×4): gramado com caminhos em cruz, lago com chafariz e ponte de madeira, coreto, bosque, bancos, canteiros de flores e playground."
+ },
+ "parques/parque_linear": {
+  "categoria": "parques",
+  "id": "parque_linear",
+  "tris": 900,
+  "kb": 65.2,
+  "descricao": "Parque Linear (3×3): córrego que atravessa o parque com mata ciliar nas margens, ciclovia, ponte de madeira, bancos e postes — o rio tem espaço para encher sem alagar a cidade."
+ },
+ "parques/telhado_verde": {
+  "categoria": "parques",
+  "id": "telhado_verde",
+  "tris": 1332,
+  "kb": 86.5,
+  "descricao": "Teto Verde (2×2): prédio de três andares com o telhado coberto de grama, arbustos, canteiros e uma árvore pequena; a calha leva a água que sobra para uma cisterna azul."
+ },
+ "publicos/biblioteca": {
+  "categoria": "publicos",
+  "id": "biblioteca",
+  "tris": 812,
+  "kb": 53.4,
+  "descricao": "Biblioteca Pública (1×1): prédio creme de fachada clássica com escadaria, quatro colunas, frontão, janelas altas em arco nas laterais, lanterna de vidro no telhado e jardim com bancos e árvores."
+ },
+ "publicos/bombeiros": {
+  "categoria": "publicos",
+  "id": "bombeiros",
+  "tris": 670,
+  "kb": 44.0,
+  "descricao": "Corpo de Bombeiros (1×1): quartel vermelho e branco com duas garagens de portões vermelhos, faixa branca, sirene no telhado, torre de treino com janelas e mangueira pendurada, hidrante e cones na frente."
+ },
+ "publicos/centro_pesquisa": {
+  "categoria": "publicos",
+  "id": "centro_pesquisa",
+  "tris": 952,
+  "kb": 65.2,
+  "descricao": "Centro de Pesquisa (2×2): blocos de laboratório brancos com faixas de vidro, passarela coberta entre eles, cúpula de observatório com fenda aberta, antena parabólica, torre de antenas, painéis solares e estacionamento."
+ },
+ "publicos/centro_tecnologia": {
+  "categoria": "publicos",
+  "id": "centro_tecnologia",
+  "tris": 686,
+  "kb": 47.8,
+  "descricao": "Centro de Tecnologia (1×1): prédio moderno de vidro em três volumes escalonados com montantes metálicos, telhado coberto de painéis solares, torre de antena, entrada com pé-direito duplo e jardim com bancos."
+ },
+ "publicos/escola": {
+  "categoria": "publicos",
+  "id": "escola",
+  "tris": 1328,
+  "kb": 82.0,
+  "descricao": "Escola (2×2): prédio de dois andares em L com faixa laranja e telhado de telha, quadra poliesportiva coberta com arquibancada, pátio calçado com bancos e árvore, mastro com bandeira e portão de entrada na frente."
+ },
+ "publicos/hospital": {
+  "categoria": "publicos",
+  "id": "hospital",
+  "tris": 1224,
+  "kb": 76.7,
+  "descricao": "Hospital (2×2): bloco branco de três andares com faixas de janelas azuis, cruz vermelha na fachada, marquise de entrada, ala baixa de pronto-socorro com ambulância e heliponto no terraço."
+ },
+ "publicos/monumento": {
+  "categoria": "publicos",
+  "id": "monumento",
+  "tris": 1154,
+  "kb": 74.5,
+  "descricao": "Monumento Histórico (2×2): obelisco de pedra sobre base em degraus, cercado por um chafariz, com placa dourada, postes de luz e canteiros nos cantos da praça."
+ },
+ "publicos/museu": {
+  "categoria": "publicos",
+  "id": "museu",
+  "tris": 1238,
+  "kb": 78.5,
+  "descricao": "Museu (3×3): templo clássico com escadaria larga, seis colunas, frontão, faixas roxas, claraboia de vidro no telhado e uma escultura de gota d'água na praça da frente."
+ },
+ "publicos/policia": {
+  "categoria": "publicos",
+  "id": "policia",
+  "tris": 772,
+  "kb": 51.0,
+  "descricao": "Delegacia / Base da Polícia (1×1): prédio branco com faixa azul, entrada com marquise azul, giroflex azul e vermelho no telhado com antena, viatura estilizada (branca e azul) na vaga da frente e cerca baixa."
+ },
+ "publicos/posto_saude": {
+  "categoria": "publicos",
+  "id": "posto_saude",
+  "tris": 724,
+  "kb": 50.7,
+  "descricao": "Posto de Saúde / UBS (1×1): prédio térreo branco com faixa verde e cruz verde na fachada, entrada com marquise, rampa de acessibilidade com corrimão, bancos de espera, ambulância simples e jardim."
+ },
+ "publicos/prefeitura": {
+  "categoria": "publicos",
+  "id": "prefeitura",
+  "tris": 1146,
+  "kb": 74.5,
+  "descricao": "Prefeitura Municipal (2×2): casarão de fachada clássica — escadaria, colunas, frontão, alas com telhado de telha, torre do relógio com cúpula dourada e mastro com bandeira."
+ },
+ "publicos/universidade": {
+  "categoria": "publicos",
+  "id": "universidade",
+  "tris": 1352,
+  "kb": 85.7,
+  "descricao": "Universidade (3×3): prédio principal em U com pórtico de colunas, torre do relógio, telhados de telha, frontão e torre roxos, gramado com caminho, árvores e mastro."
+ },
+ "residencial/casa_simples": {
+  "categoria": "residencial",
+  "id": "casa_simples",
+  "tris": 584,
+  "kb": 43.1,
+  "descricao": "Casa simples (1×1): casa térrea creme com telhado de duas águas de telha vermelha, varandinha coberta na frente, porta de madeira, janelas com moldura, muro baixo com portão e um quintal com árvore."
+ },
+ "residencial/casa_sobrado": {
+  "categoria": "residencial",
+  "id": "casa_sobrado",
+  "tris": 564,
+  "kb": 42.8,
+  "descricao": "Sobrado (1×1): casa de dois andares azul-clara e branca, telhado de quatro águas, sacada com guarda-corpo no andar de cima, garagem com portão de enrolar na lateral, entrada de carro e canteiro na frente."
+ },
+ "residencial/casas_geminadas": {
+  "categoria": "residencial",
+  "id": "casas_geminadas",
+  "tris": 588,
+  "kb": 43.5,
+  "descricao": "Casas geminadas (1×1): duas casinhas térreas coladas, uma amarela-clara e outra rosa, cada uma com seu telhado de duas águas de frente para a rua, porta colorida, janela, jardinzinho e lixeira na calçada."
+ },
+ "residencial/predio_alto": {
+  "categoria": "residencial",
+  "id": "predio_alto",
+  "tris": 1008,
+  "kb": 66.1,
+  "descricao": "Prédio alto residencial (1×1): torre de oito andares branca e azul com pilar de vidro, varandas alternadas, térreo envidraçado com marquise, caixa d'água e painéis solares no topo e jardim na calçada."
+ },
+ "residencial/predio_apartamentos": {
+  "categoria": "residencial",
+  "id": "predio_apartamentos",
+  "tris": 1208,
+  "kb": 75.9,
+  "descricao": "Prédio de apartamentos (1×1): quatro andares creme com faixas terracota, sacadas com guarda-corpo de vidro na frente, entrada com marquise, caixa d'água no telhado, bicicletas e canteiros na calçada."
+ },
+ "residuos/aterro_sanitario": {
+  "categoria": "residuos",
+  "id": "aterro_sanitario",
+  "tris": 1482,
+  "kb": 94.7,
+  "descricao": "Aterro Sanitário (3×3): morro em degraus (camadas de terra com grama por cima) com drenos de gás e um queimador aceso no topo; na frente, uma célula aberta mostrando a manta impermeável escura no fundo e o lixo chegando; ao lado, a lagoa de chorume ligada por cano à pequena estação que trata o chorume antes de devolver a água. Cerca em volta e guarita na entrada."
+ },
+ "residuos/cooperativa_reciclagem": {
+  "categoria": "residuos",
+  "id": "cooperativa_reciclagem",
+  "tris": 1302,
+  "kb": 81.7,
+  "descricao": "Cooperativa de Reciclagem (2×2): galpão de telhado em arco com a frente aberta mostrando a esteira de triagem (funil → esteira com recicláveis coloridos → prensa), fardos prensados empilhados no pátio (papel, plástico, latas), o caminhãozinho da coleta seletiva e um exaustor eólico no telhado (\"gira_1\")."
+ },
+ "residuos/patio_compostagem": {
+  "categoria": "residuos",
+  "id": "patio_compostagem",
+  "tris": 1158,
+  "kb": 81.3,
+  "descricao": "Pátio de Compostagem (2×2): folhas verdes e restos de poda chegando (frente-esquerda), três leiras de composto que escurecem conforme amadurecem (do marrom-claro misturado com verde ao adubo escuro pronto), galpão aberto com o adubo peneirado, sacos de adubo prontos e uma composteira rotativa (tambor que gira em pé, \"gira_1\")."
+ },
+ "residuos/ponto_coleta": {
+  "categoria": "residuos",
+  "id": "ponto_coleta",
+  "tris": 832,
+  "kb": 56.0,
+  "descricao": "Ponto de Coleta Reciclável / PEV (1×1): piso de concreto com cinco contêineres da coleta seletiva (azul = papel, vermelho = plástico, verde = vidro, amarelo = metal, marrom = orgânico) sob uma cobertura leve, com um saco e uma garrafa já separados e uma árvore ao fundo."
+ },
+ "ruas/asfalto_cruzamento": {
+  "categoria": "ruas",
+  "id": "asfalto_cruzamento",
+  "tris": 492,
+  "kb": 30.5,
+  "descricao": "Cruzamento de asfalto (tile 2×2): liga as quatro bordas; faixas de pedestres zebradas nos quatro braços e quatro cantos de calçada com meio-fio em L."
+ },
+ "ruas/asfalto_curva": {
+  "categoria": "ruas",
+  "id": "asfalto_curva",
+  "tris": 548,
+  "kb": 31.3,
+  "descricao": "Rua de asfalto em curva (tile 2×2): liga as bordas -Y e +X num arco de 90° centrado no canto (+1, -1); faixa amarela tracejada no eixo, calçada interna e externa com meio-fio acompanhando a curva."
+ },
+ "ruas/asfalto_faixa_pedestre": {
+  "categoria": "ruas",
+  "id": "asfalto_faixa_pedestre",
+  "tris": 228,
+  "kb": 16.3,
+  "descricao": "Rua de asfalto reta com faixa de pedestres (tile 2×2): liga -Y e +Y, faixa zebrada branca no meio e a faixa amarela central interrompida na travessia; rampas de acessibilidade nas calçadas."
+ },
+ "ruas/asfalto_ponta": {
+  "categoria": "ruas",
+  "id": "asfalto_ponta",
+  "tris": 524,
+  "kb": 32.8,
+  "descricao": "Fim de rua com balão de retorno (tile 2×2): só liga a borda -Y; a rua abre num círculo de asfalto com um canteiro redondo no meio (arbusto e flores), calçada com meio-fio contornando o balão."
+ },
+ "ruas/asfalto_reta": {
+  "categoria": "ruas",
+  "id": "asfalto_reta",
+  "tris": 132,
+  "kb": 11.0,
+  "descricao": "Rua de asfalto reta (tile 2×2): liga as bordas -Y e +Y; asfalto de 1,3 com faixa central amarela tracejada, calçadas de 0,35 dos dois lados com meio-fio, sobre o bloco de terreno."
+ },
+ "ruas/asfalto_t": {
+  "categoria": "ruas",
+  "id": "asfalto_t",
+  "tris": 264,
+  "kb": 18.9,
+  "descricao": "Entroncamento em T de asfalto (tile 2×2): rua principal ligando -Y e +Y e um ramal para +X, com linha de retenção e faixa de pedestres no ramal; calçada contínua do lado -X e cantos de calçada do lado +X."
+ },
+ "ruas/calcada": {
+  "categoria": "ruas",
+  "id": "calcada",
+  "tris": 108,
+  "kb": 8.6,
+  "descricao": "Calçada (tile 2×2): lote todo calçado na altura da calçada das ruas (0,07), com juntas das placas em grade."
+ },
+ "ruas/estacionamento": {
+  "categoria": "ruas",
+  "id": "estacionamento",
+  "tris": 320,
+  "kb": 24.3,
+  "descricao": "Estacionamento (tile 2×2): pátio de asfalto aberto para a borda -Y, oito vagas pintadas de branco em duas fileiras (uma vaga azul de acessibilidade), corredor no meio e calçada com meio-fio nas outras três bordas."
+ },
+ "ruas/ponte": {
+  "categoria": "ruas",
+  "id": "ponte",
+  "tris": 428,
+  "kb": 28.5,
+  "descricao": "Ponte de concreto (tile 2×2, substitui um tile de água): leito e água iguais ao tile `agua` e, por cima, o tabuleiro ligando -Y e +Y na altura da rua (asfalto, faixa amarela, calçadas e meio-fio), vigas laterais, guarda-corpo com postes e dois pilares com sapata descendo até o leito."
+ },
+ "ruas/praca": {
+  "categoria": "ruas",
+  "id": "praca",
+  "tris": 496,
+  "kb": 40.1,
+  "descricao": "Praça (tile 2×2): piso de pedra portuguesa clara com caminho em cruz, quatro canteiros de grama nos cantos com arbustos e flores, uma árvore em cada canteiro do fundo e bancos voltados para o centro."
+ },
+ "ruas/terra_curva": {
+  "categoria": "ruas",
+  "id": "terra_curva",
+  "tris": 484,
+  "kb": 26.8,
+  "descricao": "Estrada de terra em curva (tile 2×2): liga -Y e +X num arco de 90° centrado no canto (+1, -1), mesma largura do asfalto, com marcas de pneu e capim nas bordas."
+ },
+ "ruas/terra_reta": {
+  "categoria": "ruas",
+  "id": "terra_reta",
+  "tris": 160,
+  "kb": 14.9,
+  "descricao": "Estrada de terra reta (tile 2×2): liga -Y e +Y com a mesma largura do asfalto (1,3), sem calçada; marcas de pneu mais escuras, capim nas bordas e algumas pedrinhas, sobre o bloco de grama."
+ },
+ "terreno/agua": {
+  "categoria": "terreno",
+  "id": "agua",
+  "tris": 48,
+  "kb": 4.9,
+  "descricao": "Água (tile 2×2): leito de terra de z -0,3 a -0,2 e lâmina turquesa até z -0,12 (abaixo do nível do terreno, então as peças de terra vizinhas viram barranco); duas ondinhas mais escuras."
+ },
+ "terreno/areia": {
+  "categoria": "terreno",
+  "id": "areia",
+  "tris": 90,
+  "kb": 10.1,
+  "descricao": "Terreno de areia (tile 2×2): bloco com o topo de areia clara, uma concha e dois tufos de capim-da-praia."
+ },
+ "terreno/arvores_mata": {
+  "categoria": "terreno",
+  "id": "arvores_mata",
+  "tris": 208,
+  "kb": 17.8,
+  "descricao": "Mata (tile 2×2): grama com quatro árvores de alturas, formas e verdes diferentes (copa redonda e pinheiro), arbustos e um tronco caído."
+ },
+ "terreno/grama": {
+  "categoria": "terreno",
+  "id": "grama",
+  "tris": 24,
+  "kb": 2.9,
+  "descricao": "Terreno de grama (tile 2×2): bloco de terra de z -0,3 a 0 com a lâmina de grama no topo; base de todas as outras peças de terreno e de rua."
+ },
+ "terreno/margem_canto": {
+  "categoria": "terreno",
+  "id": "margem_canto",
+  "tris": 320,
+  "kb": 21.8,
+  "descricao": "Margem em canto (tile 2×2): água num quarto de círculo de raio 1 centrado no canto (-1, -1), faixa de areia em degrau acompanhando a curva e grama no resto; casa com a margem_reta nas bordas -X e -Y."
+ },
+ "terreno/margem_reta": {
+  "categoria": "terreno",
+  "id": "margem_reta",
+  "tris": 148,
+  "kb": 14.8,
+  "descricao": "Margem reta de rio (tile 2×2): metade -Y é água (como o tile agua), uma faixa de areia em degrau e a metade +Y é grama na altura do terreno, com pedras e capim na beira."
+ },
+ "terreno/morro": {
+  "categoria": "terreno",
+  "id": "morro",
+  "tris": 108,
+  "kb": 12.3,
+  "descricao": "Morro (tile 2×2): bloco alto com topo de grama em z 0,6, laterais em camadas (pedra embaixo, terra em cima), duas pedras e um arbusto no topo."
+ },
+ "terreno/rampa": {
+  "categoria": "terreno",
+  "id": "rampa",
+  "tris": 56,
+  "kb": 7.1,
+  "descricao": "Rampa de terreno (tile 2×2): sobe da altura do chão (z 0) na borda -Y até a altura do morro (z 0,6) na borda +Y; laterais em terra e pedra e topo de grama inclinado."
+ },
+ "terreno/terra": {
+  "categoria": "terreno",
+  "id": "terra",
+  "tris": 144,
+  "kb": 13.1,
+  "descricao": "Terreno de terra batida (tile 2×2): bloco com o topo de terra, algumas pedrinhas e tufos de capim."
+ },
+ "vegetacao/araucaria": {
+  "categoria": "vegetacao",
+  "id": "araucaria",
+  "tris": 548,
+  "kb": 31.1,
+  "descricao": "Araucária (pinheiro-do-paraná): tronco reto e alto, galhos subindo em candelabro e copa achatada em camadas verde-escuras no topo, com uma pinha."
+ },
+ "vegetacao/arbustos": {
+  "categoria": "vegetacao",
+  "id": "arbustos",
+  "tris": 200,
+  "kb": 18.7,
+  "descricao": "Conjunto de arbustos para canteiro: cinco tufos em verdes variados, alguns com flores rosas e amarelas."
+ },
+ "vegetacao/buriti": {
+  "categoria": "vegetacao",
+  "id": "buriti",
+  "tris": 636,
+  "kb": 37.9,
+  "descricao": "Buriti (palmeira das veredas): estipe alto e liso num chão encharcado, coroa de folhas caindo em volta e cachos de cocos marrons."
+ },
+ "vegetacao/composteira": {
+  "categoria": "vegetacao",
+  "id": "composteira",
+  "tris": 1332,
+  "kb": 83.2,
+  "descricao": "Composteira de dois módulos de ripas de madeira: um com composto pronto, outro com restos de folhas e cascas, e uma pá encostada na frente."
+ },
+ "vegetacao/horta": {
+  "categoria": "vegetacao",
+  "id": "horta",
+  "tris": 494,
+  "kb": 37.8,
+  "descricao": "Canteiro de horta comunitária: caixa de madeira elevada com terra, fileiras de alface e cenoura, tomateiro no tutor e plaquinha de identificação."
+ },
+ "vegetacao/ipe_amarelo": {
+  "categoria": "vegetacao",
+  "id": "ipe_amarelo",
+  "tris": 388,
+  "kb": 27.7,
+  "descricao": "Ipê-amarelo (árvore nativa): tronco torto em três trechos com dois galhos, copa aberta de vários tufos amarelos facetados e flores caídas no chão em volta."
+ },
+ "vegetacao/pedras": {
+  "categoria": "vegetacao",
+  "id": "pedras",
+  "tris": 108,
+  "kb": 10.9,
+  "descricao": "Conjunto de pedras de beira de rio: três pedras facetadas de tamanhos diferentes com tufos de capim."
+ },
+ "veiculos/ambulancia": {
+  "categoria": "veiculos",
+  "id": "ambulancia",
+  "tris": 624,
+  "kb": 39.9,
+  "descricao": "Ambulância (furgão): carroceria branca alta com capô curto, faixas vermelhas, para-brisa, porta traseira dupla, giroflex vermelho e azul no teto (sem símbolos nem texto)."
+ },
+ "veiculos/bicicleta": {
+  "categoria": "veiculos",
+  "id": "bicicleta",
+  "tris": 332,
+  "kb": 20.4,
+  "descricao": "Bicicleta solta: quadro verde-turquesa, rodas finas com cubo, selim, guidão e cestinha na frente."
+ },
+ "veiculos/caminhao": {
+  "categoria": "veiculos",
+  "id": "caminhao",
+  "tris": 676,
+  "kb": 40.7,
+  "descricao": "Caminhão baú: cabine azul com para-brisa e janelas, baú creme com faixa azul e porta traseira com trincos, chassi escuro, tanque lateral e três eixos de rodas."
+ },
+ "veiculos/caminhao_bombeiros": {
+  "categoria": "veiculos",
+  "id": "caminhao_bombeiros",
+  "tris": 1028,
+  "kb": 59.6,
+  "descricao": "Caminhão de bombeiros: cabine e carroceria vermelhas com faixa branca, compartimentos laterais de metal, escada sobre o teto, mangueira enrolada, giroflex e três eixos de rodas."
+ },
+ "veiculos/caminhao_lixo": {
+  "categoria": "veiculos",
+  "id": "caminhao_lixo",
+  "tris": 616,
+  "kb": 38.6,
+  "descricao": "Caminhão de lixo (coletor compactador): cabine branca, caçamba verde arredondada com faixa amarela, compactador traseiro inclinado com boca escura, estribos para os garis e luz giratória laranja."
+ },
+ "veiculos/caminhao_pipa": {
+  "categoria": "veiculos",
+  "id": "caminhao_pipa",
+  "tris": 856,
+  "kb": 47.1,
+  "descricao": "Caminhão-pipa: cabine branca, tanque cilíndrico azul deitado com faixas, escotilha e passarela no topo, registro traseiro com mangueira e dois eixos traseiros."
+ },
+ "veiculos/carro": {
+  "categoria": "veiculos",
+  "id": "carro",
+  "tris": 464,
+  "kb": 27.7,
+  "descricao": "Carro hatch vermelho: carroceria compacta, cabine de vidro com teto e coluna na cor, para-choques escuros, faróis, lanternas e quatro rodas."
+ },
+ "veiculos/carro_eletrico": {
+  "categoria": "veiculos",
+  "id": "carro_eletrico",
+  "tris": 488,
+  "kb": 31.0,
+  "descricao": "Carro elétrico: sedã branco com teto escuro, faixa turquesa na lateral, grade fechada e tampa de recarga turquesa (sem escapamento)."
+ },
+ "veiculos/onibus": {
+  "categoria": "veiculos",
+  "id": "onibus",
+  "tris": 616,
+  "kb": 39.0,
+  "descricao": "Ônibus urbano: carroceria branca longa com faixa verde, janelas contínuas, para-brisa grande, duas portas no lado direito (+X), letreiro escuro sem texto, ar-condicionado no teto e duas rodas por lado."
+ },
+ "veiculos/taxi": {
+  "categoria": "veiculos",
+  "id": "taxi",
+  "tris": 520,
+  "kb": 32.8,
+  "descricao": "Táxi: sedã amarelo com faixa laranja na lateral e luminoso branco e laranja no teto (sem texto)."
+ }
+}
