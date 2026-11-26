@@ -112,6 +112,7 @@ button,a{ -webkit-tap-highlight-color:transparent}button{transition:filter .18s,
 }
 
 </style>
+<link rel="stylesheet" href="liquid-glass.css?v=1">
 </head>
 <body data-page="pc">
 <header class="topbar">
@@ -637,5 +638,6 @@ renderProducts();makeBuild();
 </script>
 
 <script>(()=>{const e=document.getElementById('tlXpText');if(!e)return;let xp=0;const tiers=[['BEGINNER','Level 1 · Beginner'],['BASIC','Level 2 · Basic'],['INTERMEDIATE','Level 3 · Intermediate'],['ADVANCED','Level 4 · Advanced'],['EXPERT','Level 5 · Expert']];function paint(){let t=Math.min(4,Math.floor(xp/100));e.textContent='XP: '+xp+' · '+tiers[t][0];document.getElementById('tlLevelText').textContent=tiers[t][1];document.getElementById('tlXpBar').style.width=(xp%100)+'%';document.getElementById('tlNextText').textContent=t===4?'Level maksimum tercapai':(100-xp%100)+' XP menuju '+tiers[t+1][0].toLowerCase()}window.techlabAwardLocalXP=n=>{xp+=Math.max(0,Number(n)||0);paint()};paint()})();</script>
+<script src="liquid-glass.js?v=1" defer></script>
 </body>
 </html>
