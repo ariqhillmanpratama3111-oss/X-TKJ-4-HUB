@@ -53,6 +53,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 @media(max-width:600px){.software-grid{grid-template-columns:1fr}.global-ai{right:12px;bottom:12px}.page-nav{padding:10px 12px}}
 
 </style>
+<link rel="stylesheet" href="inside-techlab-pages/liquid-glass.css?v=1">
 </head>
 <body data-page="home">
 <header class="topbar">
@@ -370,5 +371,6 @@ renderProducts();makeBuild();
 <script>
 (()=>{const q=document.getElementById('softwareQuestion'),answers=document.getElementById('softwareAnswers'),feedback=document.getElementById('softwareFeedback'),next=document.getElementById('softwareNext');if(!q)return;const quiz=[['Apa fungsi utama driver?',['Mengatur tampilan desktop saja','Menjembatani sistem operasi dengan perangkat keras','Mengganti fungsi prosesor'],1,'Driver membantu OS berkomunikasi dengan perangkat keras.'],['File system yang umum digunakan Windows modern adalah...',['NTFS','ext4','HFS+'],0,'NTFS adalah file system yang umum digunakan Windows.'],['Apa fungsi DNS?',['Mengatur kecepatan RAM','Menerjemahkan nama domain menjadi alamat IP','Menyimpan file sementara'],1,'DNS membantu menemukan alamat IP dari nama domain.'],['Firmware yang lebih modern dibanding BIOS legacy adalah...',['UEFI','HTML','DHCP'],0,'UEFI adalah antarmuka firmware modern pada banyak komputer.'],['Apa praktik keamanan software yang baik?',['Memasang file dari sumber acak','Menonaktifkan semua update','Memperbarui aplikasi dari sumber resmi'],2,'Update resmi membantu memperbaiki bug dan celah keamanan.']];let index=0,score=0,done=false;function render(){done=false;const item=quiz[index];q.textContent=(index+1)+'. '+item[0];answers.innerHTML='';item[1].forEach((a,i)=>{const b=document.createElement('button');b.textContent=a;b.onclick=()=>{if(done)return;done=true;const ok=i===item[2];if(ok)score++;feedback.textContent=(ok?'Benar! ':'Belum tepat. ')+item[3]+' Skor: '+score+'/'+quiz.length;Array.from(answers.children).forEach((x,j)=>{x.disabled=true;if(j===item[2])x.style.borderColor='#4bd7a0';});next.style.display='inline-block';next.textContent=index===quiz.length-1?'SELESAI ↗':'PERTANYAAN BERIKUTNYA ↗';};answers.appendChild(b);});feedback.textContent='Pilih jawaban yang paling tepat.';next.style.display='none';}next.addEventListener('click',()=>{if(index<quiz.length-1){index++;render();}else{q.textContent='Kuis selesai! Skor kamu '+score+'/'+quiz.length+'.';answers.innerHTML='';feedback.textContent='Ulangi materi jika masih ada konsep yang belum dipahami.';next.textContent='ULANGI KUIS';next.onclick=()=>{index=0;score=0;next.onclick=null;render();};}});render();})();
 </script>
+<script src="inside-techlab-pages/liquid-glass.js?v=1" defer></script>
 </body>
 </html>
