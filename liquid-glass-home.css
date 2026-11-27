@@ -117,3 +117,19 @@ body{background-attachment:fixed}
   .section .head{top:70px;padding:8px 10px}.section .head h2{font-size:21px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.hero:before{transform:none!important}}
+
+/* Reversible scroll reveal: calm movement, repeated on enter and exit. */
+[data-scroll-reveal]{
+  opacity:0;
+  transform:translate3d(0,var(--reveal-y,20px),0) scale(.992);
+  filter:blur(2.5px);
+  transition:opacity .48s cubic-bezier(.2,.7,.2,1),
+             transform .58s cubic-bezier(.2,.75,.25,1),
+             filter .48s ease;
+  transition-delay:var(--reveal-delay,0ms);
+  will-change:opacity,transform;
+}
+[data-scroll-reveal][data-scroll-state="in"]{
+  opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0);
+}
+@media(prefers-reduced-motion:reduce){[data-scroll-reveal]{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;will-change:auto!important}}
