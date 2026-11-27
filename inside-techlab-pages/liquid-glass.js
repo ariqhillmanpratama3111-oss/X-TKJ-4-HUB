@@ -1,9 +1,24 @@
-/* TechLab restrained parallax, pinned chapter headings and tactile feedback */
+/* Inside TechLab — small, accessible motion only. Game stages and controls are not animated. */
 (()=>{
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const hero=document.querySelector('main>.hero,main>.hero-card');
- if(hero&&!reduce){let raf=0;hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{hero.style.setProperty('--ig-px',`${x*-13}px`);hero.style.setProperty('--ig-py',`${y*-10}px`)})});hero.addEventListener('pointerleave',()=>{hero.style.setProperty('--ig-px','0px');hero.style.setProperty('--ig-py','0px')})}
- document.querySelectorAll('.section-head,section>.head').forEach(h=>h.classList.add('ig-pinned-heading'));
- if(!reduce&&'IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('ig-in-view');io.unobserve(e.target)}}),{threshold:.06});document.querySelectorAll('main>.hero,main>.stats,main>.modules,main>section').forEach(el=>{el.classList.add('ig-reveal');io.observe(el)})}
- document.addEventListener('pointerdown',e=>{const b=e.target.closest('button,.btn,.page-nav a,[role=button]');if(!b)return;b.classList.remove('ig-press');void b.offsetWidth;b.classList.add('ig-press');setTimeout(()=>b.classList.remove('ig-press'),260)},{passive:true});
+ 'use strict';
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const hero=document.querySelector('body[data-page="home"] main>.hero');
+ if(hero&&!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  let raf=0;
+  hero.addEventListener('pointermove',event=>{
+   const r=hero.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;
+   cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
+    hero.style.setProperty('--ig-px',`${x*-6}px`);hero.style.setProperty('--ig-py',`${y*-5}px`);
+   });
+  },{passive:true});
+  hero.addEventListener('pointerleave',()=>{hero.style.setProperty('--ig-px','0px');hero.style.setProperty('--ig-py','0px')},{passive:true});
+ }
+ document.querySelectorAll('.section-head,section>.head').forEach(heading=>heading.classList.add('ig-pinned-heading'));
+ // Tactile feedback excludes 3D canvas controls and game HUD widgets.
+ document.addEventListener('pointerdown',event=>{
+  const control=event.target.closest('.page-nav a,.primary-btn,.secondary-btn,.login-btn,.feature-btn,.btn,.tab-btn');
+  if(!control||control.closest('.game-hud,.pc3d-stage,.lab3d-stage,.network-stage'))return;
+  control.classList.remove('ig-press');void control.offsetWidth;control.classList.add('ig-press');
+  window.setTimeout(()=>control.classList.remove('ig-press'),180);
+ },{passive:true});
 })();
