@@ -1,40 +1,71 @@
-/* INSIDE TKJ 4 radial menu + restrained parallax + pinned chapter headings */
+/* Inside TKJ 4 — compact radial navigation and low-motion parallax. */
 (()=>{
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 'use strict';
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const dock=document.getElementById('bottomDock');
- if(dock&&!dock.dataset.igReady){dock.dataset.igReady='1';
-   const dash=document.getElementById('dockDashboard'),ai=document.getElementById('dockInsideAI'),account=document.getElementById('dockAccount');
-   const nav=[...document.querySelectorAll('.topnav .nav-link')];
-   const mnav=[...document.querySelectorAll('.mnav a')];
-   const unique=[]; const seen=new Set();
-   [...nav,...mnav].forEach(a=>{const href=a.getAttribute('href')||'';if(!href||seen.has(href))return;seen.add(href);if(href.startsWith('#')||/techlab\.html/.test(href))unique.push(a.cloneNode(true));});
-   // Include all primary sections and feature destinations, but leave utility icons in the header.
-   const orbit=document.createElement('div');orbit.className='ig-orbit';orbit.setAttribute('aria-label','Menu fitur');
-   const glyph={'#siswa':'👥','#portofolio':'✦','#kegiatan':'▤','#sosmed':'◎','inside-ai.html':'✧','techlab.html':'⚡','#bantuan':'?'};
-   unique.forEach((a,i)=>{const href=a.getAttribute('href');const label=(a.textContent||'Fitur').replace(/[✦⚡]/g,'').trim();a.className='ig-orbit-link';a.textContent=glyph[href]||'•';a.title=label;a.setAttribute('aria-label',label);a.setAttribute('data-label',label);a.removeAttribute('style');orbit.appendChild(a)});
-   const toggle=document.createElement('button');toggle.type='button';toggle.className='ig-menu-toggle';toggle.textContent='✦';toggle.setAttribute('aria-label','Buka menu fitur');toggle.setAttribute('aria-expanded','false');
-   dock.insertBefore(orbit,ai);dock.insertBefore(toggle,ai);
-   if(dash){dash.querySelector('small')?.replaceChildren(document.createTextNode('Dashboard'));dash.setAttribute('aria-label','Dashboard')}
-   if(account){account.querySelector('small')?.replaceChildren(document.createTextNode('Akun'));account.setAttribute('aria-label','Akun')}
-   // Remove duplicated navigation rows; header utility controls remain available.
-   document.querySelectorAll('.topnav .nav-link,.mnav').forEach(n=>n.remove());
-   const close=()=>{dock.classList.remove('menu-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Buka menu fitur')};
-   const open=()=>{dock.classList.add('menu-open');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Tutup menu fitur')};
-   toggle.addEventListener('click',()=>dock.classList.contains('menu-open')?close():open());
-   orbit.addEventListener('click',e=>{if(e.target.closest('a'))close()});
-   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-   document.addEventListener('click',e=>{if(!dock.contains(e.target))close()});
-   // Spread icons in a shallow arc above the central button.
-   const links=[...orbit.children],n=links.length;
-   links.forEach((a,i)=>{const t=n===1?0:(i/(n-1))*Math.PI-Math.PI/2;const radius=window.innerWidth<520?116:154;a.style.setProperty('--dx',`${Math.sin(t)*radius}px`);a.style.setProperty('--dy',`${-Math.cos(t)*radius}px`)});
+ if(dock&&!dock.dataset.igReady){
+  dock.dataset.igReady='1';
+  const dashboard=document.getElementById('dockDashboard');
+  const account=document.getElementById('dockAccount');
+  const oldAI=document.getElementById('dockInsideAI');
+  const nav=[...document.querySelectorAll('.topnav .nav-link'),...document.querySelectorAll('.mnav a')];
+  const unique=[];const seen=new Set();
+  nav.forEach(link=>{
+   const href=(link.getAttribute('href')||'').trim();
+   if(!href||seen.has(href))return;
+   if(href.startsWith('#')||/^(?:\.\/)?(?:inside-ai|techlab)\.html(?:[?#].*)?$/i.test(href)){
+    seen.add(href);unique.push(link.cloneNode(true));
+   }
+  });
+  const icons={
+   '#siswa':'♧','#portofolio':'✳','#kegiatan':'▤','#sosmed':'◎',
+   'inside-ai.html':'✦','techlab.html':'⌘','#bantuan':'?'
+  };
+  const orbit=document.createElement('div');orbit.className='ig-orbit';orbit.setAttribute('role','group');orbit.setAttribute('aria-label','Menu fitur Inside TKJ 4');
+  unique.forEach(link=>{
+   const href=link.getAttribute('href')||'';
+   const label=(link.textContent||'Fitur').replace(/[✦⚡]/g,'').trim()||'Fitur';
+   link.className='ig-orbit-link';link.textContent=icons[href]||'•';
+   link.setAttribute('aria-label',label);link.setAttribute('title',label);link.setAttribute('data-label',label);
+   link.removeAttribute('style');orbit.appendChild(link);
+  });
+  const toggle=document.createElement('button');toggle.type='button';toggle.className='ig-menu-toggle';toggle.textContent='+';
+  toggle.setAttribute('aria-label','Buka menu fitur');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls','insideFeatureOrbit');orbit.id='insideFeatureOrbit';
+  if(oldAI)oldAI.replaceWith(toggle);else dock.insertBefore(toggle,account||null);
+  dock.appendChild(orbit);
+  if(dashboard){dashboard.setAttribute('aria-label','Buka Dashboard');dashboard.querySelector('small')?.replaceChildren(document.createTextNode('Dashboard'));}
+  if(account){account.setAttribute('aria-label','Buka Akun');account.querySelector('small')?.replaceChildren(document.createTextNode('Akun'));}
+  const setOpen=open=>{
+   dock.classList.toggle('menu-open',open);toggle.setAttribute('aria-expanded',String(open));
+   toggle.setAttribute('aria-label',open?'Tutup menu fitur':'Buka menu fitur');
+  };
+  toggle.addEventListener('click',()=>setOpen(!dock.classList.contains('menu-open')));
+  orbit.addEventListener('click',event=>{if(event.target.closest('a'))setOpen(false)});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')setOpen(false)});
+  document.addEventListener('pointerdown',event=>{if(!dock.contains(event.target))setOpen(false)},{passive:true});
+  const placeOrbit=()=>{
+   const mobile=window.matchMedia('(max-width:520px)').matches;
+   const rx=mobile?116:142,ry=mobile?98:112,n=orbit.children.length;
+   [...orbit.children].forEach((link,index)=>{
+    const angle=(-72+(n<=1?0:index*144/(n-1)))*Math.PI/180;
+    link.style.setProperty('--dx',`${Math.sin(angle)*rx}px`);
+    link.style.setProperty('--dy',`${-Math.cos(angle)*ry}px`);
+   });
+  };
+  placeOrbit();window.addEventListener('resize',placeOrbit,{passive:true});
+  document.querySelectorAll('.topnav .nav-link,.mnav').forEach(node=>node.remove());
  }
- // Subtle pointer parallax in the Snoopy hero only; content and theme remain unchanged.
+ // Only the hero's soft light shifts on desktop pointer input; no scroll listeners.
  const hero=document.querySelector('.hero');
- if(hero&&!reduce){let raf=0;hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{hero.style.setProperty('--ig-px',`${x*-12}px`);hero.style.setProperty('--ig-py',`${y*-10}px`)})});hero.addEventListener('pointerleave',()=>{hero.style.setProperty('--ig-px','0px');hero.style.setProperty('--ig-py','0px')})}
- // Pinned glass chapter headers: they stay readable while their own section scrolls past.
- document.querySelectorAll('.section .head').forEach((h,i)=>{h.classList.add('ig-pinned-heading');h.style.setProperty('--ig-heading-index',i)});
- // Reveal sections gently without hiding content if IntersectionObserver is unavailable.
- if(!reduce&&'IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('ig-in-view');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('main .section,main .hero,main .slider').forEach(el=>{el.classList.add('ig-reveal');io.observe(el)})}
- // Press feedback for controls while preserving their existing click handlers.
- document.addEventListener('pointerdown',e=>{const b=e.target.closest('button,.btn,.icon-btn,.dock-btn');if(!b)return;b.classList.remove('ig-press');void b.offsetWidth;b.classList.add('ig-press');setTimeout(()=>b.classList.remove('ig-press'),260)},{passive:true});
+ if(hero&&!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  let raf=0;
+  hero.addEventListener('pointermove',event=>{
+   const rect=hero.getBoundingClientRect();
+   const x=(event.clientX-rect.left)/rect.width-.5,y=(event.clientY-rect.top)/rect.height-.5;
+   cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
+    hero.style.setProperty('--ig-px',`${x*-7}px`);hero.style.setProperty('--ig-py',`${y*-6}px`);
+   });
+  },{passive:true});
+  hero.addEventListener('pointerleave',()=>{hero.style.setProperty('--ig-px','0px');hero.style.setProperty('--ig-py','0px')},{passive:true});
+ }
 })();

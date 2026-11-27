@@ -53,17 +53,17 @@ body[data-page="software"] #softwareAcademy{display:block!important}
 @media(max-width:600px){.software-grid{grid-template-columns:1fr}.global-ai{right:12px;bottom:12px}.page-nav{padding:10px 12px}}
 
 </style>
-<link rel="stylesheet" href="inside-techlab-pages/liquid-glass.css?v=1">
+<link rel="stylesheet" href="inside-techlab-pages/liquid-glass.css?v=2">
 </head>
 <body data-page="home">
 <header class="topbar">
-  <div class="brand"><div class="brand-mark">⌁</div><div>INSIDE <span style="color:var(--cyan)">TECHLAB</span><small>BUILD · LEARN · DIAGNOSE</small></div></div>
-  <div class="top-actions"><span class="status">● SYSTEM ONLINE</span><span class="account-state" id="accountState">GUEST MODE</span><button class="login-btn" id="loginBtn">LOGIN / SIGN UP ↗</button></div>
+  <div class="brand"><div class="brand-mark">⌁</div><div>INSIDE <span style="color:var(--cyan)">TECHLAB</span><small>Belajar · Praktik · Berkembang</small></div></div>
+  <div class="top-actions"><span class="status">● Online</span><span class="account-state" id="accountState">Mode tamu</span><button class="login-btn" id="loginBtn">Masuk</button></div>
 </header>
 <main>
   <section class="hero">
     <div class="hero-copy">
-      <div class="eyebrow">✦ TKJ DIGITAL LABORATORY</div>
+      <div class="eyebrow">Belajar dan praktik TKJ</div>
       <h1>MASTER THE<br><span>HARDWARE.</span></h1>
       <p>Kenali komponen, pahami cara kerjanya, bangun PC impianmu, dan pecahkan masalah komputer lewat pengalaman belajar interaktif.</p>
       <div class="hero-buttons"><button class="primary-btn" onclick="document.getElementById('hardware').scrollIntoView({behavior:'smooth'})">EXPLORE COMPONENTS ↘</button><button class="secondary-btn" onclick="openInfo('PC Building Simulator','Modul simulasi perakitan 3D sedang disiapkan untuk fase berikutnya. Di modul ini kamu nantinya dapat memilih komponen, mempelajari kompatibilitas, dan merakit PC virtual.')">PC BUILDER <span style="color:var(--purple)">COMING SOON</span></button></div>
@@ -74,7 +74,7 @@ body[data-page="software"] #softwareAcademy{display:block!important}
   <section class="stats">
     <div class="stat"><b>06</b><span>HARDWARE CATEGORIES</span></div><div class="stat"><b>03</b><span>COMPONENT TIERS</span></div><div class="stat"><b>∞</b><span>KNOWLEDGE TO EXPLORE</span></div>
   </section>
-  <div class="section-head"><div><div class="section-tag">SELECT YOUR MODULE</div><h2>Learning Modules</h2><p>Pilih jalur belajar yang ingin kamu jelajahi.</p></div></div>
+  <div class="section-head"><div><div class="section-tag">Pilih materi</div><h2>Materi belajar</h2><p>Pilih jalur belajar yang ingin kamu jelajahi.</p></div></div>
   <section class="modules">
     <a class="module" href="hardware-academy.html" style="text-decoration:none;color:inherit"><span class="arrow">↗</span><div class="module-icon">🧩</div><h3>Hardware Academy</h3><p>Kenali fungsi, jenis, spesifikasi, dan karakteristik komponen PC.</p></a>
     <a class="module" href="pc-builder.html" style="text-decoration:none;color:inherit">,'Simulasi perakitan PC 3D sedang dalam tahap perencanaan. Nantinya komponen dapat diputar, dipilih, dan dipasang pada tempat yang sesuai.')"><span class="arrow">↗</span><div class="module-icon">🖥️</div><h3>PC Building</h3><p>Rakit komputer virtual dan pelajari kecocokan antar-komponen.</p></article>
@@ -203,7 +203,7 @@ async function refreshTechSession(){
  try{const {data,error}=await techSupabase.auth.getSession();if(error)throw error;techUser=data.session?.user||null;updateAccountUI();if(techUser)await loadTechProgress();}
  catch(e){document.getElementById('accountState').textContent='AUTH ERROR';console.warn('TechLab auth:',e.message);}
 }
-function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'SIGNED IN'):'GUEST MODE';document.getElementById('loginBtn').textContent=techUser?'LOGOUT ↗':'LOGIN / SIGN UP ↗';}
+function updateAccountUI(){document.getElementById('accountState').textContent=techUser?(techUser.email||'Sudah masuk'):'Mode tamu';document.getElementById('loginBtn').textContent=techUser?'Keluar':'Masuk';}
 function openAuth(){document.getElementById('authBackdrop').classList.add('show');document.getElementById('authMessage').textContent=techSupabase?'Masuk menggunakan email dan password akun Supabase.':'Library Supabase belum termuat. Periksa koneksi internet.';}
 document.getElementById('loginBtn').addEventListener('click',async()=>{if(techUser){if(confirm('Keluar dari sesi TechLab?')){await techSupabase.auth.signOut();techUser=null;updateAccountUI();}}else openAuth();});
 document.getElementById('authClose').addEventListener('click',()=>document.getElementById('authBackdrop').classList.remove('show'));
@@ -371,6 +371,6 @@ renderProducts();makeBuild();
 <script>
 (()=>{const q=document.getElementById('softwareQuestion'),answers=document.getElementById('softwareAnswers'),feedback=document.getElementById('softwareFeedback'),next=document.getElementById('softwareNext');if(!q)return;const quiz=[['Apa fungsi utama driver?',['Mengatur tampilan desktop saja','Menjembatani sistem operasi dengan perangkat keras','Mengganti fungsi prosesor'],1,'Driver membantu OS berkomunikasi dengan perangkat keras.'],['File system yang umum digunakan Windows modern adalah...',['NTFS','ext4','HFS+'],0,'NTFS adalah file system yang umum digunakan Windows.'],['Apa fungsi DNS?',['Mengatur kecepatan RAM','Menerjemahkan nama domain menjadi alamat IP','Menyimpan file sementara'],1,'DNS membantu menemukan alamat IP dari nama domain.'],['Firmware yang lebih modern dibanding BIOS legacy adalah...',['UEFI','HTML','DHCP'],0,'UEFI adalah antarmuka firmware modern pada banyak komputer.'],['Apa praktik keamanan software yang baik?',['Memasang file dari sumber acak','Menonaktifkan semua update','Memperbarui aplikasi dari sumber resmi'],2,'Update resmi membantu memperbaiki bug dan celah keamanan.']];let index=0,score=0,done=false;function render(){done=false;const item=quiz[index];q.textContent=(index+1)+'. '+item[0];answers.innerHTML='';item[1].forEach((a,i)=>{const b=document.createElement('button');b.textContent=a;b.onclick=()=>{if(done)return;done=true;const ok=i===item[2];if(ok)score++;feedback.textContent=(ok?'Benar! ':'Belum tepat. ')+item[3]+' Skor: '+score+'/'+quiz.length;Array.from(answers.children).forEach((x,j)=>{x.disabled=true;if(j===item[2])x.style.borderColor='#4bd7a0';});next.style.display='inline-block';next.textContent=index===quiz.length-1?'SELESAI ↗':'PERTANYAAN BERIKUTNYA ↗';};answers.appendChild(b);});feedback.textContent='Pilih jawaban yang paling tepat.';next.style.display='none';}next.addEventListener('click',()=>{if(index<quiz.length-1){index++;render();}else{q.textContent='Kuis selesai! Skor kamu '+score+'/'+quiz.length+'.';answers.innerHTML='';feedback.textContent='Ulangi materi jika masih ada konsep yang belum dipahami.';next.textContent='ULANGI KUIS';next.onclick=()=>{index=0;score=0;next.onclick=null;render();};}});render();})();
 </script>
-<script src="inside-techlab-pages/liquid-glass.js?v=1" defer></script>
+<script src="inside-techlab-pages/liquid-glass.js?v=2" defer></script>
 </body>
 </html>
