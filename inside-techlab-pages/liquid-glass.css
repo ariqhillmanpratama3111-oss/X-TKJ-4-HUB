@@ -90,3 +90,17 @@ body[data-page="home"] main>.hero:before{
 
 @keyframes igTap{0%{transform:scale(1)}45%{transform:scale(.975)}100%{transform:scale(1)}}
 .ig-press{animation:igTap .16s ease-out}
+
+/* Reversible scroll reveal: cards enter and leave naturally without animating game HUD. */
+[data-scroll-reveal]{
+ opacity:0;
+ transform:translate3d(0,var(--reveal-y,20px),0) scale(.992);
+ filter:blur(2px);
+ transition:opacity .46s cubic-bezier(.2,.7,.2,1),
+            transform .56s cubic-bezier(.2,.75,.25,1),
+            filter .46s ease;
+ transition-delay:var(--reveal-delay,0ms);
+ will-change:opacity,transform;
+}
+[data-scroll-reveal][data-scroll-state="in"]{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
+@media(prefers-reduced-motion:reduce){[data-scroll-reveal]{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;will-change:auto!important}}
